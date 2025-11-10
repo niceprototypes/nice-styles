@@ -1,11 +1,11 @@
-# nice-css-variables
+# nice-styles
 
 A collection of CSS custom properties (variables) for consistent design tokens.
 
 ## Installation
 
 ```bash
-npm install nice-css-variables
+npm install nice-styles
 ```
 
 ## Usage
@@ -13,13 +13,13 @@ npm install nice-css-variables
 Import the CSS variables into your project:
 
 ```css
-@import 'nice-css-variables';
+@import 'nice-styles';
 ```
 
 Or import directly in your HTML:
 
 ```html
-<link rel="stylesheet" href="node_modules/nice-css-variables/index.css">
+<link rel="stylesheet" href="node_modules/nice-styles/index.css">
 ```
 
 ## Available Variables

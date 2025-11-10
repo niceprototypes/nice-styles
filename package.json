@@ -1,16 +1,33 @@
 {
-  "name": "nice-css-variables",
-  "version": "1.1.0",
+  "name": "nice-styles",
+  "version": "1.0.0",
   "description": "A collection of CSS custom properties (variables) for consistent design tokens",
-  "main": "index.css",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "style": "index.css",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./css": "./index.css",
+    "./variables.css": "./variables.css",
+    "./package.json": "./package.json"
+  },
   "files": [
+    "dist",
     "index.css",
     "variables.css"
   ],
   "scripts": {
+    "build": "npm run build:ts && npm run build:css",
+    "build:ts": "tsc",
+    "build:css": "ts-node scripts/generate-css.ts",
     "test": "echo \"No tests configured\"",
-    "prepublishOnly": "npm test"
+    "prepublishOnly": "npm run build && npm test"
   },
   "publishConfig": {
     "access": "public",
@@ -29,10 +46,16 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/niceprototypes/nice-css-variables.git"
+    "url": "git+https://github.com/niceprototypes/nice-styles.git"
   },
   "bugs": {
-    "url": "https://github.com/niceprototypes/nice-css-variables/issues"
+    "url": "https://github.com/niceprototypes/nice-styles/issues"
   },
-  "homepage": "https://github.com/niceprototypes/nice-css-variables#readme"
+  "homepage": "https://github.com/niceprototypes/nice-styles#readme",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/node": "^24.8.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
 }
