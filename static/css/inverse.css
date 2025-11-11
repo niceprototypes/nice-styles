@@ -1,0 +1,18 @@
+:root {
+	--background-color-1-inverse: var(--content-color-1);
+	--background-color-2-inverse: var(--content-color-2);
+	--background-color-3-inverse: var(--content-color-3);
+	--background-color-4-inverse: var(--content-color-4);
+
+	--content-color-1-inverse: var(--background-color-1);
+	--content-color-2-inverse: var(--background-color-2);
+	--content-color-3-inverse: var(--background-color-1);
+	--content-color-4-inverse: var(--background-color-1);
+
+	--border-color-default-inverse: var(--content-color-4);
+	--border-color-primary-inverse: var(--background-color-1);
+
+	--content-color-default: var(--content-color-2);
+	--content-color-active: var(--content-color-1);
+	--content-color-disabled: var(--content-color-4);
+}

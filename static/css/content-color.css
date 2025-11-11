@@ -1,0 +1,10 @@
+:root {
+	--content-color-1: hsla(210, 15%, 5%, 1);
+	--content-color-2: hsla(210, 5%, 38%, 1);
+	--content-color-3: hsla(210, 5%, 60%, 1);
+	--content-color-4: hsla(210, 5%, 85%, 1);
+	--content-color-active: hsla(202, 100%, 50%, 1);
+	--content-color-success: hsla(146, 68%, 44%, 1);
+	--content-color-error: hsla(10, 92%, 63%, 1);
+	--content-color-warning: hsla(29, 98%, 62%, 1);
+}

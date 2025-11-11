@@ -1,6 +1,6 @@
 {
   "name": "nice-styles",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "A collection of CSS custom properties (variables) for consistent design tokens",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -15,10 +15,12 @@
     },
     "./css": "./index.css",
     "./variables.css": "./variables.css",
+    "./static/*": "./static/*",
     "./package.json": "./package.json"
   },
   "files": [
     "dist",
+    "static",
     "index.css",
     "variables.css"
   ],
