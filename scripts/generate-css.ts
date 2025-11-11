@@ -15,9 +15,6 @@ import {
   gapSize,
   iconStrokeWidth,
   lineHeight,
-  launcherLogoHeight,
-  floatiePreviewHeight,
-  progressBar,
   backgroundColorInverse,
   contentColorInverse,
   borderColorInverse,
@@ -25,6 +22,20 @@ import {
   iconStrokeColor,
   iconStrokeColorInverse,
 } from '../src/variables'
+import {
+  animationDurationDeprecated,
+  animationEasingDeprecated,
+  backgroundColorDeprecated,
+  borderColorDeprecated,
+  borderRadiusDeprecated,
+  borderWidthDeprecated,
+  boxShadowDeprecated,
+  cellHeightDeprecated,
+  contentColorDeprecated,
+  fontSizeDeprecated,
+  gapSizeDeprecated,
+  iconStrokeWidthDeprecated,
+} from '../src/variables.deprecated'
 import { NamedVariables, NumberedVariables } from '../src/types'
 
 /**
@@ -75,15 +86,6 @@ function generateCSS(): string {
 
   blocks.push(`:root {\n${level0Base}\n}`)
 
-  // 0.2 COMPONENTS
-  const level0Components = [
-    generateCSSVariables('launcher-logo-height', launcherLogoHeight),
-    generateCSSVariables('floatie-preview-height', floatiePreviewHeight),
-    generateCSSVariables('progress-bar', progressBar),
-  ].join('\n\n')
-
-  blocks.push(`:root {\n${level0Components}\n}`)
-
   // 1.1 BASE
   const level1Base = [
     generateCSSVariables('background-color', withInverseSuffix(backgroundColorInverse)),
@@ -101,6 +103,24 @@ function generateCSS(): string {
   ].join('\n\n')
 
   blocks.push(`:root {\n${level1Components}\n}`)
+
+  // DEPRECATED VARIABLES
+  const deprecated = [
+    generateCSSVariables('animation-duration', animationDurationDeprecated),
+    generateCSSVariables('animation-easing', animationEasingDeprecated),
+    generateCSSVariables('background-color', backgroundColorDeprecated),
+    generateCSSVariables('border-color', borderColorDeprecated),
+    generateCSSVariables('border-radius', borderRadiusDeprecated),
+    generateCSSVariables('border-width', borderWidthDeprecated),
+    generateCSSVariables('box-shadow', boxShadowDeprecated),
+    generateCSSVariables('cell-height', cellHeightDeprecated),
+    generateCSSVariables('content-color', contentColorDeprecated),
+    generateCSSVariables('font-size', fontSizeDeprecated),
+    generateCSSVariables('gap-size', gapSizeDeprecated),
+    generateCSSVariables('icon-stroke-width', iconStrokeWidthDeprecated),
+  ].join('\n\n')
+
+  blocks.push(`/* Deprecated variables - these map to semantic names */\n:root {\n${deprecated}\n}`)
 
   return blocks.join('\n\n')
 }

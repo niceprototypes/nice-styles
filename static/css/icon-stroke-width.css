@@ -1,4 +1,4 @@
 :root {
-	--icon-stroke-width-1: 1.5px;
-	--icon-stroke-width-2: 2px;
+	--icon-stroke-width-default: 1.5px;
+	--icon-stroke-width-large: 2px;
 }

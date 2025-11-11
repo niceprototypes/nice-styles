@@ -1,4 +1,8 @@
 :root {
-	--background-color-1: hsla(0, 100%, 100%, 1);
-	--background-color-2: hsla(210, 10%, 96%, 1);
+	--background-color-primary: hsla(0, 100%, 100%, 1);
+	--background-color-secondary: hsla(210, 10%, 96%, 1);
+
+	/* Deprecated - use semantic names instead */
+	--background-color-1: var(--background-color-primary);
+	--background-color-2: var(--background-color-secondary);
 }

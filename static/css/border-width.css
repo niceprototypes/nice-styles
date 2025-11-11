@@ -1,4 +1,4 @@
 :root {
-	--border-width-1: 1.5px;
-	--border-width-2: 2px;
+	--border-width-default: 1.5px;
+	--border-width-large: 2px;
 }

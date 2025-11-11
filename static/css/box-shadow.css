@@ -1,5 +1,6 @@
 :root {
-	--box-shadow-1: 0 1px 4px hsla(0, 0%, 0%, 0.075);
-	--box-shadow-2: 0 2px 8px hsla(0, 0%, 0%, 0.1);
-	--box-shadow-2-reverse: 0 -2px 8px hsla(0, 0%, 0%, 0.1);
+	--box-shadow-default: 0 1px 4px hsla(0, 0%, 0%, 0.075);
+	--box-shadow-default-reverse: 0 -1px 4px hsla(0, 0%, 0%, 0.075);
+	--box-shadow-large: 0 2px 8px hsla(0, 0%, 0%, 0.1);
+	--box-shadow-large-reverse: 0 -2px 8px hsla(0, 0%, 0%, 0.1);
 }

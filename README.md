@@ -54,20 +54,19 @@ Available individual CSS files:
 
 ## Available Variables
 
-This package provides a comprehensive set of CSS custom properties including:
+This package provides a comprehensive set of CSS custom properties using semantic naming for better clarity:
 
-- **Animation**: Duration and easing values
-- **Background Colors**: Primary and secondary background colors
-- **Border**: Colors, radius, and width values
-- **Box Shadow**: Multiple shadow options
-- **Cell Height**: Standardized heights for UI elements
-- **Content Colors**: Text colors including status colors (active, success, error, warning)
+- **Animation**: Duration (default, slow) and easing values
+- **Background Colors**: Primary and secondary colors with inverse variants
+- **Border**: Colors (primary, secondary), radius (smaller → larger), width (default, large)
+- **Box Shadow**: Default and large shadow options with reverse variants
+- **Cell Height**: Five size options (smaller, small, default, large, larger)
+- **Content Colors**: Five shade levels (darker, dark, default, light, lighter) plus status colors (active, success, error, warning)
 - **Font Family**: Heading, body, and code font stacks
-- **Font Size**: Scale from 12px to 24px
-- **Gap Size**: Spacing scale from 4px to 48px
-- **Icon**: Stroke width and color values
-- **Line Height**: Default and condensed options
-- **Brand Colors**: Custom brand color palette
+- **Font Size**: Five size levels (smaller → larger)
+- **Gap Size**: Five spacing levels (smaller → larger: 4px, 8px, 16px, 32px, 48px)
+- **Icon**: Stroke width and color values (default, large)
+- **Line Height**: Condensed, default, and expanded options
 
 See [variables.css](./variables.css) for the complete list of available variables.
 
@@ -75,12 +74,19 @@ See [variables.css](./variables.css) for the complete list of available variable
 
 ```css
 .my-component {
-  background-color: var(--background-color-1);
-  color: var(--content-color-1);
-  border-radius: var(--border-radius-2);
-  padding: var(--gap-size-3);
+  background-color: var(--background-color-primary);
+  color: var(--content-color-dark);
+  border-radius: var(--border-radius-default);
+  padding: var(--gap-size-default);
   font-family: var(--font-family-body);
-  font-size: var(--font-size-3);
+  font-size: var(--font-size-default);
+  box-shadow: var(--box-shadow-default);
+}
+
+.dark-mode {
+  background-color: var(--content-color-darker);
+  color: var(--content-color-lighter);
+  border: var(--border-width-default) solid var(--border-color-secondary);
 }
 ```
 

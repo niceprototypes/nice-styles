@@ -1,37 +1,40 @@
 :root {
-	--animation-duration-1: 300ms;
-	--animation-duration-2: 600ms;
+	--animation-duration-default: 300ms;
+	--animation-duration-slow: 600ms;
 
-	--animation-easing-1: ease-in-out;
+	--animation-easing-default: ease-in-out;
 
-	--background-color-1: hsla(0, 100%, 100%, 1);
-	--background-color-2: hsla(210, 10%, 96%, 1);
+	--background-color-primary: hsla(0, 100%, 100%, 1);
+	--background-color-secondary: hsla(210, 10%, 96%, 1);
 
-	--border-color-default: hsla(240, 9%, 91%, 1);
+	--border-color-secondary: hsla(240, 9%, 91%, 1);
 	--border-color-primary: hsla(210, 10%, 25%, 1);
 
-	--border-radius-1: 4px;
-	--border-radius-2: 8px;
-	--border-radius-3: 12px;
-	--border-radius-4: 16px;
+	--border-radius-smaller: 2px;
+	--border-radius-small: 4px;
+	--border-radius-default: 8px;
+	--border-radius-large: 16px;
+	--border-radius-larger: 32px;
 
-	--border-width-1: 1.5px;
-	--border-width-2: 2px;
+	--border-width-default: 1.5px;
+	--border-width-large: 2px;
 
-	--box-shadow-1: 0 1px 4px hsla(0, 0%, 0%, 0.075);
-	--box-shadow-2: 0 2px 8px hsla(0, 0%, 0%, 0.1);
-	--box-shadow-2-reverse: 0 -2px 8px hsla(0, 0%, 0%, 0.1);
+	--box-shadow-default: 0 1px 4px hsla(0, 0%, 0%, 0.075);
+	--box-shadow-default-reverse: 0 -1px 4px hsla(0, 0%, 0%, 0.075);
+	--box-shadow-large: 0 2px 8px hsla(0, 0%, 0%, 0.1);
+	--box-shadow-large-reverse: 0 -2px 8px hsla(0, 0%, 0%, 0.1);
 
-	--cell-height-1: 24px;
-	--cell-height-2: 40px;
-	--cell-height-3: 56px;
-	--cell-height-4: 64px;
-	--cell-height-5: 72px;
+	--cell-height-smaller: 24px;
+	--cell-height-small: 40px;
+	--cell-height-default: 56px;
+	--cell-height-large: 64px;
+	--cell-height-larger: 72px;
 
-	--content-color-1: hsla(210, 15%, 5%, 1);
-	--content-color-2: hsla(210, 5%, 38%, 1);
-	--content-color-3: hsla(210, 5%, 60%, 1);
-	--content-color-4: hsla(210, 5%, 85%, 1);
+	--content-color-darker: hsla(210, 15%, 5%, 1);
+	--content-color-dark: hsla(210, 5%, 25%, 1);
+	--content-color-default: hsla(210, 5%, 45%, 1);
+	--content-color-light: hsla(210, 5%, 65%, 1);
+	--content-color-lighter: hsla(210, 5%, 85%, 1);
 	--content-color-active: hsla(202, 100%, 50%, 1);
 	--content-color-success: hsla(146, 68%, 44%, 1);
 	--content-color-error: hsla(10, 92%, 63%, 1);
@@ -41,57 +44,104 @@
 	--font-family-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 	--font-family-code: source-code-pro, Menlo, Monaco, Consolas, "Courier New";
 
-	--font-size-1: 12px;
-	--font-size-2: 14px;
-	--font-size-3: 16px;
-	--font-size-4: 20px;
-	--font-size-5: 24px;
+	--font-size-smaller: 12px;
+	--font-size-small: 14px;
+	--font-size-default: 16px;
+	--font-size-large: 20px;
+	--font-size-larger: 24px;
 
-	--gap-size-1: 4px;
-	--gap-size-2: 8px;
-	--gap-size-3: 16px;
-	--gap-size-4: 32px;
-	--gap-size-5: 48px;
+	--gap-size-smaller: 4px;
+	--gap-size-small: 8px;
+	--gap-size-default: 16px;
+	--gap-size-large: 32px;
+	--gap-size-larger: 48px;
 
-	--icon-stroke-width-1: 1.5px;
-	--icon-stroke-width-2: 2px;
+	--icon-stroke-width-default: 1.5px;
+	--icon-stroke-width-large: 2px;
 
-	--line-height-default: 1.5;
 	--line-height-condensed: 1.25;
+	--line-height-default: 1.5;
+	--line-height-expanded: 1.75;
 }
 
 :root {
-	--launcher-logo-height-sm: 64px;
-	--launcher-logo-height-md: 64px;
+	--background-color-1-inverse: hsla(210, 15%, 5%, 1);
+	--background-color-2-inverse: hsla(210, 5%, 25%, 1);
+	--background-color-3-inverse: hsla(210, 5%, 45%, 1);
+	--background-color-4-inverse: hsla(210, 5%, 65%, 1);
+	--background-color-5-inverse: hsla(210, 5%, 85%, 1);
 
-	--floatie-preview-height-md: 420px;
+	--content-color-1-inverse: hsla(0, 100%, 100%, 1);
+	--content-color-2-inverse: hsla(210, 10%, 96%, 1);
+	--content-color-3-inverse: hsla(0, 100%, 100%, 1);
+	--content-color-4-inverse: hsla(0, 100%, 100%, 1);
 
-	--progress-bar-height: 6px;
+	--border-color-secondary-inverse: hsla(210, 5%, 65%, 1);
+	--border-color-primary-inverse: hsla(0, 100%, 100%, 1);
+
+	--content-color-default: hsla(210, 5%, 25%, 1);
+	--content-color-active: hsla(210, 15%, 5%, 1);
+	--content-color-disabled: hsla(210, 5%, 65%, 1);
 }
 
 :root {
-	--background-color-1-inverse: var(--content-color-1);
-	--background-color-2-inverse: var(--content-color-2);
-	--background-color-3-inverse: var(--content-color-3);
-	--background-color-4-inverse: var(--content-color-4);
+	--icon-stroke-color-default: hsla(210, 5%, 65%, 1);
+	--icon-stroke-color-primary: hsla(210, 5%, 25%, 1);
 
-	--content-color-1-inverse: var(--background-color-1);
-	--content-color-2-inverse: var(--background-color-2);
-	--content-color-3-inverse: var(--background-color-1);
-	--content-color-4-inverse: var(--background-color-1);
-
-	--border-color-default-inverse: var(--content-color-4);
-	--border-color-primary-inverse: var(--background-color-1);
-
-	--content-color-default: var(--content-color-2);
-	--content-color-active: var(--content-color-1);
-	--content-color-disabled: var(--content-color-4);
+	--icon-stroke-color-default-inverse: hsla(210, 15%, 5%, 1);
+	--icon-stroke-color-primary-inverse: hsla(0, 100%, 100%, 1);
 }
 
+/* Deprecated variables - these map to semantic names */
 :root {
-	--icon-stroke-color-default: var(--content-color-4);
-	--icon-stroke-color-primary: var(--content-color-2);
+	--animation-duration-1: var(--animation-duration-default);
+	--animation-duration-2: var(--animation-duration-slow);
 
-	--icon-stroke-color-default-inverse: var(--content-color-1);
-	--icon-stroke-color-primary-inverse: var(--background-color-1);
+	--animation-easing-1: var(--animation-easing-default);
+
+	--background-color-1: var(--background-color-primary);
+	--background-color-2: var(--background-color-secondary);
+
+	--border-color-1: var(--border-color-secondary);
+	--border-color-2: var(--border-color-primary);
+
+	--border-radius-1: var(--border-radius-small);
+	--border-radius-2: var(--border-radius-default);
+	--border-radius-3: var(--border-radius-large);
+	--border-radius-4: var(--border-radius-larger);
+
+	--border-width-1: var(--border-width-default);
+	--border-width-2: var(--border-width-large);
+
+	--box-shadow-1: var(--box-shadow-default);
+	--box-shadow-2: var(--box-shadow-large);
+	--box-shadow-1-reverse: var(--box-shadow-default-reverse);
+	--box-shadow-2-reverse: var(--box-shadow-large-reverse);
+
+	--cell-height-1: var(--cell-height-smaller);
+	--cell-height-2: var(--cell-height-small);
+	--cell-height-3: var(--cell-height-default);
+	--cell-height-4: var(--cell-height-large);
+	--cell-height-5: var(--cell-height-larger);
+
+	--content-color-1: var(--content-color-darker);
+	--content-color-2: var(--content-color-dark);
+	--content-color-3: var(--content-color-default);
+	--content-color-4: var(--content-color-light);
+	--content-color-5: var(--content-color-lighter);
+
+	--font-size-1: var(--font-size-smaller);
+	--font-size-2: var(--font-size-small);
+	--font-size-3: var(--font-size-default);
+	--font-size-4: var(--font-size-large);
+	--font-size-5: var(--font-size-larger);
+
+	--gap-size-1: var(--gap-size-smaller);
+	--gap-size-2: var(--gap-size-small);
+	--gap-size-3: var(--gap-size-default);
+	--gap-size-4: var(--gap-size-large);
+	--gap-size-5: var(--gap-size-larger);
+
+	--icon-stroke-width-1: var(--icon-stroke-width-default);
+	--icon-stroke-width-2: var(--icon-stroke-width-large);
 }

@@ -1,175 +1,230 @@
 import { NumberedVariables, NamedVariables } from './types'
+import {
+  ANIMATION_DURATION_DEFAULT,
+  ANIMATION_DURATION_SLOW,
+  ANIMATION_EASING_DEFAULT,
+  BACKGROUND_COLOR_PRIMARY,
+  BACKGROUND_COLOR_SECONDARY,
+  BORDER_COLOR_SECONDARY,
+  BORDER_COLOR_PRIMARY,
+  BORDER_RADIUS_SMALLER,
+  BORDER_RADIUS_SMALL,
+  BORDER_RADIUS_DEFAULT,
+  BORDER_RADIUS_LARGE,
+  BORDER_RADIUS_LARGER,
+  BORDER_WIDTH_DEFAULT,
+  BORDER_WIDTH_LARGE,
+  BOX_SHADOW_DEFAULT,
+  BOX_SHADOW_DEFAULT_REVERSE,
+  BOX_SHADOW_LARGE,
+  BOX_SHADOW_LARGE_REVERSE,
+  CELL_HEIGHT_SMALLER,
+  CELL_HEIGHT_SMALL,
+  CELL_HEIGHT_DEFAULT,
+  CELL_HEIGHT_LARGE,
+  CELL_HEIGHT_LARGER,
+  CONTENT_COLOR_DARKER,
+  CONTENT_COLOR_DARK,
+  CONTENT_COLOR_DEFAULT,
+  CONTENT_COLOR_LIGHT,
+  CONTENT_COLOR_LIGHTER,
+  CONTENT_COLOR_ACTIVE,
+  CONTENT_COLOR_SUCCESS,
+  CONTENT_COLOR_ERROR,
+  CONTENT_COLOR_WARNING,
+  FONT_FAMILY_HEADING,
+  FONT_FAMILY_BODY,
+  FONT_FAMILY_CODE,
+  FONT_SIZE_SMALLER,
+  FONT_SIZE_SMALL,
+  FONT_SIZE_DEFAULT,
+  FONT_SIZE_LARGE,
+  FONT_SIZE_LARGER,
+  GAP_SIZE_SMALLER,
+  GAP_SIZE_SMALL,
+  GAP_SIZE_DEFAULT,
+  GAP_SIZE_LARGE,
+  GAP_SIZE_LARGER,
+  ICON_STROKE_WIDTH_DEFAULT,
+  ICON_STROKE_WIDTH_LARGE,
+  LINE_HEIGHT_EXPANDED,
+  LINE_HEIGHT_DEFAULT,
+  LINE_HEIGHT_CONDENSED,
+} from './constants'
 
 /**
  * LEVEL 0: BASE VARIABLES
  * These are the foundational design tokens
  */
 
-// Animation
-export const animationDuration: NumberedVariables = {
-  1: '300ms',
-  2: '600ms',
+// Animation (Semantic)
+export const animationDuration: NamedVariables = {
+  default: ANIMATION_DURATION_DEFAULT,
+  slow: ANIMATION_DURATION_SLOW,
 }
 
 export const animationEasing: NamedVariables = {
-  '1': 'ease-in-out',
+  default: ANIMATION_EASING_DEFAULT,
 }
 
-// Background Color
-export const backgroundColor: NumberedVariables = {
-  1: 'hsla(0, 100%, 100%, 1)',
-  2: 'hsla(210, 10%, 96%, 1)',
+// Background Color (Semantic)
+export const backgroundColor: NamedVariables = {
+  primary: BACKGROUND_COLOR_PRIMARY,
+  secondary: BACKGROUND_COLOR_SECONDARY,
 }
 
 // Border Color
 export const borderColor: NamedVariables = {
-  default: 'hsla(240, 9%, 91%, 1)',
-  primary: 'hsla(210, 10%, 25%, 1)',
+  primary: BORDER_COLOR_PRIMARY,
+  secondary: BORDER_COLOR_SECONDARY,
 }
 
-// Border Radius
-export const borderRadius: NumberedVariables = {
-  1: '4px',
-  2: '8px',
-  3: '12px',
-  4: '16px',
+// Border Radius (Semantic)
+export const borderRadius: NamedVariables = {
+  smaller: BORDER_RADIUS_SMALLER,
+  small: BORDER_RADIUS_SMALL,
+  default: BORDER_RADIUS_DEFAULT,
+  large: BORDER_RADIUS_LARGE,
+  larger: BORDER_RADIUS_LARGER,
 }
 
-// Border Width
-export const borderWidth: NumberedVariables = {
-  1: '1.5px',
-  2: '2px',
+// Border Width (Semantic)
+export const borderWidth: NamedVariables = {
+  default: BORDER_WIDTH_DEFAULT,
+  large: BORDER_WIDTH_LARGE,
 }
 
-// Box Shadow
+// Box Shadow (Semantic)
 export const boxShadow: NamedVariables = {
-  '1': '0 1px 4px hsla(0, 0%, 0%, 0.075)',
-  '2': '0 2px 8px hsla(0, 0%, 0%, 0.1)',
-  '2-reverse': '0 -2px 8px hsla(0, 0%, 0%, 0.1)',
+  default: BOX_SHADOW_DEFAULT,
+  'default-reverse': BOX_SHADOW_DEFAULT_REVERSE,
+  large: BOX_SHADOW_LARGE,
+  'large-reverse': BOX_SHADOW_LARGE_REVERSE,
 }
 
-// Cell Height
-export const cellHeight: NumberedVariables = {
-  1: '24px',
-  2: '40px',
-  3: '56px',
-  4: '64px',
-  5: '72px',
+// Cell Height (Semantic)
+export const cellHeight: NamedVariables = {
+  smaller: CELL_HEIGHT_SMALLER,
+  small: CELL_HEIGHT_SMALL,
+  default: CELL_HEIGHT_DEFAULT,
+  large: CELL_HEIGHT_LARGE,
+  larger: CELL_HEIGHT_LARGER,
 }
 
-// Content Color
+// Content Color (Semantic)
 export const contentColor: NamedVariables = {
-  '1': 'hsla(210, 15%, 5%, 1)',
-  '2': 'hsla(210, 5%, 38%, 1)',
-  '3': 'hsla(210, 5%, 60%, 1)',
-  '4': 'hsla(210, 5%, 85%, 1)',
-  active: 'hsla(202, 100%, 50%, 1)',
-  success: 'hsla(146, 68%, 44%, 1)',
-  error: 'hsla(10, 92%, 63%, 1)',
-  warning: 'hsla(29, 98%, 62%, 1)',
+  darker: CONTENT_COLOR_DARKER,
+  dark: CONTENT_COLOR_DARK,
+  default: CONTENT_COLOR_DEFAULT,
+  light: CONTENT_COLOR_LIGHT,
+  lighter: CONTENT_COLOR_LIGHTER,
+  active: CONTENT_COLOR_ACTIVE,
+  success: CONTENT_COLOR_SUCCESS,
+  error: CONTENT_COLOR_ERROR,
+  warning: CONTENT_COLOR_WARNING,
 }
 
 // Font Family
 export const fontFamily: NamedVariables = {
-  heading: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-  body: "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
-  code: 'source-code-pro, Menlo, Monaco, Consolas, "Courier New"',
+  heading: FONT_FAMILY_HEADING,
+  body: FONT_FAMILY_BODY,
+  code: FONT_FAMILY_CODE,
 }
 
-// Font Size
-export const fontSize: NumberedVariables = {
-  1: '12px',
-  2: '14px',
-  3: '16px',
-  4: '20px',
-  5: '24px',
+// Font Size (Semantic)
+export const fontSize: NamedVariables = {
+  smaller: FONT_SIZE_SMALLER,
+  small: FONT_SIZE_SMALL,
+  default: FONT_SIZE_DEFAULT,
+  large: FONT_SIZE_LARGE,
+  larger: FONT_SIZE_LARGER,
 }
 
-// Gap Size
-export const gapSize: NumberedVariables = {
-  1: '4px',
-  2: '8px',
-  3: '16px',
-  4: '32px',
-  5: '48px',
+// Gap Size (Semantic)
+export const gapSize: NamedVariables = {
+  smaller: GAP_SIZE_SMALLER,
+  small: GAP_SIZE_SMALL,
+  default: GAP_SIZE_DEFAULT,
+  large: GAP_SIZE_LARGE,
+  larger: GAP_SIZE_LARGER,
 }
 
-// Icon Stroke Width
-export const iconStrokeWidth: NumberedVariables = {
-  1: '1.5px',
-  2: '2px',
+// Icon Stroke Width (Semantic)
+export const iconStrokeWidth: NamedVariables = {
+  default: ICON_STROKE_WIDTH_DEFAULT,
+  large: ICON_STROKE_WIDTH_LARGE,
 }
 
 // Line Height
 export const lineHeight: NamedVariables = {
-  default: '1.5',
-  condensed: '1.25',
-}
-
-/**
- * LEVEL 0: COMPONENT-SPECIFIC VARIABLES
- */
-
-// Floatie
-export const launcherLogoHeight: NamedVariables = {
-  sm: '64px',
-  md: '64px',
-}
-
-export const floatiePreviewHeight: NamedVariables = {
-  md: '420px',
-}
-
-// ProgressBar
-export const progressBar: NamedVariables = {
-  height: '6px',
+  expanded: LINE_HEIGHT_EXPANDED,
+  default: LINE_HEIGHT_DEFAULT,
+  condensed: LINE_HEIGHT_CONDENSED,
 }
 
 /**
  * LEVEL 1: DERIVED VARIABLES
- * These reference other CSS variables
+ * These use actual color values instead of CSS variable references
  */
 
-// Background Color Inverse
-export const backgroundColorInverse: NamedVariables = {
-  '1': 'var(--content-color-1)',
-  '2': 'var(--content-color-2)',
-  '3': 'var(--content-color-3)',
-  '4': 'var(--content-color-4)',
+// Background Color Reverse
+export const backgroundColorReverse: NamedVariables = {
+  darker: CONTENT_COLOR_DARKER,
+  dark: CONTENT_COLOR_DARK,
+  default: CONTENT_COLOR_DEFAULT,
+  light: CONTENT_COLOR_LIGHT,
+  lighter: CONTENT_COLOR_LIGHTER,
 }
 
-// Content Color Inverse
-export const contentColorInverse: NamedVariables = {
-  '1': 'var(--background-color-1)',
-  '2': 'var(--background-color-2)',
-  '3': 'var(--background-color-1)',
-  '4': 'var(--background-color-1)',
+// Content Color Reverse
+export const contentColorReverse: NamedVariables = {
+  darker: BACKGROUND_COLOR_PRIMARY,
+  dark: BACKGROUND_COLOR_SECONDARY,
+  default: BACKGROUND_COLOR_PRIMARY,
+  light: BACKGROUND_COLOR_PRIMARY,
 }
 
-// Border Color Inverse
-export const borderColorInverse: NamedVariables = {
-  default: 'var(--content-color-4)',
-  primary: 'var(--background-color-1)',
+// Border Color Reverse
+export const borderColorReverse: NamedVariables = {
+  secondary: CONTENT_COLOR_LIGHT,
+  primary: BACKGROUND_COLOR_PRIMARY,
 }
 
 // Content Color Status
 export const contentColorStatus: NamedVariables = {
-  default: 'var(--content-color-2)',
-  active: 'var(--content-color-1)',
-  disabled: 'var(--content-color-4)',
+  default: CONTENT_COLOR_DARK,
+  active: CONTENT_COLOR_DARKER,
+  disabled: CONTENT_COLOR_LIGHT,
 }
 
 // Icon Stroke Color
 export const iconStrokeColor: NamedVariables = {
-  default: 'var(--content-color-4)',
-  primary: 'var(--content-color-2)',
+  default: CONTENT_COLOR_LIGHT,
+  primary: CONTENT_COLOR_DARK,
 }
 
-// Icon Stroke Color Inverse
-export const iconStrokeColorInverse: NamedVariables = {
-  default: 'var(--content-color-1)',
-  primary: 'var(--background-color-1)',
+// Icon Stroke Color Reverse
+export const iconStrokeColorReverse: NamedVariables = {
+  default: CONTENT_COLOR_DARKER,
+  primary: BACKGROUND_COLOR_PRIMARY,
 }
+
+/**
+ * DEPRECATED: Legacy "inverse" exports for backwards compatibility
+ * These will be removed in v3.0.0. Use "reverse" variants instead.
+ */
+
+// @deprecated Use backgroundColorReverse instead
+export const backgroundColorInverse: NamedVariables = backgroundColorReverse
+
+// @deprecated Use contentColorReverse instead
+export const contentColorInverse: NamedVariables = contentColorReverse
+
+// @deprecated Use borderColorReverse instead
+export const borderColorInverse: NamedVariables = borderColorReverse
+
+// @deprecated Use iconStrokeColorReverse instead
+export const iconStrokeColorInverse: NamedVariables = iconStrokeColorReverse
 
 /**
  * Utility function to check if a variable exists
@@ -190,14 +245,16 @@ export function hasVariable(category: string, key: string | number): boolean {
     'gap-size': gapSize,
     'icon-stroke-width': iconStrokeWidth,
     'line-height': lineHeight,
-    'launcher-logo-height': launcherLogoHeight,
-    'floatie-preview-height': floatiePreviewHeight,
-    'progress-bar': progressBar,
+    'background-color-reverse': backgroundColorReverse,
+    'content-color-reverse': contentColorReverse,
+    'border-color-reverse': borderColorReverse,
+    'content-color-status': contentColorStatus,
+    'icon-stroke-color': iconStrokeColor,
+    'icon-stroke-color-reverse': iconStrokeColorReverse,
+    // Deprecated inverse naming
     'background-color-inverse': backgroundColorInverse,
     'content-color-inverse': contentColorInverse,
     'border-color-inverse': borderColorInverse,
-    'content-color-status': contentColorStatus,
-    'icon-stroke-color': iconStrokeColor,
     'icon-stroke-color-inverse': iconStrokeColorInverse,
   }
 

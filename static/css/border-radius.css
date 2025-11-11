@@ -1,6 +1,7 @@
 :root {
-	--border-radius-1: 4px;
-	--border-radius-2: 8px;
-	--border-radius-3: 12px;
-	--border-radius-4: 16px;
+	--border-radius-smaller: 2px;
+	--border-radius-small: 4px;
+	--border-radius-default: 8px;
+	--border-radius-large: 16px;
+	--border-radius-larger: 32px;
 }

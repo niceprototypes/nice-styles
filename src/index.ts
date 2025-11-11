@@ -1,5 +1,5 @@
 /**
- * nice-css-variables
+ * nice-styles
  * A collection of CSS custom properties (variables) for consistent design tokens
  */
 
@@ -19,18 +19,42 @@ export {
   gapSize,
   iconStrokeWidth,
   lineHeight,
-  launcherLogoHeight,
-  floatiePreviewHeight,
-  progressBar,
+  backgroundColorReverse,
+  contentColorReverse,
+  borderColorReverse,
+  contentColorStatus,
+  iconStrokeColor,
+  iconStrokeColorReverse,
+  // Deprecated inverse exports (use reverse instead)
   backgroundColorInverse,
   contentColorInverse,
   borderColorInverse,
-  contentColorStatus,
-  iconStrokeColor,
   iconStrokeColorInverse,
   hasVariable,
   getVariableKeys,
 } from './variables'
+
+// Export deprecated variable groups
+export {
+  animationDurationDeprecated,
+  animationEasingDeprecated,
+  backgroundColorDeprecated,
+  borderColorDeprecated,
+  borderRadiusDeprecated,
+  borderWidthDeprecated,
+  boxShadowDeprecated,
+  cellHeightDeprecated,
+  contentColorDeprecated,
+  fontSizeDeprecated,
+  gapSizeDeprecated,
+  iconStrokeWidthDeprecated,
+} from './variables.deprecated'
+
+// Export all constants
+export * from './constants'
+
+// Export deprecated constants
+export * from './constants.deprecated'
 
 // Export types
 export type { CSSVariable, CSSVariableGroup, NumberedVariables, NamedVariables } from './types'
