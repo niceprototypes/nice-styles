@@ -15,12 +15,12 @@ import {
   gapSize,
   iconStrokeWidth,
   lineHeight,
-  backgroundColorInverse,
-  contentColorInverse,
-  borderColorInverse,
+  backgroundColorReverse,
+  contentColorReverse,
+  borderColorReverse,
   contentColorStatus,
   iconStrokeColor,
-  iconStrokeColorInverse,
+  iconStrokeColorReverse,
 } from '../src/variables'
 import {
   animationDurationDeprecated,
@@ -52,11 +52,11 @@ function generateCSSVariables(
 }
 
 /**
- * Helper to add inverse suffix to variable keys
+ * Helper to add reverse suffix to variable keys
  */
-function withInverseSuffix(variables: Record<string, string>) {
+function withReverseSuffix(variables: Record<string, string>) {
   return Object.fromEntries(
-    Object.entries(variables).map(([k, v]) => [`${k}-inverse`, v])
+    Object.entries(variables).map(([k, v]) => [`${k}-reverse`, v])
   )
 }
 
@@ -88,9 +88,9 @@ function generateCSS(): string {
 
   // 1.1 BASE
   const level1Base = [
-    generateCSSVariables('background-color', withInverseSuffix(backgroundColorInverse)),
-    generateCSSVariables('content-color', withInverseSuffix(contentColorInverse)),
-    generateCSSVariables('border-color', withInverseSuffix(borderColorInverse)),
+    generateCSSVariables('background-color', withReverseSuffix(backgroundColorReverse)),
+    generateCSSVariables('content-color', withReverseSuffix(contentColorReverse)),
+    generateCSSVariables('border-color', withReverseSuffix(borderColorReverse)),
     generateCSSVariables('content-color', contentColorStatus),
   ].join('\n\n')
 
@@ -99,7 +99,7 @@ function generateCSS(): string {
   // 1.2  COMPONENTS
   const level1Components = [
     generateCSSVariables('icon-stroke-color', iconStrokeColor),
-    generateCSSVariables('icon-stroke-color', withInverseSuffix(iconStrokeColorInverse)),
+    generateCSSVariables('icon-stroke-color', withReverseSuffix(iconStrokeColorReverse)),
   ].join('\n\n')
 
   blocks.push(`:root {\n${level1Components}\n}`)

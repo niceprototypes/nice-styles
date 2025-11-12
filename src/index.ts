@@ -25,11 +25,6 @@ export {
   contentColorStatus,
   iconStrokeColor,
   iconStrokeColorReverse,
-  // Deprecated inverse exports (use reverse instead)
-  backgroundColorInverse,
-  contentColorInverse,
-  borderColorInverse,
-  iconStrokeColorInverse,
   hasVariable,
   getVariableKeys,
 } from './variables'

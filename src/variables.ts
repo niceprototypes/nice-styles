@@ -3,8 +3,8 @@ import {
   ANIMATION_DURATION_DEFAULT,
   ANIMATION_DURATION_SLOW,
   ANIMATION_EASING_DEFAULT,
-  BACKGROUND_COLOR_PRIMARY,
-  BACKGROUND_COLOR_SECONDARY,
+  BACKGROUND_COLOR_DEFAULT,
+  BACKGROUND_COLOR_ACTIVE,
   BORDER_COLOR_SECONDARY,
   BORDER_COLOR_PRIMARY,
   BORDER_RADIUS_SMALLER,
@@ -69,8 +69,8 @@ export const animationEasing: NamedVariables = {
 
 // Background Color (Semantic)
 export const backgroundColor: NamedVariables = {
-  primary: BACKGROUND_COLOR_PRIMARY,
-  secondary: BACKGROUND_COLOR_SECONDARY,
+  primary: BACKGROUND_COLOR_DEFAULT,
+  secondary: BACKGROUND_COLOR_ACTIVE,
 }
 
 // Border Color
@@ -178,16 +178,16 @@ export const backgroundColorReverse: NamedVariables = {
 
 // Content Color Reverse
 export const contentColorReverse: NamedVariables = {
-  darker: BACKGROUND_COLOR_PRIMARY,
-  dark: BACKGROUND_COLOR_SECONDARY,
-  default: BACKGROUND_COLOR_PRIMARY,
-  light: BACKGROUND_COLOR_PRIMARY,
+  darker: BACKGROUND_COLOR_DEFAULT,
+  dark: BACKGROUND_COLOR_ACTIVE,
+  default: BACKGROUND_COLOR_DEFAULT,
+  light: BACKGROUND_COLOR_DEFAULT,
 }
 
 // Border Color Reverse
 export const borderColorReverse: NamedVariables = {
   secondary: CONTENT_COLOR_LIGHT,
-  primary: BACKGROUND_COLOR_PRIMARY,
+  primary: BACKGROUND_COLOR_DEFAULT,
 }
 
 // Content Color Status
@@ -206,25 +206,9 @@ export const iconStrokeColor: NamedVariables = {
 // Icon Stroke Color Reverse
 export const iconStrokeColorReverse: NamedVariables = {
   default: CONTENT_COLOR_DARKER,
-  primary: BACKGROUND_COLOR_PRIMARY,
+  primary: BACKGROUND_COLOR_DEFAULT,
 }
 
-/**
- * DEPRECATED: Legacy "inverse" exports for backwards compatibility
- * These will be removed in v3.0.0. Use "reverse" variants instead.
- */
-
-// @deprecated Use backgroundColorReverse instead
-export const backgroundColorInverse: NamedVariables = backgroundColorReverse
-
-// @deprecated Use contentColorReverse instead
-export const contentColorInverse: NamedVariables = contentColorReverse
-
-// @deprecated Use borderColorReverse instead
-export const borderColorInverse: NamedVariables = borderColorReverse
-
-// @deprecated Use iconStrokeColorReverse instead
-export const iconStrokeColorInverse: NamedVariables = iconStrokeColorReverse
 
 /**
  * Utility function to check if a variable exists
@@ -251,11 +235,6 @@ export function hasVariable(category: string, key: string | number): boolean {
     'content-color-status': contentColorStatus,
     'icon-stroke-color': iconStrokeColor,
     'icon-stroke-color-reverse': iconStrokeColorReverse,
-    // Deprecated inverse naming
-    'background-color-inverse': backgroundColorInverse,
-    'content-color-inverse': contentColorInverse,
-    'border-color-inverse': borderColorInverse,
-    'icon-stroke-color-inverse': iconStrokeColorInverse,
   }
 
   const vars = categoryMap[category]

@@ -10,8 +10,8 @@ export const ANIMATION_DURATION_SLOW = "600ms"
 export const ANIMATION_EASING_DEFAULT = "ease-in-out"
 
 // Background Colors (Semantic)
-export const BACKGROUND_COLOR_PRIMARY = "hsla(0, 100%, 100%, 1)"
-export const BACKGROUND_COLOR_SECONDARY = "hsla(210, 10%, 96%, 1)"
+export const BACKGROUND_COLOR_ACTIVE = "hsla(210, 10%, 96%, 1)"
+export const BACKGROUND_COLOR_DEFAULT = "hsla(0, 100%, 100%, 1)"
 
 // Border Colors
 export const BORDER_COLOR_PRIMARY = "hsla(210, 10%, 25%, 1)"

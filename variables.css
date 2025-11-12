@@ -4,11 +4,11 @@
 
 	--animation-easing-default: ease-in-out;
 
-	--background-color-primary: hsla(0, 100%, 100%, 1);
-	--background-color-secondary: hsla(210, 10%, 96%, 1);
+	--background-color-active: hsla(210, 10%, 96%, 1);
+	--background-color-default: hsla(0, 100%, 100%, 1);
 
-	--border-color-secondary: hsla(240, 9%, 91%, 1);
 	--border-color-primary: hsla(210, 10%, 25%, 1);
+	--border-color-secondary: hsla(240, 9%, 91%, 1);
 
 	--border-radius-smaller: 2px;
 	--border-radius-small: 4px;
@@ -59,25 +59,25 @@
 	--icon-stroke-width-default: 1.5px;
 	--icon-stroke-width-large: 2px;
 
-	--line-height-condensed: 1.25;
-	--line-height-default: 1.5;
 	--line-height-expanded: 1.75;
+	--line-height-default: 1.5;
+	--line-height-condensed: 1.25;
 }
 
 :root {
-	--background-color-1-inverse: hsla(210, 15%, 5%, 1);
-	--background-color-2-inverse: hsla(210, 5%, 25%, 1);
-	--background-color-3-inverse: hsla(210, 5%, 45%, 1);
-	--background-color-4-inverse: hsla(210, 5%, 65%, 1);
-	--background-color-5-inverse: hsla(210, 5%, 85%, 1);
+	--background-color-darker-reverse: hsla(210, 15%, 5%, 1);
+	--background-color-dark-reverse: hsla(210, 5%, 25%, 1);
+	--background-color-default-reverse: hsla(210, 5%, 45%, 1);
+	--background-color-light-reverse: hsla(210, 5%, 65%, 1);
+	--background-color-lighter-reverse: hsla(210, 5%, 85%, 1);
 
-	--content-color-1-inverse: hsla(0, 100%, 100%, 1);
-	--content-color-2-inverse: hsla(210, 10%, 96%, 1);
-	--content-color-3-inverse: hsla(0, 100%, 100%, 1);
-	--content-color-4-inverse: hsla(0, 100%, 100%, 1);
+	--content-color-darker-reverse: hsla(0, 100%, 100%, 1);
+	--content-color-dark-reverse: hsla(210, 10%, 96%, 1);
+	--content-color-default-reverse: hsla(0, 100%, 100%, 1);
+	--content-color-light-reverse: hsla(0, 100%, 100%, 1);
 
-	--border-color-secondary-inverse: hsla(210, 5%, 65%, 1);
-	--border-color-primary-inverse: hsla(0, 100%, 100%, 1);
+	--border-color-secondary-reverse: hsla(210, 5%, 65%, 1);
+	--border-color-primary-reverse: hsla(0, 100%, 100%, 1);
 
 	--content-color-default: hsla(210, 5%, 25%, 1);
 	--content-color-active: hsla(210, 15%, 5%, 1);
@@ -88,8 +88,8 @@
 	--icon-stroke-color-default: hsla(210, 5%, 65%, 1);
 	--icon-stroke-color-primary: hsla(210, 5%, 25%, 1);
 
-	--icon-stroke-color-default-inverse: hsla(210, 15%, 5%, 1);
-	--icon-stroke-color-primary-inverse: hsla(0, 100%, 100%, 1);
+	--icon-stroke-color-default-reverse: hsla(210, 15%, 5%, 1);
+	--icon-stroke-color-primary-reverse: hsla(0, 100%, 100%, 1);
 }
 
 /* Deprecated variables - these map to semantic names */
@@ -99,8 +99,8 @@
 
 	--animation-easing-1: var(--animation-easing-default);
 
-	--background-color-1: var(--background-color-primary);
-	--background-color-2: var(--background-color-secondary);
+	--background-color-1: var(--background-color-default);
+	--background-color-2: var(--background-color-active);
 
 	--border-color-1: var(--border-color-secondary);
 	--border-color-2: var(--border-color-primary);

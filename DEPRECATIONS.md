@@ -19,8 +19,8 @@ Number-based background color variables have been replaced with semantic names f
 
 | Deprecated Variable | New Variable | Value |
 |---------------------|--------------|-------|
-| `--background-color-1` | `--background-color-primary` | `hsla(0, 100%, 100%, 1)` |
-| `--background-color-2` | `--background-color-secondary` | `hsla(210, 10%, 96%, 1)` |
+| `--background-color-1` | `--background-color-default` | `hsla(0, 100%, 100%, 1)` |
+| `--background-color-2` | `--background-color-active` | `hsla(210, 10%, 96%, 1)` |
 
 #### Migration
 
@@ -33,7 +33,7 @@ Number-based background color variables have been replaced with semantic names f
 
 /* After */
 .container {
-  background-color: var(--background-color-primary);
+  background-color: var(--background-color-default);
 }
 ```
 
@@ -43,7 +43,7 @@ Number-based background color variables have been replaced with semantic names f
 import { BACKGROUND_COLOR_1 } from 'nice-styles'
 
 // After
-import { BACKGROUND_COLOR_PRIMARY } from 'nice-styles'
+import { BACKGROUND_COLOR_DEFAULT } from 'nice-styles'
 ```
 
 **Rationale:** Semantic names (`primary`, `secondary`) are more meaningful than arbitrary numbers (`1`, `2`) and make code more self-documenting.

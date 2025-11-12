@@ -49,7 +49,7 @@ Available individual CSS files:
 - `icon-stroke-width.css` - Icon stroke widths
 - `icon-stroke-color.css` - Icon stroke colors
 - `line-height.css` - Line height values
-- `inverse.css` - Inverse color variants
+- `reverse.css` - Reverse color variants
 - And more component-specific variables
 
 ## Available Variables
@@ -57,7 +57,7 @@ Available individual CSS files:
 This package provides a comprehensive set of CSS custom properties using semantic naming for better clarity:
 
 - **Animation**: Duration (default, slow) and easing values
-- **Background Colors**: Primary and secondary colors with inverse variants
+- **Background Colors**: Primary and secondary colors with reverse variants
 - **Border**: Colors (primary, secondary), radius (smaller → larger), width (default, large)
 - **Box Shadow**: Default and large shadow options with reverse variants
 - **Cell Height**: Five size options (smaller, small, default, large, larger)

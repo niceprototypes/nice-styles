@@ -1,0 +1,18 @@
+:root {
+	--background-color-darker-reverse: hsla(210, 15%, 5%, 1);
+	--background-color-dark-reverse: hsla(210, 5%, 38%, 1);
+	--background-color-default-reverse: hsla(210, 5%, 60%, 1);
+	--background-color-light-reverse: hsla(210, 5%, 85%, 1);
+
+	--content-color-darker-reverse: hsla(0, 100%, 100%, 1);
+	--content-color-dark-reverse: hsla(210, 10%, 96%, 1);
+	--content-color-default-reverse: hsla(0, 100%, 100%, 1);
+	--content-color-light-reverse: hsla(0, 100%, 100%, 1);
+
+	--border-color-secondary-reverse: hsla(210, 5%, 85%, 1);
+	--border-color-primary-reverse: hsla(0, 100%, 100%, 1);
+
+	--content-color-default: hsla(210, 5%, 38%, 1);
+	--content-color-active: hsla(210, 15%, 5%, 1);
+	--content-color-disabled: hsla(210, 5%, 85%, 1);
+}

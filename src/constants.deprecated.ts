@@ -13,10 +13,10 @@ export const ANIMATION_DURATION_2 = 'var(--animation-duration-slow)'
 export const ANIMATION_EASING_1 = 'var(--animation-easing-default)'
 
 // Background Colors (Deprecated - use semantic names instead)
-/** @deprecated Use BACKGROUND_COLOR_PRIMARY instead */
-export const BACKGROUND_COLOR_1 = 'var(--background-color-primary)'
-/** @deprecated Use BACKGROUND_COLOR_SECONDARY instead */
-export const BACKGROUND_COLOR_2 = 'var(--background-color-secondary)'
+/** @deprecated Use BACKGROUND_COLOR_DEFAULT instead */
+export const BACKGROUND_COLOR_1 = 'var(--background-color-default)'
+/** @deprecated Use BACKGROUND_COLOR_ACTIVE instead */
+export const BACKGROUND_COLOR_2 = 'var(--background-color-active)'
 
 // Border Colors (Deprecated - use semantic names instead)
 /** @deprecated Use BORDER_COLOR_SECONDARY instead */
