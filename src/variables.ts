@@ -69,8 +69,8 @@ export const animationEasing: NamedVariables = {
 
 // Background Color (Semantic)
 export const backgroundColor: NamedVariables = {
-  primary: BACKGROUND_COLOR_DEFAULT,
-  secondary: BACKGROUND_COLOR_ACTIVE,
+  default: BACKGROUND_COLOR_DEFAULT,
+  active: BACKGROUND_COLOR_ACTIVE,
 }
 
 // Border Color

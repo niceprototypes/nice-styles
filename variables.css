@@ -4,8 +4,8 @@
 
 	--animation-easing-default: ease-in-out;
 
-	--background-color-active: hsla(210, 10%, 96%, 1);
 	--background-color-default: hsla(0, 100%, 100%, 1);
+	--background-color-active: hsla(210, 10%, 96%, 1);
 
 	--border-color-primary: hsla(210, 10%, 25%, 1);
 	--border-color-secondary: hsla(240, 9%, 91%, 1);
