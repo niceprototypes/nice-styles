@@ -1,7 +1,9 @@
 :root {
 	--icon-stroke-color-default: hsla(210, 5%, 85%, 1);
-	--icon-stroke-color-primary: hsla(210, 5%, 38%, 1);
-
 	--icon-stroke-color-default-reverse: hsla(210, 15%, 5%, 1);
+	--icon-stroke-color-primary: hsla(210, 5%, 38%, 1);
 	--icon-stroke-color-primary-reverse: hsla(0, 100%, 100%, 1);
+
+	--icon-stroke-width-default: 1.5px;
+	--icon-stroke-width-large: 2px;
 }

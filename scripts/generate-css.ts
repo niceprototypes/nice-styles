@@ -4,23 +4,23 @@ import {
   animationDuration,
   animationEasing,
   backgroundColor,
+  backgroundColorReverse,
   borderColor,
+  borderColorReverse,
   borderRadius,
   borderWidth,
   boxShadow,
   cellHeight,
   contentColor,
+  contentColorReverse,
   fontFamily,
   fontSize,
   gapSize,
-  iconStrokeWidth,
-  lineHeight,
-  backgroundColorReverse,
-  contentColorReverse,
-  borderColorReverse,
-  contentColorStatus,
   iconStrokeColor,
   iconStrokeColorReverse,
+  iconStrokeWidth,
+  lineHeight,
+  statusContentColor,
 } from '../src/variables'
 import {
   animationDurationDeprecated,
@@ -91,7 +91,7 @@ function generateCSS(): string {
     generateCSSVariables('background-color', withReverseSuffix(backgroundColorReverse)),
     generateCSSVariables('content-color', withReverseSuffix(contentColorReverse)),
     generateCSSVariables('border-color', withReverseSuffix(borderColorReverse)),
-    generateCSSVariables('content-color', contentColorStatus),
+    generateCSSVariables('status-content-color', statusContentColor),
   ].join('\n\n')
 
   blocks.push(`:root {\n${level1Base}\n}`)

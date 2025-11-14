@@ -2,6 +2,16 @@
 
 A collection of CSS custom properties (variables) for consistent design tokens.
 
+## Features
+
+- 🎨 **Comprehensive Design System** - Complete set of design tokens for typography, colors, spacing, and more
+- 📦 **Modular** - Import only what you need for optimal bundle size
+- 🔤 **TypeScript Support** - Full TypeScript definitions with type safety
+- 🎯 **Semantic Naming** - Clear, descriptive variable names using camelCase
+- 🔄 **Reverse Variants** - Built-in dark mode support with reverse color variants
+- 📏 **Consistent Scale** - Thoughtfully designed size scales across all dimensions
+- 🔡 **Alphabetically Organized** - All variables and keys sorted alphabetically for easy discovery
+
 ## Installation
 
 ```bash
@@ -10,7 +20,7 @@ npm install nice-styles
 
 ## Usage
 
-### Import All Variables
+### CSS Import
 
 Import all CSS variables into your project:
 
@@ -45,48 +55,177 @@ Available individual CSS files:
 - `content-color.css` - Text and content colors
 - `font-family.css` - Font stacks
 - `font-size.css` - Font size scale
+- `font-weight.css` - Font weight values
 - `gap-size.css` - Spacing scale
-- `icon-stroke-width.css` - Icon stroke widths
-- `icon-stroke-color.css` - Icon stroke colors
+- `icon.css` - Icon stroke colors and widths
 - `line-height.css` - Line height values
 - `reverse.css` - Reverse color variants
-- And more component-specific variables
+
+### TypeScript/JavaScript Usage
+
+Access design tokens programmatically in your TypeScript or JavaScript code:
+
+```typescript
+import {
+  fontSize,
+  gapSize,
+  contentColor,
+  statusContentColor,
+  hasVariable,
+  getVariableKeys
+} from 'nice-styles'
+
+// Access specific values
+console.log(fontSize.default) // "16px"
+console.log(gapSize.large) // "32px"
+console.log(statusContentColor.link) // "hsla(202, 100%, 50%, 1)"
+
+// Check if a variable exists
+if (hasVariable('fontSize', 'large')) {
+  console.log('fontSize.large exists!')
+}
+
+// Get all available keys for a category
+const fontSizeKeys = getVariableKeys('fontSize')
+// ['default', 'large', 'larger', 'small', 'smaller']
+```
 
 ## Available Variables
 
 This package provides a comprehensive set of CSS custom properties using semantic naming for better clarity:
 
 - **Animation**: Duration (default, slow) and easing values
-- **Background Colors**: Primary and secondary colors with reverse variants
+- **Background Color**: Primary and secondary colors with reverse variants
 - **Border**: Colors (primary, secondary), radius (smaller → larger), width (default, large)
 - **Box Shadow**: Default and large shadow options with reverse variants
 - **Cell Height**: Five size options (smaller, small, default, large, larger)
-- **Content Colors**: Five shade levels (darker, dark, default, light, lighter) plus status colors (active, success, error, warning)
+- **Content Color**: Five neutral shade levels (darker, dark, default, light, lighter)
 - **Font Family**: Heading, body, and code font stacks
 - **Font Size**: Five size levels (smaller → larger)
+- **Font Weight**: Seven weight levels (light, regular, medium, semibold, bold, extrabold, black)
 - **Gap Size**: Five spacing levels (smaller → larger: 4px, 8px, 16px, 32px, 48px)
-- **Icon**: Stroke width and color values (default, large)
+- **Icon Stroke**: Width and color values
 - **Line Height**: Condensed, default, and expanded options
+- **Status Content Color**: Status colors (link, disabled, success, error, warning)
 
 See [variables.css](./variables.css) for the complete list of available variables.
 
-## Example
+## Examples
+
+### Basic Component Styling
 
 ```css
-.my-component {
+.card {
   background-color: var(--background-color-default);
   color: var(--content-color-dark);
+  border: var(--border-width-default) solid var(--border-color-secondary);
   border-radius: var(--border-radius-default);
   padding: var(--gap-size-default);
-  font-family: var(--font-family-body);
-  font-size: var(--font-size-default);
   box-shadow: var(--box-shadow-default);
 }
+```
 
+### Typography
+
+```css
+.heading {
+  font-family: var(--font-family-heading);
+  font-size: var(--font-size-larger);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-condensed);
+  color: var(--content-color-darker);
+}
+
+.body-text {
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-default);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-default);
+  color: var(--content-color-dark);
+}
+
+.code-block {
+  font-family: var(--font-family-code);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+}
+```
+
+### Status Colors
+
+```css
+.link {
+  color: var(--status-content-color-link);
+  font-weight: var(--font-weight-medium);
+}
+
+.success-message {
+  color: var(--status-content-color-success);
+  font-weight: var(--font-weight-semibold);
+}
+
+.error-message {
+  color: var(--status-content-color-error);
+  font-weight: var(--font-weight-bold);
+}
+
+.warning-banner {
+  background-color: var(--background-color-active);
+  color: var(--status-content-color-warning);
+  padding: var(--gap-size-small);
+  border-radius: var(--border-radius-small);
+}
+```
+
+### Dark Mode with Reverse Variants
+
+```css
 .dark-mode {
-  background-color: var(--content-color-darker);
-  color: var(--content-color-lighter);
-  border: var(--border-width-default) solid var(--border-color-secondary);
+  background-color: var(--background-color-darker-reverse);
+  color: var(--content-color-default-reverse);
+}
+
+.dark-mode .card {
+  background-color: var(--background-color-dark-reverse);
+  color: var(--content-color-light-reverse);
+  border-color: var(--border-color-secondary-reverse);
+}
+
+.dark-mode .icon {
+  stroke: var(--icon-stroke-color-default-reverse);
+  stroke-width: var(--icon-stroke-width-default);
+}
+```
+
+### Spacing and Layout
+
+```css
+.container {
+  padding: var(--gap-size-large);
+  gap: var(--gap-size-default);
+}
+
+.compact-list {
+  gap: var(--gap-size-small);
+}
+
+.spacious-section {
+  margin-top: var(--gap-size-larger);
+  margin-bottom: var(--gap-size-larger);
+}
+```
+
+### Icons
+
+```css
+.icon {
+  stroke: var(--icon-stroke-color-default);
+  stroke-width: var(--icon-stroke-width-default);
+}
+
+.icon-primary {
+  stroke: var(--icon-stroke-color-primary);
+  stroke-width: var(--icon-stroke-width-large);
 }
 ```
 
@@ -95,109 +234,125 @@ See [variables.css](./variables.css) for the complete list of available variable
 A comprehensive overview of all design tokens and their available keys:
 
 ```
-📦 LEVEL 0: BASE VARIABLES
-│
-├─ ⏱️  animationDuration
-│  ├─ default
-│  └─ slow
-│
-├─ 〰️  animationEasing
-│  └─ default
-│
-├─ 🎨 backgroundColor
-│  ├─ default
-│  ├─ defaultReverse
-│  ├─ active
-│  ├─ activeReverse
-│  ├─ dark
-│  ├─ darkReverse
-│  ├─ darker
-│  ├─ darkerReverse
-│  ├─ light
-│  ├─ lightReverse
-│  ├─ lighter
-│  └─ lighterReverse
-│
-├─ 🔲 borderColor
-│  ├─ primary
-│  ├─ primaryReverse
-│  ├─ secondary
-│  └─ secondaryReverse
-│
-├─ ⬛ borderRadius
-│  ├─ default
-│  ├─ large
-│  ├─ larger
-│  ├─ small
-│  └─ smaller
-│
-├─ ━  borderWidth
-│  ├─ default
-│  └─ large
-│
-├─ ▪️  boxShadow
-│  ├─ default
-│  └─ large
-│
-├─ ▬  cellHeight
-│  ├─ default
-│  ├─ large
-│  ├─ larger
-│  ├─ small
-│  └─ smaller
-│
-├─ 🖍️  contentColor
-│  ├─ default
-│  ├─ defaultReverse
-│  ├─ dark
-│  ├─ darkReverse
-│  ├─ darker
-│  ├─ darkerReverse
-│  ├─ light
-│  ├─ lightReverse
-│  ├─ lighter
-│  └─ lighterReverse
-│
-├─ 🚦 statusColor
-│  ├─ active
-│  ├─ error
-│  ├─ success
-│  └─ warning
-│
-├─ 📝 fontFamily
-│  ├─ body
-│  ├─ code
-│  └─ heading
-│
-├─ 🔤 fontSize
-│  ├─ default
-│  ├─ large
-│  ├─ larger
-│  ├─ small
-│  └─ smaller
-│
-├─ ↔️  gapSize
-│  ├─ default
-│  ├─ large
-│  ├─ larger
-│  ├─ small
-│  └─ smaller
-│
-├─ 🎯 iconStrokeWidth
-│  ├─ default
-│  └─ large
-│
-├─ 🎯 iconStrokeColor
-│  ├─ default
-│  ├─ defaultReverse
-│  ├─ primary
-│  └─ primaryReverse
-│
-└─ ≡  lineHeight
-   ├─ condensed
-   ├─ default
-   └─ expanded
+animationDuration
+├─ default
+└─ slow
+
+animationEasing
+└─ default
+
+backgroundColor
+├─ active
+└─ default
+
+backgroundColorReverse
+├─ dark
+├─ darker
+├─ default
+├─ light
+└─ lighter
+
+borderColor
+├─ primary
+└─ secondary
+
+borderColorReverse
+├─ primary
+└─ secondary
+
+borderRadius
+├─ default
+├─ large
+├─ larger
+├─ small
+└─ smaller
+
+borderWidth
+├─ default
+└─ large
+
+boxShadow
+├─ default
+├─ defaultReverse
+├─ large
+└─ largeReverse
+
+cellHeight
+├─ default
+├─ large
+├─ larger
+├─ small
+└─ smaller
+
+contentColor
+├─ dark
+├─ darker
+├─ default
+├─ light
+└─ lighter
+
+contentColorReverse
+├─ dark
+├─ darker
+├─ default
+└─ light
+
+fontFamily
+├─ body
+├─ code
+└─ heading
+
+fontSize
+├─ default
+├─ large
+├─ larger
+├─ small
+└─ smaller
+
+fontWeight
+├─ black
+├─ bold
+├─ extrabold
+├─ light
+├─ medium
+├─ regular
+└─ semibold
+
+gapSize
+├─ default
+├─ large
+├─ larger
+├─ small
+└─ smaller
+
+iconStrokeColor
+├─ default
+└─ primary
+
+iconStrokeColorReverse
+├─ default
+└─ primary
+
+iconStrokeWidth
+├─ default
+└─ large
+
+lineHeight
+├─ condensed
+├─ default
+└─ expanded
+
+statusContentColor
+├─ disabled
+├─ error
+├─ link
+├─ success
+└─ warning
 ```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 

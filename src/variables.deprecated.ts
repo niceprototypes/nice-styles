@@ -93,9 +93,9 @@ export const borderWidthDeprecated: NumberedVariables = {
 /** @deprecated Use boxShadow.default instead of boxShadow['1'] */
 export const boxShadowDeprecated: NamedVariables = {
   '1': BOX_SHADOW_1,
-  '1-reverse': BOX_SHADOW_1_REVERSE,
+  '1Reverse': BOX_SHADOW_1_REVERSE,
   '2': BOX_SHADOW_2,
-  '2-reverse': BOX_SHADOW_2_REVERSE,
+  '2Reverse': BOX_SHADOW_2_REVERSE,
 }
 
 // Cell Height (Deprecated - use semantic names)
