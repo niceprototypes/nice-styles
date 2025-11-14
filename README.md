@@ -74,7 +74,7 @@ See [variables.css](./variables.css) for the complete list of available variable
 
 ```css
 .my-component {
-  background-color: var(--background-color-primary);
+  background-color: var(--background-color-default);
   color: var(--content-color-dark);
   border-radius: var(--border-radius-default);
   padding: var(--gap-size-default);
@@ -88,6 +88,115 @@ See [variables.css](./variables.css) for the complete list of available variable
   color: var(--content-color-lighter);
   border: var(--border-width-default) solid var(--border-color-secondary);
 }
+```
+
+## Token Map
+
+A comprehensive overview of all design tokens and their available keys:
+
+```
+📦 LEVEL 0: BASE VARIABLES
+│
+├─ ⏱️  animationDuration
+│  ├─ default
+│  └─ slow
+│
+├─ 〰️  animationEasing
+│  └─ default
+│
+├─ 🎨 backgroundColor
+│  ├─ default
+│  ├─ defaultReverse
+│  ├─ active
+│  ├─ activeReverse
+│  ├─ dark
+│  ├─ darkReverse
+│  ├─ darker
+│  ├─ darkerReverse
+│  ├─ light
+│  ├─ lightReverse
+│  ├─ lighter
+│  └─ lighterReverse
+│
+├─ 🔲 borderColor
+│  ├─ primary
+│  ├─ primaryReverse
+│  ├─ secondary
+│  └─ secondaryReverse
+│
+├─ ⬛ borderRadius
+│  ├─ default
+│  ├─ large
+│  ├─ larger
+│  ├─ small
+│  └─ smaller
+│
+├─ ━  borderWidth
+│  ├─ default
+│  └─ large
+│
+├─ ▪️  boxShadow
+│  ├─ default
+│  └─ large
+│
+├─ ▬  cellHeight
+│  ├─ default
+│  ├─ large
+│  ├─ larger
+│  ├─ small
+│  └─ smaller
+│
+├─ 🖍️  contentColor
+│  ├─ default
+│  ├─ defaultReverse
+│  ├─ dark
+│  ├─ darkReverse
+│  ├─ darker
+│  ├─ darkerReverse
+│  ├─ light
+│  ├─ lightReverse
+│  ├─ lighter
+│  └─ lighterReverse
+│
+├─ 🚦 statusColor
+│  ├─ active
+│  ├─ error
+│  ├─ success
+│  └─ warning
+│
+├─ 📝 fontFamily
+│  ├─ body
+│  ├─ code
+│  └─ heading
+│
+├─ 🔤 fontSize
+│  ├─ default
+│  ├─ large
+│  ├─ larger
+│  ├─ small
+│  └─ smaller
+│
+├─ ↔️  gapSize
+│  ├─ default
+│  ├─ large
+│  ├─ larger
+│  ├─ small
+│  └─ smaller
+│
+├─ 🎯 iconStrokeWidth
+│  ├─ default
+│  └─ large
+│
+├─ 🎯 iconStrokeColor
+│  ├─ default
+│  ├─ defaultReverse
+│  ├─ primary
+│  └─ primaryReverse
+│
+└─ ≡  lineHeight
+   ├─ condensed
+   ├─ default
+   └─ expanded
 ```
 
 ## License
