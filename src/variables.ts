@@ -40,6 +40,13 @@ import {
   FONT_SIZE_DEFAULT,
   FONT_SIZE_LARGE,
   FONT_SIZE_LARGER,
+  FONT_WEIGHT_LIGHT,
+  FONT_WEIGHT_REGULAR,
+  FONT_WEIGHT_MEDIUM,
+  FONT_WEIGHT_SEMIBOLD,
+  FONT_WEIGHT_BOLD,
+  FONT_WEIGHT_EXTRABOLD,
+  FONT_WEIGHT_BLACK,
   GAP_SIZE_SMALLER,
   GAP_SIZE_SMALL,
   GAP_SIZE_DEFAULT,
@@ -140,6 +147,17 @@ export const fontSize: NamedVariables = {
   larger: FONT_SIZE_LARGER,
 }
 
+// Font Weight (Semantic)
+export const fontWeight: NamedVariables = {
+  light: FONT_WEIGHT_LIGHT,
+  regular: FONT_WEIGHT_REGULAR,
+  medium: FONT_WEIGHT_MEDIUM,
+  semibold: FONT_WEIGHT_SEMIBOLD,
+  bold: FONT_WEIGHT_BOLD,
+  extrabold: FONT_WEIGHT_EXTRABOLD,
+  black: FONT_WEIGHT_BLACK,
+}
+
 // Gap Size (Semantic)
 export const gapSize: NamedVariables = {
   smaller: GAP_SIZE_SMALLER,
@@ -226,6 +244,7 @@ export function hasVariable(category: string, key: string | number): boolean {
     'content-color': contentColor,
     'font-family': fontFamily,
     'font-size': fontSize,
+    'font-weight': fontWeight,
     'gap-size': gapSize,
     'icon-stroke-width': iconStrokeWidth,
     'line-height': lineHeight,
@@ -259,6 +278,7 @@ export function getVariableKeys(category: string): (string | number)[] {
     'content-color': contentColor,
     'font-family': fontFamily,
     'font-size': fontSize,
+    'font-weight': fontWeight,
     'gap-size': gapSize,
     'icon-stroke-width': iconStrokeWidth,
     'line-height': lineHeight,

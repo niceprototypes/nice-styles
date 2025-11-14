@@ -66,6 +66,15 @@ export const FONT_SIZE_DEFAULT = "16px"
 export const FONT_SIZE_LARGE = "20px"
 export const FONT_SIZE_LARGER = "24px"
 
+// Font Weight (Semantic)
+export const FONT_WEIGHT_LIGHT = "300"
+export const FONT_WEIGHT_REGULAR = "400"
+export const FONT_WEIGHT_MEDIUM = "500"
+export const FONT_WEIGHT_SEMIBOLD = "600"
+export const FONT_WEIGHT_BOLD = "700"
+export const FONT_WEIGHT_EXTRABOLD = "800"
+export const FONT_WEIGHT_BLACK = "900"
+
 // Gap Size (Semantic)
 export const GAP_SIZE_SMALLER = "4px"
 export const GAP_SIZE_SMALL = "8px"
