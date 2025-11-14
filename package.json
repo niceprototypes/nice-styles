@@ -1,6 +1,6 @@
 {
   "name": "nice-styles",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A collection of CSS custom properties (variables) for consistent design tokens",
   "main": "dist/index.js",
   "module": "dist/index.js",
