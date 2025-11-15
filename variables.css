@@ -33,7 +33,7 @@
 
 	--content-color-dark: hsla(210, 5%, 25%, 1);
 	--content-color-darker: hsla(210, 15%, 5%, 1);
-	--content-color-default: hsla(210, 5%, 45%, 1);
+	--content-color-default: hsla(0, 0%, 0%, 1);
 	--content-color-error: hsla(10, 92%, 63%, 1);
 	--content-color-light: hsla(210, 5%, 65%, 1);
 	--content-color-lighter: hsla(210, 5%, 85%, 1);
@@ -68,7 +68,7 @@
 :root {
 	--background-color-dark-reverse: hsla(210, 5%, 25%, 1);
 	--background-color-darker-reverse: hsla(210, 15%, 5%, 1);
-	--background-color-default-reverse: hsla(210, 5%, 45%, 1);
+	--background-color-default-reverse: hsla(0, 0%, 0%, 1);
 	--background-color-light-reverse: hsla(210, 5%, 65%, 1);
 	--background-color-lighter-reverse: hsla(210, 5%, 85%, 1);
 

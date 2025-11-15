@@ -45,7 +45,7 @@ export const CELL_HEIGHT_SMALLER = "24px"
 // Content Color
 export const CONTENT_COLOR_DARK = "hsla(210, 5%, 25%, 1)"
 export const CONTENT_COLOR_DARKER = "hsla(210, 15%, 5%, 1)"
-export const CONTENT_COLOR_DEFAULT = "hsla(210, 5%, 45%, 1)"
+export const CONTENT_COLOR_DEFAULT = "hsla(0, 0%, 0%, 1)"
 export const CONTENT_COLOR_ERROR = "hsla(10, 92%, 63%, 1)"
 export const CONTENT_COLOR_LIGHT = "hsla(210, 5%, 65%, 1)"
 export const CONTENT_COLOR_LIGHTER = "hsla(210, 5%, 85%, 1)"
