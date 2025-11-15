@@ -1,4 +1,5 @@
 :root {
-	--border-color-dark: hsla(210, 10%, 25%, 1);
+	--border-color-dark: hsla(210, 8%, 58%, 1);
+	--border-color-darker: hsla(210, 10%, 25%, 1);
 	--border-color-default: hsla(240, 9%, 91%, 1);
 }

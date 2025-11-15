@@ -21,8 +21,10 @@ export const BACKGROUND_COLOR_2 = 'var(--background-color-active)'
 // Border Colors (Deprecated - use semantic names instead)
 /** @deprecated Use BORDER_COLOR_DEFAULT instead */
 export const BORDER_COLOR_1 = 'var(--border-color-default)'
+/** @deprecated Use BORDER_COLOR_DARKER instead */
+export const BORDER_COLOR_2 = 'var(--border-color-darker)'
 /** @deprecated Use BORDER_COLOR_DARK instead */
-export const BORDER_COLOR_2 = 'var(--border-color-dark)'
+export const BORDER_COLOR_3 = 'var(--border-color-dark)'
 
 // Border Radius (Deprecated - use semantic names instead)
 /** @deprecated Use BORDER_RADIUS_SMALL instead */

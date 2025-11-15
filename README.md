@@ -96,7 +96,7 @@ This package provides a comprehensive set of CSS custom properties using semanti
 
 - **Animation**: Duration (default, slow) and easing values
 - **Background Color**: Primary and secondary colors with reverse variants
-- **Border**: Colors (default, dark), radius (smaller → larger), width (default, large)
+- **Border**: Colors (default, dark, darker), radius (smaller → larger), width (default, large)
 - **Box Shadow**: Default and large shadow options with reverse variants
 - **Cell Height**: Five size options (smaller, small, default, large, larger)
 - **Content Color**: Nine color levels including neutral shades (darker, dark, default, light, lighter) and status colors (link, success, error, warning)
@@ -253,10 +253,12 @@ backgroundColorReverse
 
 borderColor
 ├─ dark
+├─ darker
 └─ default
 
 borderColorReverse
 ├─ dark
+├─ darker
 └─ default
 
 borderRadius

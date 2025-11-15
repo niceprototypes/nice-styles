@@ -7,7 +7,8 @@
 	--background-color-active: hsla(210, 10%, 96%, 1);
 	--background-color-default: hsla(0, 100%, 100%, 1);
 
-	--border-color-dark: hsla(210, 10%, 25%, 1);
+	--border-color-dark: hsla(210, 8%, 58%, 1);
+	--border-color-darker: hsla(210, 10%, 25%, 1);
 	--border-color-default: hsla(240, 9%, 91%, 1);
 
 	--border-radius-default: 8px;
@@ -77,6 +78,7 @@
 	--content-color-light-reverse: hsla(0, 100%, 100%, 1);
 
 	--border-color-dark-reverse: hsla(0, 100%, 100%, 1);
+	--border-color-darker-reverse: hsla(0, 100%, 100%, 1);
 	--border-color-default-reverse: hsla(210, 5%, 65%, 1);
 }
 
@@ -99,7 +101,8 @@
 	--background-color-2: var(--background-color-active);
 
 	--border-color-1: var(--border-color-default);
-	--border-color-2: var(--border-color-dark);
+	--border-color-2: var(--border-color-darker);
+	--border-color-3: var(--border-color-dark);
 
 	--border-radius-1: var(--border-radius-small);
 	--border-radius-2: var(--border-radius-default);

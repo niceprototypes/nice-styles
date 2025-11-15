@@ -13,6 +13,7 @@ import {
   BACKGROUND_COLOR_2,
   BORDER_COLOR_1,
   BORDER_COLOR_2,
+  BORDER_COLOR_3,
   BORDER_RADIUS_1,
   BORDER_RADIUS_2,
   BORDER_RADIUS_3,
@@ -71,6 +72,7 @@ export const backgroundColorDeprecated: NumberedVariables = {
 export const borderColorDeprecated: NumberedVariables = {
   1: BORDER_COLOR_1,
   2: BORDER_COLOR_2,
+  3: BORDER_COLOR_3,
 }
 
 // Border Radius (Deprecated - use semantic names)

@@ -6,6 +6,7 @@ import {
   BACKGROUND_COLOR_ACTIVE,
   BACKGROUND_COLOR_DEFAULT,
   BORDER_COLOR_DARK,
+  BORDER_COLOR_DARKER,
   BORDER_COLOR_DEFAULT,
   BORDER_RADIUS_DEFAULT,
   BORDER_RADIUS_LARGE,
@@ -86,11 +87,13 @@ export const backgroundColorReverse: NamedVariables = {
 // Border Color
 export const borderColor: NamedVariables = {
   dark: BORDER_COLOR_DARK,
+  darker: BORDER_COLOR_DARKER,
   default: BORDER_COLOR_DEFAULT,
 }
 
 export const borderColorReverse: NamedVariables = {
   dark: BACKGROUND_COLOR_DEFAULT,
+  darker: BACKGROUND_COLOR_DEFAULT,
   default: CONTENT_COLOR_LIGHT,
 }
 
