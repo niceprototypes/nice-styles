@@ -27,7 +27,6 @@ export {
   iconStrokeColorReverse,
   iconStrokeWidth,
   lineHeight,
-  statusContentColor,
 } from './variables'
 
 // Export deprecated variable groups

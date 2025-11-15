@@ -26,8 +26,12 @@ import {
   CONTENT_COLOR_DARK,
   CONTENT_COLOR_DARKER,
   CONTENT_COLOR_DEFAULT,
+  CONTENT_COLOR_ERROR,
   CONTENT_COLOR_LIGHT,
   CONTENT_COLOR_LIGHTER,
+  CONTENT_COLOR_LINK,
+  CONTENT_COLOR_SUCCESS,
+  CONTENT_COLOR_WARNING,
   FONT_FAMILY_BODY,
   FONT_FAMILY_CODE,
   FONT_FAMILY_HEADING,
@@ -53,11 +57,6 @@ import {
   LINE_HEIGHT_CONDENSED,
   LINE_HEIGHT_DEFAULT,
   LINE_HEIGHT_EXPANDED,
-  STATUS_CONTENT_COLOR_DISABLED,
-  STATUS_CONTENT_COLOR_ERROR,
-  STATUS_CONTENT_COLOR_LINK,
-  STATUS_CONTENT_COLOR_SUCCESS,
-  STATUS_CONTENT_COLOR_WARNING,
 } from './constants'
 
 // Animation
@@ -132,8 +131,12 @@ export const contentColor: NamedVariables = {
   dark: CONTENT_COLOR_DARK,
   darker: CONTENT_COLOR_DARKER,
   default: CONTENT_COLOR_DEFAULT,
+  error: CONTENT_COLOR_ERROR,
   light: CONTENT_COLOR_LIGHT,
   lighter: CONTENT_COLOR_LIGHTER,
+  link: CONTENT_COLOR_LINK,
+  success: CONTENT_COLOR_SUCCESS,
+  warning: CONTENT_COLOR_WARNING,
 }
 
 export const contentColorReverse: NamedVariables = {
@@ -203,15 +206,6 @@ export const lineHeight: NamedVariables = {
   expanded: LINE_HEIGHT_EXPANDED,
 }
 
-// Status Content Color
-export const statusContentColor: NamedVariables = {
-  disabled: STATUS_CONTENT_COLOR_DISABLED,
-  error: STATUS_CONTENT_COLOR_ERROR,
-  link: STATUS_CONTENT_COLOR_LINK,
-  success: STATUS_CONTENT_COLOR_SUCCESS,
-  warning: STATUS_CONTENT_COLOR_WARNING,
-}
-
 
 /**
  * Utility function to check if a variable exists
@@ -238,7 +232,6 @@ export function hasVariable(category: string, key: string | number): boolean {
     iconStrokeColorReverse: iconStrokeColorReverse,
     iconStrokeWidth: iconStrokeWidth,
     lineHeight: lineHeight,
-    statusContentColor: statusContentColor,
   }
 
   const vars = categoryMap[category]

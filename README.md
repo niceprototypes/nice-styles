@@ -70,7 +70,6 @@ import {
   fontSize,
   gapSize,
   contentColor,
-  statusContentColor,
   hasVariable,
   getVariableKeys
 } from 'nice-styles'
@@ -78,7 +77,8 @@ import {
 // Access specific values
 console.log(fontSize.default) // "16px"
 console.log(gapSize.large) // "32px"
-console.log(statusContentColor.link) // "hsla(202, 100%, 50%, 1)"
+console.log(contentColor.link) // "hsla(202, 100%, 50%, 1)"
+console.log(contentColor.error) // "hsla(10, 92%, 63%, 1)"
 
 // Check if a variable exists
 if (hasVariable('fontSize', 'large')) {
@@ -90,7 +90,7 @@ const fontSizeKeys = getVariableKeys('fontSize')
 // ['default', 'large', 'larger', 'small', 'smaller']
 ```
 
-## Available Variables
+## Available Constants
 
 This package provides a comprehensive set of CSS custom properties using semantic naming for better clarity:
 
@@ -99,14 +99,13 @@ This package provides a comprehensive set of CSS custom properties using semanti
 - **Border**: Colors (primary, secondary), radius (smaller → larger), width (default, large)
 - **Box Shadow**: Default and large shadow options with reverse variants
 - **Cell Height**: Five size options (smaller, small, default, large, larger)
-- **Content Color**: Five neutral shade levels (darker, dark, default, light, lighter)
+- **Content Color**: Nine color levels including neutral shades (darker, dark, default, light, lighter) and status colors (link, success, error, warning)
 - **Font Family**: Heading, body, and code font stacks
 - **Font Size**: Five size levels (smaller → larger)
 - **Font Weight**: Seven weight levels (light, regular, medium, semibold, bold, extrabold, black)
 - **Gap Size**: Five spacing levels (smaller → larger: 4px, 8px, 16px, 32px, 48px)
 - **Icon Stroke**: Width and color values
 - **Line Height**: Condensed, default, and expanded options
-- **Status Content Color**: Status colors (link, disabled, success, error, warning)
 
 See [variables.css](./variables.css) for the complete list of available variables.
 
@@ -155,23 +154,23 @@ See [variables.css](./variables.css) for the complete list of available variable
 
 ```css
 .link {
-  color: var(--status-content-color-link);
+  color: var(--content-color-link);
   font-weight: var(--font-weight-medium);
 }
 
 .success-message {
-  color: var(--status-content-color-success);
+  color: var(--content-color-success);
   font-weight: var(--font-weight-semibold);
 }
 
 .error-message {
-  color: var(--status-content-color-error);
+  color: var(--content-color-error);
   font-weight: var(--font-weight-bold);
 }
 
 .warning-banner {
   background-color: var(--background-color-active);
-  color: var(--status-content-color-warning);
+  color: var(--content-color-warning);
   padding: var(--gap-size-small);
   border-radius: var(--border-radius-small);
 }
@@ -288,8 +287,12 @@ contentColor
 ├─ dark
 ├─ darker
 ├─ default
+├─ error
 ├─ light
-└─ lighter
+├─ lighter
+├─ link
+├─ success
+└─ warning
 
 contentColorReverse
 ├─ dark
@@ -341,13 +344,6 @@ lineHeight
 ├─ condensed
 ├─ default
 └─ expanded
-
-statusContentColor
-├─ disabled
-├─ error
-├─ link
-├─ success
-└─ warning
 ```
 
 ## Contributing

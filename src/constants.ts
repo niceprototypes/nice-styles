@@ -45,8 +45,12 @@ export const CELL_HEIGHT_SMALLER = "24px"
 export const CONTENT_COLOR_DARK = "hsla(210, 5%, 25%, 1)"
 export const CONTENT_COLOR_DARKER = "hsla(210, 15%, 5%, 1)"
 export const CONTENT_COLOR_DEFAULT = "hsla(210, 5%, 45%, 1)"
+export const CONTENT_COLOR_ERROR = "hsla(10, 92%, 63%, 1)"
 export const CONTENT_COLOR_LIGHT = "hsla(210, 5%, 65%, 1)"
 export const CONTENT_COLOR_LIGHTER = "hsla(210, 5%, 85%, 1)"
+export const CONTENT_COLOR_LINK = "hsla(202, 100%, 50%, 1)"
+export const CONTENT_COLOR_SUCCESS = "hsla(146, 68%, 44%, 1)"
+export const CONTENT_COLOR_WARNING = "hsla(29, 98%, 62%, 1)"
 
 // Font Family
 export const FONT_FAMILY_BODY = "-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
@@ -84,10 +88,3 @@ export const ICON_STROKE_WIDTH_LARGE = "2px"
 export const LINE_HEIGHT_CONDENSED = "1.25"
 export const LINE_HEIGHT_DEFAULT = "1.5"
 export const LINE_HEIGHT_EXPANDED = "1.75"
-
-// Status Content Color
-export const STATUS_CONTENT_COLOR_DISABLED = "hsla(210, 5%, 65%, 1)" // Same as CONTENT_COLOR_LIGHT
-export const STATUS_CONTENT_COLOR_ERROR = "hsla(10, 92%, 63%, 1)"
-export const STATUS_CONTENT_COLOR_LINK = "hsla(202, 100%, 50%, 1)"
-export const STATUS_CONTENT_COLOR_SUCCESS = "hsla(146, 68%, 44%, 1)"
-export const STATUS_CONTENT_COLOR_WARNING = "hsla(29, 98%, 62%, 1)"

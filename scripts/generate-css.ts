@@ -20,7 +20,6 @@ import {
   iconStrokeColorReverse,
   iconStrokeWidth,
   lineHeight,
-  statusContentColor,
 } from '../src/variables'
 import {
   animationDurationDeprecated,
@@ -91,7 +90,6 @@ function generateCSS(): string {
     generateCSSVariables('background-color', withReverseSuffix(backgroundColorReverse)),
     generateCSSVariables('content-color', withReverseSuffix(contentColorReverse)),
     generateCSSVariables('border-color', withReverseSuffix(borderColorReverse)),
-    generateCSSVariables('status-content-color', statusContentColor),
   ].join('\n\n')
 
   blocks.push(`:root {\n${level1Base}\n}`)

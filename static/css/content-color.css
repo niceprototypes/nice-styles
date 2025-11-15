@@ -1,11 +1,11 @@
 :root {
-	--content-color-darker: hsla(210, 15%, 5%, 1);
 	--content-color-dark: hsla(210, 5%, 25%, 1);
+	--content-color-darker: hsla(210, 15%, 5%, 1);
 	--content-color-default: hsla(210, 5%, 45%, 1);
+	--content-color-error: hsla(10, 92%, 63%, 1);
 	--content-color-light: hsla(210, 5%, 65%, 1);
 	--content-color-lighter: hsla(210, 5%, 85%, 1);
-	--content-color-active: hsla(202, 100%, 50%, 1);
+	--content-color-link: hsla(202, 100%, 50%, 1);
 	--content-color-success: hsla(146, 68%, 44%, 1);
-	--content-color-error: hsla(10, 92%, 63%, 1);
 	--content-color-warning: hsla(29, 98%, 62%, 1);
 }
