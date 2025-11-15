@@ -7,8 +7,8 @@
 	--background-color-active: hsla(210, 10%, 96%, 1);
 	--background-color-default: hsla(0, 100%, 100%, 1);
 
-	--border-color-primary: hsla(210, 10%, 25%, 1);
-	--border-color-secondary: hsla(240, 9%, 91%, 1);
+	--border-color-dark: hsla(210, 10%, 25%, 1);
+	--border-color-default: hsla(240, 9%, 91%, 1);
 
 	--border-radius-default: 8px;
 	--border-radius-large: 16px;
@@ -33,8 +33,12 @@
 	--content-color-dark: hsla(210, 5%, 25%, 1);
 	--content-color-darker: hsla(210, 15%, 5%, 1);
 	--content-color-default: hsla(210, 5%, 45%, 1);
+	--content-color-error: hsla(10, 92%, 63%, 1);
 	--content-color-light: hsla(210, 5%, 65%, 1);
 	--content-color-lighter: hsla(210, 5%, 85%, 1);
+	--content-color-link: hsla(202, 100%, 50%, 1);
+	--content-color-success: hsla(146, 68%, 44%, 1);
+	--content-color-warning: hsla(29, 98%, 62%, 1);
 
 	--font-family-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 	--font-family-code: source-code-pro, Menlo, Monaco, Consolas, "Courier New";
@@ -72,14 +76,8 @@
 	--content-color-default-reverse: hsla(0, 100%, 100%, 1);
 	--content-color-light-reverse: hsla(0, 100%, 100%, 1);
 
-	--border-color-primary-reverse: hsla(0, 100%, 100%, 1);
-	--border-color-secondary-reverse: hsla(210, 5%, 65%, 1);
-
-	--status-content-color-disabled: hsla(210, 5%, 65%, 1);
-	--status-content-color-error: hsla(10, 92%, 63%, 1);
-	--status-content-color-link: hsla(202, 100%, 50%, 1);
-	--status-content-color-success: hsla(146, 68%, 44%, 1);
-	--status-content-color-warning: hsla(29, 98%, 62%, 1);
+	--border-color-dark-reverse: hsla(0, 100%, 100%, 1);
+	--border-color-default-reverse: hsla(210, 5%, 65%, 1);
 }
 
 :root {
@@ -100,8 +98,8 @@
 	--background-color-1: var(--background-color-default);
 	--background-color-2: var(--background-color-active);
 
-	--border-color-1: var(--border-color-secondary);
-	--border-color-2: var(--border-color-primary);
+	--border-color-1: var(--border-color-default);
+	--border-color-2: var(--border-color-dark);
 
 	--border-radius-1: var(--border-radius-small);
 	--border-radius-2: var(--border-radius-default);

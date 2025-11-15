@@ -67,7 +67,7 @@ export const backgroundColorDeprecated: NumberedVariables = {
 }
 
 // Border Color (Deprecated - use semantic names)
-/** @deprecated Use borderColor.secondary instead of borderColor[1] */
+/** @deprecated Use borderColor.default instead of borderColor[1] */
 export const borderColorDeprecated: NumberedVariables = {
   1: BORDER_COLOR_1,
   2: BORDER_COLOR_2,

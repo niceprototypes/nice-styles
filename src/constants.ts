@@ -14,8 +14,8 @@ export const BACKGROUND_COLOR_ACTIVE = "hsla(210, 10%, 96%, 1)"
 export const BACKGROUND_COLOR_DEFAULT = "hsla(0, 100%, 100%, 1)"
 
 // Border Color
-export const BORDER_COLOR_PRIMARY = "hsla(210, 10%, 25%, 1)"
-export const BORDER_COLOR_SECONDARY = "hsla(240, 9%, 91%, 1)"
+export const BORDER_COLOR_DARK = "hsla(210, 10%, 25%, 1)"
+export const BORDER_COLOR_DEFAULT = "hsla(240, 9%, 91%, 1)"
 
 // Border Radius
 export const BORDER_RADIUS_DEFAULT = "8px"

@@ -5,8 +5,8 @@ import {
   ANIMATION_EASING_DEFAULT,
   BACKGROUND_COLOR_ACTIVE,
   BACKGROUND_COLOR_DEFAULT,
-  BORDER_COLOR_PRIMARY,
-  BORDER_COLOR_SECONDARY,
+  BORDER_COLOR_DARK,
+  BORDER_COLOR_DEFAULT,
   BORDER_RADIUS_DEFAULT,
   BORDER_RADIUS_LARGE,
   BORDER_RADIUS_LARGER,
@@ -85,13 +85,13 @@ export const backgroundColorReverse: NamedVariables = {
 
 // Border Color
 export const borderColor: NamedVariables = {
-  primary: BORDER_COLOR_PRIMARY,
-  secondary: BORDER_COLOR_SECONDARY,
+  dark: BORDER_COLOR_DARK,
+  default: BORDER_COLOR_DEFAULT,
 }
 
 export const borderColorReverse: NamedVariables = {
-  primary: BACKGROUND_COLOR_DEFAULT,
-  secondary: CONTENT_COLOR_LIGHT,
+  dark: BACKGROUND_COLOR_DEFAULT,
+  default: CONTENT_COLOR_LIGHT,
 }
 
 // Border Radius

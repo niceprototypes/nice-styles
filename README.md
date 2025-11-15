@@ -96,7 +96,7 @@ This package provides a comprehensive set of CSS custom properties using semanti
 
 - **Animation**: Duration (default, slow) and easing values
 - **Background Color**: Primary and secondary colors with reverse variants
-- **Border**: Colors (primary, secondary), radius (smaller → larger), width (default, large)
+- **Border**: Colors (default, dark), radius (smaller → larger), width (default, large)
 - **Box Shadow**: Default and large shadow options with reverse variants
 - **Cell Height**: Five size options (smaller, small, default, large, larger)
 - **Content Color**: Nine color levels including neutral shades (darker, dark, default, light, lighter) and status colors (link, success, error, warning)
@@ -117,7 +117,7 @@ See [variables.css](./variables.css) for the complete list of available variable
 .card {
   background-color: var(--background-color-default);
   color: var(--content-color-dark);
-  border: var(--border-width-default) solid var(--border-color-secondary);
+  border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--border-radius-default);
   padding: var(--gap-size-default);
   box-shadow: var(--box-shadow-default);
@@ -187,7 +187,7 @@ See [variables.css](./variables.css) for the complete list of available variable
 .dark-mode .card {
   background-color: var(--background-color-dark-reverse);
   color: var(--content-color-light-reverse);
-  border-color: var(--border-color-secondary-reverse);
+  border-color: var(--border-color-default-reverse);
 }
 
 .dark-mode .icon {
@@ -252,12 +252,12 @@ backgroundColorReverse
 └─ lighter
 
 borderColor
-├─ primary
-└─ secondary
+├─ dark
+└─ default
 
 borderColorReverse
-├─ primary
-└─ secondary
+├─ dark
+└─ default
 
 borderRadius
 ├─ default
