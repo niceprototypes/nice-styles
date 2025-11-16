@@ -4,7 +4,7 @@
  * Import deprecated constants from constants.deprecated.ts
  */
 
-import { NumberedVariableProps, NamedVariableProps } from './types'
+import { NumberedVariableProps, NamedVariableProps } from './types.js'
 import {
   ANIMATION_DURATION_1,
   ANIMATION_DURATION_2,
@@ -46,7 +46,7 @@ import {
   GAP_SIZE_5,
   ICON_STROKE_WIDTH_1,
   ICON_STROKE_WIDTH_2,
-} from './constants.deprecated'
+} from './constants.deprecated.js'
 
 // Animation (Deprecated - use semantic names)
 /** @deprecated Use animationDuration.default instead of animationDuration[1] */

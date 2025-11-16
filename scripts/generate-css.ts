@@ -1,5 +1,10 @@
 import * as fs from 'fs'
 import * as path from 'path'
+import { fileURLToPath } from 'url'
+import { dirname } from 'path'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
 import {
   animationDuration,
   animationEasing,
@@ -20,7 +25,7 @@ import {
   iconStrokeColorReverse,
   iconStrokeWidth,
   lineHeight,
-} from '../src/variables'
+} from '../src/variables.js'
 import {
   animationDurationDeprecated,
   animationEasingDeprecated,
@@ -34,8 +39,8 @@ import {
   fontSizeDeprecated,
   gapSizeDeprecated,
   iconStrokeWidthDeprecated,
-} from '../src/variables.deprecated'
-import { NamedVariableProps, NumberedVariableProps } from '../src/types'
+} from '../src/variables.deprecated.js'
+import { NamedVariableProps, NumberedVariableProps } from '../src/types.js'
 
 /**
  * Helper to generate CSS custom properties from a variable object

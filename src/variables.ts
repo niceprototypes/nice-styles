@@ -1,4 +1,4 @@
-import { NumberedVariableProps, NamedVariableProps } from './types'
+import { NumberedVariableProps, NamedVariableProps } from './types.js'
 import {
   ANIMATION_DURATION_DEFAULT,
   ANIMATION_DURATION_SLOW,
@@ -58,7 +58,7 @@ import {
   LINE_HEIGHT_CONDENSED,
   LINE_HEIGHT_DEFAULT,
   LINE_HEIGHT_EXPANDED,
-} from './constants'
+} from './constants.js'
 
 // Animation
 export const animationDuration: NamedVariableProps = {
