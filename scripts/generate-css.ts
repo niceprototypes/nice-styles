@@ -35,14 +35,14 @@ import {
   gapSizeDeprecated,
   iconStrokeWidthDeprecated,
 } from '../src/variables.deprecated'
-import { NamedVariables, NumberedVariables } from '../src/types'
+import { NamedVariableProps, NumberedVariableProps } from '../src/types'
 
 /**
  * Helper to generate CSS custom properties from a variable object
  */
 function generateCSSVariables(
   prefix: string,
-  variables: NumberedVariables | NamedVariables,
+  variables: NumberedVariableProps | NamedVariableProps,
   indent: string = '\t'
 ): string {
   return Object.entries(variables)

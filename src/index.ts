@@ -1,55 +1,14 @@
-/**
- * nice-styles
- * A collection of CSS custom properties (variables) for consistent design tokens
- */
-
-// Export all variable definitions
-export {
-  animationDuration,
-  animationEasing,
-  backgroundColor,
-  backgroundColorReverse,
-  borderColor,
-  borderColorReverse,
-  borderRadius,
-  borderWidth,
-  boxShadow,
-  cellHeight,
-  contentColor,
-  contentColorReverse,
-  fontFamily,
-  fontSize,
-  fontWeight,
-  gapSize,
-  getVariableKeys,
-  hasVariable,
-  iconStrokeColor,
-  iconStrokeColorReverse,
-  iconStrokeWidth,
-  lineHeight,
-} from './variables'
-
-// Export deprecated variable groups
-export {
-  animationDurationDeprecated,
-  animationEasingDeprecated,
-  backgroundColorDeprecated,
-  borderColorDeprecated,
-  borderRadiusDeprecated,
-  borderWidthDeprecated,
-  boxShadowDeprecated,
-  cellHeightDeprecated,
-  contentColorDeprecated,
-  fontSizeDeprecated,
-  gapSizeDeprecated,
-  iconStrokeWidthDeprecated,
-} from './variables.deprecated'
-
-// Export all constants
 export * from './constants'
-
-// Export deprecated constants
 export * from './constants.deprecated'
+export * as constants from './constants'
+export * as constantsDeprecated from './constants.deprecated'
+
+export * from './variables'
+export * from './variables.deprecated'
+export * as variables from './variables'
+export * as variablesDeprecated from './variables.deprecated'
 
 // Export types
-export type { CSSVariable, CSSVariableGroup, NumberedVariables, NamedVariables } from './types'
+
+export type * from './types'
+export type * as types from './types'

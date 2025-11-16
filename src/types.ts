@@ -1,7 +1,7 @@
 /**
  * Represents a CSS custom property definition
  */
-export interface CSSVariable {
+export interface VariableProps {
   name: string
   value: string
 }
@@ -9,17 +9,17 @@ export interface CSSVariable {
 /**
  * Represents a group of related CSS variables
  */
-export interface CSSVariableGroup {
+export interface VariablesProps {
   comment?: string
-  variables: CSSVariable[]
+  variables: VariableProps[]
 }
 
 /**
  * Numbered variable configuration
  */
-export type NumberedVariables<T = string> = Record<number, T>
+export type NumberedVariableProps<T = string> = Record<number, T>
 
 /**
  * Named variable configuration
  */
-export type NamedVariables = Record<string, string>
+export type NamedVariableProps = Record<string, string>

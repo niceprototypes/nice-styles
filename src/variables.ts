@@ -1,10 +1,10 @@
-import { NumberedVariables, NamedVariables } from './types'
+import { NumberedVariableProps, NamedVariableProps } from './types'
 import {
   ANIMATION_DURATION_DEFAULT,
   ANIMATION_DURATION_SLOW,
   ANIMATION_EASING_DEFAULT,
-  BACKGROUND_COLOR_ACTIVE,
-  BACKGROUND_COLOR_DEFAULT,
+  BACKGROUND_COLOR_PRIMARY,
+  BACKGROUND_COLOR_SECONDARY,
   BORDER_COLOR_DARK,
   BORDER_COLOR_DARKER,
   BORDER_COLOR_DEFAULT,
@@ -61,44 +61,44 @@ import {
 } from './constants'
 
 // Animation
-export const animationDuration: NamedVariables = {
+export const animationDuration: NamedVariableProps = {
   default: ANIMATION_DURATION_DEFAULT,
   slow: ANIMATION_DURATION_SLOW,
 }
 
-export const animationEasing: NamedVariables = {
+export const animationEasing: NamedVariableProps = {
   default: ANIMATION_EASING_DEFAULT,
 }
 
 // Background Color
-export const backgroundColor: NamedVariables = {
-  active: BACKGROUND_COLOR_ACTIVE,
-  default: BACKGROUND_COLOR_DEFAULT,
+export const backgroundColor: NamedVariableProps = {
+  primary: BACKGROUND_COLOR_PRIMARY,
+  secondary: BACKGROUND_COLOR_SECONDARY,
 }
 
-export const backgroundColorReverse: NamedVariables = {
+export const backgroundColorReverse: NamedVariableProps = {
   dark: CONTENT_COLOR_DARK,
   darker: CONTENT_COLOR_DARKER,
-  default: CONTENT_COLOR_DEFAULT,
+  primary: CONTENT_COLOR_DEFAULT,
   light: CONTENT_COLOR_LIGHT,
   lighter: CONTENT_COLOR_LIGHTER,
 }
 
 // Border Color
-export const borderColor: NamedVariables = {
+export const borderColor: NamedVariableProps = {
   dark: BORDER_COLOR_DARK,
   darker: BORDER_COLOR_DARKER,
   default: BORDER_COLOR_DEFAULT,
 }
 
-export const borderColorReverse: NamedVariables = {
-  dark: BACKGROUND_COLOR_DEFAULT,
-  darker: BACKGROUND_COLOR_DEFAULT,
+export const borderColorReverse: NamedVariableProps = {
+  dark: BACKGROUND_COLOR_PRIMARY,
+  darker: BACKGROUND_COLOR_PRIMARY,
   default: CONTENT_COLOR_LIGHT,
 }
 
 // Border Radius
-export const borderRadius: NamedVariables = {
+export const borderRadius: NamedVariableProps = {
   default: BORDER_RADIUS_DEFAULT,
   large: BORDER_RADIUS_LARGE,
   larger: BORDER_RADIUS_LARGER,
@@ -107,13 +107,13 @@ export const borderRadius: NamedVariables = {
 }
 
 // Border Width
-export const borderWidth: NamedVariables = {
+export const borderWidth: NamedVariableProps = {
   default: BORDER_WIDTH_DEFAULT,
   large: BORDER_WIDTH_LARGE,
 }
 
 // Box Shadow
-export const boxShadow: NamedVariables = {
+export const boxShadow: NamedVariableProps = {
   default: BOX_SHADOW_DEFAULT,
   defaultReverse: BOX_SHADOW_DEFAULT_REVERSE,
   large: BOX_SHADOW_LARGE,
@@ -121,7 +121,7 @@ export const boxShadow: NamedVariables = {
 }
 
 // Cell Height
-export const cellHeight: NamedVariables = {
+export const cellHeight: NamedVariableProps = {
   default: CELL_HEIGHT_DEFAULT,
   large: CELL_HEIGHT_LARGE,
   larger: CELL_HEIGHT_LARGER,
@@ -130,7 +130,7 @@ export const cellHeight: NamedVariables = {
 }
 
 // Content Color
-export const contentColor: NamedVariables = {
+export const contentColor: NamedVariableProps = {
   dark: CONTENT_COLOR_DARK,
   darker: CONTENT_COLOR_DARKER,
   default: CONTENT_COLOR_DEFAULT,
@@ -142,22 +142,22 @@ export const contentColor: NamedVariables = {
   warning: CONTENT_COLOR_WARNING,
 }
 
-export const contentColorReverse: NamedVariables = {
-  dark: BACKGROUND_COLOR_ACTIVE,
-  darker: BACKGROUND_COLOR_DEFAULT,
-  default: BACKGROUND_COLOR_DEFAULT,
-  light: BACKGROUND_COLOR_DEFAULT,
+export const contentColorReverse: NamedVariableProps = {
+  dark: BACKGROUND_COLOR_SECONDARY,
+  darker: BACKGROUND_COLOR_PRIMARY,
+  default: BACKGROUND_COLOR_PRIMARY,
+  light: BACKGROUND_COLOR_PRIMARY,
 }
 
 // Font Family
-export const fontFamily: NamedVariables = {
+export const fontFamily: NamedVariableProps = {
   body: FONT_FAMILY_BODY,
   code: FONT_FAMILY_CODE,
   heading: FONT_FAMILY_HEADING,
 }
 
 // Font Size
-export const fontSize: NamedVariables = {
+export const fontSize: NamedVariableProps = {
   default: FONT_SIZE_DEFAULT,
   large: FONT_SIZE_LARGE,
   larger: FONT_SIZE_LARGER,
@@ -166,7 +166,7 @@ export const fontSize: NamedVariables = {
 }
 
 // Font Weight
-export const fontWeight: NamedVariables = {
+export const fontWeight: NamedVariableProps = {
   black: FONT_WEIGHT_BLACK,
   bold: FONT_WEIGHT_BOLD,
   extrabold: FONT_WEIGHT_EXTRABOLD,
@@ -177,7 +177,7 @@ export const fontWeight: NamedVariables = {
 }
 
 // Gap Size
-export const gapSize: NamedVariables = {
+export const gapSize: NamedVariableProps = {
   default: GAP_SIZE_DEFAULT,
   large: GAP_SIZE_LARGE,
   larger: GAP_SIZE_LARGER,
@@ -186,24 +186,24 @@ export const gapSize: NamedVariables = {
 }
 
 // Icon Stroke Color
-export const iconStrokeColor: NamedVariables = {
+export const iconStrokeColor: NamedVariableProps = {
   default: CONTENT_COLOR_LIGHT,
   primary: CONTENT_COLOR_DARK,
 }
 
-export const iconStrokeColorReverse: NamedVariables = {
+export const iconStrokeColorReverse: NamedVariableProps = {
   default: CONTENT_COLOR_DARKER,
-  primary: BACKGROUND_COLOR_DEFAULT,
+  primary: BACKGROUND_COLOR_PRIMARY,
 }
 
 // Icon Stroke Width
-export const iconStrokeWidth: NamedVariables = {
+export const iconStrokeWidth: NamedVariableProps = {
   default: ICON_STROKE_WIDTH_DEFAULT,
   large: ICON_STROKE_WIDTH_LARGE,
 }
 
 // Line Height
-export const lineHeight: NamedVariables = {
+export const lineHeight: NamedVariableProps = {
   condensed: LINE_HEIGHT_CONDENSED,
   default: LINE_HEIGHT_DEFAULT,
   expanded: LINE_HEIGHT_EXPANDED,
@@ -214,7 +214,7 @@ export const lineHeight: NamedVariables = {
  * Utility function to check if a variable exists
  */
 export function hasVariable(category: string, key: string | number): boolean {
-  const categoryMap: Record<string, NumberedVariables | NamedVariables> = {
+  const categoryMap: Record<string, NumberedVariableProps | NamedVariableProps> = {
     animationDuration: animationDuration,
     animationEasing: animationEasing,
     backgroundColor: backgroundColor,
@@ -247,7 +247,7 @@ export function hasVariable(category: string, key: string | number): boolean {
  * Get all valid keys for a variable category
  */
 export function getVariableKeys(category: string): (string | number)[] {
-  const categoryMap: Record<string, NumberedVariables | NamedVariables> = {
+  const categoryMap: Record<string, NumberedVariableProps | NamedVariableProps> = {
     animationDuration: animationDuration,
     animationEasing: animationEasing,
     backgroundColor: backgroundColor,
