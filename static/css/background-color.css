@@ -1,8 +1,10 @@
 :root {
-	--background-color-active: hsla(210, 10%, 96%, 1);
-	--background-color-default: hsla(0, 100%, 100%, 1);
+	--background-color-primary: hsla(0, 100%, 100%, 1);
+	--background-color-secondary: hsla(210, 10%, 96%, 1);
 
 	/* Deprecated - use semantic names instead */
-	--background-color-1: var(--background-color-default);
-	--background-color-2: var(--background-color-active);
+	--background-color-1: var(--background-color-primary);
+	--background-color-2: var(--background-color-secondary);
+	--background-color-default: var(--background-color-primary);
+	--background-color-active: var(--background-color-secondary);
 }

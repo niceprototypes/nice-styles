@@ -4,8 +4,8 @@
 
 	--animation-easing-default: ease-in-out;
 
-	--background-color-active: hsla(210, 10%, 96%, 1);
-	--background-color-default: hsla(0, 100%, 100%, 1);
+	--background-color-primary: hsla(0, 100%, 100%, 1);
+	--background-color-secondary: hsla(210, 10%, 96%, 1);
 
 	--border-color-dark: hsla(210, 8%, 58%, 1);
 	--border-color-darker: hsla(210, 10%, 25%, 1);
@@ -68,9 +68,12 @@
 :root {
 	--background-color-dark-reverse: hsla(210, 5%, 25%, 1);
 	--background-color-darker-reverse: hsla(210, 15%, 5%, 1);
-	--background-color-default-reverse: hsla(0, 0%, 0%, 1);
+	--background-color-primary-reverse: hsla(0, 0%, 0%, 1);
 	--background-color-light-reverse: hsla(210, 5%, 65%, 1);
 	--background-color-lighter-reverse: hsla(210, 5%, 85%, 1);
+
+	/* Deprecated */
+	--background-color-default-reverse: var(--background-color-primary-reverse);
 
 	--content-color-dark-reverse: hsla(210, 10%, 96%, 1);
 	--content-color-darker-reverse: hsla(0, 100%, 100%, 1);
@@ -97,8 +100,10 @@
 
 	--animation-easing-1: var(--animation-easing-default);
 
-	--background-color-1: var(--background-color-default);
-	--background-color-2: var(--background-color-active);
+	--background-color-1: var(--background-color-primary);
+	--background-color-2: var(--background-color-secondary);
+	--background-color-default: var(--background-color-primary);
+	--background-color-active: var(--background-color-secondary);
 
 	--border-color-1: var(--border-color-default);
 	--border-color-2: var(--border-color-darker);

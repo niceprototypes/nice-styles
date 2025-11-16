@@ -1,8 +1,11 @@
 :root {
 	--background-color-darker-reverse: hsla(210, 15%, 5%, 1);
 	--background-color-dark-reverse: hsla(210, 5%, 38%, 1);
-	--background-color-default-reverse: hsla(210, 5%, 60%, 1);
+	--background-color-primary-reverse: hsla(210, 5%, 60%, 1);
 	--background-color-light-reverse: hsla(210, 5%, 85%, 1);
+
+	/* Deprecated */
+	--background-color-default-reverse: var(--background-color-primary-reverse);
 
 	--content-color-darker-reverse: hsla(0, 100%, 100%, 1);
 	--content-color-dark-reverse: hsla(210, 10%, 96%, 1);
