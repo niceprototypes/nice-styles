@@ -139,4 +139,27 @@ function main() {
   console.log(`✓ Generated CSS file: ${outputPath}`)
 }
 
-main()
+// Check for --watch flag
+const isWatch = process.argv.includes('--watch')
+
+if (isWatch) {
+  console.log('👀 Watching for changes...')
+
+  const srcPath = path.join(__dirname, '..', 'src')
+
+  fs.watch(srcPath, { recursive: true }, (eventType, filename) => {
+    if (filename && filename.endsWith('.ts')) {
+      console.log(`\n📝 File changed: ${filename}`)
+      try {
+        main()
+      } catch (error) {
+        console.error('❌ Error generating CSS:', error)
+      }
+    }
+  })
+
+  // Initial build
+  main()
+} else {
+  main()
+}

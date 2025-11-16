@@ -28,8 +28,10 @@
     "build": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",
     "build:css": "node --loader ts-node/esm scripts/generate-css.ts",
+    "watch": "tsc --watch & node --loader ts-node/esm scripts/generate-css.ts --watch",
     "test": "echo \"No tests configured\"",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "prepare": "npm run build"
   },
   "publishConfig": {
     "access": "public",
@@ -59,5 +61,7 @@
     "@types/node": "^24.8.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
-  }
+  },
+  "peerDependencies": {},
+  "dependencies": {}
 }

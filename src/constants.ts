@@ -5,7 +5,7 @@
  */
 
 // Animation
-export const ANIMATION_DURATION_DEFAULT = "300ms"
+export const ANIMATION_DURATION_DEFAULT = "100ms"
 export const ANIMATION_DURATION_SLOW = "600ms"
 export const ANIMATION_EASING_DEFAULT = "ease-in-out"
 
