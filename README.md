@@ -1,16 +1,6 @@
 # nice-styles
 
-A collection of CSS custom properties (variables) for consistent design tokens.
-
-## Features
-
-- 🎨 **Comprehensive Design System** - Complete set of design tokens for typography, colors, spacing, and more
-- 📦 **Modular** - Import only what you need for optimal bundle size
-- 🔤 **TypeScript Support** - Full TypeScript definitions with type safety
-- 🎯 **Semantic Naming** - Clear, descriptive variable names using camelCase
-- 🔄 **Reverse Variants** - Built-in dark mode support with reverse color variants
-- 📏 **Consistent Scale** - Thoughtfully designed size scales across all dimensions
-- 🔡 **Alphabetically Organized** - All variables and keys sorted alphabetically for easy discovery
+A type-safe design system with CSS custom properties and TypeScript tokens.
 
 ## Installation
 
@@ -18,340 +8,299 @@ A collection of CSS custom properties (variables) for consistent design tokens.
 npm install nice-styles
 ```
 
-## Usage
+## Quick Start
 
-### CSS Import
+### CSS
 
-Import all CSS variables into your project:
+Import all CSS variables:
 
 ```css
 @import 'nice-styles/variables.css';
+
+.card {
+  padding: var(--gap-base);
+  border-radius: var(--border-radius-base);
+  color: var(--foreground-color-base);
+}
 ```
 
-Or import directly in your HTML:
-
-```html
-<link rel="stylesheet" href="node_modules/nice-styles/variables.css">
-```
-
-### Import Individual Variable Groups
-
-For better performance and smaller bundle sizes, import only the variables you need:
+Or import individual token groups:
 
 ```css
-@import 'nice-styles/static/css/border-radius.css';
-@import 'nice-styles/static/css/font-size.css';
-@import 'nice-styles/static/css/gap-size.css';
+@import 'nice-styles/dist/css/fontSize.css';
+@import 'nice-styles/dist/css/gap.css';
 ```
 
-Available individual CSS files:
-- `animation.css` - Duration and easing
-- `background-color.css` - Background colors
-- `border-color.css` - Border colors
-- `border-radius.css` - Border radius values
-- `border-width.css` - Border width values
-- `box-shadow.css` - Shadow styles
-- `cell-height.css` - Cell height values
-- `content-color.css` - Text and content colors
-- `font-family.css` - Font stacks
-- `font-size.css` - Font size scale
-- `font-weight.css` - Font weight values
-- `gap-size.css` - Spacing scale
-- `icon.css` - Icon stroke colors and widths
-- `line-height.css` - Line height values
-- `reverse.css` - Reverse color variants
-
-### TypeScript/JavaScript Usage
-
-Access design tokens programmatically in your TypeScript or JavaScript code:
+### TypeScript/JavaScript
 
 ```typescript
-import {
-  fontSize,
-  gapSize,
-  contentColor,
-  hasVariable,
-  getVariableKeys
-} from 'nice-styles'
+import { fontSize, foregroundColor, gap } from 'nice-styles'
 
-// Access specific values
-console.log(fontSize.default) // "16px"
-console.log(gapSize.large) // "32px"
-console.log(contentColor.link) // "hsla(202, 100%, 50%, 1)"
-console.log(contentColor.error) // "hsla(10, 92%, 63%, 1)"
-
-// Check if a variable exists
-if (hasVariable('fontSize', 'large')) {
-  console.log('fontSize.large exists!')
-}
-
-// Get all available keys for a category
-const fontSizeKeys = getVariableKeys('fontSize')
-// ['default', 'large', 'larger', 'small', 'smaller']
+console.log(fontSize.base)           // "16px"
+console.log(foregroundColor.link)    // "hsla(202, 100%, 50%, 1)"
+console.log(gap.large)                // "32px"
 ```
 
-## Available Constants
+## Architecture
 
-This package provides a comprehensive set of CSS custom properties using semantic naming for better clarity:
+### Data Structures
 
-- **Animation**: Duration (default, slow) and easing values
-- **Background Color**: Primary and secondary colors with reverse variants
-- **Border**: Colors (default, dark, darker), radius (smaller → larger), width (default, large)
-- **Box Shadow**: Default and large shadow options with reverse variants
-- **Cell Height**: Five size options (smaller, small, default, large, larger)
-- **Content Color**: Nine color levels including neutral shades (darker, dark, default, light, lighter) and status colors (link, success, error, warning)
-- **Font Family**: Heading, body, and code font stacks
-- **Font Size**: Five size levels (smaller → larger)
-- **Font Weight**: Seven weight levels (light, regular, medium, semibold, bold, extrabold, black)
-- **Gap Size**: Five spacing levels (smaller → larger: 4px, 8px, 16px, 32px, 48px)
-- **Icon Stroke**: Width and color values
-- **Line Height**: Condensed, default, and expanded options
+nice-styles provides design tokens in three complementary formats:
 
-See [variables.css](./variables.css) for the complete list of available variables.
+#### 1. Constants (SCREAMING_SNAKE_CASE)
+Raw constant values exported individually:
 
-## Examples
+```typescript
+import { FONT_SIZE_BASE, FOREGROUND_COLOR_LINK } from 'nice-styles'
 
-### Basic Component Styling
+console.log(FONT_SIZE_BASE)         // "16px"
+console.log(FOREGROUND_COLOR_LINK)  // "hsla(202, 100%, 50%, 1)"
+```
+
+**Use when:** You need direct access to individual constant values.
+
+#### 2. Tokens (camelCase objects)
+Organized token objects with semantic keys:
+
+```typescript
+import { fontSize, foregroundColor } from 'nice-styles'
+
+console.log(fontSize.base)          // "16px"
+console.log(fontSize.large)         // "20px"
+console.log(foregroundColor.link)   // "hsla(202, 100%, 50%, 1)"
+console.log(foregroundColor.error)  // "hsla(10, 92%, 63%, 1)"
+```
+
+**Use when:** You want semantic organization and better autocomplete.
+
+#### 3. CSS Custom Properties (kebab-case)
+CSS variables for runtime styling:
 
 ```css
-.card {
-  background-color: var(--background-color-default);
-  color: var(--content-color-dark);
-  border: var(--border-width-default) solid var(--border-color-default);
-  border-radius: var(--border-radius-default);
-  padding: var(--gap-size-default);
-  box-shadow: var(--box-shadow-default);
+:root {
+  --font-size-base: "16px";
+  --font-size-large: "20px";
+  --foreground-color-link: "hsla(202, 100%, 50%, 1)";
+  --foreground-color-error: "hsla(10, 92%, 63%, 1)";
 }
 ```
 
-### Typography
+**Use when:** You need runtime CSS theming and custom properties.
 
-```css
-.heading {
-  font-family: var(--font-family-heading);
-  font-size: var(--font-size-larger);
-  font-weight: var(--font-weight-bold);
-  line-height: var(--line-height-condensed);
-  color: var(--content-color-darker);
-}
+### How It Works
 
-.body-text {
-  font-family: var(--font-family-body);
-  font-size: var(--font-size-default);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-default);
-  color: var(--content-color-dark);
-}
+```
+┌─────────────────────┐
+│  src/constants.ts   │  ← ONLY file you manually edit
+│  (Source of truth)  │
+└──────────┬──────────┘
+           │
+           ↓
+┌──────────────────────────┐
+│ scripts/generate-tokens  │  Parses // Token: comments
+└──────────┬───────────────┘
+           │
+           ├─────────────────────┐
+           ↓                     ↓
+    ┌─────────────┐      ┌──────────────┐
+    │ src/tokens  │      │ variables.css│
+    │   .ts       │      │ dist/css/*.css│
+    └──────┬──────┘      └──────────────┘
+           │
+           ↓
+    ┌─────────────┐
+    │ TypeScript  │
+    │  Compiler   │
+    └──────┬──────┘
+           │
+           ↓
+    ┌─────────────┐
+    │  dist/      │
+    │  tokens.js  │
+    │  tokens.d.ts│
+    └─────────────┘
+```
 
-.code-block {
-  font-family: var(--font-family-code);
-  font-size: var(--font-size-small);
-  font-weight: var(--font-weight-regular);
+### Package Exports
+
+The `dist/` directory contains all compiled outputs consumed by users:
+
+#### JavaScript/TypeScript Files
+
+- **`dist/index.js`** + **`dist/index.d.ts`**
+  - Main entry point
+  - Exports all constants, tokens, and types
+  - Used when: `import { fontSize } from 'nice-styles'`
+
+- **`dist/constants.js`** + **`dist/constants.d.ts`**
+  - All constant values (SCREAMING_SNAKE_CASE)
+  - Compiled from `src/constants.ts`
+
+- **`dist/tokens.js`** + **`dist/tokens.d.ts`**
+  - All token objects (camelCase)
+  - Generated from constants.ts, compiled by TypeScript
+
+- **`dist/types.d.ts`**
+  - TypeScript type definitions
+  - `StyleNamedTokenProps`, `StyleTokenProps`, etc.
+
+#### CSS Files
+
+- **`variables.css`** (root level)
+  - All CSS custom properties in one file
+  - Used when: `@import 'nice-styles/variables.css'`
+
+- **`dist/css/*.css`** (individual token files)
+  - `animationDuration.css`
+  - `fontSize.css`
+  - `foregroundColor.css`
+  - `gap.css`
+  - ...and 11 more
+  - Used when: `@import 'nice-styles/dist/css/fontSize.css'`
+
+## Available Tokens
+
+| Token | Keys | Example |
+|-------|------|---------|
+| `animationDuration` | base, slow | `"300ms"`, `"600ms"` |
+| `animationEasing` | base | `"ease-in-out"` |
+| `backgroundColor` | base, alternate | `"hsla(0, 100%, 100%, 1)"` |
+| `borderColor` | base, dark, darker | `"hsla(240, 9%, 91%, 1)"` |
+| `borderRadius` | smaller, small, base, large, larger | `"2px"` to `"32px"` |
+| `borderWidth` | base, large | `"1.5px"`, `"2px"` |
+| `boxShadow` | downBase, downLarge, upBase, upLarge | Shadow values |
+| `cellHeight` | smaller, small, base, large, larger | `"24px"` to `"72px"` |
+| `foregroundColor` | lighter, light, medium, dark, base, link, success, warning, error | Color values |
+| `fontFamily` | base, code, heading | Font stacks |
+| `fontSize` | smaller, small, base, large, larger | `"12px"` to `"24px"` |
+| `fontWeight` | light, base, medium, semibold, bold, extrabold, black | `"300"` to `"900"` |
+| `gap` | smaller, small, base, large, larger | `"4px"` to `"48px"` |
+| `iconStrokeWidth` | base, large | `"1.5px"`, `"2px"` |
+| `lineHeight` | condensed, base, expanded | `"1.25"` to `"1.75"` |
+
+## Usage Examples
+
+### TypeScript Component
+
+```typescript
+import { fontSize, foregroundColor, gap } from 'nice-styles'
+
+const styles = {
+  fontSize: fontSize.base,
+  color: foregroundColor.base,
+  padding: gap.base,
+  linkColor: foregroundColor.link,
+  errorColor: foregroundColor.error,
 }
 ```
 
-### Status Colors
+### CSS Styling
 
 ```css
-.link {
-  color: var(--content-color-link);
+.button {
+  font-size: var(--font-size-base);
+  padding: var(--gap-small) var(--gap-base);
+  border-radius: var(--border-radius-base);
+  background: var(--background-color-base);
+  color: var(--foreground-color-base);
   font-weight: var(--font-weight-medium);
 }
 
-.success-message {
-  color: var(--content-color-success);
-  font-weight: var(--font-weight-semibold);
+.button-primary {
+  background: var(--foreground-color-link);
+  color: var(--background-color-base);
 }
 
-.error-message {
-  color: var(--content-color-error);
-  font-weight: var(--font-weight-bold);
-}
-
-.warning-banner {
-  background-color: var(--background-color-active);
-  color: var(--content-color-warning);
-  padding: var(--gap-size-small);
+.alert-error {
+  color: var(--foreground-color-error);
+  border: var(--border-width-base) solid var(--foreground-color-error);
   border-radius: var(--border-radius-small);
+  padding: var(--gap-small);
 }
 ```
 
-### Dark Mode with Reverse Variants
+### Namespaced Imports
 
-```css
-.dark-mode {
-  background-color: var(--background-color-darker-reverse);
-  color: var(--content-color-default-reverse);
-}
+```typescript
+import { StyleConstants, StyleTokens } from 'nice-styles'
 
-.dark-mode .card {
-  background-color: var(--background-color-dark-reverse);
-  color: var(--content-color-light-reverse);
-  border-color: var(--border-color-default-reverse);
-}
-
-.dark-mode .icon {
-  stroke: var(--icon-stroke-color-default-reverse);
-  stroke-width: var(--icon-stroke-width-default);
-}
+// Access via namespace
+console.log(StyleConstants.FONT_SIZE_BASE)  // "16px"
+console.log(StyleTokens.fontSize.base)      // "16px"
 ```
 
-### Spacing and Layout
+## Development
 
-```css
-.container {
-  padding: var(--gap-size-large);
-  gap: var(--gap-size-default);
-}
+### Adding New Tokens
 
-.compact-list {
-  gap: var(--gap-size-small);
-}
+1. Edit `src/constants.ts` and add your constants with a `// Token:` comment:
 
-.spacious-section {
-  margin-top: var(--gap-size-larger);
-  margin-bottom: var(--gap-size-larger);
-}
+```typescript
+// Token: BUTTON_SIZE
+export const BUTTON_SIZE_SMALL = "32px"
+export const BUTTON_SIZE_MEDIUM = "40px"
+export const BUTTON_SIZE_LARGE = "48px"
 ```
 
-### Icons
+2. Run the token generator:
 
-```css
-.icon {
-  stroke: var(--icon-stroke-color-default);
-  stroke-width: var(--icon-stroke-width-default);
-}
-
-.icon-primary {
-  stroke: var(--icon-stroke-color-primary);
-  stroke-width: var(--icon-stroke-width-large);
-}
+```bash
+npm run build:tokens
 ```
 
-## Token Map
+This automatically generates:
+- `src/tokens.ts` with `buttonSize` token object
+- CSS variables in `variables.css`
+- Individual `dist/css/buttonSize.css` file
 
-A comprehensive overview of all design tokens and their available keys:
+3. Compile TypeScript:
 
-```
-animationDuration
-├─ default
-└─ slow
-
-animationEasing
-└─ default
-
-backgroundColor
-├─ active
-└─ default
-
-backgroundColorReverse
-├─ dark
-├─ darker
-├─ default
-├─ light
-└─ lighter
-
-borderColor
-├─ dark
-├─ darker
-└─ default
-
-borderColorReverse
-├─ dark
-├─ darker
-└─ default
-
-borderRadius
-├─ default
-├─ large
-├─ larger
-├─ small
-└─ smaller
-
-borderWidth
-├─ default
-└─ large
-
-boxShadow
-├─ default
-├─ defaultReverse
-├─ large
-└─ largeReverse
-
-cellHeight
-├─ default
-├─ large
-├─ larger
-├─ small
-└─ smaller
-
-contentColor
-├─ dark
-├─ darker
-├─ default
-├─ error
-├─ light
-├─ lighter
-├─ link
-├─ success
-└─ warning
-
-contentColorReverse
-├─ dark
-├─ darker
-├─ default
-└─ light
-
-fontFamily
-├─ body
-├─ code
-└─ heading
-
-fontSize
-├─ default
-├─ large
-├─ larger
-├─ small
-└─ smaller
-
-fontWeight
-├─ black
-├─ bold
-├─ extrabold
-├─ light
-├─ medium
-├─ regular
-└─ semibold
-
-gapSize
-├─ default
-├─ large
-├─ larger
-├─ small
-└─ smaller
-
-iconStrokeColor
-├─ default
-└─ primary
-
-iconStrokeColorReverse
-├─ default
-└─ primary
-
-iconStrokeWidth
-├─ default
-└─ large
-
-lineHeight
-├─ condensed
-├─ default
-└─ expanded
+```bash
+npm run build:ts
 ```
 
-## Contributing
+Or run both with:
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+```bash
+npm run build
+```
+
+### Build Process
+
+```bash
+# Generate tokens from constants
+npm run build:tokens
+
+# Compile TypeScript
+npm run build:ts
+
+# Run both
+npm run build
+
+# Watch mode
+npm run watch
+```
+
+## Migration from v3.x
+
+Version 4.0.0 removes all deprecated numbered token variants (e.g., `FONT_SIZE_1`, `BORDER_RADIUS_2`).
+
+**Before (v3.x):**
+```typescript
+import { FONT_SIZE_1, borderRadius1 } from 'nice-styles'
+```
+
+**After (v4.x):**
+```typescript
+import { FONT_SIZE_BASE, borderRadius } from 'nice-styles'
+console.log(borderRadius.base)
+```
+
+All numbered variants have been removed. Use semantic names instead:
+- `_1` → `.base` or `.small`
+- `_2` → `.large` or `.alternate`
+- etc.
 
 ## License
 
-MIT
+MIT © Mohammed Ibrahim

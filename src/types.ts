@@ -1,25 +1,49 @@
 /**
- * Represents a CSS custom property definition
+ * Type Definitions for nice-styles Design Tokens
+ *
+ * This module provides TypeScript type definitions for all design tokens.
+ *
+ * @module types
  */
-export interface VariableProps {
+
+/**
+ * Represents a single design token with a name and value
+ */
+export interface StyleTokenProps {
+  /** The token name (e.g., "base", "large") */
   name: string
+  /** The token value (e.g., "16px", "hsla(0, 0%, 0%, 1)") */
   value: string
 }
 
 /**
- * Represents a group of related CSS variables
+ * Represents a collection of design tokens with optional comment
  */
-export interface VariablesProps {
+export interface StyleTokensProps {
+  /** Optional comment describing the token group */
   comment?: string
-  variables: VariableProps[]
+  /** Array of token entries */
+  tokens: StyleTokenProps[]
 }
 
 /**
- * Numbered variable configuration
+ * Token object with numbered keys
+ * @deprecated This type is deprecated and will be removed in v5.0.0
  */
-export type NumberedVariableProps<T = string> = Record<number, T>
+export type StyleNumberedTokenProps<T = string> = Record<number, T>
 
 /**
- * Named variable configuration
+ * Token object with string keys (semantic names)
+ *
+ * This is the primary type used for all token exports.
+ * Keys are semantic names (e.g., "base", "large", "lighter")
+ * Values are CSS values as strings
+ *
+ * @example
+ * const fontSize: StyleNamedTokenProps = {
+ *   base: "16px",
+ *   large: "20px",
+ *   small: "14px"
+ * }
  */
-export type NamedVariableProps = Record<string, string>
+export type StyleNamedTokenProps = Record<string, string>
