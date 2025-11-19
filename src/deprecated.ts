@@ -29,3 +29,25 @@ export const deprecatedMappings: Record<string, string[]> = {
   "border-width-base": ["icon-stroke-width-base"],
   "border-width-large": ["icon-stroke-width-large"],
 }
+
+// Deprecated constants - will be removed in v5.0.0
+import {
+  BORDER_COLOR_HEAVY,
+  BORDER_COLOR_HEAVIER,
+  FOREGROUND_COLOR_HEAVY,
+} from './constants.js'
+
+/**
+ * @deprecated Use BORDER_COLOR_HEAVY instead. Will be removed in v5.0.0
+ */
+export const BORDER_COLOR_DARK = BORDER_COLOR_HEAVY
+
+/**
+ * @deprecated Use BORDER_COLOR_HEAVIER instead. Will be removed in v5.0.0
+ */
+export const BORDER_COLOR_DARKER = BORDER_COLOR_HEAVIER
+
+/**
+ * @deprecated Use FOREGROUND_COLOR_HEAVY instead. Will be removed in v5.0.0
+ */
+export const FOREGROUND_COLOR_DARK = FOREGROUND_COLOR_HEAVY

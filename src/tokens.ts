@@ -111,7 +111,4 @@ export const lineHeight = {
   condensed: constants.LINE_HEIGHT_CONDENSED,
   base: constants.LINE_HEIGHT_BASE,
   expanded: constants.LINE_HEIGHT_EXPANDED,
-  borderColorDark: constants.BORDER_COLOR_DARK,
-  borderColorDarker: constants.BORDER_COLOR_DARKER,
-  foregroundColorDark: constants.FOREGROUND_COLOR_DARK,
 }

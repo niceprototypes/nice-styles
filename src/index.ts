@@ -43,6 +43,9 @@ export * from './constants.js'
 // Export all tokens individually
 export * from './tokens.js'
 
+// Export deprecated constants (for backwards compatibility)
+export * from './deprecated.js'
+
 // Export constants under StyleConstants namespace
 export * as StyleConstants from './constants.js'
 

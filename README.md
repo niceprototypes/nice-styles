@@ -116,25 +116,27 @@ CSS variables for runtime styling:
 │ scripts/generate-tokens  │  Parses // Token: comments
 └──────────┬───────────────┘
            │
-           ├─────────────────────┐
-           ↓                     ↓
-    ┌─────────────┐      ┌──────────────┐
-    │ src/tokens  │      │ variables.css│
-    │   .ts       │      │ dist/css/*.css│
-    └──────┬──────┘      └──────────────┘
-           │
-           ↓
-    ┌─────────────┐
-    │ TypeScript  │
-    │  Compiler   │
-    └──────┬──────┘
-           │
-           ↓
-    ┌─────────────┐
-    │  dist/      │
-    │  tokens.js  │
-    │  tokens.d.ts│
-    └─────────────┘
+           ├─────────────────────┬─────────────────────┐
+           ↓                     ↓                     ↓
+    ┌─────────────┐      ┌─────────────┐      ┌──────────────┐
+    │ src/tokens  │      │ src/types   │      │ variables.css│
+    │   .ts       │      │   .ts       │      │ dist/css/*.css│
+    └──────┬──────┘      └──────┬──────┘      └──────────────┘
+           │                     │
+           └──────────┬──────────┘
+                      ↓
+               ┌─────────────┐
+               │ TypeScript  │
+               │  Compiler   │
+               └──────┬──────┘
+                      │
+                      ↓
+               ┌─────────────┐
+               │  dist/      │
+               │  tokens.js  │
+               │  tokens.d.ts│
+               │  types.d.ts │
+               └─────────────┘
 ```
 
 ### Package Exports
@@ -157,8 +159,10 @@ The `dist/` directory contains all compiled outputs consumed by users:
   - Generated from constants.ts, compiled by TypeScript
 
 - **`dist/types.d.ts`**
-  - TypeScript type definitions
-  - `StyleNamedTokenProps`, `StyleTokenProps`, etc.
+  - TypeScript type definitions for token keys
+  - Auto-generated from constants.ts
+  - Exports: `AnimationDurationType`, `FontSizeType`, `ForegroundColorType`, etc.
+  - Each type is a union of valid keys for that token group
 
 #### CSS Files
 
@@ -245,6 +249,52 @@ console.log(StyleConstants.FONT_SIZE_BASE)  // "16px"
 console.log(StyleTokens.fontSize.base)      // "16px"
 ```
 
+### TypeScript Types
+
+Each token group has a corresponding type that represents all valid keys:
+
+```typescript
+import type { FontSizeType, ForegroundColorType, GapType } from 'nice-styles'
+
+// Type-safe token key usage
+function setFontSize(size: FontSizeType) {
+  return fontSize[size]
+}
+
+setFontSize('base')    // ✓ Valid
+setFontSize('large')   // ✓ Valid
+setFontSize('huge')    // ✗ Type error
+
+// Use in component props
+interface ButtonProps {
+  size?: FontSizeType
+  color?: ForegroundColorType
+  spacing?: GapType
+}
+
+const Button = ({ size = 'base', color = 'base', spacing = 'base' }: ButtonProps) => ({
+  fontSize: fontSize[size],
+  color: foregroundColor[color],
+  padding: gap[spacing],
+})
+```
+
+Available types:
+- `AnimationDurationType` - "base" | "slow"
+- `AnimationEasingType` - "base"
+- `BackgroundColorType` - "base" | "alternate"
+- `BorderColorType` - "base" | "heavy" | "heavier"
+- `BorderRadiusType` - "smaller" | "small" | "base" | "large" | "larger"
+- `BorderWidthType` - "base" | "large"
+- `BoxShadowType` - "downBase" | "downLarge" | "upBase" | "upLarge"
+- `CellHeightType` - "smaller" | "small" | "base" | "large" | "larger"
+- `ForegroundColorType` - "lighter" | "light" | "medium" | "heavy" | "base" | "disabled" | "link" | "success" | "warning" | "error"
+- `FontFamilyType` - "base" | "code" | "heading"
+- `FontSizeType` - "smaller" | "small" | "base" | "large" | "larger"
+- `FontWeightType` - "light" | "base" | "medium" | "semibold" | "bold" | "extrabold" | "black"
+- `GapType` - "smaller" | "small" | "base" | "large" | "larger"
+- `LineHeightType` - "condensed" | "base" | "expanded"
+
 ## Development
 
 ### Adding New Tokens
@@ -266,6 +316,7 @@ npm run build:tokens
 
 This automatically generates:
 - `src/tokens.ts` with `buttonSize` token object
+- `src/types.ts` with `ButtonSizeType = "small" | "medium" | "large"`
 - CSS variables in `variables.css`
 - Individual `dist/css/buttonSize.css` file
 

@@ -108,17 +108,3 @@ export const GAP_LARGER = "48px"
 export const LINE_HEIGHT_CONDENSED = "1.25"
 export const LINE_HEIGHT_BASE = "1.5"
 export const LINE_HEIGHT_EXPANDED = "1.75"
-
-// Deprecated constants - will be removed in v5.0.0
-/**
- * @deprecated Use BORDER_COLOR_HEAVY instead. Will be removed in v5.0.0
- */
-export const BORDER_COLOR_DARK = BORDER_COLOR_HEAVY
-/**
- * @deprecated Use BORDER_COLOR_HEAVIER instead. Will be removed in v5.0.0
- */
-export const BORDER_COLOR_DARKER = BORDER_COLOR_HEAVIER
-/**
- * @deprecated Use FOREGROUND_COLOR_HEAVY instead. Will be removed in v5.0.0
- */
-export const FOREGROUND_COLOR_DARK = FOREGROUND_COLOR_HEAVY
