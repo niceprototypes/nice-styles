@@ -27,18 +27,34 @@ Import all CSS variables:
 Or import individual token groups:
 
 ```css
-@import 'nice-styles/dist/css/fontSize.css';
-@import 'nice-styles/dist/css/gap.css';
+@import 'nice-styles/css/fontSize.css';
+@import 'nice-styles/css/gap.css';
+```
+
+For backward compatibility with deprecated variables:
+
+```css
+@import 'nice-styles/deprecated.css';
 ```
 
 ### TypeScript/JavaScript
 
+**Option 1: Import from main package** (recommended)
 ```typescript
 import { fontSize, foregroundColor, gap } from 'nice-styles'
 
 console.log(fontSize.base)           // "16px"
 console.log(foregroundColor.link)    // "hsla(202, 100%, 50%, 1)"
 console.log(gap.large)                // "32px"
+```
+
+**Option 2: Import from specific files**
+```typescript
+// Import tokens
+import { fontSize } from 'nice-styles/tokens.js'
+
+// Import constants
+import { FONT_SIZE_BASE } from 'nice-styles/constants.js'
 ```
 
 ## Architecture

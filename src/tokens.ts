@@ -20,8 +20,8 @@ export const backgroundColor = {
 // BorderColor
 export const borderColor = {
   base: constants.BORDER_COLOR_BASE,
-  dark: constants.BORDER_COLOR_DARK,
-  darker: constants.BORDER_COLOR_DARKER,
+  heavy: constants.BORDER_COLOR_HEAVY,
+  heavier: constants.BORDER_COLOR_HEAVIER,
 }
 
 // BorderRadius
@@ -61,8 +61,9 @@ export const foregroundColor = {
   lighter: constants.FOREGROUND_COLOR_LIGHTER,
   light: constants.FOREGROUND_COLOR_LIGHT,
   medium: constants.FOREGROUND_COLOR_MEDIUM,
-  dark: constants.FOREGROUND_COLOR_DARK,
+  heavy: constants.FOREGROUND_COLOR_HEAVY,
   base: constants.FOREGROUND_COLOR_BASE,
+  disabled: constants.FOREGROUND_COLOR_DISABLED,
   link: constants.FOREGROUND_COLOR_LINK,
   success: constants.FOREGROUND_COLOR_SUCCESS,
   warning: constants.FOREGROUND_COLOR_WARNING,
@@ -105,15 +106,12 @@ export const gap = {
   larger: constants.GAP_LARGER,
 }
 
-// IconStrokeWidth
-export const iconStrokeWidth = {
-  base: constants.ICON_STROKE_WIDTH_BASE,
-  large: constants.ICON_STROKE_WIDTH_LARGE,
-}
-
 // LineHeight
 export const lineHeight = {
   condensed: constants.LINE_HEIGHT_CONDENSED,
   base: constants.LINE_HEIGHT_BASE,
   expanded: constants.LINE_HEIGHT_EXPANDED,
+  borderColorDark: constants.BORDER_COLOR_DARK,
+  borderColorDarker: constants.BORDER_COLOR_DARKER,
+  foregroundColorDark: constants.FOREGROUND_COLOR_DARK,
 }

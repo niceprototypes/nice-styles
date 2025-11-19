@@ -37,8 +37,8 @@ export const BACKGROUND_COLOR_ALTERNATE = "hsla(210, 10%, 96%, 1)"
 
 // Token: BORDER_COLOR
 export const BORDER_COLOR_BASE = "hsla(240, 9%, 91%, 1)"
-export const BORDER_COLOR_DARK = "hsla(210, 8%, 58%, 1)"
-export const BORDER_COLOR_DARKER = "hsla(210, 10%, 25%, 1)"
+export const BORDER_COLOR_HEAVY = "hsla(210, 8%, 58%, 1)"
+export const BORDER_COLOR_HEAVIER = "hsla(210, 10%, 25%, 1)"
 
 // Token: BORDER_RADIUS
 export const BORDER_RADIUS_SMALLER = "2px"
@@ -65,27 +65,28 @@ export const CELL_HEIGHT_LARGE = "64px"
 export const CELL_HEIGHT_LARGER = "72px"
 
 // Token: FOREGROUND_COLOR
-export const FOREGROUND_COLOR_LIGHTER = "hsla(210, 5%, 85%, 1)"
+export const FOREGROUND_COLOR_LIGHTER = "hsla(210, 5%, 80%, 1)"
 export const FOREGROUND_COLOR_LIGHT = "hsla(210, 5%, 65%, 1)"
 export const FOREGROUND_COLOR_MEDIUM = "hsla(210, 5%, 45%, 1)"
-export const FOREGROUND_COLOR_DARK = "hsla(210, 5%, 25%, 1)"
+export const FOREGROUND_COLOR_HEAVY = "hsla(210, 5%, 25%, 1)"
 export const FOREGROUND_COLOR_BASE = "hsla(210, 5%, 5%, 1)"
+export const FOREGROUND_COLOR_DISABLED = "hsla(210, 5%, 5%, 0.6)"
 export const FOREGROUND_COLOR_LINK = "hsla(202, 100%, 50%, 1)"
 export const FOREGROUND_COLOR_SUCCESS = "hsla(146, 68%, 44%, 1)"
 export const FOREGROUND_COLOR_WARNING = "hsla(29, 98%, 62%, 1)"
 export const FOREGROUND_COLOR_ERROR = "hsla(10, 92%, 63%, 1)"
 
 // Token: FONT_FAMILY
-export const FONT_FAMILY_BASE = "Roboto, \", 'Open Sans\", \"Helvetica Neue\", sans-serif"
-export const FONT_FAMILY_CODE = "Roboto Mono, \"Courier New\", serif"
-export const FONT_FAMILY_HEADING = "Roboto, \", 'Open Sans\", \"Helvetica Neue\", sans-serif"
+export const FONT_FAMILY_BASE = "\"Google Sans Flex\", sans-serif"
+export const FONT_FAMILY_CODE = "\"Roboto Mono\", \"Courier New\", serif"
+export const FONT_FAMILY_HEADING = "\"Google Sans Flex\", sans-serif"
 
 // Token: FONT_SIZE
 export const FONT_SIZE_SMALLER = "12px"
 export const FONT_SIZE_SMALL = "14px"
 export const FONT_SIZE_BASE = "16px"
-export const FONT_SIZE_LARGE = "20px"
-export const FONT_SIZE_LARGER = "24px"
+export const FONT_SIZE_LARGE = "24px"
+export const FONT_SIZE_LARGER = "32px"
 
 // Token: FONT_WEIGHT
 export const FONT_WEIGHT_LIGHT = "300"
@@ -103,11 +104,21 @@ export const GAP_BASE = "16px"
 export const GAP_LARGE = "32px"
 export const GAP_LARGER = "48px"
 
-// Token: ICON_STROKE_WIDTH
-export const ICON_STROKE_WIDTH_BASE = "1.5px"
-export const ICON_STROKE_WIDTH_LARGE = "2px"
-
 // Token: LINE_HEIGHT
 export const LINE_HEIGHT_CONDENSED = "1.25"
 export const LINE_HEIGHT_BASE = "1.5"
 export const LINE_HEIGHT_EXPANDED = "1.75"
+
+// Deprecated constants - will be removed in v5.0.0
+/**
+ * @deprecated Use BORDER_COLOR_HEAVY instead. Will be removed in v5.0.0
+ */
+export const BORDER_COLOR_DARK = BORDER_COLOR_HEAVY
+/**
+ * @deprecated Use BORDER_COLOR_HEAVIER instead. Will be removed in v5.0.0
+ */
+export const BORDER_COLOR_DARKER = BORDER_COLOR_HEAVIER
+/**
+ * @deprecated Use FOREGROUND_COLOR_HEAVY instead. Will be removed in v5.0.0
+ */
+export const FOREGROUND_COLOR_DARK = FOREGROUND_COLOR_HEAVY

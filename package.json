@@ -1,6 +1,6 @@
 {
   "name": "nice-styles",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A collection of CSS custom properties (variables) for consistent design tokens",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -13,8 +13,20 @@
       "require": "./dist/index.js",
       "default": "./dist/index.js"
     },
+    "./tokens.js": {
+      "types": "./dist/tokens.d.ts",
+      "import": "./dist/tokens.js",
+      "default": "./dist/tokens.js"
+    },
+    "./constants.js": {
+      "types": "./dist/constants.d.ts",
+      "import": "./dist/constants.js",
+      "default": "./dist/constants.js"
+    },
     "./css": "./index.css",
-    "./variables.css": "./variables.css",
+    "./variables.css": "./dist/variables.css",
+    "./deprecated.css": "./dist/deprecated.css",
+    "./css/*.css": "./dist/css/*.css",
     "./static/*": "./static/*",
     "./package.json": "./package.json"
   },
@@ -22,11 +34,13 @@
     "dist",
     "static",
     "index.css",
-    "variables.css"
+    "variables.css",
+    "deprecated.css"
   ],
   "scripts": {
-    "build": "npm run build:tokens && npm run build:ts",
+    "build": "npm run build:tokens && npm run build:deprecated && npm run build:ts",
     "build:tokens": "node --loader ts-node/esm scripts/generate-tokens.ts",
+    "build:deprecated": "node --loader ts-node/esm scripts/generate-deprecated-css.ts",
     "build:ts": "tsc",
     "build:css": "node --loader ts-node/esm scripts/generate-tokens.ts",
     "watch": "tsc --watch & node --loader ts-node/esm scripts/generate-tokens.ts --watch",

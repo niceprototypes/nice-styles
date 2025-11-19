@@ -1,74 +1,72 @@
 :root {
-	--animation-duration-base: "300ms";
-	--animation-duration-slow: "600ms";
+	--animation-duration-base: 300ms;
+	--animation-duration-slow: 600ms;
 
-	--animation-easing-base: "ease-in-out";
+	--animation-easing-base: ease-in-out;
 
-	--background-color-base: "hsla(0, 100%, 100%, 1)";
-	--background-color-alternate: "hsla(210, 10%, 96%, 1)";
+	--background-color-base: hsla(0, 100%, 100%, 1);
+	--background-color-alternate: hsla(210, 10%, 96%, 1);
 
-	--border-color-base: "hsla(240, 9%, 91%, 1)";
-	--border-color-dark: "hsla(210, 8%, 58%, 1)";
-	--border-color-darker: "hsla(210, 10%, 25%, 1)";
+	--border-color-base: hsla(240, 9%, 91%, 1);
+	--border-color-heavy: hsla(210, 8%, 58%, 1);
+	--border-color-heavier: hsla(210, 10%, 25%, 1);
 
-	--border-radius-smaller: "2px";
-	--border-radius-small: "4px";
-	--border-radius-base: "8px";
-	--border-radius-large: "16px";
-	--border-radius-larger: "32px";
+	--border-radius-smaller: 2px;
+	--border-radius-small: 4px;
+	--border-radius-base: 8px;
+	--border-radius-large: 16px;
+	--border-radius-larger: 32px;
 
-	--border-width-base: "1.5px";
-	--border-width-large: "2px";
+	--border-width-base: 1.5px;
+	--border-width-large: 2px;
 
-	--box-shadow-down-base: "0 1px 4px hsla(0, 0%, 0%, 0.075)";
-	--box-shadow-down-large: "0 2px 8px hsla(0, 0%, 0%, 0.1)";
-	--box-shadow-up-base: "0 -1px 4px hsla(0, 0%, 0%, 0.075)";
-	--box-shadow-up-large: "0 -2px 8px hsla(0, 0%, 0%, 0.1)";
+	--box-shadow-down-base: 0 1px 4px hsla(0, 0%, 0%, 0.075);
+	--box-shadow-down-large: 0 2px 8px hsla(0, 0%, 0%, 0.1);
+	--box-shadow-up-base: 0 -1px 4px hsla(0, 0%, 0%, 0.075);
+	--box-shadow-up-large: 0 -2px 8px hsla(0, 0%, 0%, 0.1);
 
-	--cell-height-smaller: "24px";
-	--cell-height-small: "40px";
-	--cell-height-base: "56px";
-	--cell-height-large: "64px";
-	--cell-height-larger: "72px";
+	--cell-height-smaller: 24px;
+	--cell-height-small: 40px;
+	--cell-height-base: 56px;
+	--cell-height-large: 64px;
+	--cell-height-larger: 72px;
 
-	--foreground-color-lighter: "hsla(210, 5%, 85%, 1)";
-	--foreground-color-light: "hsla(210, 5%, 65%, 1)";
-	--foreground-color-medium: "hsla(210, 5%, 45%, 1)";
-	--foreground-color-dark: "hsla(210, 5%, 25%, 1)";
-	--foreground-color-base: "hsla(210, 5%, 5%, 1)";
-	--foreground-color-link: "hsla(202, 100%, 50%, 1)";
-	--foreground-color-success: "hsla(146, 68%, 44%, 1)";
-	--foreground-color-warning: "hsla(29, 98%, 62%, 1)";
-	--foreground-color-error: "hsla(10, 92%, 63%, 1)";
+	--foreground-color-lighter: hsla(210, 5%, 85%, 1);
+	--foreground-color-light: hsla(210, 5%, 65%, 1);
+	--foreground-color-medium: hsla(210, 5%, 45%, 1);
+	--foreground-color-heavy: hsla(210, 5%, 25%, 1);
+	--foreground-color-base: hsla(210, 5%, 5%, 1);
+	--foreground-color-disabled: hsla(210, 5%, 5%, 0.6);
+	--foreground-color-link: hsla(202, 100%, 50%, 1);
+	--foreground-color-success: hsla(146, 68%, 44%, 1);
+	--foreground-color-warning: hsla(29, 98%, 62%, 1);
+	--foreground-color-error: hsla(10, 92%, 63%, 1);
 
-	--font-family-base: "Roboto, \", 'Open Sans\", \"Helvetica Neue\", sans-serif";
-	--font-family-code: "Roboto Mono, \"Courier New\", serif";
-	--font-family-heading: "Roboto, \", 'Open Sans\", \"Helvetica Neue\", sans-serif";
+	--font-family-base: "Roboto", "Open Sans", "Helvetica Neue", sans-serif;
+	--font-family-code: "Roboto Mono", "Courier New", serif;
+	--font-family-heading: "Roboto", "Open Sans", "Helvetica Neue", sans-serif;
 
-	--font-size-smaller: "12px";
-	--font-size-small: "14px";
-	--font-size-base: "16px";
-	--font-size-large: "20px";
-	--font-size-larger: "24px";
+	--font-size-smaller: 12px;
+	--font-size-small: 14px;
+	--font-size-base: 16px;
+	--font-size-large: 24px;
+	--font-size-larger: 32px;
 
-	--font-weight-light: "300";
-	--font-weight-base: "400";
-	--font-weight-medium: "500";
-	--font-weight-semibold: "600";
-	--font-weight-bold: "700";
-	--font-weight-extrabold: "800";
-	--font-weight-black: "900";
+	--font-weight-light: 300;
+	--font-weight-base: 400;
+	--font-weight-medium: 500;
+	--font-weight-semibold: 600;
+	--font-weight-bold: 700;
+	--font-weight-extrabold: 800;
+	--font-weight-black: 900;
 
-	--gap-smaller: "4px";
-	--gap-small: "8px";
-	--gap-base: "16px";
-	--gap-large: "32px";
-	--gap-larger: "48px";
+	--gap-smaller: 4px;
+	--gap-small: 8px;
+	--gap-base: 16px;
+	--gap-large: 32px;
+	--gap-larger: 48px;
 
-	--icon-stroke-width-base: "1.5px";
-	--icon-stroke-width-large: "2px";
-
-	--line-height-condensed: "1.25";
-	--line-height-base: "1.5";
-	--line-height-expanded: "1.75";
+	--line-height-condensed: 1.25;
+	--line-height-base: 1.5;
+	--line-height-expanded: 1.75;
 }

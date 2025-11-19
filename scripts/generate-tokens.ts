@@ -293,8 +293,10 @@ function generateCSSFile(tokens: Token[]): string {
 
   for (const token of tokens) {
     for (const entry of token.entries) {
+      // Remove quotes from value for CSS output and unescape inner quotes
+      const cssValue = entry.value.replace(/^["']|["']$/g, '').replace(/\\"/g, '"').replace(/\\'/g, "'")
       // Generate CSS variable: --prefix-key: value;
-      lines.push(`\t--${token.cssPrefix}-${camelToKebab(entry.key)}: ${entry.value};`)
+      lines.push(`\t--${token.cssPrefix}-${camelToKebab(entry.key)}: ${cssValue};`)
     }
 
     // Add blank line between tokens (except after the last one)
@@ -357,7 +359,7 @@ function main() {
   // Define file paths
   const constantsPath = path.join(__dirname, '..', 'src', 'constants.ts')
   const tokensTSPath = path.join(__dirname, '..', 'src', 'tokens.ts')
-  const cssPath = path.join(__dirname, '..', 'variables.css')
+  const cssPath = path.join(__dirname, '..', 'dist', 'variables.css')
   const cssDir = path.join(__dirname, '..', 'dist', 'css')
 
   // Parse constants.ts to extract all token definitions
@@ -386,7 +388,9 @@ function main() {
 
     // Add all CSS variables for this token
     for (const entry of token.entries) {
-      tokenCssLines.push(`\t--${token.cssPrefix}-${camelToKebab(entry.key)}: ${entry.value};`)
+      // Remove quotes from value for CSS output and unescape inner quotes
+      const cssValue = entry.value.replace(/^["']|["']$/g, '').replace(/\\"/g, '"').replace(/\\'/g, "'")
+      tokenCssLines.push(`\t--${token.cssPrefix}-${camelToKebab(entry.key)}: ${cssValue};`)
     }
 
     tokenCssLines.push(`}`)
