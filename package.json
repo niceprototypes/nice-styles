@@ -1,6 +1,6 @@
 {
   "name": "nice-styles",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "A collection of CSS custom properties (variables) for consistent design tokens",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -38,7 +38,8 @@
     "deprecated.css"
   ],
   "scripts": {
-    "build": "npm run build:css && npm run build:deprecated && npm run build:ts",
+    "build": "npm run build:types && npm run build:css && npm run build:deprecated && npm run build:ts",
+    "build:types": "node --loader ts-node/esm scripts/generateTypes.ts",
     "build:css": "node --loader ts-node/esm scripts/generateCss.ts",
     "build:deprecated": "node --loader ts-node/esm scripts/generateCssDeprecated.ts",
     "build:ts": "tsc",
