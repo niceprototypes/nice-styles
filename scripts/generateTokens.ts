@@ -1,16 +1,39 @@
 /**
- * Token Generator
+ * Token Generator (LEGACY - DEPRECATED)
  *
- * This script parses constants.ts and automatically generates:
+ * ⚠️ WARNING: This script is deprecated and should not be used for new development.
+ * It's kept for reference only. Use generateCss.ts instead.
+ *
+ * ## Deprecation Notice
+ * This script was used in older versions of the design system when constants.ts
+ * was the source of truth. The new architecture uses tokens.json and services.ts
+ * for dynamic token generation.
+ *
+ * ## Old Approach (This Script)
+ * - Parsed constants.ts with "// Token: NAME" comments
+ * - Generated tokens.ts, types.ts, and CSS files
+ * - Required manual maintenance of constants.ts
+ *
+ * ## New Approach (Current)
+ * - Single source of truth: src/tokens.json
+ * - Dynamic generation: src/services.ts
+ * - CSS generation: scripts/generateCss.ts
+ * - No need for separate tokens.ts or types.ts files
+ *
+ * ## Migration Path
+ * If you need to modify tokens:
+ * 1. Edit src/tokens.json directly
+ * 2. Run npm run build to regenerate everything
+ * 3. TypeScript types are auto-generated in services.ts
+ *
+ * ## Historical Context
+ * This script parsed constants.ts and generated:
  * 1. tokens.ts with all token exports
- * 2. types.ts with TypeScript type definitions for each token group
+ * 2. types.ts with TypeScript type definitions
  * 3. variables.css with all CSS custom properties
  * 4. Individual CSS files per token in dist/css/
  *
- * It reads the "Token: NAME" comments in constants.ts to understand token boundaries
- * and generates camelCase token names with kebab-case CSS variable names.
- *
- * Example:
+ * Example of old workflow:
  *   Input (constants.ts):
  *     // Token: ANIMATION_DURATION
  *     export const ANIMATION_DURATION_BASE = "300ms"
@@ -30,12 +53,17 @@
  *       --animation-duration-base: "300ms";
  *       --animation-duration-slow: "600ms";
  *     }
+ *
+ * @deprecated Use generateCss.ts instead
+ * @module generate-tokens
  */
 
 import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import { camelToKebab } from '../src/utilities/camelToKebab.js'
+import { camelToScreaming } from '../src/utilities/camelToScreaming.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -95,6 +123,10 @@ function toCamelCase(str: string): string {
 function toKebabCase(str: string): string {
   return str.toLowerCase().replace(/_/g, '-')
 }
+
+// Note: toCamelCase and toKebabCase are kept local because they work with
+// SCREAMING_SNAKE_CASE input, which is different from the camelCase converters
+// in src/services/ that work with camelCase input
 
 /**
  * Parse constants.ts file and extract tokens based on "// Token: NAME" comments
@@ -250,25 +282,6 @@ function generateTokensDTSFile(tokens: Token[]): string {
   return lines.join('\n')
 }
 
-/**
- * Convert camelCase to kebab-case
- *
- * This is specifically for converting camelCase keys to kebab-case
- * CSS variable names.
- *
- * @param str - The string in camelCase format
- * @returns The string converted to kebab-case
- *
- * @example
- * camelToKebab("downLarge") // "down-large"
- * camelToKebab("base") // "base"
- */
-function camelToKebab(str: string): string {
-  return str
-    .replace(/([A-Z])/g, '-$1')
-    .toLowerCase()
-    .replace(/^-/, '')
-}
 
 /**
  * Generate CSS file content with all tokens combined

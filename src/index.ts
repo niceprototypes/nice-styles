@@ -37,21 +37,12 @@
  * @module index
  */
 
-// Export all constants individually
-export * from './constants.js'
+// Export all constants and tokens from services
+export * from './services/index.js'
 
-// Export all tokens individually
-export * from './tokens.js'
+// Export constants and tokens under namespaces
+export * as StyleConstants from './services/index.js'
+export * as StyleTokens from './services/index.js'
 
-// Export deprecated constants (for backwards compatibility)
-export * from './deprecated.js'
-
-// Export constants under StyleConstants namespace
-export * as StyleConstants from './constants.js'
-
-// Export tokens under StyleTokens namespace
-export * as StyleTokens from './tokens.js'
-
-// Export all type definitions
-export type * from './types.js'
-export type * as StyleTypes from './types.js'
+// Export all type definitions (already exported from services)
+export type * from './services/index.js'
