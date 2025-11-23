@@ -5,7 +5,7 @@
  * It reads from tokens.json to provide:
  * - CSS variable names (--font-size-base)
  * - JS constant names (FONT_SIZE_BASE)
+ * - Token values (fontSize.base)
  */
 
-export { getCssConstant } from './getCssConstant.js'
-export { getJsConstant } from './getJsConstant.js'
+export { getToken } from './getToken.js'

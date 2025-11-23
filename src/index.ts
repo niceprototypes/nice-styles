@@ -39,7 +39,3 @@
 
 // Export all constants and tokens from services
 export * from './services/index.js'
-
-// Export constants and tokens under namespaces
-export * as StyleConstants from './services/index.js'
-export * as StyleTokens from './services/index.js'
