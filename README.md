@@ -107,36 +107,37 @@ CSS variables for runtime styling:
 
 ```
 ┌─────────────────────┐
-│  src/constants.ts   │  ← ONLY file you manually edit
+│  src/tokens.json    │  ← Central token definitions
 │  (Source of truth)  │
 └──────────┬──────────┘
            │
-           ↓
-┌──────────────────────────┐
-│ scripts/generate-tokens  │  Parses // Token: comments
-└──────────┬───────────────┘
-           │
-           ├─────────────────────┬─────────────────────┐
-           ↓                     ↓                     ↓
-    ┌─────────────┐      ┌─────────────┐      ┌──────────────┐
-    │ src/tokens  │      │ src/types   │      │ variables.css│
-    │   .ts       │      │   .ts       │      │ dist/css/*.css│
-    └──────┬──────┘      └──────┬──────┘      └──────────────┘
-           │                     │
-           └──────────┬──────────┘
-                      ↓
-               ┌─────────────┐
-               │ TypeScript  │
-               │  Compiler   │
-               └──────┬──────┘
-                      │
-                      ↓
-               ┌─────────────┐
-               │  dist/      │
-               │  tokens.js  │
-               │  tokens.d.ts│
-               │  types.d.ts │
-               └─────────────┘
+           ├────────────────────────┬──────────────────────┐
+           ↓                        ↓                      ↓
+┌──────────────────────┐  ┌──────────────────┐  ┌─────────────────┐
+│ scripts/generateCss  │  │scripts/generate  │  │ src/services/   │
+│                      │  │     Types        │  │ *.ts files      │
+└──────────┬───────────┘  └──────────┬───────┘  └────────┬────────┘
+           │                         │                   │
+           ↓                         ↓                   │
+    ┌──────────────┐         ┌──────────────┐           │
+    │variables.css │         │dist/types.d.ts│           │
+    │dist/css/*.css│         └──────────────┘           │
+    └──────────────┘                ↑                    │
+                             (bypasses tsc)              ↓
+                                                  ┌─────────────┐
+                                                  │ TypeScript  │
+                                                  │  Compiler   │
+                                                  │ (excludes   │
+                                                  │ utilities)  │
+                                                  └──────┬──────┘
+                                                         │
+                                                         ↓
+                                                  ┌─────────────┐
+                                                  │  dist/      │
+                                                  │ services/   │
+                                                  │  *.js       │
+                                                  │  *.d.ts     │
+                                                  └─────────────┘
 ```
 
 ### Package Exports
@@ -160,7 +161,7 @@ The `dist/` directory contains all compiled outputs consumed by users:
 
 - **`dist/types.d.ts`**
   - TypeScript type definitions for token keys
-  - Auto-generated from constants.ts
+  - Auto-generated from tokens.json (bypasses TypeScript compiler)
   - Exports: `AnimationDurationType`, `FontSizeType`, `ForegroundColorType`, etc.
   - Each type is a union of valid keys for that token group
 

@@ -43,6 +43,3 @@ export * from './services/index.js'
 // Export constants and tokens under namespaces
 export * as StyleConstants from './services/index.js'
 export * as StyleTokens from './services/index.js'
-
-// Export all type definitions (already exported from services)
-export type * from './services/index.js'
