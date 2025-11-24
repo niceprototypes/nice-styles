@@ -240,14 +240,20 @@ const styles = {
 }
 ```
 
-### Namespaced Imports
+### Dynamic Token Function
 
 ```typescript
-import { StyleConstants, StyleTokens } from 'nice-styles'
+import { getToken } from 'nice-styles'
 
-// Access via namespace
-console.log(StyleConstants.FONT_SIZE_BASE)  // "16px"
-console.log(StyleTokens.fontSize.base)      // "16px"
+// Get token with CSS variable and raw value
+const fontSize = getToken('fontSize')
+console.log(fontSize.key)   // "--font-size-base"
+console.log(fontSize.var)   // "var(--font-size-base)"
+console.log(fontSize.value) // "16px"
+
+// Get specific token item
+const large = getToken('fontSize', 'large')
+console.log(large.value) // "24px"
 ```
 
 ### TypeScript Types

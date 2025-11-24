@@ -12,20 +12,17 @@
  * import { FONT_SIZE_BASE, FOREGROUND_COLOR_LINK } from 'nice-styles'
  * ```
  *
- * ### Tokens (camelCase objects)
- * Organized token objects for semantic access:
+ * ### Token Function
+ * Dynamic token retrieval with CSS variables and raw values:
  * ```ts
- * import { fontSize, foregroundColor } from 'nice-styles'
- * console.log(fontSize.base) // "16px"
- * console.log(foregroundColor.link) // "hsla(202, 100%, 50%, 1)"
- * ```
+ * import { getToken } from 'nice-styles'
+ * const fontSize = getToken('fontSize')
+ * console.log(fontSize.key)   // "--font-size-base"
+ * console.log(fontSize.var)   // "var(--font-size-base)"
+ * console.log(fontSize.value) // "16px"
  *
- * ### Namespaced Exports
- * All constants/tokens under a namespace:
- * ```ts
- * import { StyleConstants, StyleTokens } from 'nice-styles'
- * console.log(StyleConstants.FONT_SIZE_BASE) // "16px"
- * console.log(StyleTokens.fontSize.base) // "16px"
+ * const large = getToken('fontSize', 'large')
+ * console.log(large.value) // "24px"
  * ```
  *
  * ### Types
@@ -39,3 +36,6 @@
 
 // Export all constants and tokens from services
 export * from './services/index.js'
+
+// Export the raw tokens.json data
+export { default as Theme } from './tokens.json' with { type: 'json' }
