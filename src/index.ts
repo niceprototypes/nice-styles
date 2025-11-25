@@ -38,4 +38,5 @@
 export * from './services/index.js'
 
 // Export the raw tokens.json data
-export { default as Theme } from './tokens.json' with { type: 'json' }
+import tokensData from './tokens.json' assert { type: 'json' }
+export const Theme = tokensData
