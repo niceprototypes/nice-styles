@@ -44,7 +44,7 @@
     "build:deprecated": "node --loader ts-node/esm scripts/generateCssDeprecated.ts",
     "build:ts": "tsc",
     "build:post": "node --loader ts-node/esm scripts/postBuild.ts",
-    "watch": "tsc --watch & node --loader ts-node/esm scripts/generateCss.ts --watch",
+    "dev": "tsc --watch & node --loader ts-node/esm scripts/generateCss.ts --watch",
     "test": "echo \"No tests configured\"",
     "prepublishOnly": "npm run build && npm test",
     "prepare": "npm run build"

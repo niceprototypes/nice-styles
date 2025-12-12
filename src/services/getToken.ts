@@ -1,5 +1,5 @@
 import tokens from '../tokens.json' with { type: 'json' }
-import { camelToKebab } from '../utilities/camelToKebab.js'
+import { getCssConstant } from './getCssConstant.js'
 
 /**
  * Result object returned by getToken when item is specified
@@ -25,8 +25,8 @@ interface TokenResult {
  * Get design token with CSS variable name and raw value
  *
  * Returns an object with three properties:
- * - `key`: CSS variable name without var() wrapper (e.g., "--font-size-base")
- * - `var`: CSS variable with var() wrapper (e.g., "var(--font-size-base)")
+ * - `key`: CSS variable name without var() wrapper (e.g., "--core--font-size--base")
+ * - `var`: CSS variable with var() wrapper (e.g., "var(--core--font-size--base)")
  * - `value`: Raw token value (e.g., "16px")
  *
  * @param group - Token group name (e.g., "fontSize", "foregroundColor")
@@ -36,13 +36,13 @@ interface TokenResult {
  *
  * @example
  * // Get CSS variable name
- * getToken("fontSize").key // "--font-size-base"
- * getToken("fontSize", "large").key // "--font-size-large"
+ * getToken("fontSize").key // "--core--font-size--base"
+ * getToken("fontSize", "large").key // "--core--font-size--large"
  *
  * @example
  * // Get CSS variable with var() wrapper
- * getToken("fontSize").var // "var(--font-size-base)"
- * getToken("fontSize", "large").var // "var(--font-size-large)"
+ * getToken("fontSize").var // "var(--core--font-size--base)"
+ * getToken("fontSize", "large").var // "var(--core--font-size--large)"
  *
  * @example
  * // Get raw token value
@@ -70,16 +70,12 @@ export function getToken(
     throw new Error(`Token item "${targetItem}" not found in group "${group}"`)
   }
 
-  // Build the CSS variable name using the token group's name property and kebab-cased item name
-  const key = `--${tokenGroup.name}-${camelToKebab(targetItem)}`
+  // Build the CSS variable using standardized format: --core--{token}--{param}
+  const cssConstant = getCssConstant("core", tokenGroup.name, targetItem)
 
-  // Return object with three properties:
-  // - key: CSS variable name without var() wrapper
-  // - var: CSS variable with var() wrapper
-  // - value: raw token value
   return {
-    key,
-    var: `var(${key})`,
+    key: cssConstant.key,
+    var: cssConstant.var,
     value: String(value),
   }
 }

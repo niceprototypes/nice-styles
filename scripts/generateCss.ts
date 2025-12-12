@@ -37,7 +37,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import { camelToKebab } from '../src/utilities/camelToKebab.js'
+import { getCssConstant } from '../src/services/getCssConstant.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -74,8 +74,8 @@ function main() {
 
     // Add each CSS variable for this token
     for (const [key, value] of Object.entries(items)) {
-      const cssVarName = `--${token.name}-${camelToKebab(key)}`
-      cssLines.push(`\t${cssVarName}: ${value};`)
+      const cssVar = getCssConstant("core", token.name, key)
+      cssLines.push(`\t${cssVar.key}: ${value};`)
     }
 
     // Add blank line between tokens (except after the last one)
@@ -111,8 +111,8 @@ function main() {
 
     // Add all CSS variables for this token
     for (const [key, value] of Object.entries(items)) {
-      const cssVarName = `--${token.name}-${camelToKebab(key)}`
-      tokenCssLines.push(`\t${cssVarName}: ${value};`)
+      const cssVar = getCssConstant("core", token.name, key)
+      tokenCssLines.push(`\t${cssVar.key}: ${value};`)
     }
 
     tokenCssLines.push('}')
