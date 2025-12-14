@@ -1,25 +1,5 @@
 import tokens from '../tokens.json' with { type: 'json' }
-import { getCssConstant } from './getCssConstant.js'
-
-/**
- * Result object returned by getToken when item is specified
- */
-interface TokenResult {
-  /**
-   * The CSS variable name without var() wrapper
-   */
-  key: string
-
-  /**
-   * The CSS variable with var() wrapper
-   */
-  var: string
-
-  /**
-   * The raw token value
-   */
-  value: string
-}
+import { getTokenFromMap, type TokenResult } from './getTokenFromMap.js'
 
 /**
  * Get design token with CSS variable name and raw value
@@ -55,27 +35,5 @@ export function getToken(
   group: keyof typeof tokens,
   item?: string
 ): TokenResult {
-  // Retrieve the token group from the tokens JSON
-  const tokenGroup = tokens[group]
-  if (!tokenGroup) {
-    throw new Error(`Token group "${group}" not found`)
-  }
-
-  // Default to "base" item if not specified
-  const targetItem = item ?? 'base'
-
-  // Get the raw value from the token group's items
-  const value = tokenGroup.items[targetItem as keyof typeof tokenGroup.items]
-  if (value === undefined) {
-    throw new Error(`Token item "${targetItem}" not found in group "${group}"`)
-  }
-
-  // Build the CSS variable using standardized format: --core--{token}--{param}
-  const cssConstant = getCssConstant("core", tokenGroup.name, targetItem)
-
-  return {
-    key: cssConstant.key,
-    var: cssConstant.var,
-    value: String(value),
-  }
+  return getTokenFromMap("core", tokens, group, item)
 }

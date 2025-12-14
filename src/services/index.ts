@@ -9,6 +9,8 @@
  */
 
 export { getToken } from './getToken.js'
+export { getTokenFromMap } from './getTokenFromMap.js'
+export type { TokenDefinition, TokenMap, TokenResult } from './getTokenFromMap.js'
 export { getCssConstant } from './getCssConstant.js'
 export type { CssConstantResult } from './getCssConstant.js'
 export { camelToKebab } from './camelToKebab.js'
