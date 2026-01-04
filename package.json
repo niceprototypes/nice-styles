@@ -38,8 +38,9 @@
     "deprecated.css"
   ],
   "scripts": {
-    "build": "npm run build:types && npm run build:css && npm run build:deprecated && npm run build:ts && npm run build:post",
+    "build": "npm run build:types && npm run build:tokens && npm run build:css && npm run build:deprecated && npm run build:ts && npm run build:post",
     "build:types": "node --loader ts-node/esm scripts/generateTypes.ts",
+    "build:tokens": "node --loader ts-node/esm scripts/generateTokens.ts",
     "build:css": "node --loader ts-node/esm scripts/generateCss.ts",
     "build:deprecated": "node --loader ts-node/esm scripts/generateCssDeprecated.ts",
     "build:ts": "tsc",

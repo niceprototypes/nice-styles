@@ -8,6 +8,8 @@
  * - Token values (fontSize.base)
  */
 
+export { getBreakpoint } from './getBreakpoint.js'
+export type { BreakpointResult, BreakpointName } from './getBreakpoint.js'
 export { getToken } from './getToken.js'
 export { getTokenFromMap } from './getTokenFromMap.js'
 export type { TokenDefinition, TokenMap, TokenResult } from './getTokenFromMap.js'

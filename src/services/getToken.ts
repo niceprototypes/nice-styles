@@ -1,4 +1,4 @@
-import tokens from '../tokens.json' with { type: 'json' }
+import tokens from '../tokensData.js'
 import { getTokenFromMap, type TokenResult } from './getTokenFromMap.js'
 
 /**

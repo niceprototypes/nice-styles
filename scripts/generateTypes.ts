@@ -11,7 +11,7 @@
  * - src/tokens.json: Central token definitions
  *
  * ## Output
- * - dist/types.d.ts: TypeScript type definitions (bypasses TypeScript compiler)
+ * - src/types.ts: TypeScript type definitions (compiled to dist by TypeScript)
  *
  * ## Example Output
  * export type FontSizeType = "smaller" | "small" | "base" | "large" | "larger"
@@ -38,13 +38,7 @@ function camelToPascal(str: string): string {
  */
 function main() {
   const tokensPath = path.join(__dirname, '..', 'src', 'tokens.json')
-  const outputPath = path.join(__dirname, '..', 'dist', 'types.d.ts')
-
-  // Ensure dist directory exists
-  const outputDir = path.dirname(outputPath)
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true })
-  }
+  const outputPath = path.join(__dirname, '..', 'src', 'types.ts')
 
   // Read tokens.json
   const tokensContent = fs.readFileSync(tokensPath, 'utf-8')

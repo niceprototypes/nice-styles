@@ -37,6 +37,32 @@
 // Export all constants and tokens from services
 export * from './services/index.js'
 
-// Export the raw tokens.json data
-import tokensData from './tokens.json' assert { type: 'json' }
+// Export type definitions
+export type {
+  AnimationDurationType,
+  AnimationEasingType,
+  BackgroundColorType,
+  BorderColorType,
+  BorderRadiusType,
+  BorderWidthType,
+  BoxShadowType,
+  CellHeightType,
+  ForegroundColorType,
+  FontFamilyType,
+  FontSizeType,
+  FontWeightType,
+  GapType,
+  LineHeightType,
+} from './types.js'
+
+// Export layout types
+export type {
+  SpacingShorthandType,
+  SpacingDefinitionType,
+  SpacingResponsiveType,
+  SpacingType,
+} from './layoutTypes.js'
+
+// Export the raw tokens data
+import tokensData from './tokensData.js'
 export const Theme = tokensData

@@ -1,0 +1,36 @@
+{
+  "foregroundColor": {
+    "name": "foreground-color",
+    "modes": [
+      {
+        "items": {
+          "lighter": "hsla(210, 5%, 80%, 1)",
+          "light": "hsla(210, 5%, 65%, 1)",
+          "medium": "hsla(210, 5%, 45%, 1)",
+          "heavy": "hsla(210, 5%, 25%, 1)",
+          "base": "hsla(210, 5%, 5%, 1)",
+          "disabled": "hsla(210, 5%, 5%, 0.6)",
+          "link": "hsla(202, 100%, 50%, 1)",
+          "success": "hsla(146, 68%, 44%, 1)",
+          "warning": "hsla(29, 98%, 62%, 1)",
+          "error": "hsla(10, 92%, 63%, 1)"
+        }
+      },
+      {
+        "label": "dark",
+        "items": {
+          "lighter": "hsla(210, 5%, 20%, 1)",
+          "light": "hsla(210, 5%, 25%, 1)",
+          "medium": "hsla(210, 5%, 20%, 1)",
+          "heavy": "hsla(210, 5%, 15%, 1)",
+          "base": "hsla(210, 5%, 2%, 1)",
+          "disabled": "hsla(210, 5%, 2%, 0.6)",
+          "link": "hsla(202, 100%, 30%, 1)",
+          "success": "hsla(146, 68%, 24%, 1)",
+          "warning": "hsla(29, 98%, 32%, 1)",
+          "error": "hsla(10, 92%, 33%, 1)"
+        }
+      }
+    ]
+  }
+}
