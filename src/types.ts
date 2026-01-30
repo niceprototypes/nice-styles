@@ -18,5 +18,6 @@ export type ForegroundColorType = "lighter" | "light" | "medium" | "heavy" | "ba
 export type FontFamilyType = "base" | "code" | "heading"
 export type FontSizeType = "smaller" | "small" | "base" | "large" | "larger"
 export type FontWeightType = "light" | "base" | "medium" | "semibold" | "bold" | "extrabold" | "black"
-export type GapType = "smaller" | "small" | "base" | "large" | "larger"
+export type GapType = "none" | "smaller" | "small" | "base" | "large" | "larger"
+export type LetterSpacingType = "tight" | "base" | "wide" | "wider"
 export type LineHeightType = "condensed" | "base" | "expanded"

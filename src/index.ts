@@ -52,6 +52,7 @@ export type {
   FontSizeType,
   FontWeightType,
   GapType,
+  LetterSpacingType,
   LineHeightType,
 } from './types.js'
 

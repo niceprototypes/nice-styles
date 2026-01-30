@@ -124,11 +124,21 @@ const tokensData: TokensData = {
   "gap": {
     "name": "gap",
     "items": {
+      "none": "0",
       "smaller": "4px",
       "small": "8px",
       "base": "16px",
       "large": "32px",
       "larger": "48px"
+    }
+  },
+  "letterSpacing": {
+    "name": "letter-spacing",
+    "items": {
+      "tight": "-0.025em",
+      "base": "0",
+      "wide": "0.025em",
+      "wider": "0.05em"
     }
   },
   "lineHeight": {
