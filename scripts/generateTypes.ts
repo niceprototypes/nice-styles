@@ -58,7 +58,7 @@ function main() {
   // Generate a type for each token group
   for (const tokenName of Object.keys(tokens)) {
     const token = tokens[tokenName]
-    const items = Object.keys(token.items)
+    const items = Object.keys(token)
     const typeName = `${camelToPascal(tokenName)}Type`
 
     // Create union type from all item keys

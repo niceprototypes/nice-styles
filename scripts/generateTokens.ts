@@ -20,15 +20,7 @@ import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-/**
- * Token definition structure from tokens.json
- */
-interface TokenDefinition {
-  name: string
-  items: Record<string, string>
-}
-
-type TokensJson = Record<string, TokenDefinition>
+type TokensJson = Record<string, Record<string, string>>
 
 /**
  * Generate tokensData.ts from tokens.json
@@ -55,10 +47,7 @@ function main() {
   lines.push(` * To regenerate: npm run build:tokens`)
   lines.push(` */`)
   lines.push(``)
-  lines.push(`export interface TokenDefinition {`)
-  lines.push(`  name: string`)
-  lines.push(`  items: Record<string, string>`)
-  lines.push(`}`)
+  lines.push(`export type TokenDefinition = Record<string, string>`)
   lines.push(``)
   lines.push(`export type TokensData = Record<string, TokenDefinition>`)
   lines.push(``)

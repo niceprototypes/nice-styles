@@ -6,148 +6,100 @@
  * To regenerate: npm run build:tokens
  */
 
-export interface TokenDefinition {
-  name: string
-  items: Record<string, string>
-}
+export type TokenDefinition = Record<string, string>
 
 export type TokensData = Record<string, TokenDefinition>
 
 const tokensData: TokensData = {
   "animationDuration": {
-    "name": "animation-duration",
-    "items": {
-      "base": "300ms",
-      "slow": "600ms"
-    }
+    "base": "300ms",
+    "slow": "600ms"
   },
   "animationEasing": {
-    "name": "animation-easing",
-    "items": {
-      "base": "ease-in-out"
-    }
+    "base": "ease-in-out"
   },
   "backgroundColor": {
-    "name": "background-color",
-    "items": {
-      "base": "hsla(0, 100%, 100%, 1)",
-      "alternate": "hsla(210, 10%, 96%, 1)"
-    }
+    "base": "hsla(0, 100%, 100%, 1)",
+    "alternate": "hsla(210, 10%, 96%, 1)"
   },
   "borderColor": {
-    "name": "border-color",
-    "items": {
-      "base": "hsla(240, 9%, 91%, 1)",
-      "heavy": "hsla(210, 8%, 58%, 1)",
-      "heavier": "hsla(210, 10%, 25%, 1)"
-    }
+    "base": "hsla(240, 9%, 91%, 1)",
+    "heavy": "hsla(210, 8%, 58%, 1)",
+    "heavier": "hsla(210, 10%, 25%, 1)"
   },
   "borderRadius": {
-    "name": "border-radius",
-    "items": {
-      "smaller": "2px",
-      "small": "4px",
-      "base": "8px",
-      "large": "16px",
-      "larger": "32px"
-    }
+    "smaller": "2px",
+    "small": "4px",
+    "base": "8px",
+    "large": "16px",
+    "larger": "32px"
   },
   "borderWidth": {
-    "name": "border-width",
-    "items": {
-      "base": "1.5px",
-      "large": "2px"
-    }
+    "base": "1.5px",
+    "large": "2px"
   },
   "boxShadow": {
-    "name": "box-shadow",
-    "items": {
-      "base": "0 1px 4px hsla(0, 0%, 0%, 0.075)",
-      "large": "0 2px 8px hsla(0, 0%, 0%, 0.1)"
-    }
+    "base": "0 1px 4px hsla(0, 0%, 0%, 0.075)",
+    "large": "0 2px 8px hsla(0, 0%, 0%, 0.1)"
   },
   "cellHeight": {
-    "name": "cell-height",
-    "items": {
-      "smaller": "24px",
-      "small": "32px",
-      "base": "48px",
-      "large": "64px",
-      "larger": "72px"
-    }
+    "smaller": "24px",
+    "small": "32px",
+    "base": "48px",
+    "large": "64px",
+    "larger": "72px"
   },
   "foregroundColor": {
-    "name": "foreground-color",
-    "items": {
-      "lighter": "hsla(210, 5%, 80%, 1)",
-      "light": "hsla(210, 5%, 65%, 1)",
-      "medium": "hsla(210, 5%, 45%, 1)",
-      "heavy": "hsla(210, 5%, 25%, 1)",
-      "base": "hsla(210, 5%, 5%, 1)",
-      "disabled": "hsla(210, 5%, 5%, 0.6)",
-      "link": "hsla(202, 100%, 50%, 1)",
-      "success": "hsla(146, 68%, 44%, 1)",
-      "warning": "hsla(29, 98%, 62%, 1)",
-      "error": "hsla(10, 92%, 63%, 1)"
-    }
+    "lighter": "hsla(210, 5%, 80%, 1)",
+    "light": "hsla(210, 5%, 65%, 1)",
+    "medium": "hsla(210, 5%, 45%, 1)",
+    "heavy": "hsla(210, 5%, 25%, 1)",
+    "base": "hsla(210, 5%, 5%, 1)",
+    "disabled": "hsla(210, 5%, 5%, 0.6)",
+    "link": "hsla(202, 100%, 50%, 1)",
+    "success": "hsla(146, 68%, 44%, 1)",
+    "warning": "hsla(29, 98%, 62%, 1)",
+    "error": "hsla(10, 92%, 63%, 1)"
   },
   "fontFamily": {
-    "name": "font-family",
-    "items": {
-      "base": "\"Google Sans Flex\", sans-serif",
-      "code": "\"Roboto Mono\", \"Courier New\", serif",
-      "heading": "\"Google Sans Flex\", sans-serif"
-    }
+    "base": "\"Google Sans Flex\", sans-serif",
+    "code": "\"Roboto Mono\", \"Courier New\", serif",
+    "heading": "\"Google Sans Flex\", sans-serif"
   },
   "fontSize": {
-    "name": "font-size",
-    "items": {
-      "smaller": "10px",
-      "small": "13px",
-      "base": "16px",
-      "large": "24px",
-      "larger": "32px"
-    }
+    "smaller": "10px",
+    "small": "13px",
+    "base": "16px",
+    "large": "24px",
+    "larger": "32px"
   },
   "fontWeight": {
-    "name": "font-weight",
-    "items": {
-      "light": "300",
-      "base": "400",
-      "medium": "500",
-      "semibold": "600",
-      "bold": "700",
-      "extrabold": "800",
-      "black": "900"
-    }
+    "light": "300",
+    "base": "400",
+    "medium": "500",
+    "semibold": "600",
+    "bold": "700",
+    "extrabold": "800",
+    "black": "900"
   },
   "gap": {
-    "name": "gap",
-    "items": {
-      "none": "0",
-      "smaller": "4px",
-      "small": "8px",
-      "base": "16px",
-      "large": "32px",
-      "larger": "48px"
-    }
+    "none": "0",
+    "smaller": "4px",
+    "small": "8px",
+    "base": "16px",
+    "large": "32px",
+    "larger": "48px"
   },
   "letterSpacing": {
-    "name": "letter-spacing",
-    "items": {
-      "tight": "-0.025em",
-      "base": "0",
-      "wide": "0.025em",
-      "wider": "0.05em"
-    }
+    "tight": "-0.025em",
+    "base": "0",
+    "wide": "0.025em",
+    "wider": "0.05em"
   },
   "lineHeight": {
-    "name": "line-height",
-    "items": {
-      "condensed": "1.25",
-      "base": "1.5",
-      "expanded": "1.75"
-    }
+    "condensed": "1.25",
+    "base": "1.5",
+    "expanded": "1.75"
   }
 } as const
 

@@ -1,20 +1,43 @@
 /**
  * CSS Generator
  *
- * Reads tokens.json (default theme) and tokens.dark.json (dark overrides)
+ * Reads tokens.json (default/light theme) and tokens.dark.json (dark overrides)
  * and generates CSS custom properties files.
  *
  * ## Input
- * - src/tokens.json: Default theme (complete, source of truth)
+ * - src/tokens.json: Default theme in flat format { tokenName: { variant: value } }
  * - src/tokens.dark.json: Dark mode overrides (sparse, validated against default)
  * - src/errors.json: Error message templates
  *
  * ## Output
- * - dist/variables.css: Combined CSS with all tokens + dark mode
+ * - dist/variables.css: Combined CSS with all tokens + mode primitives + dark media query
  * - dist/css/*.css: Individual CSS files per token group
  *
+ * ## Generated CSS Structure
+ *
+ * For each token, the generator produces:
+ *
+ * 1. **Semantic variables** — the default values, used by components:
+ *    `--core--background-color--base: hsla(0, 100%, 100%, 1);`
+ *
+ * 2. **Light primitives** — stable references to light values, never reassigned by media queries.
+ *    Only generated for tokens that have a dark override:
+ *    `--core--background-color--base--light: hsla(0, 100%, 100%, 1);`
+ *
+ * 3. **Dark primitives** — stable references to dark values, never reassigned by media queries:
+ *    `--core--background-color--base--dark: hsla(0, 0%, 27%, 1);`
+ *
+ * 4. **Dark media query** — reassigns semantic variables to dark primitives when OS is dark:
+ *    `@media (prefers-color-scheme: dark) { :root { --core--background-color--base: var(--core--background-color--base--dark); } }`
+ *
+ * ## Usage in components
+ *
+ * - Semantic (auto-switches): `getToken("backgroundColor").var` → `var(--core--background-color--base)`
+ * - Force light: `getToken("backgroundColor", "base", "light").var` → `var(--core--background-color--base--light)`
+ * - Force dark: `getToken("backgroundColor", "base", "dark").var` → `var(--core--background-color--base--dark)`
+ *
  * ## Validation
- * - Dark tokens must exist in default (build error if not)
+ * - Every token group and variant in tokens.dark.json must exist in tokens.json (build error if not)
  *
  * @module generate-css
  */
@@ -23,30 +46,34 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import { getCssConstant } from '../src/services/getCssConstant.js'
+import { getConstant } from '../src/services/getCssConstant.js'
+import { camelToKebab } from '../src/services/camelToKebab.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-interface TokenGroup {
-  name: string
-  items: Record<string, string>
-}
-
+/** Flat token format: { tokenName: { variant: value } } */
 interface Tokens {
-  [key: string]: TokenGroup
+  [key: string]: Record<string, string>
 }
 
+/** Dark overrides: sparse subset of Tokens, validated against default */
 interface DarkTokens {
   [tokenName: string]: Record<string, string>
 }
 
+/** Error message templates with {placeholder} syntax */
 interface Errors {
   [key: string]: string
 }
 
 /**
- * Format an error message with placeholder values
+ * Replaces {placeholder} patterns in an error template with provided values.
+ *
+ * @param errors - Error template map from errors.json
+ * @param key - Error key to look up
+ * @param values - Placeholder replacements
+ * @returns Formatted error message
  */
 function formatError(errors: Errors, key: string, values: Record<string, string>): string {
   let message = errors[key] || `Unknown error: ${key}`
@@ -57,7 +84,13 @@ function formatError(errors: Errors, key: string, values: Record<string, string>
 }
 
 /**
- * Validate that all dark tokens exist in the default tokens
+ * Validates that every token group and variant in darkTokens exists in defaultTokens.
+ * Throws with a descriptive error if a dark token references a nonexistent default.
+ *
+ * @param defaultTokens - Complete token definitions from tokens.json
+ * @param darkTokens - Sparse dark overrides from tokens.dark.json
+ * @param errors - Error templates for formatting messages
+ * @throws Error if a dark token group or variant is not found in defaults
  */
 function validateDarkTokens(
   defaultTokens: Tokens,
@@ -75,12 +108,12 @@ function validateDarkTokens(
     }
 
     for (const variantName of Object.keys(variants)) {
-      if (!defaultTokens[tokenName].items[variantName]) {
+      if (!defaultTokens[tokenName][variantName]) {
         throw new Error(
           formatError(errors, "darkTokenVariantNotFound", {
             tokenName,
             variantName,
-            available: Object.keys(defaultTokens[tokenName].items).join(', ')
+            available: Object.keys(defaultTokens[tokenName]).join(', ')
           })
         )
       }
@@ -89,7 +122,194 @@ function validateDarkTokens(
 }
 
 /**
- * Main execution function
+ * Generates CSS lines for a single token group, including mode primitives.
+ *
+ * For each variant in the token group:
+ * - Always emits the semantic variable: `--core--{cssName}--{variant}: {value};`
+ * - If a dark override exists, also emits:
+ *   - Light primitive: `--core--{cssName}--{variant}--light: {value};`
+ *   - Dark primitive: `--core--{cssName}--{variant}--dark: {darkValue};`
+ *   - Media query reassignment: `--core--{cssName}--{variant}: var(--core--{cssName}--{variant}--dark);`
+ *
+ * @param cssName - Kebab-case token group name (e.g., "background-color")
+ * @param variants - Default variant → value map
+ * @param darkVariants - Dark override variant → value map (may be empty)
+ * @returns Object with four arrays of CSS declaration strings
+ */
+function generateTokenGroupCss(
+  cssName: string,
+  variants: Record<string, string>,
+  darkVariants: Record<string, string>
+): {
+  semanticLines: string[]
+  lightPrimitives: string[]
+  darkPrimitives: string[]
+  darkMediaBody: string[]
+} {
+  const semanticLines: string[] = []
+  const lightPrimitives: string[] = []
+  const darkPrimitives: string[] = []
+  const darkMediaBody: string[] = []
+
+  for (const [variantName, value] of Object.entries(variants)) {
+    // Semantic variable — the one components reference, reassigned by media query in dark mode
+    const cssVar = getConstant("core", cssName, variantName)
+    semanticLines.push(`\t${cssVar.key}: ${value};`)
+
+    if (darkVariants[variantName]) {
+      // Light primitive — always resolves to the light value, never reassigned
+      const lightCssVar = getConstant("core", cssName, variantName, "light")
+      lightPrimitives.push(`\t${lightCssVar.key}: ${value};`)
+
+      // Dark primitive — always resolves to the dark value, never reassigned
+      const darkCssVar = getConstant("core", cssName, variantName, "dark")
+      darkPrimitives.push(`\t${darkCssVar.key}: ${darkVariants[variantName]};`)
+
+      // Media query entry — reassigns the semantic variable to the dark primitive
+      darkMediaBody.push(`\t\t${cssVar.key}: var(${darkCssVar.key});`)
+    }
+  }
+
+  return { semanticLines, lightPrimitives, darkPrimitives, darkMediaBody }
+}
+
+/**
+ * Builds the combined dist/variables.css containing all token groups.
+ *
+ * Structure:
+ * ```css
+ * :root {
+ *   color-scheme: light dark;
+ *   --core--{group}--{variant}: {value};        // semantic variables
+ *   --core--{group}--{variant}--light: {value};  // light primitives
+ *   --core--{group}--{variant}--dark: {value};   // dark primitives
+ * }
+ * @media (prefers-color-scheme: dark) {
+ *   :root {
+ *     --core--{group}--{variant}: var(--core--{group}--{variant}--dark);
+ *   }
+ * }
+ * [data-theme="light"] { color-scheme: light; }
+ * [data-theme="dark"] { color-scheme: dark; }
+ * ```
+ *
+ * @param tokens - Complete default token definitions
+ * @param darkTokens - Sparse dark overrides
+ * @returns Full CSS file content as a string
+ */
+function buildCombinedCss(tokens: Tokens, darkTokens: DarkTokens): string {
+  const cssLines: string[] = []
+  const allLightPrimitives: string[] = []
+  const allDarkPrimitives: string[] = []
+  const allDarkMediaBody: string[] = []
+
+  cssLines.push(':root {')
+  cssLines.push('\tcolor-scheme: light dark;')
+  cssLines.push('')
+
+  const tokenNames = Object.keys(tokens)
+
+  for (let i = 0; i < tokenNames.length; i++) {
+    const tokenName = tokenNames[i]
+    const cssName = camelToKebab(tokenName)
+    const darkVariants = darkTokens[tokenName] || {}
+
+    const { semanticLines, lightPrimitives, darkPrimitives, darkMediaBody } =
+      generateTokenGroupCss(cssName, tokens[tokenName], darkVariants)
+
+    cssLines.push(...semanticLines)
+    allLightPrimitives.push(...lightPrimitives)
+    allDarkPrimitives.push(...darkPrimitives)
+    allDarkMediaBody.push(...darkMediaBody)
+
+    // Blank line between token groups (except after the last one)
+    if (i < tokenNames.length - 1) {
+      cssLines.push('')
+    }
+  }
+
+  // Light mode primitives — stable references that are never reassigned
+  if (allLightPrimitives.length > 0) {
+    cssLines.push('')
+    cssLines.push('\t/* Light mode primitives */')
+    cssLines.push(...allLightPrimitives)
+  }
+
+  // Dark mode primitives — stable references that are never reassigned
+  if (allDarkPrimitives.length > 0) {
+    cssLines.push('')
+    cssLines.push('\t/* Dark mode primitives */')
+    cssLines.push(...allDarkPrimitives)
+  }
+
+  cssLines.push('}')
+
+  // Media query — reassigns semantic variables to dark primitives when OS prefers dark
+  if (allDarkMediaBody.length > 0) {
+    cssLines.push('')
+    cssLines.push('@media (prefers-color-scheme: dark) {')
+    cssLines.push('\t:root {')
+    cssLines.push(...allDarkMediaBody)
+    cssLines.push('\t}')
+    cssLines.push('}')
+    cssLines.push('')
+    // data-theme attributes allow explicit override of the browser color scheme
+    cssLines.push('[data-theme="light"] { color-scheme: light; }')
+    cssLines.push('[data-theme="dark"] { color-scheme: dark; }')
+  }
+
+  return cssLines.join('\n')
+}
+
+/**
+ * Builds a single-group CSS file for dist/css/{tokenName}.css.
+ * Same structure as the combined file but scoped to one token group.
+ *
+ * @param cssName - Kebab-case token group name
+ * @param variants - Default variant → value map
+ * @param darkVariants - Dark override variant → value map
+ * @returns CSS file content as a string
+ */
+function buildIndividualCss(
+  cssName: string,
+  variants: Record<string, string>,
+  darkVariants: Record<string, string>
+): string {
+  const { semanticLines, lightPrimitives, darkPrimitives, darkMediaBody } =
+    generateTokenGroupCss(cssName, variants, darkVariants)
+
+  const lines: string[] = []
+  lines.push(':root {')
+  lines.push(...semanticLines)
+
+  if (lightPrimitives.length > 0) {
+    lines.push('')
+    lines.push('\t/* Light mode primitives */')
+    lines.push(...lightPrimitives)
+  }
+
+  if (darkPrimitives.length > 0) {
+    lines.push('')
+    lines.push('\t/* Dark mode primitives */')
+    lines.push(...darkPrimitives)
+  }
+
+  lines.push('}')
+
+  if (darkMediaBody.length > 0) {
+    lines.push('')
+    lines.push('@media (prefers-color-scheme: dark) {')
+    lines.push('\t:root {')
+    lines.push(...darkMediaBody)
+    lines.push('\t}')
+    lines.push('}')
+  }
+
+  return lines.join('\n')
+}
+
+/**
+ * Main execution: reads source files, validates, generates CSS, writes output.
  */
 function main() {
   const tokensPath = path.join(__dirname, '..', 'src', 'tokens.json')
@@ -102,7 +322,7 @@ function main() {
   const tokens: Tokens = JSON.parse(fs.readFileSync(tokensPath, 'utf-8'))
   const errors: Errors = JSON.parse(fs.readFileSync(errorsPath, 'utf-8'))
 
-  // Read dark tokens if they exist
+  // Read and validate dark tokens
   let darkTokens: DarkTokens = {}
   if (fs.existsSync(darkTokensPath)) {
     darkTokens = JSON.parse(fs.readFileSync(darkTokensPath, 'utf-8'))
@@ -110,113 +330,26 @@ function main() {
     console.log('✓ Dark tokens validated')
   }
 
-  // Build CSS
-  const cssLines: string[] = []
-  const darkPrimitives: string[] = []
-  const darkMediaBody: string[] = []
-
-  cssLines.push(':root {')
-  cssLines.push('\tcolor-scheme: light dark;')
-  cssLines.push('')
-
-  const tokenNames = Object.keys(tokens)
-
-  for (let i = 0; i < tokenNames.length; i++) {
-    const tokenName = tokenNames[i]
-    const token = tokens[tokenName]
-    const darkVariants = darkTokens[tokenName] || {}
-
-    for (const [variantName, value] of Object.entries(token.items)) {
-      const cssVar = getCssConstant("core", token.name, variantName)
-      cssLines.push(`\t${cssVar.key}: ${value};`)
-
-      // If dark override exists, add primitive and media query entry
-      if (darkVariants[variantName]) {
-        const darkCssVar = getCssConstant("core", token.name, `${variantName}--dark`)
-        darkPrimitives.push(`\t${darkCssVar.key}: ${darkVariants[variantName]};`)
-        darkMediaBody.push(`\t\t${cssVar.key}: var(${darkCssVar.key});`)
-      }
-    }
-
-    if (i < tokenNames.length - 1) {
-      cssLines.push('')
-    }
-  }
-
-  // Add dark primitives
-  if (darkPrimitives.length > 0) {
-    cssLines.push('')
-    cssLines.push('\t/* Dark mode primitives */')
-    cssLines.push(...darkPrimitives)
-  }
-
-  cssLines.push('}')
-
-  // Add dark mode media query
-  if (darkMediaBody.length > 0) {
-    cssLines.push('')
-    cssLines.push('@media (prefers-color-scheme: dark) {')
-    cssLines.push('\t:root {')
-    cssLines.push(...darkMediaBody)
-    cssLines.push('\t}')
-    cssLines.push('}')
-    cssLines.push('')
-    cssLines.push('[data-theme="light"] { color-scheme: light; }')
-    cssLines.push('[data-theme="dark"] { color-scheme: dark; }')
-  }
-
-  // Write output
+  // Ensure output directories exist
   const distDir = path.join(__dirname, '..', 'dist')
   if (!fs.existsSync(distDir)) {
     fs.mkdirSync(distDir, { recursive: true })
   }
-
-  fs.writeFileSync(cssPath, cssLines.join('\n'), 'utf-8')
-  console.log(`✓ Generated: ${cssPath}`)
-
-  // Generate individual token CSS files
   if (!fs.existsSync(cssDir)) {
     fs.mkdirSync(cssDir, { recursive: true })
   }
 
+  // Generate combined variables.css
+  fs.writeFileSync(cssPath, buildCombinedCss(tokens, darkTokens), 'utf-8')
+  console.log(`✓ Generated: ${cssPath}`)
+
+  // Generate individual per-token CSS files
+  const tokenNames = Object.keys(tokens)
   for (const tokenName of tokenNames) {
-    const token = tokens[tokenName]
+    const cssName = camelToKebab(tokenName)
     const darkVariants = darkTokens[tokenName] || {}
-    const lines: string[] = []
-    const primitives: string[] = []
-    const mediaBody: string[] = []
-
-    lines.push(':root {')
-
-    for (const [variantName, value] of Object.entries(token.items)) {
-      const cssVar = getCssConstant("core", token.name, variantName)
-      lines.push(`\t${cssVar.key}: ${value};`)
-
-      if (darkVariants[variantName]) {
-        const darkCssVar = getCssConstant("core", token.name, `${variantName}--dark`)
-        primitives.push(`\t${darkCssVar.key}: ${darkVariants[variantName]};`)
-        mediaBody.push(`\t\t${cssVar.key}: var(${darkCssVar.key});`)
-      }
-    }
-
-    if (primitives.length > 0) {
-      lines.push('')
-      lines.push('\t/* Dark mode primitives */')
-      lines.push(...primitives)
-    }
-
-    lines.push('}')
-
-    if (mediaBody.length > 0) {
-      lines.push('')
-      lines.push('@media (prefers-color-scheme: dark) {')
-      lines.push('\t:root {')
-      lines.push(...mediaBody)
-      lines.push('\t}')
-      lines.push('}')
-    }
-
-    fs.writeFileSync(path.join(cssDir, `${tokenName}.css`), lines.join('\n'), 'utf-8')
+    const css = buildIndividualCss(cssName, tokens[tokenName], darkVariants)
+    fs.writeFileSync(path.join(cssDir, `${tokenName}.css`), css, 'utf-8')
   }
 
   console.log(`✓ Generated: ${tokenNames.length} files in ${cssDir}`)

@@ -1,4 +1,4 @@
-import { getCssConstant } from './getCssConstant.js'
+import { getConstant } from './getCssConstant.js'
 import { camelToKebab } from './camelToKebab.js'
 import { formatError } from '../helpers/formatError.js'
 
@@ -15,21 +15,6 @@ export type TokenDefinition = Record<string, string | number>
  * Values are variant → value mappings
  */
 export type TokenMap = Record<string, TokenDefinition>
-
-/**
- * Legacy token definition with explicit name/items (used by core tokens.json)
- */
-interface LegacyTokenDefinition {
-  name: string
-  items: Record<string, string | number>
-}
-
-/**
- * Check if a token definition uses the legacy name/items format
- */
-function isLegacyFormat(def: unknown): def is LegacyTokenDefinition {
-  return typeof def === 'object' && def !== null && 'name' in def && 'items' in def
-}
 
 /**
  * Result object returned by getTokenFromMap
@@ -54,19 +39,10 @@ export interface TokenResult {
 /**
  * Get a design token from a token map with CSS variable name and raw value.
  *
- * Supports two token map formats:
- *
- * **Flat format** (recommended for component tokens):
  * ```ts
  * { strokeWidth: { small: "1px", base: "1.5px" } }
  * ```
  * CSS name derived from key via camelToKebab: strokeWidth → stroke-width
- *
- * **Legacy format** (used by core tokens.json):
- * ```ts
- * { strokeWidth: { name: "stroke-width", items: { small: "1px", base: "1.5px" } } }
- * ```
- * CSS name from explicit `name` property
  *
  * **Mode parameter** (for theme variants):
  * When mode is specified (e.g., "dark"), the CSS variable includes the mode suffix:
@@ -76,7 +52,7 @@ export interface TokenResult {
  * ```
  *
  * @param prefix - Component prefix for CSS variable (e.g., "core", "icon", "button")
- * @param tokenMap - Token definitions in flat or legacy format
+ * @param tokenMap - Token definitions mapping variant keys to values
  * @param tokenName - camelCase token key (e.g., "fontSize", "strokeWidth")
  * @param variant - Variant within token (defaults to "base")
  * @param mode - Optional theme mode (e.g., "dark"). Appends --{mode} to CSS variable.
@@ -85,7 +61,7 @@ export interface TokenResult {
  */
 export function getTokenFromMap(
   prefix: string,
-  tokenMap: TokenMap | Record<string, LegacyTokenDefinition>,
+  tokenMap: TokenMap,
   tokenName: string,
   variant?: string,
   mode?: string
@@ -102,36 +78,21 @@ export function getTokenFromMap(
   }
 
   const variantKey = variant ?? 'base'
-
-  // Handle both legacy (name/items) and flat formats
-  let cssName: string
-  let value: string | number | undefined
-
-  if (isLegacyFormat(definition)) {
-    cssName = definition.name
-    value = definition.items[variantKey]
-  } else {
-    cssName = camelToKebab(tokenName)
-    value = definition[variantKey]
-  }
+  const cssName = camelToKebab(tokenName)
+  const value = definition[variantKey]
 
   if (value === undefined) {
-    const availableVariants = isLegacyFormat(definition)
-      ? Object.keys(definition.items)
-      : Object.keys(definition)
     throw new Error(
       formatError("variantNotFound", {
         variantName: variantKey,
         tokenName,
         prefix,
-        available: availableVariants.join(", ")
+        available: Object.keys(definition).join(", ")
       })
     )
   }
 
-  // Build CSS variable key, optionally with mode suffix
-  const cssVariantKey = mode ? `${variantKey}--${mode}` : variantKey
-  const cssConstant = getCssConstant(prefix, cssName, cssVariantKey)
+  const cssConstant = getConstant(prefix, cssName, variantKey, mode)
 
   return {
     key: cssConstant.key,
