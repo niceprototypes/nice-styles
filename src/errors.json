@@ -1,0 +1,8 @@
+{
+  "breakpointNotFound": "Breakpoint \"{name}\" not found. Available breakpoints: {available}",
+  "tokenNotFound": "Token \"{tokenName}\" not found in {prefix} tokens. Available tokens: {available}",
+  "variantNotFound": "Variant \"{variantName}\" not found for token \"{tokenName}\" in {prefix} tokens. Available variants: {available}",
+  "modeNotFound": "Mode \"{mode}\" not found for token \"{tokenName}.{variantName}\". This token has no \"{mode}\" override defined.",
+  "darkTokenGroupNotFound": "Build error: Dark mode defines \"{tokenName}\" but it doesn't exist in default tokens. Available token groups: {available}",
+  "darkTokenVariantNotFound": "Build error: Dark mode defines \"{tokenName}.{variantName}\" but it doesn't exist in default tokens. Available variants for {tokenName}: {available}"
+}

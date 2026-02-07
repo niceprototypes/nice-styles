@@ -11,29 +11,34 @@ import { getTokenFromMap, type TokenResult } from './getTokenFromMap.js'
  *
  * @param group - Token group name (e.g., "fontSize", "foregroundColor")
  * @param item - Optional item name within the group (defaults to "base")
+ * @param mode - Optional theme mode (e.g., "dark"). Returns mode-specific CSS variable.
  * @returns Object containing key, var, and value properties
  * @throws Error if token group or item not found
  *
  * @example
- * // Get CSS variable name
- * getToken("fontSize").key // "--core--font-size--base"
- * getToken("fontSize", "large").key // "--core--font-size--large"
+ * // Get semantic token (auto-switches with theme)
+ * getToken("foregroundColor", "base").var
+ * // → "var(--core--foreground-color--base)"
  *
  * @example
- * // Get CSS variable with var() wrapper
- * getToken("fontSize").var // "var(--core--font-size--base)"
- * getToken("fontSize", "large").var // "var(--core--font-size--large)"
+ * // Get explicit dark mode token
+ * getToken("foregroundColor", "base", "dark").var
+ * // → "var(--core--foreground-color--base--dark)"
  *
  * @example
- * // Get raw token value
- * getToken("fontSize").value // "16px"
- * getToken("fontSize", "large").value // "24px"
+ * // Use in styled-components for always-dark section
+ * const DarkCard = styled.div`
+ *   background: ${getToken("backgroundColor", "base", "dark").var};
+ *   color: ${getToken("foregroundColor", "base", "dark").var};
+ * `
  */
 export function getToken(group: keyof typeof tokens): TokenResult
 export function getToken(group: keyof typeof tokens, item: string): TokenResult
+export function getToken(group: keyof typeof tokens, item: string, mode: string): TokenResult
 export function getToken(
   group: keyof typeof tokens,
-  item?: string
+  item?: string,
+  mode?: string
 ): TokenResult {
-  return getTokenFromMap("core", tokens, group, item)
+  return getTokenFromMap("core", tokens, group, item, mode)
 }

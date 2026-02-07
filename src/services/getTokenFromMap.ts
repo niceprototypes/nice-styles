@@ -1,5 +1,6 @@
 import { getCssConstant } from './getCssConstant.js'
 import { camelToKebab } from './camelToKebab.js'
+import { formatError } from '../helpers/formatError.js'
 
 /**
  * Token definition structure (flat format)
@@ -45,7 +46,7 @@ export interface TokenResult {
   var: string
 
   /**
-   * The raw token value
+   * The raw token value (default theme value)
    */
   value: string
 }
@@ -67,10 +68,18 @@ export interface TokenResult {
  * ```
  * CSS name from explicit `name` property
  *
+ * **Mode parameter** (for theme variants):
+ * When mode is specified (e.g., "dark"), the CSS variable includes the mode suffix:
+ * ```ts
+ * getTokenFromMap("core", tokens, "foregroundColor", "base", "dark")
+ * // → { key: "--core--foreground-color--base--dark", ... }
+ * ```
+ *
  * @param prefix - Component prefix for CSS variable (e.g., "core", "icon", "button")
  * @param tokenMap - Token definitions in flat or legacy format
  * @param tokenName - camelCase token key (e.g., "fontSize", "strokeWidth")
  * @param variant - Variant within token (defaults to "base")
+ * @param mode - Optional theme mode (e.g., "dark"). Appends --{mode} to CSS variable.
  * @returns { key, var, value } - CSS variable name, var() wrapped, raw value
  * @throws Error if token or variant not found
  */
@@ -78,13 +87,17 @@ export function getTokenFromMap(
   prefix: string,
   tokenMap: TokenMap | Record<string, LegacyTokenDefinition>,
   tokenName: string,
-  variant?: string
+  variant?: string,
+  mode?: string
 ): TokenResult {
   const definition = tokenMap[tokenName]
   if (!definition) {
     throw new Error(
-      `Token "${tokenName}" not found in ${prefix} tokens. ` +
-      `Available tokens: ${Object.keys(tokenMap).join(", ")}`
+      formatError("tokenNotFound", {
+        tokenName,
+        prefix,
+        available: Object.keys(tokenMap).join(", ")
+      })
     )
   }
 
@@ -107,12 +120,18 @@ export function getTokenFromMap(
       ? Object.keys(definition.items)
       : Object.keys(definition)
     throw new Error(
-      `Variant "${variantKey}" not found for token "${tokenName}" in ${prefix} tokens. ` +
-      `Available variants: ${availableVariants.join(", ")}`
+      formatError("variantNotFound", {
+        variantName: variantKey,
+        tokenName,
+        prefix,
+        available: availableVariants.join(", ")
+      })
     )
   }
 
-  const cssConstant = getCssConstant(prefix, cssName, variantKey)
+  // Build CSS variable key, optionally with mode suffix
+  const cssVariantKey = mode ? `${variantKey}--${mode}` : variantKey
+  const cssConstant = getCssConstant(prefix, cssName, cssVariantKey)
 
   return {
     key: cssConstant.key,

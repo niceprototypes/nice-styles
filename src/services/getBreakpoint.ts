@@ -1,3 +1,5 @@
+import { formatError } from '../helpers/formatError.js'
+
 /**
  * Breakpoint values in pixels
  */
@@ -128,7 +130,9 @@ export function getBreakpoint(name: BreakpointName, exact?: boolean): Breakpoint
   }
 
   throw new Error(
-    `Breakpoint "${name}" not found. ` +
-    `Available breakpoints: mobile, tablet, desktop`
+    formatError("breakpointNotFound", {
+      name,
+      available: "mobile, tablet, desktop"
+    })
   )
 }
