@@ -25,7 +25,6 @@
     },
     "./css": "./index.css",
     "./variables.css": "./dist/variables.css",
-    "./deprecated.css": "./dist/deprecated.css",
     "./css/*.css": "./dist/css/*.css",
     "./static/*": "./static/*",
     "./package.json": "./package.json"
@@ -34,15 +33,13 @@
     "dist",
     "static",
     "index.css",
-    "variables.css",
-    "deprecated.css"
+    "variables.css"
   ],
   "scripts": {
-    "build": "npm run build:types && npm run build:tokens && npm run build:css && npm run build:deprecated && npm run build:ts && npm run build:post",
+    "build": "npm run build:types && npm run build:tokens && npm run build:css && npm run build:ts && npm run build:post",
     "build:types": "node --loader ts-node/esm scripts/generateTypes.ts",
     "build:tokens": "node --loader ts-node/esm scripts/generateTokens.ts",
     "build:css": "node --loader ts-node/esm scripts/generateCss.ts",
-    "build:deprecated": "node --loader ts-node/esm scripts/generateCssDeprecated.ts",
     "build:ts": "tsc",
     "build:post": "node --loader ts-node/esm scripts/postBuild.ts",
     "dev": "tsc --watch & node --loader ts-node/esm scripts/generateCss.ts --watch",

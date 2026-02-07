@@ -1,19 +1,34 @@
 import { getCssConstant } from './getCssConstant.js'
+import { camelToKebab } from './camelToKebab.js'
 
 /**
- * Token definition structure
- * Each token has a CSS name and a map of variant keys to values
+ * Token definition structure (flat format)
+ * Direct mapping of variant keys to values
+ * CSS name is derived from the token map key via camelToKebab
  */
-export interface TokenDefinition {
+export type TokenDefinition = Record<string, string | number>
+
+/**
+ * Token map structure
+ * Keys are camelCase token names (converted to kebab-case for CSS)
+ * Values are variant → value mappings
+ */
+export type TokenMap = Record<string, TokenDefinition>
+
+/**
+ * Legacy token definition with explicit name/items (used by core tokens.json)
+ */
+interface LegacyTokenDefinition {
   name: string
   items: Record<string, string | number>
 }
 
 /**
- * Token map structure
- * Keys are camelCase token names, values are TokenDefinition objects
+ * Check if a token definition uses the legacy name/items format
  */
-export type TokenMap = Record<string, TokenDefinition>
+function isLegacyFormat(def: unknown): def is LegacyTokenDefinition {
+  return typeof def === 'object' && def !== null && 'name' in def && 'items' in def
+}
 
 /**
  * Result object returned by getTokenFromMap
@@ -38,34 +53,30 @@ export interface TokenResult {
 /**
  * Get a design token from a token map with CSS variable name and raw value.
  *
- * This is a low-level helper that accepts any prefix and token map,
- * enabling reuse across core tokens and component-level tokens.
+ * Supports two token map formats:
  *
- * Returns an object with three properties:
- * - `key`: CSS variable name without var() wrapper (e.g., "--icon--stroke-width--base")
- * - `var`: CSS variable with var() wrapper (e.g., "var(--icon--stroke-width--base)")
- * - `value`: Raw token value (e.g., "1.5px")
+ * **Flat format** (recommended for component tokens):
+ * ```ts
+ * { strokeWidth: { small: "1px", base: "1.5px" } }
+ * ```
+ * CSS name derived from key via camelToKebab: strokeWidth → stroke-width
  *
- * @param prefix - Package/component prefix (e.g., "core", "icon", "button")
- * @param tokenMap - Object mapping token names to their definitions
- * @param tokenName - The camelCase token name (e.g., "fontSize", "strokeWidth")
- * @param variant - Optional variant name within the token (defaults to "base")
- * @returns Object containing key, var, and value properties
+ * **Legacy format** (used by core tokens.json):
+ * ```ts
+ * { strokeWidth: { name: "stroke-width", items: { small: "1px", base: "1.5px" } } }
+ * ```
+ * CSS name from explicit `name` property
+ *
+ * @param prefix - Component prefix for CSS variable (e.g., "core", "icon", "button")
+ * @param tokenMap - Token definitions in flat or legacy format
+ * @param tokenName - camelCase token key (e.g., "fontSize", "strokeWidth")
+ * @param variant - Variant within token (defaults to "base")
+ * @returns { key, var, value } - CSS variable name, var() wrapped, raw value
  * @throws Error if token or variant not found
- *
- * @example
- * // Core tokens
- * getTokenFromMap("core", coreTokens, "fontSize", "large")
- * // { key: "--core--font-size--large", var: "var(--core--font-size--large)", value: "24px" }
- *
- * @example
- * // Component tokens
- * getTokenFromMap("icon", iconTokens, "strokeWidth", "small")
- * // { key: "--icon--stroke-width--small", var: "var(--icon--stroke-width--small)", value: "1px" }
  */
 export function getTokenFromMap(
   prefix: string,
-  tokenMap: TokenMap,
+  tokenMap: TokenMap | Record<string, LegacyTokenDefinition>,
   tokenName: string,
   variant?: string
 ): TokenResult {
@@ -78,16 +89,30 @@ export function getTokenFromMap(
   }
 
   const variantKey = variant ?? 'base'
-  const value = definition.items[variantKey]
+
+  // Handle both legacy (name/items) and flat formats
+  let cssName: string
+  let value: string | number | undefined
+
+  if (isLegacyFormat(definition)) {
+    cssName = definition.name
+    value = definition.items[variantKey]
+  } else {
+    cssName = camelToKebab(tokenName)
+    value = definition[variantKey]
+  }
 
   if (value === undefined) {
+    const availableVariants = isLegacyFormat(definition)
+      ? Object.keys(definition.items)
+      : Object.keys(definition)
     throw new Error(
       `Variant "${variantKey}" not found for token "${tokenName}" in ${prefix} tokens. ` +
-      `Available variants: ${Object.keys(definition.items).join(", ")}`
+      `Available variants: ${availableVariants.join(", ")}`
     )
   }
 
-  const cssConstant = getCssConstant(prefix, definition.name, variantKey)
+  const cssConstant = getCssConstant(prefix, cssName, variantKey)
 
   return {
     key: cssConstant.key,
