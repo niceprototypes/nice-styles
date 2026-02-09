@@ -18,23 +18,23 @@
  * For each token, the generator produces:
  *
  * 1. **Semantic variables** — the default values, used by components:
- *    `--core--background-color--base: hsla(0, 100%, 100%, 1);`
+ *    `--np--background-color--base: hsla(0, 100%, 100%, 1);`
  *
  * 2. **Light primitives** — stable references to light values, never reassigned by media queries.
  *    Only generated for tokens that have a dark override:
- *    `--core--background-color--base--light: hsla(0, 100%, 100%, 1);`
+ *    `--np--background-color--base--light: hsla(0, 100%, 100%, 1);`
  *
  * 3. **Dark primitives** — stable references to dark values, never reassigned by media queries:
- *    `--core--background-color--base--dark: hsla(0, 0%, 27%, 1);`
+ *    `--np--background-color--base--dark: hsla(0, 0%, 27%, 1);`
  *
  * 4. **Dark media query** — reassigns semantic variables to dark primitives when OS is dark:
- *    `@media (prefers-color-scheme: dark) { :root { --core--background-color--base: var(--core--background-color--base--dark); } }`
+ *    `@media (prefers-color-scheme: dark) { :root { --np--background-color--base: var(--np--background-color--base--dark); } }`
  *
  * ## Usage in components
  *
- * - Semantic (auto-switches): `getToken("backgroundColor").var` → `var(--core--background-color--base)`
- * - Force light: `getToken("backgroundColor", "base", "light").var` → `var(--core--background-color--base--light)`
- * - Force dark: `getToken("backgroundColor", "base", "dark").var` → `var(--core--background-color--base--dark)`
+ * - Semantic (auto-switches): `getToken("backgroundColor").var` → `var(--np--background-color--base)`
+ * - Force light: `getToken("backgroundColor", "base", "light").var` → `var(--np--background-color--base--light)`
+ * - Force dark: `getToken("backgroundColor", "base", "dark").var` → `var(--np--background-color--base--dark)`
  *
  * ## Validation
  * - Every token group and variant in tokens.dark.json must exist in tokens.json (build error if not)
@@ -125,11 +125,11 @@ function validateDarkTokens(
  * Generates CSS lines for a single token group, including mode primitives.
  *
  * For each variant in the token group:
- * - Always emits the semantic variable: `--core--{cssName}--{variant}: {value};`
+ * - Always emits the semantic variable: `--np--{cssName}--{variant}: {value};`
  * - If a dark override exists, also emits:
- *   - Light primitive: `--core--{cssName}--{variant}--light: {value};`
- *   - Dark primitive: `--core--{cssName}--{variant}--dark: {darkValue};`
- *   - Media query reassignment: `--core--{cssName}--{variant}: var(--core--{cssName}--{variant}--dark);`
+ *   - Light primitive: `--np--{cssName}--{variant}--light: {value};`
+ *   - Dark primitive: `--np--{cssName}--{variant}--dark: {darkValue};`
+ *   - Media query reassignment: `--np--{cssName}--{variant}: var(--np--{cssName}--{variant}--dark);`
  *
  * @param cssName - Kebab-case token group name (e.g., "background-color")
  * @param variants - Default variant → value map
@@ -153,16 +153,16 @@ function generateTokenGroupCss(
 
   for (const [variantName, value] of Object.entries(variants)) {
     // Semantic variable — the one components reference, reassigned by media query in dark mode
-    const cssVar = getConstant("core", cssName, variantName)
+    const cssVar = getConstant(cssName, variantName)
     semanticLines.push(`\t${cssVar.key}: ${value};`)
 
     if (darkVariants[variantName]) {
       // Light primitive — always resolves to the light value, never reassigned
-      const lightCssVar = getConstant("core", cssName, variantName, "light")
+      const lightCssVar = getConstant(cssName, variantName, { mode: "light" })
       lightPrimitives.push(`\t${lightCssVar.key}: ${value};`)
 
       // Dark primitive — always resolves to the dark value, never reassigned
-      const darkCssVar = getConstant("core", cssName, variantName, "dark")
+      const darkCssVar = getConstant(cssName, variantName, { mode: "dark" })
       darkPrimitives.push(`\t${darkCssVar.key}: ${darkVariants[variantName]};`)
 
       // Media query entry — reassigns the semantic variable to the dark primitive
@@ -180,13 +180,13 @@ function generateTokenGroupCss(
  * ```css
  * :root {
  *   color-scheme: light dark;
- *   --core--{group}--{variant}: {value};        // semantic variables
- *   --core--{group}--{variant}--light: {value};  // light primitives
- *   --core--{group}--{variant}--dark: {value};   // dark primitives
+ *   --np--{group}--{variant}: {value};        // semantic variables
+ *   --np--{group}--{variant}--light: {value};  // light primitives
+ *   --np--{group}--{variant}--dark: {value};   // dark primitives
  * }
  * @media (prefers-color-scheme: dark) {
  *   :root {
- *     --core--{group}--{variant}: var(--core--{group}--{variant}--dark);
+ *     --np--{group}--{variant}: var(--np--{group}--{variant}--dark);
  *   }
  * }
  * [data-theme="light"] { color-scheme: light; }

@@ -37,6 +37,16 @@ export interface TokenResult {
 }
 
 /**
+ * Options for getTokenFromMap
+ */
+export interface TokenFromMapOptions {
+  /** Theme mode (e.g., "dark"). Appends --{mode} to CSS variable. */
+  mode?: string
+  /** Component prefix (e.g., "button", "icon"). Omit for base tokens. */
+  prefix?: string
+}
+
+/**
  * Get a design token from a token map with CSS variable name and raw value.
  *
  * ```ts
@@ -44,34 +54,33 @@ export interface TokenResult {
  * ```
  * CSS name derived from key via camelToKebab: strokeWidth → stroke-width
  *
- * **Mode parameter** (for theme variants):
+ * **Mode option** (for theme variants):
  * When mode is specified (e.g., "dark"), the CSS variable includes the mode suffix:
  * ```ts
- * getTokenFromMap("core", tokens, "foregroundColor", "base", "dark")
- * // → { key: "--core--foreground-color--base--dark", ... }
+ * getTokenFromMap(tokens, "foregroundColor", "base", { mode: "dark" })
+ * // → { key: "--np--foreground-color--base--dark", ... }
  * ```
  *
- * @param prefix - Component prefix for CSS variable (e.g., "core", "icon", "button")
  * @param tokenMap - Token definitions mapping variant keys to values
  * @param tokenName - camelCase token key (e.g., "fontSize", "strokeWidth")
  * @param variant - Variant within token (defaults to "base")
- * @param mode - Optional theme mode (e.g., "dark"). Appends --{mode} to CSS variable.
+ * @param options - Optional mode and prefix
  * @returns { key, var, value } - CSS variable name, var() wrapped, raw value
  * @throws Error if token or variant not found
  */
 export function getTokenFromMap(
-  prefix: string,
   tokenMap: TokenMap,
   tokenName: string,
   variant?: string,
-  mode?: string
+  options?: TokenFromMapOptions
 ): TokenResult {
+  const { mode, prefix } = options ?? {}
   const definition = tokenMap[tokenName]
   if (!definition) {
     throw new Error(
       formatError("tokenNotFound", {
         tokenName,
-        prefix,
+        prefix: prefix ?? "",
         available: Object.keys(tokenMap).join(", ")
       })
     )
@@ -86,13 +95,13 @@ export function getTokenFromMap(
       formatError("variantNotFound", {
         variantName: variantKey,
         tokenName,
-        prefix,
+        prefix: prefix ?? "",
         available: Object.keys(definition).join(", ")
       })
     )
   }
 
-  const cssConstant = getConstant(prefix, cssName, variantKey, mode)
+  const cssConstant = getConstant(cssName, variantKey, { mode, pkg: prefix })
 
   return {
     key: cssConstant.key,

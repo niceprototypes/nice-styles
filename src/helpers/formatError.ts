@@ -10,8 +10,8 @@ type ErrorKey = keyof typeof errors
  * @returns Formatted error message
  *
  * @example
- * formatError("tokenNotFound", { tokenName: "foo", prefix: "core", available: "a, b, c" })
- * // → 'Token "foo" not found in core tokens. Available tokens: a, b, c'
+ * formatError("tokenNotFound", { tokenName: "foo", prefix: "button", available: "a, b, c" })
+ * // → 'Token "foo" not found in button tokens. Available tokens: a, b, c'
  */
 export function formatError(key: ErrorKey, values: Record<string, string>): string {
   let message = errors[key]

@@ -5,8 +5,8 @@ import { getTokenFromMap, type TokenResult } from './getTokenFromMap.js'
  * Get design token with CSS variable name and raw value
  *
  * Returns an object with three properties:
- * - `key`: CSS variable name without var() wrapper (e.g., "--core--font-size--base")
- * - `var`: CSS variable with var() wrapper (e.g., "var(--core--font-size--base)")
+ * - `key`: CSS variable name without var() wrapper (e.g., "--np--font-size--base")
+ * - `var`: CSS variable with var() wrapper (e.g., "var(--np--font-size--base)")
  * - `value`: Raw token value (e.g., "16px")
  *
  * @param group - Token group name (e.g., "fontSize", "foregroundColor")
@@ -18,12 +18,12 @@ import { getTokenFromMap, type TokenResult } from './getTokenFromMap.js'
  * @example
  * // Get semantic token (auto-switches with theme)
  * getToken("foregroundColor", "base").var
- * // → "var(--core--foreground-color--base)"
+ * // → "var(--np--foreground-color--base)"
  *
  * @example
  * // Get explicit dark mode token
  * getToken("foregroundColor", "base", "dark").var
- * // → "var(--core--foreground-color--base--dark)"
+ * // → "var(--np--foreground-color--base--dark)"
  *
  * @example
  * // Use in styled-components for always-dark section
@@ -40,5 +40,5 @@ export function getToken(
   item?: string,
   mode?: string
 ): TokenResult {
-  return getTokenFromMap("core", tokens, group, item, mode)
+  return getTokenFromMap(tokens, group, item, { mode })
 }
