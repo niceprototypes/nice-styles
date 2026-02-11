@@ -21,3 +21,5 @@ export type FontWeightType = "light" | "base" | "medium" | "semibold" | "bold" |
 export type GapType = "none" | "smaller" | "small" | "base" | "large" | "larger"
 export type LetterSpacingType = "tight" | "base" | "wide" | "wider"
 export type LineHeightType = "condensed" | "base" | "expanded"
+
+export type ComponentPrefix = "button" | "icon" | "tile" | "typography"

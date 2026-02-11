@@ -1,0 +1,32 @@
+{
+  "size": {
+    "smaller": "var(--np--font-size--smaller)",
+    "small": "var(--np--font-size--small)",
+    "base": "var(--np--font-size--base)",
+    "large": "var(--np--font-size--large)",
+    "larger": "var(--np--font-size--larger)"
+  },
+  "color": {
+    "lighter": "var(--np--foreground-color--lighter)",
+    "light": "var(--np--foreground-color--light)",
+    "medium": "var(--np--foreground-color--medium)",
+    "heavy": "var(--np--foreground-color--heavy)",
+    "base": "var(--np--foreground-color--base)",
+    "disabled": "var(--np--foreground-color--disabled)",
+    "link": "var(--np--foreground-color--link)",
+    "success": "var(--np--foreground-color--success)",
+    "warning": "var(--np--foreground-color--warning)",
+    "error": "var(--np--foreground-color--error)"
+  },
+  "strokeWidth": {
+    "small": "var(--np--border-width--base)",
+    "base": "var(--np--border-width--base)",
+    "large": "var(--np--border-width--large)"
+  },
+  "spinningAnimationDuration": {
+    "base": "var(--np--animation-duration--base)"
+  },
+  "viewBox": {
+    "base": "0 0 16 16"
+  }
+}

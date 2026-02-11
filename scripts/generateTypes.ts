@@ -1,21 +1,22 @@
 /**
  * TypeScript Type Generator
  *
- * Generates TypeScript type definitions from tokens.json
+ * Generates TypeScript type definitions from token JSON files
  *
  * ## Purpose
  * Creates union types for all token groups (e.g., FontSizeType, ForegroundColorType)
- * that can be used in TypeScript applications for type-safe token access.
+ * and a ComponentPrefix union type from component token folder names.
  *
  * ## Input
- * - src/tokens.json: Central token definitions
+ * - src/tokens/core/default/index.json: Core token definitions
+ * - src/tokens/component/{name}/index.json: Component token definitions
  *
  * ## Output
  * - src/types.ts: TypeScript type definitions (compiled to dist by TypeScript)
  *
  * ## Example Output
  * export type FontSizeType = "smaller" | "small" | "base" | "large" | "larger"
- * export type ForegroundColorType = "lighter" | "light" | "medium" | "heavy" | "base" | "disabled" | "link" | "success" | "warning" | "error"
+ * export type ComponentPrefix = "button" | "icon" | "tile" | "typography"
  */
 
 import * as fs from 'fs'
@@ -37,10 +38,11 @@ function camelToPascal(str: string): string {
  * Main execution function
  */
 function main() {
-  const tokensPath = path.join(__dirname, '..', 'src', 'tokens.json')
+  const tokensPath = path.join(__dirname, '..', 'src', 'tokens', 'core', 'default', 'index.json')
+  const componentDir = path.join(__dirname, '..', 'src', 'tokens', 'component')
   const outputPath = path.join(__dirname, '..', 'src', 'types.ts')
 
-  // Read tokens.json
+  // Read core tokens
   const tokensContent = fs.readFileSync(tokensPath, 'utf-8')
   const tokens = JSON.parse(tokensContent)
 
@@ -55,7 +57,7 @@ function main() {
   lines.push(' */')
   lines.push('')
 
-  // Generate a type for each token group
+  // Generate a type for each core token group
   for (const tokenName of Object.keys(tokens)) {
     const token = tokens[tokenName]
     const items = Object.keys(token)
@@ -69,10 +71,37 @@ function main() {
 
   lines.push('')
 
+  // Generate ComponentPrefix type from component folder names
+  const prefixes: string[] = []
+  if (fs.existsSync(componentDir)) {
+    const names = fs.readdirSync(componentDir)
+    for (let i = 0; i < names.length; i++) {
+      const name = names[i]
+      const dirPath = path.join(componentDir, name)
+      const stat = fs.statSync(dirPath)
+      if (stat.isDirectory()) {
+        const jsonPath = path.join(dirPath, 'index.json')
+        if (fs.existsSync(jsonPath)) {
+          prefixes.push(name)
+        }
+      }
+    }
+  }
+
+  if (prefixes.length > 0) {
+    const unionType = prefixes.map(p => `"${p}"`).join(' | ')
+    lines.push(`export type ComponentPrefix = ${unionType}`)
+  }
+
+  lines.push('')
+
   // Write the file
   fs.writeFileSync(outputPath, lines.join('\n'), 'utf-8')
   console.log(`✓ Generated TypeScript types: ${outputPath}`)
-  console.log(`✓ Generated ${Object.keys(tokens).length} type definitions`)
+  console.log(`✓ Generated ${Object.keys(tokens).length} core type definitions`)
+  if (prefixes.length > 0) {
+    console.log(`✓ Generated ComponentPrefix: ${prefixes.join(', ')}`)
+  }
 }
 
 // Run the main function

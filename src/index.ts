@@ -54,6 +54,7 @@ export type {
   GapType,
   LetterSpacingType,
   LineHeightType,
+  ComponentPrefix,
 } from './types.js'
 
 // Export layout types
