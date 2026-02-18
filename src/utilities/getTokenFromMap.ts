@@ -1,6 +1,6 @@
-import { getConstant } from './getCssConstant.js'
+import { getConstant } from '../services/getConstant.js'
 import { camelToKebab } from './camelToKebab.js'
-import { formatError } from '../helpers/formatError.js'
+import { formatError } from './formatError.js'
 
 /**
  * Token definition structure (flat format)

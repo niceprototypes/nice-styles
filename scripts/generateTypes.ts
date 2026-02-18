@@ -40,7 +40,7 @@ function camelToPascal(str: string): string {
 function main() {
   const tokensPath = path.join(__dirname, '..', 'src', 'tokens', 'core', 'default', 'index.json')
   const componentDir = path.join(__dirname, '..', 'src', 'tokens', 'component')
-  const outputPath = path.join(__dirname, '..', 'src', 'types.ts')
+  const outputPath = path.join(__dirname, '..', 'src', 'generated', 'types.ts')
 
   // Read core tokens
   const tokensContent = fs.readFileSync(tokensPath, 'utf-8')

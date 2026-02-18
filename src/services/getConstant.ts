@@ -1,4 +1,4 @@
-import { camelToKebab } from './camelToKebab.js'
+import { camelToKebab } from '../utilities/camelToKebab.js'
 
 /**
  * Universal namespace prefix for all Nice Prototypes CSS custom properties
@@ -24,7 +24,7 @@ export interface CssConstantResult {
  * Options for getConstant
  */
 export interface CssConstantOptions {
-  /** Theme mode suffix (e.g., "light", "dark"). Appends --{mode} to the key. */
+  /** Theme mode suffix (e.g., "day", "night"). Appends --{mode} to the key. */
   mode?: string
   /** Component prefix (e.g., "button", "icon"). Omit for base tokens. */
   pkg?: string
@@ -50,9 +50,9 @@ export interface CssConstantOptions {
  * // { key: "--np--foreground-color--base", var: "var(--np--foreground-color--base)" }
  *
  * @example
- * // Force light mode
- * getConstant("backgroundColor", "base", { mode: "light" })
- * // { key: "--np--background-color--base--light", var: "var(--np--background-color--base--light)" }
+ * // Force day mode
+ * getConstant("backgroundColor", "base", { mode: "day" })
+ * // { key: "--np--background-color--base--day", var: "var(--np--background-color--base--day)" }
  *
  * @example
  * // Force dark mode

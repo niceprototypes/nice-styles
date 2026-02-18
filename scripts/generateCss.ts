@@ -21,9 +21,9 @@
  * 1. **Semantic variables** — the default values, used by components:
  *    `--np--background-color--base: hsla(0, 100%, 100%, 1);`
  *
- * 2. **Light primitives** — stable references to light values, never reassigned by media queries.
+ * 2. **Day primitives** — stable references to day (default) values, never reassigned by media queries.
  *    Only generated for tokens that have a night override:
- *    `--np--background-color--base--light: hsla(0, 100%, 100%, 1);`
+ *    `--np--background-color--base--day: hsla(0, 100%, 100%, 1);`
  *
  * 3. **Night primitives** — stable references to night values, never reassigned by media queries:
  *    `--np--background-color--base--night: hsla(0, 0%, 27%, 1);`
@@ -37,7 +37,7 @@
  * ## Usage in components
  *
  * - Semantic (auto-switches): `getToken("backgroundColor").var` → `var(--np--background-color--base)`
- * - Force light: `getToken("backgroundColor", "base", "light").var` → `var(--np--background-color--base--light)`
+ * - Force day: `getToken("backgroundColor", "base", "day").var` → `var(--np--background-color--base--day)`
  * - Force night: `getToken("backgroundColor", "base", "night").var` → `var(--np--background-color--base--night)`
  *
  * ## Validation
@@ -50,8 +50,8 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import { getConstant } from '../src/services/getCssConstant.js'
-import { camelToKebab } from '../src/services/camelToKebab.js'
+import { getConstant } from '../src/services/getConstant.js'
+import { camelToKebab } from '../src/utilities/camelToKebab.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -126,7 +126,7 @@ function validateNightTokens(
  * For each variant in the token group:
  * - Always emits the semantic variable: `--np--{cssName}--{variant}: {value};`
  * - If a night override exists, also emits:
- *   - Light primitive: `--np--{cssName}--{variant}--light: {value};`
+ *   - Day primitive: `--np--{cssName}--{variant}--day: {value};`
  *   - Night primitive: `--np--{cssName}--{variant}--night: {nightValue};`
  *   - Media query reassignment: `--np--{cssName}--{variant}: var(--np--{cssName}--{variant}--night);`
  */
@@ -136,12 +136,12 @@ function generateTokenGroupCss(
   nightVariants: Record<string, string>
 ): {
   semanticLines: string[]
-  lightPrimitives: string[]
+  dayPrimitives: string[]
   nightPrimitives: string[]
   nightMediaBody: string[]
 } {
   const semanticLines: string[] = []
-  const lightPrimitives: string[] = []
+  const dayPrimitives: string[] = []
   const nightPrimitives: string[] = []
   const nightMediaBody: string[] = []
 
@@ -151,9 +151,9 @@ function generateTokenGroupCss(
     semanticLines.push(`\t${cssVar.key}: ${value};`)
 
     if (nightVariants[variantName]) {
-      // Light primitive — always resolves to the light value, never reassigned
-      const lightCssVar = getConstant(cssName, variantName, { mode: "light" })
-      lightPrimitives.push(`\t${lightCssVar.key}: ${value};`)
+      // Day primitive — always resolves to the day (default) value, never reassigned
+      const dayCssVar = getConstant(cssName, variantName, { mode: "day" })
+      dayPrimitives.push(`\t${dayCssVar.key}: ${value};`)
 
       // Night primitive — always resolves to the night value, never reassigned
       const nightCssVar = getConstant(cssName, variantName, { mode: "night" })
@@ -164,7 +164,7 @@ function generateTokenGroupCss(
     }
   }
 
-  return { semanticLines, lightPrimitives, nightPrimitives, nightMediaBody }
+  return { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody }
 }
 
 /**
@@ -225,7 +225,7 @@ function generateComponentTokenCss(componentTokens: ComponentTokens): string[] {
  * :root {
  *   color-scheme: light dark;
  *   --np--{group}--{variant}: {value};         // semantic variables
- *   --np--{group}--{variant}--light: {value};   // light primitives
+ *   --np--{group}--{variant}--day: {value};     // day primitives
  *   --np--{group}--{variant}--night: {value};   // night primitives
  *   --np--{prefix}--{token}--{variant}: {value}; // component tokens
  * }
@@ -234,13 +234,13 @@ function generateComponentTokenCss(componentTokens: ComponentTokens): string[] {
  *     --np--{group}--{variant}: var(--np--{group}--{variant}--night);
  *   }
  * }
- * [data-theme="light"] { color-scheme: light; }
+ * [data-theme="day"] { color-scheme: light; }
  * [data-theme="dark"] { color-scheme: dark; }
  * ```
  */
 function buildCombinedCss(tokens: Tokens, nightTokens: NightTokens, componentTokens: ComponentTokens): string {
   const cssLines: string[] = []
-  const allLightPrimitives: string[] = []
+  const allDayPrimitives: string[] = []
   const allNightPrimitives: string[] = []
   const allNightMediaBody: string[] = []
 
@@ -255,11 +255,11 @@ function buildCombinedCss(tokens: Tokens, nightTokens: NightTokens, componentTok
     const cssName = camelToKebab(tokenName)
     const nightVariants = nightTokens[tokenName] || {}
 
-    const { semanticLines, lightPrimitives, nightPrimitives, nightMediaBody } =
+    const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody } =
       generateTokenGroupCss(cssName, tokens[tokenName], nightVariants)
 
     cssLines.push(...semanticLines)
-    allLightPrimitives.push(...lightPrimitives)
+    allDayPrimitives.push(...dayPrimitives)
     allNightPrimitives.push(...nightPrimitives)
     allNightMediaBody.push(...nightMediaBody)
 
@@ -269,11 +269,11 @@ function buildCombinedCss(tokens: Tokens, nightTokens: NightTokens, componentTok
     }
   }
 
-  // Light mode primitives — stable references that are never reassigned
-  if (allLightPrimitives.length > 0) {
+  // Day mode primitives — stable references that are never reassigned
+  if (allDayPrimitives.length > 0) {
     cssLines.push('')
-    cssLines.push('\t/* Light mode primitives */')
-    cssLines.push(...allLightPrimitives)
+    cssLines.push('\t/* Day mode primitives */')
+    cssLines.push(...allDayPrimitives)
   }
 
   // Night mode primitives — stable references that are never reassigned
@@ -301,7 +301,7 @@ function buildCombinedCss(tokens: Tokens, nightTokens: NightTokens, componentTok
     cssLines.push('}')
     cssLines.push('')
     // data-theme attributes allow explicit override of the browser color scheme
-    cssLines.push('[data-theme="light"] { color-scheme: light; }')
+    cssLines.push('[data-theme="day"] { color-scheme: light; }')
     cssLines.push('[data-theme="dark"] { color-scheme: dark; }')
   }
 
@@ -317,17 +317,17 @@ function buildIndividualCss(
   variants: Record<string, string>,
   nightVariants: Record<string, string>
 ): string {
-  const { semanticLines, lightPrimitives, nightPrimitives, nightMediaBody } =
+  const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody } =
     generateTokenGroupCss(cssName, variants, nightVariants)
 
   const lines: string[] = []
   lines.push(':root {')
   lines.push(...semanticLines)
 
-  if (lightPrimitives.length > 0) {
+  if (dayPrimitives.length > 0) {
     lines.push('')
-    lines.push('\t/* Light mode primitives */')
-    lines.push(...lightPrimitives)
+    lines.push('\t/* Day mode primitives */')
+    lines.push(...dayPrimitives)
   }
 
   if (nightPrimitives.length > 0) {

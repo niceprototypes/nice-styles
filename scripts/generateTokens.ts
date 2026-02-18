@@ -56,8 +56,8 @@ function loadComponentTokens(): ComponentTokensJson {
  */
 function main() {
   const tokensJsonPath = path.join(__dirname, '..', 'src', 'tokens', 'core', 'default', 'index.json')
-  const tokensDataPath = path.join(__dirname, '..', 'src', 'tokensData.ts')
-  const componentTokensDataPath = path.join(__dirname, '..', 'src', 'componentTokensData.ts')
+  const tokensDataPath = path.join(__dirname, '..', 'src', 'generated', 'tokensData.ts')
+  const componentTokensDataPath = path.join(__dirname, '..', 'src', 'generated', 'componentTokensData.ts')
 
   // Generate core tokensData.ts
   const tokensJson = fs.readFileSync(tokensJsonPath, 'utf-8')

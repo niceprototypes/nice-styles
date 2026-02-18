@@ -23,8 +23,8 @@ function main() {
   const content = fs.readFileSync(indexDtsPath, 'utf-8')
 
   // Add type re-export if not already present
-  if (!content.includes('export type * from \'./types.js\'')) {
-    const updatedContent = content + '\n// Re-export generated types\nexport type * from \'./types.js\'\n'
+  if (!content.includes('export type * from \'./generated/types.js\'')) {
+    const updatedContent = content + '\n// Re-export generated types\nexport type * from \'./generated/types.js\'\n'
     fs.writeFileSync(indexDtsPath, updatedContent, 'utf-8')
     console.log('✓ Added type re-exports to dist/index.d.ts')
   } else {

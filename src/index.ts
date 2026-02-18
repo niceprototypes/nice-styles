@@ -12,16 +12,16 @@
  * import { FONT_SIZE_BASE, FOREGROUND_COLOR_LINK } from 'nice-styles'
  * ```
  *
- * ### Token Function
- * Dynamic token retrieval with CSS variables and raw values:
+ * ### Core Token Function
+ * Static core token retrieval with CSS variables and raw values:
  * ```ts
- * import { getToken } from 'nice-styles'
- * const fontSize = getToken('fontSize')
- * console.log(fontSize.key)   // "--font-size-base"
- * console.log(fontSize.var)   // "var(--font-size-base)"
+ * import { getCoreToken } from 'nice-styles'
+ * const fontSize = getCoreToken('fontSize')
+ * console.log(fontSize.key)   // "--np--font-size--base"
+ * console.log(fontSize.var)   // "var(--np--font-size--base)"
  * console.log(fontSize.value) // "16px"
  *
- * const large = getToken('fontSize', 'large')
+ * const large = getCoreToken('fontSize', 'large')
  * console.log(large.value) // "24px"
  * ```
  *
@@ -55,7 +55,7 @@ export type {
   LetterSpacingType,
   LineHeightType,
   ComponentPrefix,
-} from './types.js'
+} from './generated/types.js'
 
 // Export layout types
 export type {
@@ -65,6 +65,9 @@ export type {
   SpacingType,
 } from './layoutTypes.js'
 
+// Export mode types
+export type { ModeType } from './modeTypes.js'
+
 // Export the raw tokens data
-import tokensData from './tokensData.js'
+import tokensData from './generated/tokensData.js'
 export const Theme = tokensData

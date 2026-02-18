@@ -5,7 +5,7 @@
  * These types build on top of the auto-generated token types.
  */
 
-import type { GapType } from "./types.js"
+import type { GapType } from "./generated/types.js"
 import type { BreakpointName } from "./services/getBreakpoint.js"
 
 /**

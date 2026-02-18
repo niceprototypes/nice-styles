@@ -1,6 +1,6 @@
-import componentTokensData from '../componentTokensData.js'
-import { getTokenFromMap, type TokenResult } from './getTokenFromMap.js'
-import type { ComponentPrefix } from '../types.js'
+import componentTokensData from '../generated/componentTokensData.js'
+import { getTokenFromMap, type TokenResult } from '../utilities/getTokenFromMap.js'
+import type { ComponentPrefix } from '../generated/types.js'
 
 /**
  * Get a component-scoped design token with CSS variable name and raw value.
@@ -12,7 +12,7 @@ import type { ComponentPrefix } from '../types.js'
  * @param prefix - Component prefix (e.g., "button", "icon", "tile", "typography")
  * @param tokenName - Token name within the component (e.g., "size", "spacing")
  * @param variant - Variant within token (defaults to "base")
- * @param mode - Optional theme mode suffix (e.g., "night", "light")
+ * @param mode - Optional theme mode suffix (e.g., "night", "day")
  * @returns { key, var, value } - CSS variable name, var() wrapped, raw value
  * @throws Error if prefix, token, or variant not found
  *

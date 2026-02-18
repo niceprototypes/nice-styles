@@ -1,20 +1,18 @@
 /**
- * Dynamic Token Services
+ * Public API
  *
- * This module provides functions for working with design tokens.
- * It reads from tokens.json to provide:
- * - CSS variable names (--np--font-size--base)
- * - JS constant names (FONT_SIZE_BASE)
- * - Token values (fontSize.base)
+ * Services are the consumer-facing functions of nice-styles.
+ * Internal utilities (camelToKebab, formatError, etc.) live in ../utilities/.
  */
 
 export { getBreakpoint } from './getBreakpoint.js'
 export type { BreakpointResult, BreakpointName } from './getBreakpoint.js'
-export { getToken } from './getToken.js'
-export { getTokenFromMap } from './getTokenFromMap.js'
-export type { TokenDefinition, TokenMap, TokenResult, TokenFromMapOptions } from './getTokenFromMap.js'
-export { getConstant, NAMESPACE } from './getCssConstant.js'
-export type { CssConstantResult, CssConstantOptions } from './getCssConstant.js'
+export { getCoreToken } from './getCoreToken.js'
+export { getConstant, NAMESPACE } from './getConstant.js'
+export type { CssConstantResult, CssConstantOptions } from './getConstant.js'
 export { getComponentToken } from './getComponentToken.js'
-export { camelToKebab } from './camelToKebab.js'
-export { camelToScreaming } from './camelToScreaming.js'
+
+// Re-exported from utilities for sibling packages (nice-react-styles)
+export { getTokenFromMap } from '../utilities/getTokenFromMap.js'
+export type { TokenDefinition, TokenMap, TokenResult, TokenFromMapOptions } from '../utilities/getTokenFromMap.js'
+export { camelToKebab } from '../utilities/camelToKebab.js'

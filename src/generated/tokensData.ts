@@ -35,6 +35,7 @@ const tokensData: TokensData = {
     "larger": "32px"
   },
   "borderWidth": {
+    "none": "0",
     "base": "1.5px",
     "large": "2px"
   },

@@ -1,4 +1,4 @@
-import { formatError } from '../helpers/formatError.js'
+import { formatError } from '../utilities/formatError.js'
 
 /**
  * Breakpoint values in pixels
