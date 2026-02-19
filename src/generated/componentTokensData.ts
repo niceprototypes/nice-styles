@@ -36,7 +36,7 @@ const componentTokensData: ComponentTokensData = {
     "statusPrimaryBase": {
       "backgroundColor": "var(--np--foreground-color--base)",
       "borderColor": "var(--np--foreground-color--base)",
-      "foregroundColor": "#fff"
+      "foregroundColor": "var(--np--foreground-color--base--night)"
     },
     "statusPrimaryDisabled": {
       "backgroundColor": "#ddd",
