@@ -34,6 +34,9 @@
  * @module index
  */
 
+// Initialize the token store — must run before any getter is called
+import './init.js'
+
 // Export all constants and tokens from services
 export * from './services/index.js'
 
@@ -71,3 +74,7 @@ export type { ModeType } from './modeTypes.js'
 // Export the raw tokens data
 import tokensData from './generated/tokensData.js'
 export const Theme = tokensData
+
+// Export component tokens data — used by nice-react-styles to detect component prefixes
+import componentTokensData from './generated/componentTokensData.js'
+export { componentTokensData }

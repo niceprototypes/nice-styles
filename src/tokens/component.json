@@ -1,0 +1,241 @@
+{
+  "day": {
+    "button": {
+      "size": {
+        "smaller": "var(--np--cell-height--smaller)",
+        "small": "var(--np--cell-height--small)",
+        "base": "var(--np--cell-height--base)",
+        "large": "var(--np--cell-height--large)",
+        "larger": "var(--np--cell-height--larger)"
+      },
+      "spacing": {
+        "smaller": "calc(var(--np--cell-height--smaller) / 2)",
+        "small": "calc(var(--np--cell-height--small) / 2)",
+        "base": "calc(var(--np--cell-height--base) / 2)",
+        "large": "calc(var(--np--cell-height--large) / 2)",
+        "larger": "calc(var(--np--cell-height--larger) / 2)"
+      },
+      "borderRadius": {
+        "smaller": "var(--np--border-radius--smaller)",
+        "small": "var(--np--border-radius--small)",
+        "base": "var(--np--border-radius--base)",
+        "large": "var(--np--border-radius--large)",
+        "larger": "var(--np--border-radius--larger)"
+      },
+      "status": {
+        "primary": {
+          "base": {
+            "backgroundColor": "var(--np--foreground-color--base)",
+            "borderColor": "var(--np--foreground-color--base)",
+            "foregroundColor": "var(--np--foreground-color--base--night)"
+          },
+          "disabled": {
+            "backgroundColor": "#ddd",
+            "borderColor": "#ddd",
+            "foregroundColor": "#888"
+          },
+          "error": {
+            "backgroundColor": "var(--np--foreground-color--error)",
+            "borderColor": "var(--np--foreground-color--error)",
+            "foregroundColor": "#fff"
+          },
+          "success": {
+            "backgroundColor": "var(--np--foreground-color--success)",
+            "borderColor": "var(--np--foreground-color--success)",
+            "foregroundColor": "#fff"
+          },
+          "warning": {
+            "backgroundColor": "var(--np--foreground-color--warning)",
+            "borderColor": "var(--np--foreground-color--warning)",
+            "foregroundColor": "#fff"
+          }
+        },
+        "secondary": {
+          "base": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--lightest)",
+            "foregroundColor": "var(--np--foreground-color--base)"
+          },
+          "disabled": {
+            "backgroundColor": "transparent",
+            "borderColor": "#ddd",
+            "foregroundColor": "#888"
+          },
+          "error": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--error)",
+            "foregroundColor": "var(--np--foreground-color--error)"
+          },
+          "success": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--success)",
+            "foregroundColor": "var(--np--foreground-color--success)"
+          },
+          "warning": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--warning)",
+            "foregroundColor": "var(--np--foreground-color--warning)"
+          }
+        }
+      }
+    },
+    "icon": {
+      "size": {
+        "smaller": "var(--np--font-size--smaller)",
+        "small": "var(--np--font-size--small)",
+        "base": "var(--np--font-size--base)",
+        "large": "var(--np--font-size--large)",
+        "larger": "var(--np--font-size--larger)"
+      },
+      "color": {
+        "base": "var(--np--foreground-color--base)",
+        "light": "var(--np--foreground-color--light)",
+        "lighter": "var(--np--foreground-color--lighter)",
+        "lightest": "var(--np--foreground-color--lightest)",
+        "disabled": "var(--np--foreground-color--disabled)",
+        "link": "var(--np--foreground-color--link)",
+        "success": "var(--np--foreground-color--success)",
+        "warning": "var(--np--foreground-color--warning)",
+        "error": "var(--np--foreground-color--error)"
+      },
+      "strokeWidth": {
+        "small": "var(--np--border-width--base)",
+        "base": "var(--np--border-width--base)",
+        "large": "var(--np--border-width--large)"
+      },
+      "spinningAnimationDuration": {
+        "base": "var(--np--animation-duration--base)"
+      },
+      "viewBox": {
+        "base": "0 0 16 16"
+      }
+    },
+    "tile": {
+      "backgroundColor": {
+        "base": "var(--np--background-color--base)",
+        "alternate": "var(--np--background-color--alternate)"
+      },
+      "foregroundColor": {
+        "base": "var(--np--foreground-color--base)",
+        "light": "var(--np--foreground-color--light)",
+        "lighter": "var(--np--foreground-color--lighter)",
+        "lightest": "var(--np--foreground-color--lightest)",
+        "disabled": "var(--np--foreground-color--disabled)",
+        "link": "var(--np--foreground-color--link)",
+        "success": "var(--np--foreground-color--success)",
+        "warning": "var(--np--foreground-color--warning)",
+        "error": "var(--np--foreground-color--error)"
+      }
+    },
+    "typography": {
+      "fontSize": {
+        "smaller": "var(--np--font-size--smaller)",
+        "small": "var(--np--font-size--small)",
+        "base": "var(--np--font-size--base)",
+        "large": "var(--np--font-size--large)",
+        "larger": "var(--np--font-size--larger)"
+      },
+      "fontFamily": {
+        "base": "var(--np--font-family--base)",
+        "code": "var(--np--font-family--code)",
+        "heading": "var(--np--font-family--heading)"
+      },
+      "fontWeight": {
+        "light": "var(--np--font-weight--light)",
+        "base": "var(--np--font-weight--base)",
+        "medium": "var(--np--font-weight--medium)",
+        "semibold": "var(--np--font-weight--semibold)",
+        "bold": "var(--np--font-weight--bold)",
+        "extrabold": "var(--np--font-weight--extrabold)",
+        "black": "var(--np--font-weight--black)"
+      },
+      "lineHeight": {
+        "condensed": "var(--np--line-height--condensed)",
+        "base": "var(--np--line-height--base)",
+        "expanded": "var(--np--line-height--expanded)"
+      },
+      "letterSpacing": {
+        "tight": "var(--np--letter-spacing--tight)",
+        "base": "var(--np--letter-spacing--base)",
+        "wide": "var(--np--letter-spacing--wide)",
+        "wider": "var(--np--letter-spacing--wider)"
+      },
+      "color": {
+        "base": "var(--np--foreground-color--base)",
+        "light": "var(--np--foreground-color--light)",
+        "lighter": "var(--np--foreground-color--lighter)",
+        "lightest": "var(--np--foreground-color--lightest)",
+        "disabled": "var(--np--foreground-color--disabled)",
+        "link": "var(--np--foreground-color--link)",
+        "success": "var(--np--foreground-color--success)",
+        "warning": "var(--np--foreground-color--warning)",
+        "error": "var(--np--foreground-color--error)"
+      },
+      "maxWidth": {
+        "prose": "65ch",
+        "wide": "80ch",
+        "full": "none"
+      }
+    }
+  },
+  "night": {
+    "button": {
+      "status": {
+        "primary": {
+          "base": {
+            "backgroundColor": "var(--np--foreground-color--base--night)",
+            "borderColor": "var(--np--foreground-color--base--night)",
+            "foregroundColor": "var(--np--foreground-color--base--day)"
+          },
+          "disabled": {
+            "backgroundColor": "var(--np--foreground-color--base--night)",
+            "borderColor": "var(--np--foreground-color--base--night)",
+            "foregroundColor": "var(--np--foreground-color--base--day)"
+          },
+          "error": {
+            "backgroundColor": "var(--np--foreground-color--error--night)",
+            "borderColor": "var(--np--foreground-color--error--night)",
+            "foregroundColor": "var(--np--foreground-color--base--day)"
+          },
+          "success": {
+            "backgroundColor": "var(--np--foreground-color--success--night)",
+            "borderColor": "var(--np--foreground-color--success--night)",
+            "foregroundColor": "var(--np--foreground-color--base--day)"
+          },
+          "warning": {
+            "backgroundColor": "var(--np--foreground-color--warning--night)",
+            "borderColor": "var(--np--foreground-color--warning--night)",
+            "foregroundColor": "var(--np--foreground-color--base--day)"
+          }
+        },
+        "secondary": {
+          "base": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--lightest--night)",
+            "foregroundColor": "var(--np--foreground-color--base--night)"
+          },
+          "disabled": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--base--night)",
+            "foregroundColor": "var(--np--foreground-color--base--night)"
+          },
+          "error": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--error--night)",
+            "foregroundColor": "var(--np--foreground-color--error--night)"
+          },
+          "success": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--success--night)",
+            "foregroundColor": "var(--np--foreground-color--success--night)"
+          },
+          "warning": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--foreground-color--warning--night)",
+            "foregroundColor": "var(--np--foreground-color--warning--night)"
+          }
+        }
+      }
+    }
+  }
+}

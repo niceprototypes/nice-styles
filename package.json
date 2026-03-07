@@ -25,6 +25,7 @@
     },
     "./css": "./index.css",
     "./variables.css": "./dist/variables.css",
+    "./color-scheme.css": "./dist/color-scheme.css",
     "./css/*.css": "./dist/css/*.css",
     "./static/*": "./static/*",
     "./package.json": "./package.json"
@@ -42,7 +43,7 @@
     "build:css": "node --loader ts-node/esm scripts/generateCss.ts",
     "build:ts": "tsc",
     "build:post": "node --loader ts-node/esm scripts/postBuild.ts",
-    "dev": "tsc --watch & node --loader ts-node/esm scripts/generateCss.ts --watch",
+    "dev": "tsc --watch & node --loader ts-node/esm scripts/generateCss.ts --watch & node --loader ts-node/esm scripts/generateTokens.ts --watch & node --loader ts-node/esm scripts/generateTypes.ts --watch",
     "test": "echo \"No tests configured\"",
     "prepublishOnly": "npm run build && npm test",
     "prepare": "npm run build"

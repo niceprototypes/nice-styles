@@ -1,33 +1,30 @@
 import componentTokensData from '../generated/componentTokensData.js'
-import { getTokenFromMap, type TokenResult } from '../utilities/getTokenFromMap.js'
+import { getTokenFromMap, getTokenByPath, type TokenResult } from '../utilities/getTokenFromMap.js'
 import type { ComponentPrefix } from '../generated/types.js'
 
 /**
  * Get a component-scoped design token with CSS variable name and raw value.
  *
- * Looks up the token from the auto-generated component token data and
- * produces CSS variables namespaced to the component prefix:
- * `--np--{prefix}--{tokenName}--{variant}`
+ * Two calling conventions:
  *
- * @param prefix - Component prefix (e.g., "button", "icon", "tile", "typography")
- * @param tokenName - Token name within the component (e.g., "size", "spacing")
- * @param variant - Variant within token (defaults to "base")
- * @param mode - Optional theme mode suffix (e.g., "night", "day")
- * @returns { key, var, value } - CSS variable name, var() wrapped, raw value
- * @throws Error if prefix, token, or variant not found
- *
- * @example
+ * **Flat lookup** — for tokens at depth 1 (tokenName → variant → value):
+ * ```ts
  * getComponentToken("button", "size", "base")
- * // → { key: "--np--button--size--base", var: "var(--np--button--size--base)", value: "var(--np--cell-height--base)" }
+ * // → { key: "--np--button--size--base", var: "var(--np--button--size--base)", value: "..." }
+ * ```
  *
- * @example
- * getComponentToken("icon", "color", "error")
- * // → { key: "--np--icon--color--error", var: "var(--np--icon--color--error)", value: "var(--np--foreground-color--error)" }
+ * **Path lookup** — for deeply nested tokens (walks arbitrary depth):
+ * ```ts
+ * getComponentToken("button", ["status", "primary", "base", "backgroundColor"])
+ * // → { key: "--np--button--status--primary--base--background-color", var: "var(...)", value: "..." }
+ * ```
+ *
+ * @throws Error if prefix, token, variant, or path segment not found
  */
 export function getComponentToken(
   prefix: ComponentPrefix,
-  tokenName: string,
-  variant = "base",
+  tokenNameOrPath: string | string[],
+  variantOrMode?: string,
   mode?: string
 ): TokenResult {
   const componentData = componentTokensData[prefix]
@@ -36,5 +33,12 @@ export function getComponentToken(
     throw new Error(`Component prefix "${prefix}" not found. Available prefixes: ${available}`)
   }
 
-  return getTokenFromMap(componentData, tokenName, variant, { mode, prefix })
+  // Path-based lookup: second arg is string[]
+  if (Array.isArray(tokenNameOrPath)) {
+    // variantOrMode is actually mode in this overload
+    return getTokenByPath(componentData, tokenNameOrPath, { mode: variantOrMode, prefix })
+  }
+
+  // Flat lookup: second arg is string (flat tokens conform to TokenMap at runtime)
+  return getTokenFromMap(componentData as Record<string, Record<string, string | number>>, tokenNameOrPath, variantOrMode ?? "base", { mode, prefix })
 }
