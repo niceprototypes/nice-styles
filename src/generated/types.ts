@@ -22,4 +22,4 @@ export type GapType = "none" | "smaller" | "small" | "base" | "large" | "larger"
 export type LetterSpacingType = "tight" | "base" | "wide" | "wider"
 export type LineHeightType = "single" | "condensed" | "base" | "expanded"
 
-export type ComponentPrefix = "button" | "icon" | "tile" | "typography"
+export type ComponentPrefix = "button" | "icon" | "tile" | "lightbox" | "typography"

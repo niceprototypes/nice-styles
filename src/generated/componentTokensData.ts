@@ -138,6 +138,11 @@ const componentTokensData: ComponentTokensData = {
       "error": "var(--np--foreground-color--error)"
     }
   },
+  "lightbox": {
+    "zIndex": {
+      "base": "9999"
+    }
+  },
   "typography": {
     "fontSize": {
       "smaller": "var(--np--font-size--smaller)",
