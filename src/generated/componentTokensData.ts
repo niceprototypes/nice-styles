@@ -115,7 +115,7 @@ const componentTokensData: ComponentTokensData = {
       "large": "var(--np--border-width--large)"
     },
     "spinningAnimationDuration": {
-      "base": "var(--np--animation-duration--base)"
+      "base": "var(--np--animation-duration--slow)"
     },
     "viewBox": {
       "base": "0 0 16 16"

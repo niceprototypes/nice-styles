@@ -1,21 +1,25 @@
 import type { ModeType } from '../modeTypes.js'
 
 /**
- * Returns the opposite theme mode for components that need contrasting
- * foreground colors (e.g. light text on a dark primary button).
+ * Returns the opposite theme mode.
  *
- * Only inverts for "primary" status. Other statuses pass the mode
- * through unchanged, since their backgrounds don't require inversion.
+ * When called with just a mode, performs a direct inversion:
+ *   "day" → "night", "night" → "day", undefined → "night"
  *
- * Defaults to "night" for primary when no mode is provided,
- * since "day" is the assumed default mode.
+ * When called with a status, only inverts for statuses that require
+ * contrasting foreground colors (e.g. "primary" buttons with dark
+ * backgrounds need light text). Other statuses pass through unchanged.
  *
  * @param mode - The current mode ("day" or "night"), or undefined
- * @param status - The visual status/variant (e.g. "primary", "secondary")
- * @returns The inverted mode for primary, the original mode otherwise
+ * @returns The inverted mode, or the original mode if status doesn't require inversion
  */
-export function getInvertedMode(mode?: ModeType, status?: string): ModeType | undefined {
-  if (status !== "primary") return mode
+
+function invert(mode?: ModeType): ModeType {
   if (!mode) return "night"
   return mode === "day" ? "night" : "day"
+}
+
+export function getInvertedMode(mode?: ModeType, status?: string): ModeType | undefined {
+  if (status === undefined) return invert(mode)
+  return mode
 }
