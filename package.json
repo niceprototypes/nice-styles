@@ -1,6 +1,6 @@
 {
   "name": "nice-styles",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "A collection of CSS custom properties (variables) for consistent design tokens",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -40,10 +40,10 @@
     "build": "npm run build:types && npm run build:tokens && npm run build:css && npm run build:ts && npm run build:post",
     "build:types": "node --loader ts-node/esm scripts/generateTypes.ts",
     "build:tokens": "node --loader ts-node/esm scripts/generateTokens.ts",
-    "build:css": "node --loader ts-node/esm scripts/generateCss.ts",
+    "build:css": "node --loader ts-node/esm scripts/generateCss/index.ts",
     "build:ts": "tsc",
     "build:post": "node --loader ts-node/esm scripts/postBuild.ts",
-    "dev": "tsc --watch & node --loader ts-node/esm scripts/generateCss.ts --watch & node --loader ts-node/esm scripts/generateTokens.ts --watch & node --loader ts-node/esm scripts/generateTypes.ts --watch",
+    "dev": "tsc --watch & node --loader ts-node/esm scripts/generateCss/index.ts --watch & node --loader ts-node/esm scripts/generateTokens.ts --watch & node --loader ts-node/esm scripts/generateTypes.ts --watch",
     "test": "echo \"No tests configured\"",
     "prepublishOnly": "npm run build && npm test",
     "prepare": "npm run build"

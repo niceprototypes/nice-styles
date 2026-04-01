@@ -16,7 +16,7 @@
  *
  * ## Input
  *
- * - `src/tokens/core.json` — Flat core tokens: { group: { item: value } }
+ * - `src/tokens/module.json` — Flat core tokens: { group: { item: value } }
  * - `src/tokens/module.color.json` — Color module: { mode: { group: { item: value } } }
  * - `src/tokens/module.size.json` — Size module: { breakpoint: { group: { item: value } } }
  * - `src/tokens/component.json` — Component tokens (unchanged): { day: { prefix: { ... } }, night: { ... } }
@@ -79,11 +79,11 @@ function main() {
 
   // --- Core tokens (flat: { group: { item: value } }) ---
   const coreJson: TokenMap = JSON.parse(
-    fs.readFileSync(path.join(tokensDir, 'core.json'), 'utf-8')
+    fs.readFileSync(path.join(tokensDir, 'module.json'), 'utf-8')
   )
   writeGeneratedFile(
     path.join(generatedDir, 'tokensData.ts'),
-    'tokens/core.json',
+    'tokens/module.json',
     `export type TokenDefinition = Record<string, string>\n\nexport type TokensData = Record<string, TokenDefinition>`,
     'tokensData',
     'TokensData',

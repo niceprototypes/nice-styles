@@ -11,9 +11,25 @@ export type TokenDefinition = Record<string, string>
 export type SizeTokensData = Record<string, Record<string, TokenDefinition>>
 
 const sizeTokensData: SizeTokensData = {
-  "mobile": {},
+  "mobile": {
+    "fontSize": {
+      "smaller": "11px",
+      "small": "12px",
+      "base": "14px",
+      "large": "20px",
+      "larger": "28px"
+    }
+  },
   "tablet": {},
-  "desktop": {}
+  "desktop": {
+    "fontSize": {
+      "smaller": "12px",
+      "small": "14px",
+      "base": "16px",
+      "large": "24px",
+      "larger": "32px"
+    }
+  }
 } as const
 
 export default sizeTokensData

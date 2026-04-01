@@ -22,6 +22,13 @@ export interface ComponentTokens {
   [prefix: string]: { [key: string]: TokenNode }
 }
 
+/** Size module: { breakpoint: { group: { item: value } } } */
+export interface SizeTokens {
+  [breakpoint: string]: {
+    [group: string]: Record<string, string>
+  }
+}
+
 /** Error message templates with {placeholder} syntax */
 export interface Errors {
   [key: string]: string

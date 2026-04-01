@@ -1,12 +1,7 @@
 import { formatError } from '../utilities/formatError.js'
+import { BREAKPOINTS } from '../constants/breakpoints.js'
 
-/**
- * Breakpoint values in pixels
- */
-const breakpoints = {
-  mobile: 640,
-  desktop: 1280
-} as const
+const breakpoints = BREAKPOINTS
 
 /**
  * Result object returned by getBreakpoint

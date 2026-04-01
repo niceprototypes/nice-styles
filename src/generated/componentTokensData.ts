@@ -143,6 +143,18 @@ const componentTokensData: ComponentTokensData = {
       "base": "9999"
     }
   },
+  "image": {
+    "borderRadius": {
+      "smaller": "var(--np--border-radius--smaller)",
+      "small": "var(--np--border-radius--small)",
+      "base": "var(--np--border-radius--base)",
+      "large": "var(--np--border-radius--large)",
+      "larger": "var(--np--border-radius--larger)"
+    },
+    "objectFit": {
+      "base": "cover"
+    }
+  },
   "typography": {
     "fontSize": {
       "smaller": "var(--np--font-size--smaller)",
@@ -192,7 +204,8 @@ const componentTokensData: ComponentTokensData = {
       "wide": "80ch",
       "full": "none"
     }
-  }
+  },
+  "input": {}
 } as const
 
 export default componentTokensData

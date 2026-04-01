@@ -10,9 +10,10 @@
  */
 
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
-import type { Tokens, NightTokens, ComponentTokens } from './types.js'
+import type { Tokens, NightTokens, ComponentTokens, SizeTokens } from './types.js'
 import { generateTokenGroupCss } from './emitCoreTokens.js'
 import { generateComponentTokenCss } from './emitComponentTokens.js'
+import { generateSizeTokenCss } from './emitSizeTokens.js'
 
 /**
  * Builds the combined dist/variables.css containing all token groups.
@@ -21,10 +22,16 @@ import { generateComponentTokenCss } from './emitComponentTokens.js'
  * ```css
  * :root {
  *   color-scheme: light;
- *   --np--{group}--{variant}: {value};         // semantic variables
- *   --np--{group}--{variant}--day: {value};     // day primitives
- *   --np--{group}--{variant}--night: {value};   // night primitives
- *   --np--{prefix}--{token}--{variant}: {value}; // component tokens
+ *   --np--{group}--{variant}: {value};             // semantic variables
+ *   --np--{group}--{variant}--day: {value};         // day primitives
+ *   --np--{group}--{variant}--night: {value};       // night primitives
+ *   --np--{prefix}--{token}--{variant}: {value};    // component tokens
+ *   --np--{group}--{variant}--mobile: {value};      // size breakpoint primitives
+ *   --np--{group}--{variant}--desktop: {value};     // size breakpoint primitives
+ * }
+ *
+ * @media (max-width: 640px) {
+ *   :root { --np--{group}--{variant}: var(--np--{group}--{variant}--mobile); }
  * }
  * ```
  *
@@ -35,7 +42,8 @@ export function buildCombinedCss(
   tokens: Tokens,
   nightTokens: NightTokens,
   componentTokens: ComponentTokens,
-  componentNightTokens: ComponentTokens
+  componentNightTokens: ComponentTokens,
+  sizeTokens: SizeTokens
 ): { css: string; nightMediaBody: string[] } {
   // Four accumulators — semantic lines go inline, primitives are batched at the end of :root,
   // and nightMediaBody is returned for color-scheme.css to consume separately
@@ -109,7 +117,18 @@ export function buildCombinedCss(
   // Merge component media body into the shared accumulator — color-scheme.css gets one combined block
   allNightMediaBody.push(...componentResult.nightMediaBody)
 
+  // Phase 4: Generate size breakpoint primitives — placed inside :root alongside color primitives
+  const sizeResult = generateSizeTokenCss(sizeTokens)
+  if (sizeResult.primitiveLines.length > 0) {
+    cssLines.push(...sizeResult.primitiveLines)
+  }
+
   cssLines.push('}')
+
+  // Size @media blocks go outside :root — they reassign semantic variables at breakpoints
+  if (sizeResult.mediaBlocks.length > 0) {
+    cssLines.push(...sizeResult.mediaBlocks)
+  }
 
   return { css: cssLines.join('\n'), nightMediaBody: allNightMediaBody }
 }

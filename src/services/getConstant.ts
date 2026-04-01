@@ -26,6 +26,8 @@ export interface CssConstantResult {
 export interface CssConstantOptions {
   /** Theme mode suffix (e.g., "day", "night"). Appends --{mode} to the key. */
   mode?: string
+  /** Responsive breakpoint suffix (e.g., "mobile", "desktop"). Appends --{breakpoint} to the key. Mutually exclusive with mode — breakpoint takes precedence when both are provided. */
+  breakpoint?: string
   /** Component prefix (e.g., "button", "icon"). Omit for base tokens. */
   pkg?: string
 }
@@ -60,6 +62,11 @@ export interface CssConstantOptions {
  * // { key: "--np--foreground-color--base--dark", var: "var(--np--foreground-color--base--dark)" }
  *
  * @example
+ * // Breakpoint primitive
+ * getConstant("fontSize", "large", { breakpoint: "mobile" })
+ * // { key: "--np--font-size--large--mobile", var: "var(--np--font-size--large--mobile)" }
+ *
+ * @example
  * // Component tokens
  * getConstant("height", "small", { pkg: "button" })
  * // { key: "--np--button--height--small", var: "var(--np--button--height--small)" }
@@ -69,8 +76,9 @@ export function getConstant(
   param: string,
   options?: CssConstantOptions
 ): CssConstantResult {
-  const { mode, pkg } = options ?? {}
-  const suffix = mode ? `--${mode}` : ''
+  const { mode, breakpoint, pkg } = options ?? {}
+  // Breakpoint takes precedence over mode — they are mutually exclusive suffixes
+  const suffix = breakpoint ? `--${breakpoint}` : mode ? `--${mode}` : ''
   const key = pkg
     ? `--${NAMESPACE}--${pkg}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}`
     : `--${NAMESPACE}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}`

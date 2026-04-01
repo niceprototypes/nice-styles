@@ -67,19 +67,28 @@ export function getCoreToken(
   // Determine which module and dimension key to query
   let value: string | undefined
 
-  // Mode takes priority — check color module
+  // Mode takes priority — check color module at specified mode
   if (mode) {
     value = getModuleValue('color', mode, group, item)
   }
 
-  // Then breakpoint — check size module
+  // Then breakpoint — check size module at specified breakpoint
   if (value === undefined && breakpoint) {
     value = getModuleValue('size', breakpoint, group, item)
   }
 
-  // Fall back to core module
+  // Fall back through all modules at their default dimensions
+  // Core module (tokens with no variants)
   if (value === undefined) {
     value = getModuleValue('core', undefined, group, item)
+  }
+  // Color module default (day)
+  if (value === undefined) {
+    value = getModuleValue('color', undefined, group, item)
+  }
+  // Size module default (mobile)
+  if (value === undefined) {
+    value = getModuleValue('size', undefined, group, item)
   }
 
   if (value === undefined) {

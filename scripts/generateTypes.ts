@@ -16,7 +16,9 @@
  *
  * ## Input
  *
- * - `src/tokens/core.json` — Flat core tokens: { group: { item: value } }
+ * - `src/tokens/module.json` — Core tokens (no dimension variants): { group: { item: value } }
+ * - `src/tokens/module.color.json` — Color tokens keyed by mode: { day: { group: { item: value } }, night: {...} }
+ * - `src/tokens/module.size.json` — Size tokens keyed by breakpoint: { mobile: { group: { item: value } }, desktop: {...} }
  * - `src/tokens/component.json` — Component tokens: { day: { prefix: { ... } }, night: { ... } }
  *
  * ## Output
@@ -42,10 +44,25 @@ function main() {
   const tokensDir = path.join(__dirname, '..', 'src', 'tokens')
   const outputPath = path.join(__dirname, '..', 'src', 'generated', 'types.ts')
 
-  // Core tokens are now flat (no day/night wrapper)
-  const tokens = JSON.parse(
-    fs.readFileSync(path.join(tokensDir, 'core.json'), 'utf-8')
+  // Core tokens — no dimension variants
+  const coreTokens = JSON.parse(
+    fs.readFileSync(path.join(tokensDir, 'module.json'), 'utf-8')
   )
+
+  // Color tokens — day dimension provides the variant names
+  const colorJson = JSON.parse(
+    fs.readFileSync(path.join(tokensDir, 'module.color.json'), 'utf-8')
+  )
+  const colorTokens = colorJson.day || {}
+
+  // Size tokens — mobile dimension provides the variant names (mobile = base)
+  const sizeJson = JSON.parse(
+    fs.readFileSync(path.join(tokensDir, 'module.size.json'), 'utf-8')
+  )
+  const sizeTokens = sizeJson.mobile || {}
+
+  // Merge all token groups into a single map for type generation
+  const tokens = { ...coreTokens, ...colorTokens, ...sizeTokens }
 
   const lines: string[] = [
     '/**',
