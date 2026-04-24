@@ -10,7 +10,7 @@
  * |------|-------|------|
  * | `module.json` | `{ group: { item: value } }` | Core tokens — no dimension variants |
  * | `module.color.json` | `{ day: { group: { item: value } }, night: {...} }` | Color tokens keyed by mode |
- * | `module.size.json` | `{ mobile: {...}, tablet: {...}, desktop: {...} }` | Size tokens keyed by breakpoint |
+ * | `module.size.json` | `{ small: {...}, medium: {...}, large: {...} }` | Size tokens keyed by breakpoint |
  * | `component.json` | `{ day: { prefix: { ...nested } }, night: {...} }` | Component tokens keyed by mode |
  *
  * ## Merge strategy
@@ -18,7 +18,7 @@
  * The `tokens` field in the returned object is a unified map of all semantic defaults:
  * - Core tokens (no variants) from `module.json`
  * - Color day values from `module.color.json` → day dimension
- * - Size mobile values from `module.size.json` → mobile dimension
+ * - Size small values from `module.size.json` → small dimension
  *
  * This merged map drives both the `:root` semantic variable emission and the
  * per-group individual CSS files in `dist/css/`.
@@ -28,9 +28,10 @@ import * as fs from 'fs'
 import * as path from 'path'
 import type { Tokens, NightTokens, ComponentTokens, SizeTokens, Errors } from '../css/types.js'
 import { validateNightTokens, validateComponentNightTokens } from '../css/validate.js'
+import { BREAKPOINT_SMALL } from '../../src/constants/breakpoints.js'
 
 export interface TokenSources {
-  /** Merged semantic defaults: core + color day + size mobile */
+  /** Merged semantic defaults: core + color day + size small */
   tokens: Tokens
   /** Night-mode overrides from module.color.json */
   nightTokens: NightTokens
@@ -69,11 +70,11 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
     console.log('✓ Color module night tokens validated')
   }
 
-  // Size module — mobile provides semantic defaults, desktop/tablet provide overrides
+  // Size module — small provides semantic defaults, medium/large provide overrides
   const sizeTokens: SizeTokens = JSON.parse(
     fs.readFileSync(path.join(tokensDir, 'module.size.json'), 'utf-8')
   )
-  const sizeMobile: Tokens = sizeTokens.mobile || {}
+  const sizeSmall: Tokens = sizeTokens[BREAKPOINT_SMALL] || {}
 
   // Component tokens — day/night wrapper, unchanged from previous architecture
   const componentJson = JSON.parse(
@@ -94,8 +95,8 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
   }
 
   // Merge all sources into a unified semantic defaults map
-  // Order: core → color day → size mobile (later keys win on collision)
-  const tokens: Tokens = { ...coreTokens, ...colorDay, ...sizeMobile }
+  // Order: core → color day → size small (later keys win on collision)
+  const tokens: Tokens = { ...coreTokens, ...colorDay, ...sizeSmall }
 
   return { tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens }
 }

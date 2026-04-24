@@ -7,6 +7,13 @@
 
 export { getBreakpoint } from './getBreakpoint.js'
 export type { BreakpointResult, BreakpointName } from './getBreakpoint.js'
+export {
+  BREAKPOINT_SMALL,
+  BREAKPOINT_MEDIUM,
+  BREAKPOINT_LARGE,
+  BREAKPOINTS,
+} from '../constants/breakpoints.js'
+export type { BreakpointValues } from '../constants/breakpoints.js'
 export { getCoreToken } from './getCoreToken.js'
 export type { CoreTokenConfig } from './getCoreToken.js'
 export { getColorToken } from './getColorToken.js'

@@ -5,29 +5,34 @@
  * from the size module data. Mirrors the color module pattern:
  *
  * - Color: semantic var → day/night primitives → @media (prefers-color-scheme)
- * - Size:  semantic var → mobile/tablet/desktop primitives → @media (min-width)
+ * - Size:  semantic var → small/medium/large primitives → @media (min-width)
  *
- * Mobile-first: module.size.json mobile dimension holds the base truth. The semantic
- * variable (e.g., --np--font-size--large) holds the mobile value by default and is
+ * Small-first: module.size.json small dimension holds the base truth. The semantic
+ * variable (e.g., --np--font-size--large) holds the small value by default and is
  * reassigned to breakpoint primitives via min-width media queries at wider viewports.
  *
  * ## Primitive emission rules
  *
- * For each token group + variant that has a tablet or desktop override:
- * - Mobile primitive always emitted (value from sizeTokens.mobile — the base/default)
- * - Tablet primitive emitted when tablet has an override
- * - Desktop primitive emitted when desktop has an override
+ * For each token group + variant that has a medium or large override:
+ * - Small primitive always emitted (value from sizeTokens.small — the base/default)
+ * - Medium primitive emitted when medium has an override
+ * - Large primitive emitted when large has an override
  *
- * ## Media query rules (mobile-first)
+ * ## Media query rules (small-first)
  *
- * - Mobile: no media query (semantic variable already holds mobile value)
- * - Tablet: @media (min-width: 641px) — only if tablet has overrides
- * - Desktop: @media (min-width: 1280px) — reassigns semantic to desktop primitive
+ * - Small: no media query (semantic variable already holds small value)
+ * - Medium: @media (min-width: 641px) — only if medium has overrides
+ * - Large: @media (min-width: 1280px) — reassigns semantic to large primitive
  */
 
 import { getConstant } from '../../src/services/getConstant.js'
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
-import { BREAKPOINTS } from '../../src/constants/breakpoints.js'
+import {
+  BREAKPOINTS,
+  BREAKPOINT_SMALL,
+  BREAKPOINT_MEDIUM,
+  BREAKPOINT_LARGE,
+} from '../../src/constants/breakpoints.js'
 import type { SizeTokens } from './types.js'
 
 export interface SizeEmitResult {
@@ -40,23 +45,23 @@ export interface SizeEmitResult {
 /**
  * Generates breakpoint primitives and @media blocks from the size module.
  *
- * @param sizeTokens - Size module data: { mobile: { group: { item: value } }, tablet: {...}, desktop: {...} }
+ * @param sizeTokens - Size module data: { small: { group: { item: value } }, medium: {...}, large: {...} }
  */
 export function generateSizeTokenCss(
   sizeTokens: SizeTokens
 ): SizeEmitResult {
   const primitiveLines: string[] = []
-  const tabletMediaLines: string[] = []
-  const desktopMediaLines: string[] = []
+  const mediumMediaLines: string[] = []
+  const largeMediaLines: string[] = []
 
-  const mobileDefaults = sizeTokens.mobile || {}
-  const tabletOverrides = sizeTokens.tablet || {}
-  const desktopOverrides = sizeTokens.desktop || {}
+  const smallDefaults = sizeTokens[BREAKPOINT_SMALL] || {}
+  const mediumOverrides = sizeTokens[BREAKPOINT_MEDIUM] || {}
+  const largeOverrides = sizeTokens[BREAKPOINT_LARGE] || {}
 
   // Collect all token groups that have any breakpoint override
   const allGroups = new Set([
-    ...Object.keys(tabletOverrides),
-    ...Object.keys(desktopOverrides)
+    ...Object.keys(mediumOverrides),
+    ...Object.keys(largeOverrides)
   ])
 
   if (allGroups.size === 0) {
@@ -67,66 +72,66 @@ export function generateSizeTokenCss(
   primitiveLines.push('\t/* Size breakpoint primitives */')
 
   for (const group of allGroups) {
-    const mobileGroup = mobileDefaults[group] || {}
-    const tabletGroup = tabletOverrides[group] || {}
-    const desktopGroup = desktopOverrides[group] || {}
+    const smallGroup = smallDefaults[group] || {}
+    const mediumGroup = mediumOverrides[group] || {}
+    const largeGroup = largeOverrides[group] || {}
     const cssName = camelToKebab(group)
 
     // Collect all variants that have any override
     const allVariants = new Set([
-      ...Object.keys(tabletGroup),
-      ...Object.keys(desktopGroup)
+      ...Object.keys(mediumGroup),
+      ...Object.keys(largeGroup)
     ])
 
     for (const variant of allVariants) {
-      const mobileValue = mobileGroup[variant]
+      const smallValue = smallGroup[variant]
 
-      // Mobile primitive — always emitted (value from sizeTokens.mobile, the base/default)
-      if (mobileValue) {
-        const mobilePrimitive = getConstant(cssName, variant, { breakpoint: 'mobile' })
-        primitiveLines.push(`\t${mobilePrimitive.key}: ${mobileValue};`)
+      // Small primitive — always emitted (value from sizeTokens.small, the base/default)
+      if (smallValue) {
+        const smallPrimitive = getConstant(cssName, variant, { breakpoint: BREAKPOINT_SMALL })
+        primitiveLines.push(`\t${smallPrimitive.key}: ${smallValue};`)
       }
 
-      // Tablet primitive — emitted when tablet has an override
-      if (tabletGroup[variant]) {
-        const tabletPrimitive = getConstant(cssName, variant, { breakpoint: 'tablet' })
-        primitiveLines.push(`\t${tabletPrimitive.key}: ${tabletGroup[variant]};`)
+      // Medium primitive — emitted when medium has an override
+      if (mediumGroup[variant]) {
+        const mediumPrimitive = getConstant(cssName, variant, { breakpoint: BREAKPOINT_MEDIUM })
+        primitiveLines.push(`\t${mediumPrimitive.key}: ${mediumGroup[variant]};`)
 
-        // Media query entry — reassigns semantic variable to tablet primitive
+        // Media query entry — reassigns semantic variable to medium primitive
         const semanticVar = getConstant(cssName, variant)
-        tabletMediaLines.push(`\t\t${semanticVar.key}: var(${tabletPrimitive.key});`)
+        mediumMediaLines.push(`\t\t${semanticVar.key}: var(${mediumPrimitive.key});`)
       }
 
-      // Desktop primitive — emitted when desktop has an override
-      if (desktopGroup[variant]) {
-        const desktopPrimitive = getConstant(cssName, variant, { breakpoint: 'desktop' })
-        primitiveLines.push(`\t${desktopPrimitive.key}: ${desktopGroup[variant]};`)
+      // Large primitive — emitted when large has an override
+      if (largeGroup[variant]) {
+        const largePrimitive = getConstant(cssName, variant, { breakpoint: BREAKPOINT_LARGE })
+        primitiveLines.push(`\t${largePrimitive.key}: ${largeGroup[variant]};`)
 
-        // Media query entry — reassigns semantic variable to desktop primitive
+        // Media query entry — reassigns semantic variable to large primitive
         const semanticVar = getConstant(cssName, variant)
-        desktopMediaLines.push(`\t\t${semanticVar.key}: var(${desktopPrimitive.key});`)
+        largeMediaLines.push(`\t\t${semanticVar.key}: var(${largePrimitive.key});`)
       }
     }
   }
 
-  // Assemble @media blocks — mobile-first, so tablet then desktop
+  // Assemble @media blocks — small-first, so medium then large
   const mediaBlocks: string[] = []
 
-  if (tabletMediaLines.length > 0) {
-    const tabletMin = BREAKPOINTS.mobile + 1
+  if (mediumMediaLines.length > 0) {
+    const mediumMin = BREAKPOINTS[BREAKPOINT_SMALL] + 1
     mediaBlocks.push('')
-    mediaBlocks.push(`@media (min-width: ${tabletMin}px) {`)
+    mediaBlocks.push(`@media (min-width: ${mediumMin}px) {`)
     mediaBlocks.push('\t:root {')
-    mediaBlocks.push(...tabletMediaLines)
+    mediaBlocks.push(...mediumMediaLines)
     mediaBlocks.push('\t}')
     mediaBlocks.push('}')
   }
 
-  if (desktopMediaLines.length > 0) {
+  if (largeMediaLines.length > 0) {
     mediaBlocks.push('')
-    mediaBlocks.push(`@media (min-width: ${BREAKPOINTS.desktop}px) {`)
+    mediaBlocks.push(`@media (min-width: ${BREAKPOINTS[BREAKPOINT_LARGE]}px) {`)
     mediaBlocks.push('\t:root {')
-    mediaBlocks.push(...desktopMediaLines)
+    mediaBlocks.push(...largeMediaLines)
     mediaBlocks.push('\t}')
     mediaBlocks.push('}')
   }

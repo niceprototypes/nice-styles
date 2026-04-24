@@ -26,12 +26,12 @@ import { generateSizeTokenCss } from './emitSizeTokens.js'
  *   --np--{group}--{variant}--day: {value};         // day primitives
  *   --np--{group}--{variant}--night: {value};       // night primitives
  *   --np--{prefix}--{token}--{variant}: {value};    // component tokens
- *   --np--{group}--{variant}--mobile: {value};      // size breakpoint primitives
- *   --np--{group}--{variant}--desktop: {value};     // size breakpoint primitives
+ *   --np--{group}--{variant}--small: {value};       // size breakpoint primitives
+ *   --np--{group}--{variant}--large: {value};       // size breakpoint primitives
  * }
  *
  * @media (max-width: 640px) {
- *   :root { --np--{group}--{variant}: var(--np--{group}--{variant}--mobile); }
+ *   :root { --np--{group}--{variant}: var(--np--{group}--{variant}--small); }
  * }
  * ```
  *

@@ -7,13 +7,13 @@
  *
  * Core is a module with a single dimension key ("base").
  * Color is a module with dimension keys per mode ("day", "night").
- * Size is a module with dimension keys per breakpoint ("mobile", "tablet", "desktop").
+ * Size is a module with dimension keys per breakpoint ("small", "medium", "large").
  *
  * @example
  * // Initialization (called once at import time from generated defaults)
  * registerModule("core", "base", { base: coreTokensData })
  * registerModule("color", "day", { day: colorDay, night: colorNight })
- * registerModule("size", "mobile", { mobile: {}, tablet: {}, desktop: {} })
+ * registerModule("size", "small", { small: {}, medium: {}, large: {} })
  *
  * @example
  * // Consumer overrides (called at app startup)
@@ -79,7 +79,7 @@ function reprocess(mod: TokenModule): void {
  * Register a module with its source data and immediately process it.
  *
  * @param name - Module identifier ("core", "color", "size")
- * @param defaultKey - Dimension key used when none is specified ("base", "day", "mobile")
+ * @param defaultKey - Dimension key used when none is specified ("base", "day", "small")
  * @param source - Raw token data keyed by dimension
  */
 export function registerModule(
@@ -120,7 +120,7 @@ export function getModule(name: string): TokenModule | undefined {
  * Resolve a single token value from a module.
  *
  * @param name - Module identifier ("core", "color", "size")
- * @param dimensionKey - Which dimension to look up (e.g., "night", "tablet"). Falls back to module's defaultKey if undefined.
+ * @param dimensionKey - Which dimension to look up (e.g., "night", "medium"). Falls back to module's defaultKey if undefined.
  * @param group - Token group (e.g., "foregroundColor", "gap")
  * @param item - Token item within the group (e.g., "base", "large")
  * @returns The resolved value string, or undefined if not found

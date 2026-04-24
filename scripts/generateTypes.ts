@@ -18,7 +18,7 @@
  *
  * - `src/tokens/module.json` — Core tokens (no dimension variants): { group: { item: value } }
  * - `src/tokens/module.color.json` — Color tokens keyed by mode: { day: { group: { item: value } }, night: {...} }
- * - `src/tokens/module.size.json` — Size tokens keyed by breakpoint: { mobile: { group: { item: value } }, desktop: {...} }
+ * - `src/tokens/module.size.json` — Size tokens keyed by breakpoint: { small: { group: { item: value } }, large: {...} }
  * - `src/tokens/component.json` — Component tokens: { day: { prefix: { ... } }, night: { ... } }
  *
  * ## Output
@@ -32,6 +32,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
+import { BREAKPOINT_SMALL } from '../src/constants/breakpoints.js'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
@@ -55,11 +56,11 @@ function main() {
   )
   const colorTokens = colorJson.day || {}
 
-  // Size tokens — mobile dimension provides the variant names (mobile = base)
+  // Size tokens — small dimension provides the variant names (small = base)
   const sizeJson = JSON.parse(
     fs.readFileSync(path.join(tokensDir, 'module.size.json'), 'utf-8')
   )
-  const sizeTokens = sizeJson.mobile || {}
+  const sizeTokens = sizeJson[BREAKPOINT_SMALL] || {}
 
   // Merge all token groups into a single map for type generation
   const tokens = { ...coreTokens, ...colorTokens, ...sizeTokens }

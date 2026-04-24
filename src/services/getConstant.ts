@@ -26,7 +26,7 @@ export interface CssConstantResult {
 export interface CssConstantOptions {
   /** Theme mode suffix (e.g., "day", "night"). Appends --{mode} to the key. */
   mode?: string
-  /** Responsive breakpoint suffix (e.g., "mobile", "desktop"). Appends --{breakpoint} to the key. Mutually exclusive with mode — breakpoint takes precedence when both are provided. */
+  /** Responsive breakpoint suffix (e.g., "small", "large"). Appends --{breakpoint} to the key. Mutually exclusive with mode — breakpoint takes precedence when both are provided. */
   breakpoint?: string
   /** Component prefix (e.g., "button", "icon"). Omit for base tokens. */
   pkg?: string
@@ -63,8 +63,8 @@ export interface CssConstantOptions {
  *
  * @example
  * // Breakpoint primitive
- * getConstant("fontSize", "large", { breakpoint: "mobile" })
- * // { key: "--np--font-size--large--mobile", var: "var(--np--font-size--large--mobile)" }
+ * getConstant("fontSize", "large", { breakpoint: "small" })
+ * // { key: "--np--font-size--large--small", var: "var(--np--font-size--large--small)" }
  *
  * @example
  * // Component tokens

@@ -2,16 +2,16 @@
  * Batch setter for size module (breakpoint) token overrides.
  *
  * Merges the provided overrides into the size module and reprocesses.
- * Each key is a breakpoint name ("mobile", "tablet", "desktop") mapping to token groups.
+ * Each key is a breakpoint name ("small", "medium", "large") mapping to token groups.
  *
  * @param tokens - Override map: { breakpoint: { group: { item: value } } }
  *
  * @example
  * setSizeTokens({
- *   tablet: {
+ *   medium: {
  *     fontSize: { large: "28px" }
  *   },
- *   desktop: {
+ *   large: {
  *     fontSize: { large: "32px", larger: "40px" }
  *   }
  * })

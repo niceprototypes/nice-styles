@@ -1,5 +1,13 @@
 import { formatError } from '../utilities/formatError.js'
-import { BREAKPOINTS } from '../constants/breakpoints.js'
+import {
+  BREAKPOINTS,
+  BREAKPOINT_SMALL,
+  BREAKPOINT_MEDIUM,
+  BREAKPOINT_LARGE,
+  type BreakpointName,
+} from '../constants/breakpoints.js'
+
+export type { BreakpointName }
 
 const breakpoints = BREAKPOINTS
 
@@ -19,14 +27,6 @@ export interface BreakpointResult {
 }
 
 /**
- * Breakpoint names
- * - mobile: max-width query (0 to mobile threshold)
- * - tablet: min-width query (mobile + 1, derived)
- * - desktop: min-width query
- */
-export type BreakpointName = "mobile" | "tablet" | "desktop"
-
-/**
  * Get breakpoint value and media query string
  *
  * Returns an object with two properties:
@@ -34,71 +34,39 @@ export type BreakpointName = "mobile" | "tablet" | "desktop"
  * - `query`: Media query string
  *
  * Breakpoint behavior:
- * - `mobile`: Uses max-width (targets screens up to mobile threshold)
- * - `tablet`: Uses min-width of mobile + 1 (derived, targets screens above mobile)
- * - `desktop`: Uses min-width (targets large screens)
+ * - `BREAKPOINT_SMALL` ("small"):  max-width query (0 to small threshold)
+ * - `BREAKPOINT_MEDIUM` ("medium"): min-width query (small + 1, derived)
+ * - `BREAKPOINT_LARGE` ("large"):  min-width query (large threshold and up)
  *
- * When `exact` is true, targets only that specific breakpoint range:
- * - `mobile`: max-width only (0 to mobile)
- * - `tablet`: min-width (mobile + 1) AND max-width (desktop - 1)
- * - `desktop`: min-width only (desktop and up)
+ * When `exact` is true, targets only that specific breakpoint range.
  *
- * @param name - Breakpoint name ("mobile", "tablet", "desktop")
+ * @param name - Breakpoint name
  * @param exact - If true, targets only this breakpoint range
  * @returns Object containing value and query properties
  * @throws Error if breakpoint name not found
  *
  * @example
- * // Get breakpoint values
- * getBreakpoint("mobile").value  // 440
- * getBreakpoint("tablet").value  // 441 (mobile + 1)
- * getBreakpoint("desktop").value // 1280
+ * import { getBreakpoint, BREAKPOINT_MEDIUM } from "nice-styles"
  *
- * @example
- * // Get media query strings
- * getBreakpoint("mobile").query  // "@media (max-width: 440px)"
- * getBreakpoint("tablet").query  // "@media (min-width: 441px)"
- * getBreakpoint("desktop").query // "@media (min-width: 1280px)"
- *
- * @example
- * // Exact breakpoint queries (only that range)
- * getBreakpoint("mobile", true).query  // "@media (max-width: 440px)"
- * getBreakpoint("tablet", true).query  // "@media (min-width: 441px) and (max-width: 1279px)"
- * getBreakpoint("desktop", true).query // "@media (min-width: 1280px)"
- *
- * @example
- * // Use in styled-components
  * const Container = styled.div`
- *   width: 100%;
- *
- *   ${getBreakpoint("tablet").query} {
+ *   ${getBreakpoint(BREAKPOINT_MEDIUM).query} {
  *     width: 50%;
- *   }
- *
- *   ${getBreakpoint("desktop").query} {
- *     width: 33%;
  *   }
  * `
  */
 export function getBreakpoint(name: BreakpointName, exact?: boolean): BreakpointResult {
-  if (name === "mobile") {
-    const value = breakpoints.mobile
-    if (exact) {
-      return {
-        value,
-        query: `@media (max-width: ${value}px)`
-      }
-    }
+  if (name === BREAKPOINT_SMALL) {
+    const value = breakpoints[BREAKPOINT_SMALL]
     return {
       value,
       query: `@media (max-width: ${value}px)`
     }
   }
 
-  if (name === "tablet") {
-    const value = breakpoints.mobile + 1
+  if (name === BREAKPOINT_MEDIUM) {
+    const value = breakpoints[BREAKPOINT_SMALL] + 1
     if (exact) {
-      const maxValue = breakpoints.desktop - 1
+      const maxValue = breakpoints[BREAKPOINT_LARGE] - 1
       return {
         value,
         query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)`
@@ -110,14 +78,8 @@ export function getBreakpoint(name: BreakpointName, exact?: boolean): Breakpoint
     }
   }
 
-  if (name === "desktop") {
-    const value = breakpoints.desktop
-    if (exact) {
-      return {
-        value,
-        query: `@media (min-width: ${value}px)`
-      }
-    }
+  if (name === BREAKPOINT_LARGE) {
+    const value = breakpoints[BREAKPOINT_LARGE]
     return {
       value,
       query: `@media (min-width: ${value}px)`
@@ -127,7 +89,7 @@ export function getBreakpoint(name: BreakpointName, exact?: boolean): Breakpoint
   throw new Error(
     formatError("breakpointNotFound", {
       name,
-      available: "mobile, tablet, desktop"
+      available: `${BREAKPOINT_SMALL}, ${BREAKPOINT_MEDIUM}, ${BREAKPOINT_LARGE}`
     })
   )
 }
