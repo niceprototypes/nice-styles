@@ -110,7 +110,7 @@ const componentTokensData: ComponentTokensData = {
       "error": "var(--np--foreground-color--error)"
     },
     "strokeWidth": {
-      "small": "var(--np--border-width--base)",
+      "small": "var(--np--border-width--small)",
       "base": "var(--np--border-width--base)",
       "large": "var(--np--border-width--large)"
     },

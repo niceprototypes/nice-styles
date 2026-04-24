@@ -7,9 +7,10 @@
  */
 
 export type AnimationDurationType = "base" | "slow"
+export type BackgroundSizeType = "contain" | "cover" | "fill" | "none" | "scale-down"
 export type AnimationEasingType = "base"
 export type BorderRadiusType = "smaller" | "small" | "base" | "large" | "larger"
-export type BorderWidthType = "none" | "base" | "large"
+export type BorderWidthType = "none" | "small" | "base" | "large"
 export type BoxShadowType = "base" | "large"
 export type CellHeightType = "smaller" | "small" | "base" | "large" | "larger"
 export type FontFamilyType = "base" | "code" | "heading"
@@ -19,7 +20,7 @@ export type LetterSpacingType = "tight" | "base" | "wide" | "wider"
 export type LineHeightType = "single" | "condensed" | "base" | "expanded"
 export type ForegroundColorType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "warning" | "error"
 export type BackgroundColorType = "base" | "dark"
-export type BorderColorType = "base" | "heavy" | "heavier"
+export type BorderColorType = "base" | "dark" | "darker"
 export type FontSizeType = "smaller" | "small" | "base" | "large" | "larger"
 
 export type ComponentPrefix = "button" | "icon" | "tile" | "lightbox" | "image" | "typography" | "input"

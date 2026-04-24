@@ -18,7 +18,7 @@ const colorTokensData: ColorTokensData = {
       "lighter": "hsla(210, 5%, 50%, 1)",
       "lightest": "hsla(210, 5%, 75%, 1)",
       "disabled": "hsla(210, 5%, 5%, 0.6)",
-      "link": "hsla(202, 100%, 50%, 1)",
+      "link": "hsla(223, 100%, 60%, 1)",
       "success": "hsla(146, 68%, 44%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",
       "error": "hsla(10, 92%, 63%, 1)"
@@ -29,8 +29,8 @@ const colorTokensData: ColorTokensData = {
     },
     "borderColor": {
       "base": "hsla(240, 9%, 91%, 1)",
-      "heavy": "hsla(210, 8%, 58%, 1)",
-      "heavier": "hsla(210, 10%, 25%, 1)"
+      "dark": "hsla(210, 8%, 58%, 1)",
+      "darker": "hsla(210, 10%, 25%, 1)"
     }
   },
   "night": {
@@ -51,8 +51,8 @@ const colorTokensData: ColorTokensData = {
     },
     "borderColor": {
       "base": "hsla(210, 5%, 95%, 0.25)",
-      "heavy": "hsla(210, 5%, 95%, 0.5)",
-      "heavier": "hsla(210, 5%, 95%, 0.75)"
+      "dark": "hsla(210, 5%, 95%, 0.5)",
+      "darker": "hsla(210, 5%, 95%, 0.75)"
     }
   }
 } as const

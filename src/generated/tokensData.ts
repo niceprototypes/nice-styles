@@ -15,6 +15,13 @@ const tokensData: TokensData = {
     "base": "300ms",
     "slow": "600ms"
   },
+  "backgroundSize": {
+    "contain": "contain",
+    "cover": "cover",
+    "fill": "fill",
+    "none": "none",
+    "scale-down": "scale-down"
+  },
   "animationEasing": {
     "base": "ease-in-out"
   },
@@ -27,6 +34,7 @@ const tokensData: TokensData = {
   },
   "borderWidth": {
     "none": "0",
+    "small": "1px",
     "base": "1.5px",
     "large": "2px"
   },

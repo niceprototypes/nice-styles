@@ -5,7 +5,6 @@
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
-  "style": "index.css",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -23,7 +22,6 @@
       "import": "./dist/constants.js",
       "default": "./dist/constants.js"
     },
-    "./css": "./index.css",
     "./variables.css": "./dist/variables.css",
     "./color-scheme.css": "./dist/color-scheme.css",
     "./css/*.css": "./dist/css/*.css",
@@ -32,9 +30,7 @@
   },
   "files": [
     "dist",
-    "static",
-    "index.css",
-    "variables.css"
+    "static"
   ],
   "scripts": {
     "build": "npm run build:types && npm run build:tokens && npm run build:css && npm run build:ts && npm run build:post",
