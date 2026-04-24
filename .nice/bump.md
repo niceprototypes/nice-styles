@@ -1,1 +1,0 @@
-major: Rename breakpoint identifiers mobile/tablet/desktop to small/medium/large (CSS variable suffixes and BREAKPOINTS keys change)
