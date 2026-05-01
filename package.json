@@ -1,6 +1,6 @@
 {
   "name": "nice-styles",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "A collection of CSS custom properties (variables) for consistent design tokens",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -34,12 +34,12 @@
   ],
   "scripts": {
     "build": "npm run build:types && npm run build:tokens && npm run build:css && npm run build:ts && npm run build:post",
-    "build:types": "node --loader ts-node/esm scripts/generateTypes.ts",
-    "build:tokens": "node --loader ts-node/esm scripts/generateTokens.ts",
-    "build:css": "node --loader ts-node/esm scripts/generateCss/index.ts",
+    "build:types": "tsx scripts/generateTypes.ts",
+    "build:tokens": "tsx scripts/generateTokens.ts",
+    "build:css": "tsx scripts/generateCss/index.ts",
     "build:ts": "tsc",
-    "build:post": "node --loader ts-node/esm scripts/postBuild.ts",
-    "dev": "tsc --watch & node --loader ts-node/esm scripts/generateCss/index.ts --watch & node --loader ts-node/esm scripts/generateTokens.ts --watch & node --loader ts-node/esm scripts/generateTypes.ts --watch",
+    "build:post": "tsx scripts/postBuild.ts",
+    "dev": "tsc --watch & tsx scripts/generateCss/index.ts --watch & tsx scripts/generateTokens.ts --watch & tsx scripts/generateTypes.ts --watch",
     "test": "echo \"No tests configured\"",
     "prepublishOnly": "npm run build && npm test",
     "prepare": "npm run build"
@@ -70,7 +70,7 @@
   "type": "module",
   "devDependencies": {
     "@types/node": "^24.8.0",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.3"
   }
 }

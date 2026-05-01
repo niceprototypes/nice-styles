@@ -18,7 +18,7 @@ const colorTokensData: ColorTokensData = {
       "lighter": "hsla(210, 5%, 50%, 1)",
       "lightest": "hsla(210, 5%, 75%, 1)",
       "disabled": "hsla(210, 5%, 5%, 0.6)",
-      "link": "hsla(223, 100%, 60%, 1)",
+      "link": "hsla(212, 100%, 46%, 1)",
       "success": "hsla(146, 68%, 44%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",
       "error": "hsla(10, 92%, 63%, 1)"
