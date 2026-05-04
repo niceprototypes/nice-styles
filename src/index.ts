@@ -72,9 +72,11 @@ export type {
 // Export mode types
 export type { ModeType } from './modeTypes.js'
 
-// Export the raw tokens data
+// Export the raw tokens data — flat core + day color values + small size values
 import tokensData from './generated/tokensData.js'
-export const Theme = tokensData
+import colorTokensData from './generated/colorTokensData.js'
+import sizeTokensData from './generated/sizeTokensData.js'
+export const Theme = { ...tokensData, ...colorTokensData.day, ...sizeTokensData.small }
 
 // Export component tokens data — used by nice-react-styles to detect component prefixes
 import componentTokensData from './generated/componentTokensData.js'
