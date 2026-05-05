@@ -81,3 +81,9 @@ export const Theme = { ...tokensData, ...colorTokensData.day, ...sizeTokensData.
 // Export component tokens data — used by nice-react-styles to detect component prefixes
 import componentTokensData from './generated/componentTokensData.js'
 export { componentTokensData }
+
+// Export raw color and size token modules — used by nice-react-styles to seed
+// foregroundColor/backgroundColor/borderColor (mode-aware) and fontSize (breakpoint-aware)
+// in its runtime registry with the original ModeValue/BreakpointValue shapes.
+export { default as colorTokensData } from './generated/colorTokensData.js'
+export { default as sizeTokensData } from './generated/sizeTokensData.js'
