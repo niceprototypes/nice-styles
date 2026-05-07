@@ -33,7 +33,8 @@
     "static"
   ],
   "scripts": {
-    "build": "npm run build:types && npm run build:tokens && npm run build:css && npm run build:ts && npm run build:post",
+    "build": "npm run clean && npm run build:types && npm run build:tokens && npm run build:css && npm run build:ts && npm run build:post",
+    "clean": "tsx scripts/clean.ts",
     "build:types": "tsx scripts/generateTypes.ts",
     "build:tokens": "tsx scripts/generateTokens.ts",
     "build:css": "tsx scripts/generateCss/index.ts",
