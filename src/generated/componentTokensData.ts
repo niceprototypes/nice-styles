@@ -205,7 +205,95 @@ const componentTokensData: ComponentTokensData = {
       "full": "none"
     }
   },
-  "input": {}
+  "input": {
+    "size": {
+      "smaller": "var(--np--cell-height--smaller)",
+      "small": "var(--np--cell-height--small)",
+      "base": "var(--np--cell-height--base)",
+      "large": "var(--np--cell-height--large)",
+      "larger": "var(--np--cell-height--larger)"
+    },
+    "spacing": {
+      "smaller": "calc(var(--np--cell-height--smaller) / 2)",
+      "small": "calc(var(--np--cell-height--small) / 2)",
+      "base": "calc(var(--np--cell-height--base) / 2)",
+      "large": "calc(var(--np--cell-height--large) / 2)",
+      "larger": "calc(var(--np--cell-height--larger) / 2)"
+    },
+    "borderRadius": {
+      "smaller": "var(--np--border-radius--smaller)",
+      "small": "var(--np--border-radius--small)",
+      "base": "var(--np--border-radius--base)",
+      "large": "var(--np--border-radius--large)",
+      "larger": "var(--np--border-radius--larger)"
+    },
+    "status": {
+      "primary": {
+        "base": {
+          "backgroundColor": "var(--np--background-color--base)",
+          "borderColor": "var(--np--foreground-color--lightest)",
+          "foregroundColor": "var(--np--foreground-color--base)",
+          "placeholderColor": "var(--np--foreground-color--lighter)"
+        },
+        "disabled": {
+          "backgroundColor": "#f5f5f5",
+          "borderColor": "#ddd",
+          "foregroundColor": "#888",
+          "placeholderColor": "#aaa"
+        },
+        "error": {
+          "backgroundColor": "var(--np--background-color--base)",
+          "borderColor": "var(--np--foreground-color--error)",
+          "foregroundColor": "var(--np--foreground-color--base)",
+          "placeholderColor": "var(--np--foreground-color--lighter)"
+        },
+        "success": {
+          "backgroundColor": "var(--np--background-color--base)",
+          "borderColor": "var(--np--foreground-color--success)",
+          "foregroundColor": "var(--np--foreground-color--base)",
+          "placeholderColor": "var(--np--foreground-color--lighter)"
+        },
+        "warning": {
+          "backgroundColor": "var(--np--background-color--base)",
+          "borderColor": "var(--np--foreground-color--warning)",
+          "foregroundColor": "var(--np--foreground-color--base)",
+          "placeholderColor": "var(--np--foreground-color--lighter)"
+        }
+      },
+      "secondary": {
+        "base": {
+          "backgroundColor": "var(--np--background-color--alternate)",
+          "borderColor": "transparent",
+          "foregroundColor": "var(--np--foreground-color--base)",
+          "placeholderColor": "var(--np--foreground-color--lighter)"
+        },
+        "disabled": {
+          "backgroundColor": "#f5f5f5",
+          "borderColor": "transparent",
+          "foregroundColor": "#888",
+          "placeholderColor": "#aaa"
+        },
+        "error": {
+          "backgroundColor": "var(--np--background-color--alternate)",
+          "borderColor": "var(--np--foreground-color--error)",
+          "foregroundColor": "var(--np--foreground-color--base)",
+          "placeholderColor": "var(--np--foreground-color--lighter)"
+        },
+        "success": {
+          "backgroundColor": "var(--np--background-color--alternate)",
+          "borderColor": "var(--np--foreground-color--success)",
+          "foregroundColor": "var(--np--foreground-color--base)",
+          "placeholderColor": "var(--np--foreground-color--lighter)"
+        },
+        "warning": {
+          "backgroundColor": "var(--np--background-color--alternate)",
+          "borderColor": "var(--np--foreground-color--warning)",
+          "foregroundColor": "var(--np--foreground-color--base)",
+          "placeholderColor": "var(--np--foreground-color--lighter)"
+        }
+      }
+    }
+  }
 } as const
 
 export default componentTokensData
