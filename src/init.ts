@@ -10,7 +10,7 @@ import { registerModule } from './store.js'
 import coreData from './generated/tokensData.js'
 import colorData from './generated/colorTokensData.js'
 import sizeData from './generated/sizeTokensData.js'
-import { BREAKPOINT_SMALL } from './constants/breakpoints.js'
+import { BREAKPOINT_PHONE } from './constants/breakpoints.js'
 
 /** Wrap core's flat token map into the dimensioned format: { base: tokenMap } */
 registerModule('core', 'base', { base: coreData })
@@ -18,5 +18,5 @@ registerModule('core', 'base', { base: coreData })
 /** Color module dimensions come pre-keyed by mode: { day: {...}, night: {...} } */
 registerModule('color', 'day', colorData)
 
-/** Size module dimensions come pre-keyed by breakpoint: { small: {...}, medium: {...}, large: {...} } */
-registerModule('size', BREAKPOINT_SMALL, sizeData)
+/** Size module dimensions come pre-keyed by breakpoint: { phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} } */
+registerModule('size', BREAKPOINT_PHONE, sizeData)

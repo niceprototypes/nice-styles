@@ -1,9 +1,10 @@
 import { formatError } from '../utilities/formatError.js'
 import {
   BREAKPOINTS,
-  BREAKPOINT_SMALL,
-  BREAKPOINT_MEDIUM,
-  BREAKPOINT_LARGE,
+  BREAKPOINT_PHONE,
+  BREAKPOINT_TABLET,
+  BREAKPOINT_LAPTOP,
+  BREAKPOINT_DESKTOP,
   type BreakpointName,
 } from '../constants/breakpoints.js'
 
@@ -34,11 +35,13 @@ export interface BreakpointResult {
  * - `query`: Media query string
  *
  * Breakpoint behavior:
- * - `BREAKPOINT_SMALL` ("small"):  max-width query (0 to small threshold)
- * - `BREAKPOINT_MEDIUM` ("medium"): min-width query (small + 1, derived)
- * - `BREAKPOINT_LARGE` ("large"):  min-width query (large threshold and up)
+ * - `BREAKPOINT_PHONE`   ("phone"):   max-width query (0 to phone threshold)
+ * - `BREAKPOINT_TABLET`  ("tablet"):  min-width query (phone + 1, derived range)
+ * - `BREAKPOINT_LAPTOP`  ("laptop"):  min-width query (laptop threshold and up)
+ * - `BREAKPOINT_DESKTOP` ("desktop"): min-width query (desktop threshold and up)
  *
- * When `exact` is true, targets only that specific breakpoint range.
+ * When `exact` is true, targets only that specific breakpoint range
+ * (bounded by the next-larger breakpoint's threshold minus one).
  *
  * @param name - Breakpoint name
  * @param exact - If true, targets only this breakpoint range
@@ -46,27 +49,27 @@ export interface BreakpointResult {
  * @throws Error if breakpoint name not found
  *
  * @example
- * import { getBreakpoint, BREAKPOINT_MEDIUM } from "nice-styles"
+ * import { getBreakpoint, BREAKPOINT_TABLET } from "nice-styles"
  *
  * const Container = styled.div`
- *   ${getBreakpoint(BREAKPOINT_MEDIUM).query} {
+ *   ${getBreakpoint(BREAKPOINT_TABLET).query} {
  *     width: 50%;
  *   }
  * `
  */
 export function getBreakpoint(name: BreakpointName, exact?: boolean): BreakpointResult {
-  if (name === BREAKPOINT_SMALL) {
-    const value = breakpoints[BREAKPOINT_SMALL]
+  if (name === BREAKPOINT_PHONE) {
+    const value = breakpoints[BREAKPOINT_PHONE]
     return {
       value,
       query: `@media (max-width: ${value}px)`
     }
   }
 
-  if (name === BREAKPOINT_MEDIUM) {
-    const value = breakpoints[BREAKPOINT_SMALL] + 1
+  if (name === BREAKPOINT_TABLET) {
+    const value = breakpoints[BREAKPOINT_PHONE] + 1
     if (exact) {
-      const maxValue = breakpoints[BREAKPOINT_LARGE] - 1
+      const maxValue = breakpoints[BREAKPOINT_LAPTOP] - 1
       return {
         value,
         query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)`
@@ -78,8 +81,23 @@ export function getBreakpoint(name: BreakpointName, exact?: boolean): Breakpoint
     }
   }
 
-  if (name === BREAKPOINT_LARGE) {
-    const value = breakpoints[BREAKPOINT_LARGE]
+  if (name === BREAKPOINT_LAPTOP) {
+    const value = breakpoints[BREAKPOINT_LAPTOP]
+    if (exact) {
+      const maxValue = breakpoints[BREAKPOINT_DESKTOP] - 1
+      return {
+        value,
+        query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)`
+      }
+    }
+    return {
+      value,
+      query: `@media (min-width: ${value}px)`
+    }
+  }
+
+  if (name === BREAKPOINT_DESKTOP) {
+    const value = breakpoints[BREAKPOINT_DESKTOP]
     return {
       value,
       query: `@media (min-width: ${value}px)`
@@ -89,7 +107,7 @@ export function getBreakpoint(name: BreakpointName, exact?: boolean): Breakpoint
   throw new Error(
     formatError("breakpointNotFound", {
       name,
-      available: `${BREAKPOINT_SMALL}, ${BREAKPOINT_MEDIUM}, ${BREAKPOINT_LARGE}`
+      available: `${BREAKPOINT_PHONE}, ${BREAKPOINT_TABLET}, ${BREAKPOINT_LAPTOP}, ${BREAKPOINT_DESKTOP}`
     })
   )
 }

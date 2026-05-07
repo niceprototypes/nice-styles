@@ -53,7 +53,7 @@ export type SpacingResponsiveType = {
  * SpacingType
  *
  * Union type for spacing, supporting two formats:
- * - Shorthand string: "small", "small base", etc. (applies to small breakpoint)
- * - Responsive object: { small: "base", medium: null, large: "small large" }
+ * - Shorthand string: "small", "small base", etc. (applies to phone breakpoint)
+ * - Responsive object: { phone: "base", tablet: null, laptop: "small large" }
  */
 export type SpacingType = SpacingShorthandType | SpacingResponsiveType

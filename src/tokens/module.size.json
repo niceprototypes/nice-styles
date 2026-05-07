@@ -1,5 +1,5 @@
 {
-  "small": {
+  "phone": {
     "fontSize": {
       "smaller": "11px",
       "small": "12px",
@@ -8,8 +8,8 @@
       "larger": "28px"
     }
   },
-  "medium": {},
-  "large": {
+  "tablet": {},
+  "laptop": {
     "fontSize": {
       "smaller": "12px",
       "small": "14px",
@@ -17,5 +17,6 @@
       "large": "24px",
       "larger": "32px"
     }
-  }
+  },
+  "desktop": {}
 }

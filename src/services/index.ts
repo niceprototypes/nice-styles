@@ -8,9 +8,10 @@
 export { getBreakpoint } from './getBreakpoint.js'
 export type { BreakpointResult, BreakpointName } from './getBreakpoint.js'
 export {
-  BREAKPOINT_SMALL,
-  BREAKPOINT_MEDIUM,
-  BREAKPOINT_LARGE,
+  BREAKPOINT_PHONE,
+  BREAKPOINT_TABLET,
+  BREAKPOINT_LAPTOP,
+  BREAKPOINT_DESKTOP,
   BREAKPOINTS,
 } from '../constants/breakpoints.js'
 export type { BreakpointValues } from '../constants/breakpoints.js'

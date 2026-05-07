@@ -32,8 +32,8 @@
  * // → "var(--np--foreground-color--base--night)"
  *
  * @example
- * // Get medium breakpoint size token
- * getCoreToken("fontSize", "large", { breakpoint: "medium" }).var
+ * // Get tablet breakpoint size token
+ * getCoreToken("fontSize", "large", { breakpoint: "tablet" }).var
  * // → "var(--np--font-size--large)"
  */
 
@@ -44,7 +44,7 @@ import { formatError } from '../utilities/formatError.js'
 export interface CoreTokenConfig {
   /** Theme mode (e.g., "day", "night"). Looks up the "color" module. */
   mode?: string
-  /** Responsive breakpoint (e.g., "small", "medium", "large"). Looks up the "size" module. */
+  /** Responsive breakpoint (e.g., "phone", "tablet", "laptop"). Looks up the "size" module. */
   breakpoint?: string
 }
 

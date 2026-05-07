@@ -63,7 +63,7 @@ export interface CssConstantOptions {
  *
  * @example
  * // Breakpoint primitive
- * getConstant("fontSize", "large", { breakpoint: "small" })
+ * getConstant("fontSize", "large", { breakpoint: "phone" })
  * // { key: "--np--font-size--large--small", var: "var(--np--font-size--large--small)" }
  *
  * @example

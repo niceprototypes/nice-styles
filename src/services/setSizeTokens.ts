@@ -2,7 +2,7 @@
  * Batch setter for size module (breakpoint) token overrides.
  *
  * Merges the provided overrides into the size module and reprocesses.
- * Each key is a breakpoint name ("small", "medium", "large") mapping to token groups.
+ * Each key is a breakpoint name ("phone", "tablet", "laptop") mapping to token groups.
  *
  * @param tokens - Override map: { breakpoint: { group: { item: value } } }
  *
