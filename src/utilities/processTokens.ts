@@ -13,7 +13,7 @@ import type { TokenMap } from './separateTokens.js'
 import { separateTokens } from './separateTokens.js'
 import { mergeTokens } from './mergeTokens.js'
 import { validateOverrides } from './validateOverrides.js'
-import { resolveDerived } from './resolveDerived.js'
+import { resolveDerived } from './resolveDerived/index.js'
 
 export function processTokens(
   sourceTokens: TokenMap,

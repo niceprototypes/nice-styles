@@ -14,7 +14,7 @@
  */
 
 import { setModuleOverrides } from '../store.js'
-import type { TokenMap } from '../engine/separateTokens.js'
+import type { TokenMap } from '../utilities/separateTokens.js'
 
 export function setCoreTokens(tokens: TokenMap): void {
   setModuleOverrides('core', { base: tokens })

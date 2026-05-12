@@ -26,8 +26,8 @@
  * getModuleValue("color", "night", "foregroundColor", "base")  // → night value
  */
 
-import type { TokenMap } from './engine/separateTokens.js'
-import { processTokens } from './engine/processTokens.js'
+import type { TokenMap } from './utilities/separateTokens.js'
+import { processTokens } from './utilities/processTokens.js'
 
 /** A keyed collection of token maps, one per dimension value (e.g., "day" → TokenMap, "night" → TokenMap) */
 export type DimensionMap = Record<string, TokenMap>
