@@ -11,14 +11,42 @@ import { getConstant } from '../../src/services/getConstant.js'
 import type { CssEmitResult } from './types.js'
 
 /**
+ * Build the semantic CSS variable line — `\t--np--{cssName}--{variant}: {value};`.
+ * This is the variable components reference; the media query later reassigns it.
+ */
+function buildSemanticLine(cssName: string, variant: string, value: string): string {
+  return `\t${getConstant(cssName, variant).key}: ${value};`
+}
+
+/**
+ * Build the day-mode primitive line — pinned to the day value, never reassigned.
+ */
+function buildDayPrimitiveLine(cssName: string, variant: string, value: string): string {
+  return `\t${getConstant(cssName, variant, { mode: "day" }).key}: ${value};`
+}
+
+/**
+ * Build the night-mode primitive line — pinned to the night value, never reassigned.
+ */
+function buildNightPrimitiveLine(cssName: string, variant: string, value: string): string {
+  return `\t${getConstant(cssName, variant, { mode: "night" }).key}: ${value};`
+}
+
+/**
+ * Build the @media body line that reassigns the semantic var to the night primitive.
+ */
+function buildNightMediaLine(cssName: string, variant: string): string {
+  const semantic = getConstant(cssName, variant).key
+  const nightPrimitive = getConstant(cssName, variant, { mode: "night" }).key
+  return `\t\t${semantic}: var(${nightPrimitive});`
+}
+
+/**
  * Generates CSS lines for a single core token group, including mode primitives.
  *
  * For each variant in the token group:
- * - Always emits the semantic variable: `--np--{cssName}--{variant}: {value};`
- * - If a night override exists, also emits:
- *   - Day primitive: `--np--{cssName}--{variant}--day: {value};`
- *   - Night primitive: `--np--{cssName}--{variant}--night: {nightValue};`
- *   - Media query reassignment: `--np--{cssName}--{variant}: var(--np--{cssName}--{variant}--night);`
+ * - Always emits the semantic variable.
+ * - If a night override exists, also emits day/night primitives and a media-body line.
  */
 export function generateTokenGroupCss(
   cssName: string,
@@ -31,25 +59,28 @@ export function generateTokenGroupCss(
   const nightMediaBody: string[] = []
 
   for (const [variantName, value] of Object.entries(variants)) {
-    // Semantic variable — the one components reference, reassigned by media query in dark mode
-    const cssVar = getConstant(cssName, variantName)
-    semanticLines.push(`\t${cssVar.key}: ${value};`)
+    semanticLines.push(buildSemanticLine(cssName, variantName, value))
 
-    if (nightVariants[variantName]) {
-      // Day primitive — always resolves to the day (default) value, never reassigned
-      const dayCssVar = getConstant(cssName, variantName, { mode: "day" })
-      dayPrimitives.push(`\t${dayCssVar.key}: ${value};`)
-
-      // Night primitive — always resolves to the night value, never reassigned
-      const nightCssVar = getConstant(cssName, variantName, { mode: "night" })
-      nightPrimitives.push(`\t${nightCssVar.key}: ${nightVariants[variantName]};`)
-
-      // Media query entry — reassigns the semantic variable to the night primitive
-      nightMediaBody.push(`\t\t${cssVar.key}: var(${nightCssVar.key});`)
+    const nightValue = nightVariants[variantName]
+    if (nightValue) {
+      dayPrimitives.push(buildDayPrimitiveLine(cssName, variantName, value))
+      nightPrimitives.push(buildNightPrimitiveLine(cssName, variantName, nightValue))
+      nightMediaBody.push(buildNightMediaLine(cssName, variantName))
     }
   }
 
   return { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody }
+}
+
+/**
+ * Append a section to the individual-file output: blank line, header comment, body lines.
+ * No-op when body is empty so the file stays compact.
+ */
+function pushSection(lines: string[], header: string, body: string[]): void {
+  if (body.length === 0) return
+  lines.push('')
+  lines.push(header)
+  lines.push(...body)
 }
 
 /**
@@ -69,19 +100,8 @@ export function buildIndividualCss(
   const lines: string[] = []
   lines.push(':root {')
   lines.push(...semanticLines)
-
-  if (dayPrimitives.length > 0) {
-    lines.push('')
-    lines.push('\t/* Day mode primitives */')
-    lines.push(...dayPrimitives)
-  }
-
-  if (nightPrimitives.length > 0) {
-    lines.push('')
-    lines.push('\t/* Night mode primitives */')
-    lines.push(...nightPrimitives)
-  }
-
+  pushSection(lines, '\t/* Day mode primitives */', dayPrimitives)
+  pushSection(lines, '\t/* Night mode primitives */', nightPrimitives)
   lines.push('}')
 
   return lines.join('\n')

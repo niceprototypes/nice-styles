@@ -52,83 +52,107 @@ export function buildCombinedCss(
   const allNightPrimitives: string[] = []
   const allNightMediaBody: string[] = []
 
-  cssLines.push(':root {')
-  // Default to light — color-scheme.css overrides this to "light dark" when auto dark mode is enabled
-  cssLines.push('\tcolor-scheme: light;')
-  cssLines.push('')
+  const pushRootOpen = () => {
+    cssLines.push(':root {')
+    // Default to light — color-scheme.css overrides this to "light dark" when auto dark mode is enabled
+    cssLines.push('\tcolor-scheme: light;')
+    cssLines.push('')
+  }
 
-  // Phase 1: Generate core token groups — semantic variables go inline, primitives accumulate
-  const tokenNames = Object.keys(tokens)
+  const pushCoreTokenGroups = () => {
+    const tokenNames = Object.keys(tokens)
 
-  for (let i = 0; i < tokenNames.length; i++) {
-    const tokenName = tokenNames[i]
-    const cssName = camelToKebab(tokenName)
-    // Fall back to empty if this group has no night overrides
-    const nightVariants = nightTokens[tokenName] || {}
+    for (let i = 0; i < tokenNames.length; i++) {
+      const tokenName = tokenNames[i]
+      const cssName = camelToKebab(tokenName)
+      // Fall back to empty if this group has no night overrides
+      const nightVariants = nightTokens[tokenName] || {}
 
-    const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody } =
-      generateTokenGroupCss(cssName, tokens[tokenName], nightVariants)
+      const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody } =
+        generateTokenGroupCss(cssName, tokens[tokenName], nightVariants)
 
-    // Semantic lines go inline per group for visual grouping in the output CSS
-    cssLines.push(...semanticLines)
-    // Primitives and media body accumulate across all groups for batched output
-    allDayPrimitives.push(...dayPrimitives)
-    allNightPrimitives.push(...nightPrimitives)
-    allNightMediaBody.push(...nightMediaBody)
+      // Semantic lines go inline per group for visual grouping in the output CSS
+      cssLines.push(...semanticLines)
+      // Primitives and media body accumulate across all groups for batched output
+      allDayPrimitives.push(...dayPrimitives)
+      allNightPrimitives.push(...nightPrimitives)
+      allNightMediaBody.push(...nightMediaBody)
 
-    // Blank line between token groups for readability (except after the last one)
-    if (i < tokenNames.length - 1) {
-      cssLines.push('')
+      // Blank line between token groups for readability (except after the last one)
+      if (i < tokenNames.length - 1) {
+        cssLines.push('')
+      }
     }
   }
 
-  // Phase 2: Append batched core primitives after all semantic groups
-  if (allDayPrimitives.length > 0) {
+  const pushDayPrimitives = () => {
+    if (allDayPrimitives.length === 0) return
     cssLines.push('')
     cssLines.push('\t/* Day mode primitives */')
     cssLines.push(...allDayPrimitives)
   }
 
-  if (allNightPrimitives.length > 0) {
+  const pushNightPrimitives = () => {
+    if (allNightPrimitives.length === 0) return
     cssLines.push('')
     cssLines.push('\t/* Night mode primitives */')
     cssLines.push(...allNightPrimitives)
   }
 
-  // Phase 3: Generate component tokens and append after core
-  const componentResult = generateComponentTokenCss(componentTokens, componentNightTokens)
-  if (componentResult.semanticLines.length > 0) {
-    cssLines.push(...componentResult.semanticLines)
+  const pushComponentSemantics = (lines: string[]) => {
+    if (lines.length === 0) return
+    cssLines.push(...lines)
   }
 
-  // Component primitives are kept separate from core primitives with their own section headers
-  if (componentResult.dayPrimitives.length > 0) {
+  const pushComponentDayPrimitives = (lines: string[]) => {
+    if (lines.length === 0) return
     cssLines.push('')
     cssLines.push('\t/* Component day mode primitives */')
-    cssLines.push(...componentResult.dayPrimitives)
+    cssLines.push(...lines)
   }
 
-  if (componentResult.nightPrimitives.length > 0) {
+  const pushComponentNightPrimitives = (lines: string[]) => {
+    if (lines.length === 0) return
     cssLines.push('')
     cssLines.push('\t/* Component night mode primitives */')
-    cssLines.push(...componentResult.nightPrimitives)
+    cssLines.push(...lines)
   }
 
+  const pushSizePrimitives = (lines: string[]) => {
+    if (lines.length === 0) return
+    cssLines.push(...lines)
+  }
+
+  const pushRootClose = () => {
+    cssLines.push('}')
+  }
+
+  const pushSizeMediaBlocks = (blocks: string[]) => {
+    if (blocks.length === 0) return
+    cssLines.push(...blocks)
+  }
+
+  // Phase 1: core token groups — semantic variables go inline, primitives accumulate
+  pushRootOpen()
+  pushCoreTokenGroups()
+
+  // Phase 2: batched core primitives after all semantic groups
+  pushDayPrimitives()
+  pushNightPrimitives()
+
+  // Phase 3: component tokens — semantic lines, then dedicated primitive sections
+  const componentResult = generateComponentTokenCss(componentTokens, componentNightTokens)
+  pushComponentSemantics(componentResult.semanticLines)
+  pushComponentDayPrimitives(componentResult.dayPrimitives)
+  pushComponentNightPrimitives(componentResult.nightPrimitives)
   // Merge component media body into the shared accumulator — color-scheme.css gets one combined block
   allNightMediaBody.push(...componentResult.nightMediaBody)
 
-  // Phase 4: Generate size breakpoint primitives — placed inside :root alongside color primitives
+  // Phase 4: size breakpoint primitives — inside :root; media blocks go outside
   const sizeResult = generateSizeTokenCss(sizeTokens)
-  if (sizeResult.primitiveLines.length > 0) {
-    cssLines.push(...sizeResult.primitiveLines)
-  }
-
-  cssLines.push('}')
-
-  // Size @media blocks go outside :root — they reassign semantic variables at breakpoints
-  if (sizeResult.mediaBlocks.length > 0) {
-    cssLines.push(...sizeResult.mediaBlocks)
-  }
+  pushSizePrimitives(sizeResult.primitiveLines)
+  pushRootClose()
+  pushSizeMediaBlocks(sizeResult.mediaBlocks)
 
   return { css: cssLines.join('\n'), nightMediaBody: allNightMediaBody }
 }

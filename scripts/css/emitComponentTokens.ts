@@ -13,6 +13,58 @@ import { camelToKebab } from '../../src/utilities/camelToKebab.js'
 import type { ComponentTokens, TokenNode, CssEmitResult } from './types.js'
 
 /**
+ * Build the full CSS variable name from a component prefix and a nesting path.
+ * Each path segment is kebab-cased independently before joining with `--`.
+ */
+function buildCssKey(prefix: string, pathSegments: string[]): string {
+  const cssSegments = pathSegments.map(s => camelToKebab(s))
+  return `--${NAMESPACE}--${prefix}--${cssSegments.join('--')}`
+}
+
+/**
+ * Build the semantic CSS variable line for a component token.
+ */
+function buildSemanticLine(cssKey: string, value: string): string {
+  return `\t${cssKey}: ${value};`
+}
+
+/**
+ * Build the day-mode primitive line — pinned to the day value, never reassigned.
+ */
+function buildDayPrimitiveLine(cssKey: string, value: string): string {
+  return `\t${cssKey}--day: ${value};`
+}
+
+/**
+ * Build the night-mode primitive line — pinned to the night value, never reassigned.
+ */
+function buildNightPrimitiveLine(cssKey: string, value: string): string {
+  return `\t${cssKey}--night: ${value};`
+}
+
+/**
+ * Build the @media body line that reassigns the semantic var to the night primitive.
+ */
+function buildNightMediaLine(cssKey: string): string {
+  return `\t\t${cssKey}: var(${cssKey}--night);`
+}
+
+/**
+ * Resolve the parallel night branch at a given key, falling back to {} when day
+ * has a branch but night has no overrides for it. Strings can't be branches.
+ */
+function getNightBranch(
+  nightNode: { [key: string]: TokenNode },
+  key: string
+): { [key: string]: TokenNode } {
+  const sub = nightNode[key]
+  if (sub && typeof sub === 'object') {
+    return sub as { [key: string]: TokenNode }
+  }
+  return {}
+}
+
+/**
  * Generates CSS lines for component tokens, including night-mode primitives
  * for any component tokens that have night overrides.
  *
@@ -32,6 +84,25 @@ export function generateComponentTokenCss(
   const nightMediaBody: string[] = []
 
   /**
+   * Handle a leaf in the token tree. Emits the semantic line and, when a night
+   * override exists at the same path, the matching primitives + media entry.
+   */
+  function emitLeaf(
+    prefix: string,
+    pathSegments: string[],
+    value: string,
+    nightValue: TokenNode | undefined
+  ): void {
+    const cssKey = buildCssKey(prefix, pathSegments)
+    semanticLines.push(buildSemanticLine(cssKey, value))
+
+    if (typeof nightValue !== 'string') return
+    dayPrimitives.push(buildDayPrimitiveLine(cssKey, value))
+    nightPrimitives.push(buildNightPrimitiveLine(cssKey, nightValue))
+    nightMediaBody.push(buildNightMediaLine(cssKey))
+  }
+
+  /**
    * Recursively walk the token tree. When a string leaf is found, emit CSS.
    * pathSegments accumulates the nesting path (each becomes a -- segment).
    * nightNode mirrors the day structure but only contains overrides.
@@ -43,39 +114,27 @@ export function generateComponentTokenCss(
     pathSegments: string[]
   ): void {
     for (const [key, value] of Object.entries(dayNode)) {
-      // Accumulate path — each key becomes a -- segment in the CSS variable name
       const newPath = [...pathSegments, key]
 
       if (typeof value === 'string') {
-        // Leaf: convert each path segment independently (camelCase → kebab-case) and join with --
-        const cssSegments = newPath.map(s => camelToKebab(s))
-        const cssKey = `--${NAMESPACE}--${prefix}--${cssSegments.join('--')}`
+        emitLeaf(prefix, newPath, value, nightNode[key])
+        continue
+      }
 
-        // Semantic variable — the one components reference
-        semanticLines.push(`\t${cssKey}: ${value};`)
-
-        // Check for night override at this exact leaf path
-        const nightValue = nightNode[key]
-        if (typeof nightValue === 'string') {
-          // Day primitive — pinned to the day value, never reassigned by media query
-          const dayCssKey = `${cssKey}--day`
-          dayPrimitives.push(`\t${dayCssKey}: ${value};`)
-
-          // Night primitive — pinned to the night value, never reassigned by media query
-          const nightCssKey = `${cssKey}--night`
-          nightPrimitives.push(`\t${nightCssKey}: ${nightValue};`)
-
-          // Media query entry — reassigns the semantic variable to the night primitive
-          nightMediaBody.push(`\t\t${cssKey}: var(${nightCssKey});`)
-        }
-      } else if (typeof value === 'object' && value !== null) {
-        // Branch: recurse deeper, carrying the parallel night node (or empty if no night overrides at this depth)
-        const nightSubNode = (nightNode[key] && typeof nightNode[key] === 'object')
-          ? nightNode[key] as { [key: string]: TokenNode }
-          : {}
-        walk(prefix, value as { [key: string]: TokenNode }, nightSubNode, newPath)
+      if (typeof value === 'object' && value !== null) {
+        // Branch: recurse deeper, carrying the parallel night node
+        walk(prefix, value as { [key: string]: TokenNode }, getNightBranch(nightNode, key), newPath)
       }
     }
+  }
+
+  /**
+   * Push a blank line + comment header before each prefix's semantic lines,
+   * so the output is visually grouped per component in the generated CSS.
+   */
+  function pushPrefixHeader(prefix: string): void {
+    semanticLines.push('')
+    semanticLines.push(`\t/* ${prefix} component tokens */`)
   }
 
   // Process each component prefix independently, seeding walk with an empty path
@@ -83,9 +142,7 @@ export function generateComponentTokenCss(
     // Fall back to empty object if this prefix has no night overrides
     const nightTokenMap = componentNightTokens[prefix] || {}
 
-    semanticLines.push('')
-    semanticLines.push(`\t/* ${prefix} component tokens */`)
-
+    pushPrefixHeader(prefix)
     walk(
       prefix,
       tokenMap as { [key: string]: TokenNode },
