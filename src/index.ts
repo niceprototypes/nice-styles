@@ -15,13 +15,13 @@
  * ### Core Token Function
  * Static core token retrieval with CSS variables and raw values:
  * ```ts
- * import { getCoreToken } from 'nice-styles'
- * const fontSize = getCoreToken('fontSize')
+ * import { getToken } from 'nice-styles'
+ * const fontSize = getToken('fontSize')
  * console.log(fontSize.key)   // "--np--font-size--base"
  * console.log(fontSize.var)   // "var(--np--font-size--base)"
  * console.log(fontSize.value) // "16px"
  *
- * const large = getCoreToken('fontSize', 'large')
+ * const large = getToken('fontSize', 'large')
  * console.log(large.value) // "24px"
  * ```
  *
@@ -45,7 +45,7 @@ export {
   BREAKPOINT_LAPTOP,
   BREAKPOINT_DESKTOP,
   BREAKPOINTS,
-  getCoreToken,
+  getToken,
   getColorToken,
   getSizeToken,
   setCoreTokens,

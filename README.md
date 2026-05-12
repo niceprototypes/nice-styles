@@ -243,16 +243,16 @@ const styles = {
 ### Dynamic Token Function
 
 ```typescript
-import { getToken } from 'nice-styles'
+import { getReactToken } from 'nice-styles'
 
 // Get token with CSS variable and raw value
-const fontSize = getToken('fontSize')
+const fontSize = getReactToken('fontSize')
 console.log(fontSize.key)   // "--font-size-base"
 console.log(fontSize.var)   // "var(--font-size-base)"
 console.log(fontSize.value) // "16px"
 
 // Get specific token item
-const large = getToken('fontSize', 'large')
+const large = getReactToken('fontSize', 'large')
 console.log(large.value) // "24px"
 ```
 

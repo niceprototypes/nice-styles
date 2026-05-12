@@ -23,17 +23,17 @@
  *
  * @example
  * // Get base core token
- * getCoreToken("fontSize", "base").var
+ * getToken("fontSize", "base").var
  * // → "var(--np--font-size--base)"
  *
  * @example
  * // Get night mode color token
- * getCoreToken("foregroundColor", "base", { mode: "night" }).var
+ * getToken("foregroundColor", "base", { mode: "night" }).var
  * // → "var(--np--foreground-color--base--night)"
  *
  * @example
  * // Get tablet breakpoint size token
- * getCoreToken("fontSize", "large", { breakpoint: "tablet" }).var
+ * getToken("fontSize", "large", { breakpoint: "tablet" }).var
  * // → "var(--np--font-size--large)"
  */
 
@@ -57,7 +57,7 @@ export interface TokenResult {
   value: string
 }
 
-export function getCoreToken(
+export function getToken(
   group: string,
   item: string = 'base',
   config?: CoreTokenConfig

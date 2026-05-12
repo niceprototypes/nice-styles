@@ -15,8 +15,8 @@ export {
   BREAKPOINTS,
 } from '../constants/breakpoints.js'
 export type { BreakpointValues } from '../constants/breakpoints.js'
-export { getCoreToken } from './getCoreToken.js'
-export type { CoreTokenConfig } from './getCoreToken.js'
+export { getToken } from './getToken.js'
+export type { CoreTokenConfig } from './getToken.js'
 export { getColorToken } from './getColorToken.js'
 export { getSizeToken } from './getSizeToken.js'
 export { setCoreTokens } from './setCoreTokens.js'

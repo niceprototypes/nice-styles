@@ -1,7 +1,7 @@
 /**
  * Convenience getter for color (mode) tokens.
  *
- * Delegates to getCoreToken with the mode in config.
+ * Delegates to getToken with the mode in config.
  *
  * @param group - Token group name (e.g., "foregroundColor", "backgroundColor")
  * @param item - Item name within the group (defaults to "base")
@@ -13,12 +13,12 @@
  * // → "hsla(210, 5%, 95%, 1)"
  */
 
-import { getCoreToken, type TokenResult } from './getCoreToken.js'
+import { getToken, type TokenResult } from './getToken.js'
 
 export function getColorToken(
   group: string,
   item: string = 'base',
   mode: string = 'day'
 ): TokenResult {
-  return getCoreToken(group, item, { mode })
+  return getToken(group, item, { mode })
 }

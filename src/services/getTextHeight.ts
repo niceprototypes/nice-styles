@@ -1,4 +1,4 @@
-import { getCoreToken } from './getCoreToken.js'
+import { getToken } from './getToken.js'
 import type { FontSizeType } from '../generated/types.js'
 import type { LineHeightType } from '../generated/types.js'
 
@@ -20,7 +20,7 @@ const getTextHeight = (
   fontSize: FontSizeType = "base",
   lineHeight: LineHeightType = "base"
 ) => ({
-  var: `calc(${getCoreToken("fontSize", fontSize).var} * ${getCoreToken("lineHeight", lineHeight).var})`,
+  var: `calc(${getToken("fontSize", fontSize).var} * ${getToken("lineHeight", lineHeight).var})`,
 })
 
 export default getTextHeight
