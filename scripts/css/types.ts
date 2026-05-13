@@ -47,6 +47,6 @@ export interface CssEmitResult {
   dayPrimitives: string[]
   /** Lines for the night primitives section (stable night references, never reassigned) */
   nightPrimitives: string[]
-  /** Lines for the @media (prefers-color-scheme: dark) body in color-scheme.css */
+  /** Lines for the @media (prefers-color-scheme: dark) body appended to variables.css */
   nightMediaBody: string[]
 }

@@ -5,8 +5,8 @@
  * Internal utilities (camelToKebab, formatError, etc.) live in ../utilities/.
  */
 
-export { getBreakpoint } from './getBreakpoint.js'
-export type { BreakpointResult, BreakpointName } from './getBreakpoint.js'
+export { getBreakpoint, getBreakpointValue } from './getBreakpoint.js'
+export type { BreakpointName } from './getBreakpoint.js'
 export {
   BREAKPOINT_PHONE,
   BREAKPOINT_TABLET,

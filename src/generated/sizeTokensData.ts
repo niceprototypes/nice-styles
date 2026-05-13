@@ -20,7 +20,15 @@ const sizeTokensData: SizeTokensData = {
       "larger": "28px"
     }
   },
-  "tablet": {},
+  "tablet": {
+    "fontSize": {
+      "smaller": "11px",
+      "small": "12px",
+      "base": "14px",
+      "large": "20px",
+      "larger": "28px"
+    }
+  },
   "laptop": {
     "fontSize": {
       "smaller": "12px",
@@ -30,7 +38,15 @@ const sizeTokensData: SizeTokensData = {
       "larger": "32px"
     }
   },
-  "desktop": {}
+  "desktop": {
+    "fontSize": {
+      "smaller": "12px",
+      "small": "14px",
+      "base": "16px",
+      "large": "24px",
+      "larger": "32px"
+    }
+  }
 } as const
 
 export default sizeTokensData

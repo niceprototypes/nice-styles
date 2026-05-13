@@ -13,95 +13,54 @@ export type { BreakpointName }
 const breakpoints = BREAKPOINTS
 
 /**
- * Result object returned by getBreakpoint
+ * Internal shape — combines the numeric threshold and the @media query string.
+ * Public callers use the dedicated string getters (`getBreakpoint` /
+ * `getBreakpointValue`); this shape is shared internally between them.
  */
-export interface BreakpointResult {
-  /**
-   * The breakpoint value in pixels
-   */
+interface ResolvedBreakpoint {
   value: number
-
-  /**
-   * Media query string
-   */
   query: string
 }
 
 /**
- * Get breakpoint value and media query string
- *
- * Returns an object with two properties:
- * - `value`: Breakpoint value in pixels
- * - `query`: Media query string
+ * Resolve a breakpoint name into its numeric threshold and @media query.
  *
  * Breakpoint behavior:
- * - `BREAKPOINT_PHONE`   ("phone"):   max-width query (0 to phone threshold)
- * - `BREAKPOINT_TABLET`  ("tablet"):  min-width query (phone + 1, derived range)
- * - `BREAKPOINT_LAPTOP`  ("laptop"):  min-width query (laptop threshold and up)
- * - `BREAKPOINT_DESKTOP` ("desktop"): min-width query (desktop threshold and up)
+ * - `phone`:   max-width query (0 to phone threshold)
+ * - `tablet`:  min-width query (phone + 1 and up)
+ * - `laptop`:  min-width query (laptop threshold and up)
+ * - `desktop`: min-width query (desktop threshold and up)
  *
- * When `exact` is true, targets only that specific breakpoint range
+ * When `exact` is true on tablet/laptop, narrows the query to that band only
  * (bounded by the next-larger breakpoint's threshold minus one).
- *
- * @param name - Breakpoint name
- * @param exact - If true, targets only this breakpoint range
- * @returns Object containing value and query properties
- * @throws Error if breakpoint name not found
- *
- * @example
- * import { getBreakpoint, BREAKPOINT_TABLET } from "nice-styles"
- *
- * const Container = styled.div`
- *   ${getBreakpoint(BREAKPOINT_TABLET).query} {
- *     width: 50%;
- *   }
- * `
  */
-export function getBreakpoint(name: BreakpointName, exact?: boolean): BreakpointResult {
+function resolveBreakpoint(name: BreakpointName, exact?: boolean): ResolvedBreakpoint {
   if (name === BREAKPOINT_PHONE) {
     const value = breakpoints[BREAKPOINT_PHONE]
-    return {
-      value,
-      query: `@media (max-width: ${value}px)`
-    }
+    return { value, query: `@media (max-width: ${value}px)` }
   }
 
   if (name === BREAKPOINT_TABLET) {
     const value = breakpoints[BREAKPOINT_PHONE] + 1
     if (exact) {
       const maxValue = breakpoints[BREAKPOINT_LAPTOP] - 1
-      return {
-        value,
-        query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)`
-      }
+      return { value, query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)` }
     }
-    return {
-      value,
-      query: `@media (min-width: ${value}px)`
-    }
+    return { value, query: `@media (min-width: ${value}px)` }
   }
 
   if (name === BREAKPOINT_LAPTOP) {
     const value = breakpoints[BREAKPOINT_LAPTOP]
     if (exact) {
       const maxValue = breakpoints[BREAKPOINT_DESKTOP] - 1
-      return {
-        value,
-        query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)`
-      }
+      return { value, query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)` }
     }
-    return {
-      value,
-      query: `@media (min-width: ${value}px)`
-    }
+    return { value, query: `@media (min-width: ${value}px)` }
   }
 
   if (name === BREAKPOINT_DESKTOP) {
     const value = breakpoints[BREAKPOINT_DESKTOP]
-    return {
-      value,
-      query: `@media (min-width: ${value}px)`
-    }
+    return { value, query: `@media (min-width: ${value}px)` }
   }
 
   throw new Error(
@@ -110,4 +69,35 @@ export function getBreakpoint(name: BreakpointName, exact?: boolean): Breakpoint
       available: `${BREAKPOINT_PHONE}, ${BREAKPOINT_TABLET}, ${BREAKPOINT_LAPTOP}, ${BREAKPOINT_DESKTOP}`
     })
   )
+}
+
+/**
+ * Returns the `@media` query string for a breakpoint.
+ *
+ * Pass directly into a styled-components template — the `@media` prefix is
+ * included in the returned string.
+ *
+ * @example
+ * import { getBreakpoint } from "nice-styles"
+ *
+ * const Container = styled.div`
+ *   ${getBreakpoint("tablet")} {
+ *     width: 50%;
+ *   }
+ * `
+ * // → "@media (min-width: 641px) { ... }"
+ */
+export function getBreakpoint(name: BreakpointName, exact?: boolean): string {
+  return resolveBreakpoint(name, exact).query
+}
+
+/**
+ * Returns the breakpoint threshold in pixels as a raw number. Use when CSS
+ * isn't the target — e.g. JS comparisons against `window.innerWidth`, labels
+ * in docs, or any consumer that needs the literal number.
+ *
+ * @example getBreakpointValue("laptop") // → 1280
+ */
+export function getBreakpointValue(name: BreakpointName): number {
+  return resolveBreakpoint(name).value
 }

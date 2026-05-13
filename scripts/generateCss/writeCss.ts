@@ -8,8 +8,7 @@
  *
  * | File | Contents |
  * |------|----------|
- * | `dist/variables.css` | Combined :root block with all semantic variables, primitives, and @media breakpoint blocks |
- * | `dist/color-scheme.css` | Opt-in auto dark mode (@media prefers-color-scheme) |
+ * | `dist/variables.css` | Combined :root block with all semantic variables, primitives, breakpoint @media blocks, and auto dark mode @media (prefers-color-scheme) |
  * | `dist/css/{group}.css` | Individual per-group CSS files for selective imports |
  */
 
@@ -18,7 +17,6 @@ import * as path from 'path'
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
 import { buildIndividualCss } from '../css/emitCoreTokens.js'
 import { buildCombinedCss } from '../css/assembleCombined.js'
-import { buildColorSchemeCss } from '../css/assembleColorScheme.js'
 import type { TokenSources } from './readSources.js'
 
 /**
@@ -35,18 +33,13 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
   if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true })
   if (!fs.existsSync(cssDir)) fs.mkdirSync(cssDir, { recursive: true })
 
-  // Combined variables.css — all semantic variables, primitives, and breakpoint @media blocks
-  const { css: combinedCss, nightMediaBody } = buildCombinedCss(
+  // Combined variables.css — semantic variables, primitives, breakpoint @media, and auto dark mode block
+  const { css: combinedCss } = buildCombinedCss(
     tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens
   )
   const cssPath = path.join(distDir, 'variables.css')
   fs.writeFileSync(cssPath, combinedCss, 'utf-8')
   console.log(`✓ Generated: ${cssPath}`)
-
-  // color-scheme.css — opt-in auto dark mode via @media (prefers-color-scheme: dark)
-  const colorSchemePath = path.join(distDir, 'color-scheme.css')
-  fs.writeFileSync(colorSchemePath, buildColorSchemeCss(nightMediaBody), 'utf-8')
-  console.log(`✓ Generated: ${colorSchemePath}`)
 
   // Individual per-group CSS files for selective imports (dist/css/{group}.css)
   const tokenNames = Object.keys(tokens)

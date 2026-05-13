@@ -40,6 +40,7 @@ import './init.js'
 // Export all constants and tokens from services
 export {
   getBreakpoint,
+  getBreakpointValue,
   BREAKPOINT_PHONE,
   BREAKPOINT_TABLET,
   BREAKPOINT_LAPTOP,
@@ -61,7 +62,6 @@ export {
   camelToKebab,
 } from './services/index.js'
 export type {
-  BreakpointResult,
   BreakpointName,
   BreakpointValues,
   CoreTokenConfig,

@@ -2,11 +2,9 @@
  * Combined CSS assembler.
  *
  * Collects output from core and component emitters into a single
- * dist/variables.css file. Does NOT include the auto dark mode
- * media query — that lives in color-scheme.css.
- *
- * Returns the assembled CSS string and the collected nightMediaBody
- * lines (the bridge to assembleColorScheme).
+ * dist/variables.css file. Auto dark mode is built in — the
+ * `@media (prefers-color-scheme: dark)` block plus the `[data-theme]`
+ * overrides are appended after the `:root` block.
  */
 
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
@@ -44,9 +42,9 @@ export function buildCombinedCss(
   componentTokens: ComponentTokens,
   componentNightTokens: ComponentTokens,
   sizeTokens: SizeTokens
-): { css: string; nightMediaBody: string[] } {
+): { css: string } {
   // Four accumulators — semantic lines go inline, primitives are batched at the end of :root,
-  // and nightMediaBody is returned for color-scheme.css to consume separately
+  // and night-media lines accumulate for the trailing @media (prefers-color-scheme: dark) block
   const cssLines: string[] = []
   const allDayPrimitives: string[] = []
   const allNightPrimitives: string[] = []
@@ -54,8 +52,8 @@ export function buildCombinedCss(
 
   const pushRootOpen = () => {
     cssLines.push(':root {')
-    // Default to light — color-scheme.css overrides this to "light dark" when auto dark mode is enabled
-    cssLines.push('\tcolor-scheme: light;')
+    // Declare support for both schemes — enables native browser dark mode awareness
+    cssLines.push('\tcolor-scheme: light dark;')
     cssLines.push('')
   }
 
@@ -132,6 +130,22 @@ export function buildCombinedCss(
     cssLines.push(...blocks)
   }
 
+  const pushColorSchemeMediaBlock = () => {
+    if (allNightMediaBody.length === 0) return
+    // Auto dark mode — reassigns semantic variables to night primitives when OS prefers dark
+    cssLines.push('')
+    cssLines.push('@media (prefers-color-scheme: dark) {')
+    cssLines.push('\t:root {')
+    cssLines.push(...allNightMediaBody)
+    cssLines.push('\t}')
+    cssLines.push('}')
+
+    // Manual overrides — data-theme attribute takes precedence over the media query
+    cssLines.push('')
+    cssLines.push('[data-theme="day"] { color-scheme: light; }')
+    cssLines.push('[data-theme="dark"] { color-scheme: dark; }')
+  }
+
   // Phase 1: core token groups — semantic variables go inline, primitives accumulate
   pushRootOpen()
   pushCoreTokenGroups()
@@ -145,7 +159,7 @@ export function buildCombinedCss(
   pushComponentSemantics(componentResult.semanticLines)
   pushComponentDayPrimitives(componentResult.dayPrimitives)
   pushComponentNightPrimitives(componentResult.nightPrimitives)
-  // Merge component media body into the shared accumulator — color-scheme.css gets one combined block
+  // Merge component night-media lines into the shared accumulator for the @media block below
   allNightMediaBody.push(...componentResult.nightMediaBody)
 
   // Phase 4: size breakpoint primitives — inside :root; media blocks go outside
@@ -154,5 +168,8 @@ export function buildCombinedCss(
   pushRootClose()
   pushSizeMediaBlocks(sizeResult.mediaBlocks)
 
-  return { css: cssLines.join('\n'), nightMediaBody: allNightMediaBody }
+  // Phase 5: auto dark mode — @media block + [data-theme] overrides
+  pushColorSchemeMediaBlock()
+
+  return { css: cssLines.join('\n') }
 }
