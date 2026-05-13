@@ -52,6 +52,7 @@ export {
   setCoreTokens,
   setColorTokens,
   setSizeTokens,
+  setBreakpoints,
   getConstant,
   NAMESPACE,
   getComponentToken,

@@ -10,8 +10,6 @@ import {
 
 export type { BreakpointName }
 
-const breakpoints = BREAKPOINTS
-
 /**
  * Internal shape — combines the numeric threshold and the @media query string.
  * Public callers use the dedicated string getters (`getBreakpoint` /
@@ -33,33 +31,36 @@ interface ResolvedBreakpoint {
  *
  * When `exact` is true on tablet/laptop, narrows the query to that band only
  * (bounded by the next-larger breakpoint's threshold minus one).
+ *
+ * Reads BREAKPOINTS at call time so `setBreakpoints` overrides take effect
+ * immediately without re-importing.
  */
 function resolveBreakpoint(name: BreakpointName, exact?: boolean): ResolvedBreakpoint {
   if (name === BREAKPOINT_PHONE) {
-    const value = breakpoints[BREAKPOINT_PHONE]
+    const value = BREAKPOINTS[BREAKPOINT_PHONE]
     return { value, query: `@media (max-width: ${value}px)` }
   }
 
   if (name === BREAKPOINT_TABLET) {
-    const value = breakpoints[BREAKPOINT_PHONE] + 1
+    const value = BREAKPOINTS[BREAKPOINT_PHONE] + 1
     if (exact) {
-      const maxValue = breakpoints[BREAKPOINT_LAPTOP] - 1
+      const maxValue = BREAKPOINTS[BREAKPOINT_LAPTOP] - 1
       return { value, query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)` }
     }
     return { value, query: `@media (min-width: ${value}px)` }
   }
 
   if (name === BREAKPOINT_LAPTOP) {
-    const value = breakpoints[BREAKPOINT_LAPTOP]
+    const value = BREAKPOINTS[BREAKPOINT_LAPTOP]
     if (exact) {
-      const maxValue = breakpoints[BREAKPOINT_DESKTOP] - 1
+      const maxValue = BREAKPOINTS[BREAKPOINT_DESKTOP] - 1
       return { value, query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)` }
     }
     return { value, query: `@media (min-width: ${value}px)` }
   }
 
   if (name === BREAKPOINT_DESKTOP) {
-    const value = breakpoints[BREAKPOINT_DESKTOP]
+    const value = BREAKPOINTS[BREAKPOINT_DESKTOP]
     return { value, query: `@media (min-width: ${value}px)` }
   }
 

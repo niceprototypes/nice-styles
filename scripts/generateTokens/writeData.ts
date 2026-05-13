@@ -13,6 +13,7 @@ import type {
   TokenMap,
   DimensionMap,
   ComponentTokensJson,
+  BreakpointsJson,
 } from './readSources.js'
 
 /**
@@ -104,11 +105,26 @@ function writeComponentTokens(generatedDir: string, data: ComponentTokensJson): 
 }
 
 /**
- * Emit all four generated token data files.
+ * Emit src/generated/breakpointsData.ts from breakpoints.json (pixel thresholds).
+ */
+function writeBreakpoints(generatedDir: string, data: BreakpointsJson): void {
+  writeFileWithHeader(
+    path.join(generatedDir, 'breakpointsData.ts'),
+    'tokens/breakpoints.json',
+    `export type BreakpointsData = Record<string, number>`,
+    'breakpointsData',
+    'BreakpointsData',
+    data
+  )
+}
+
+/**
+ * Emit all generated token data files.
  */
 export function writeTokenDataFiles(sources: TokenJsonSources, generatedDir: string): void {
   writeCoreTokens(generatedDir, sources.core)
   writeColorTokens(generatedDir, sources.color)
   writeSizeTokens(generatedDir, sources.size)
   writeComponentTokens(generatedDir, sources.component)
+  writeBreakpoints(generatedDir, sources.breakpoints)
 }

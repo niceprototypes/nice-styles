@@ -20,6 +20,7 @@
  * - `src/tokens/module.color.json` — Color tokens keyed by mode
  * - `src/tokens/module.size.json` — Size tokens keyed by breakpoint
  * - `src/tokens/component.json` — Component tokens (day/night)
+ * - `src/tokens/breakpoints.json` — Pixel thresholds keyed by breakpoint name
  *
  * ## Output
  *
@@ -27,6 +28,7 @@
  * - `src/generated/colorTokensData.ts`
  * - `src/generated/sizeTokensData.ts`
  * - `src/generated/componentTokensData.ts`
+ * - `src/generated/breakpointsData.ts`
  */
 
 import * as fs from 'fs'

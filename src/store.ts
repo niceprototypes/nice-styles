@@ -28,6 +28,12 @@
 
 import type { TokenMap } from './utilities/separateTokens.js'
 import { processTokens } from './utilities/processTokens.js'
+import { buildSizeMediaCss } from './utilities/buildSizeMediaCss.js'
+import { injectBreakpointCss } from './utilities/breakpointStyleSheet.js'
+import {
+  BREAKPOINTS,
+  type BreakpointValues,
+} from './constants/breakpoints.js'
 
 /** A keyed collection of token maps, one per dimension value (e.g., "day" → TokenMap, "night" → TokenMap) */
 export type DimensionMap = Record<string, TokenMap>
@@ -114,6 +120,34 @@ export function setModuleOverrides(name: string, overrides: DimensionMap): void 
  */
 export function getModule(name: string): TokenModule | undefined {
   return modules.get(name)
+}
+
+/**
+ * Apply runtime overrides to the breakpoint pixel thresholds.
+ *
+ * Mutates `BREAKPOINTS` in place (omitted keys are preserved), then re-emits
+ * the size-token @media cascade and injects it as a `<style data-nice-breakpoints>`
+ * element. The injected stylesheet has higher cascade weight than `variables.css`
+ * (later in source order), so semantic vars start switching at the new thresholds.
+ *
+ * `getBreakpoint`, `getBreakpointValue`, and any other reader of `BREAKPOINTS`
+ * pick up the new values immediately because the object reference is stable.
+ *
+ * @param overrides - Partial map: { breakpoint: pixelValue }
+ */
+export function setBreakpointOverrides(overrides: Partial<BreakpointValues>): void {
+  const mutable = BREAKPOINTS as unknown as Record<string, number>
+  for (const [key, value] of Object.entries(overrides)) {
+    if (typeof value === 'number' && key in mutable) {
+      mutable[key] = value
+    }
+  }
+
+  const sizeModule = modules.get('size')
+  if (!sizeModule) return
+
+  const css = buildSizeMediaCss(sizeModule.source, BREAKPOINTS)
+  injectBreakpointCss(css)
 }
 
 /**

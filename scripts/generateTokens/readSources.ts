@@ -13,6 +13,7 @@ export type TokenMap = Record<string, Record<string, string>>
 export type DimensionMap = Record<string, TokenMap>
 export type ComponentTokenNode = string | { [key: string]: ComponentTokenNode }
 export type ComponentTokensJson = Record<string, { [key: string]: ComponentTokenNode }>
+export type BreakpointsJson = Record<string, number>
 
 export interface TokenJsonSources {
   /** module.json — flat core tokens */
@@ -23,6 +24,8 @@ export interface TokenJsonSources {
   size: DimensionMap
   /** component.json day branch — keyed by component prefix */
   component: ComponentTokensJson
+  /** breakpoints.json — pixel thresholds keyed by breakpoint name */
+  breakpoints: BreakpointsJson
 }
 
 /**
@@ -44,5 +47,6 @@ export function readTokenJsonSources(tokensDir: string): TokenJsonSources {
   const componentJson = readJson<{ day: ComponentTokensJson; night?: ComponentTokensJson }>(
     path.join(tokensDir, 'component.json')
   )
-  return { core, color, size, component: componentJson.day }
+  const breakpoints = readJson<BreakpointsJson>(path.join(tokensDir, 'breakpoints.json'))
+  return { core, color, size, component: componentJson.day, breakpoints }
 }
