@@ -1,24 +1,43 @@
 /**
- * Convenience getter for color (mode) tokens.
+ * Color (mode) token getters.
  *
- * Delegates to getToken with the mode in config.
- *
- * @param group - Token group name (e.g., "foregroundColor", "backgroundColor")
- * @param item - Item name within the group (defaults to "base")
- * @param mode - Theme mode (defaults to "day")
- * @returns Object containing key, var, and value properties
+ * Convenience wrappers around getToken with mode pre-filled. Three sibling
+ * functions return the three accessor forms.
  *
  * @example
- * getColorToken("foregroundColor", "base", "night").value
+ * getColorToken("foregroundColor", "base", "night")
+ * // → "var(--np--foreground-color--base--night)"
+ *
+ * @example
+ * getColorTokenValue("foregroundColor", "base", "night")
  * // → "hsla(210, 5%, 95%, 1)"
  */
 
-import { getToken, type TokenResult } from './getToken.js'
+import { getToken, getTokenKey, getTokenValue } from './getToken.js'
 
+/** Returns the `var(--np--…)` reference for a color token. */
 export function getColorToken(
   group: string,
   item: string = 'base',
   mode: string = 'day'
-): TokenResult {
+): string {
   return getToken(group, item, { mode })
+}
+
+/** Returns the bare CSS variable name for a color token. */
+export function getColorTokenKey(
+  group: string,
+  item: string = 'base',
+  mode: string = 'day'
+): string {
+  return getTokenKey(group, item, { mode })
+}
+
+/** Returns the raw color value (e.g. an hsla string). */
+export function getColorTokenValue(
+  group: string,
+  item: string = 'base',
+  mode: string = 'day'
+): string {
+  return getTokenValue(group, item, { mode })
 }

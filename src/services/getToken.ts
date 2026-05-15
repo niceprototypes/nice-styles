@@ -1,40 +1,31 @@
 /**
  * Unified core token getter.
  *
- * Resolves a token value across all registered modules. Without config,
- * returns the base core value. With config.mode, checks the "color" module.
- * With config.breakpoint, checks the "size" module.
+ * Resolves a token across all registered modules. Without config, returns the
+ * base core value. With config.mode, checks the "color" module. With
+ * config.breakpoint, checks the "size" module.
  *
  * Resolution order:
  * 1. If config.mode → look up "color" module at that mode key
  * 2. If config.breakpoint → look up "size" module at that breakpoint key
  * 3. Fall back to "core" module at default key ("base")
  *
- * Returns an object with three properties:
- * - `key`: CSS variable name without var() wrapper (e.g., "--np--font-size--base")
- * - `var`: CSS variable with var() wrapper (e.g., "var(--np--font-size--base)")
- * - `value`: Raw token value (e.g., "16px")
- *
- * @param group - Token group name (e.g., "fontSize", "foregroundColor")
- * @param item - Item name within the group (defaults to "base")
- * @param config - Optional resolution config with mode and/or breakpoint
- * @returns Object containing key, var, and value properties
- * @throws Error if token group or item not found in any resolved module
+ * Three sibling functions return the three accessor forms:
+ * - `getToken` — the `var(...)` reference (the common case)
+ * - `getTokenKey` — the bare CSS variable name (no `var(...)` wrapper)
+ * - `getTokenValue` — the raw underlying value (e.g. `"16px"`)
  *
  * @example
- * // Get base core token
- * getToken("fontSize", "base").var
+ * getToken("fontSize", "base")
  * // → "var(--np--font-size--base)"
  *
  * @example
- * // Get night mode color token
- * getToken("foregroundColor", "base", { mode: "night" }).var
- * // → "var(--np--foreground-color--base--night)"
+ * getTokenKey("fontSize", "base")
+ * // → "--np--font-size--base"
  *
  * @example
- * // Get tablet breakpoint size token
- * getToken("fontSize", "large", { breakpoint: "tablet" }).var
- * // → "var(--np--font-size--large)"
+ * getTokenValue("fontSize", "base")
+ * // → "16px"
  */
 
 import { getModuleValue } from '../store.js'
@@ -48,45 +39,35 @@ export interface CoreTokenConfig {
   breakpoint?: string
 }
 
-export interface TokenResult {
-  /** CSS variable name without var() wrapper */
+interface InternalTokenResult {
   key: string
-  /** CSS variable with var() wrapper */
   var: string
-  /** Raw token value */
   value: string
 }
 
-export function getToken(
+function resolveToken(
   group: string,
-  item: string = 'base',
+  item: string,
   config?: CoreTokenConfig
-): TokenResult {
+): InternalTokenResult {
   const { mode, breakpoint } = config ?? {}
 
-  // Determine which module and dimension key to query
   let value: string | undefined
 
-  // Mode takes priority — check color module at specified mode
   if (mode) {
     value = getModuleValue('color', mode, group, item)
   }
 
-  // Then breakpoint — check size module at specified breakpoint
   if (value === undefined && breakpoint) {
     value = getModuleValue('size', breakpoint, group, item)
   }
 
-  // Fall back through all modules at their default dimensions
-  // Core module (tokens with no variants)
   if (value === undefined) {
     value = getModuleValue('core', undefined, group, item)
   }
-  // Color module default (day)
   if (value === undefined) {
     value = getModuleValue('color', undefined, group, item)
   }
-  // Size module default (small)
   if (value === undefined) {
     value = getModuleValue('size', undefined, group, item)
   }
@@ -101,12 +82,33 @@ export function getToken(
     )
   }
 
-  // Build CSS variable name — mode suffix for forced mode lookups
   const cssConstant = getConstant(group, item, { mode })
+  return { key: cssConstant.key, var: cssConstant.var, value }
+}
 
-  return {
-    key: cssConstant.key,
-    var: cssConstant.var,
-    value,
-  }
+/** Returns the `var(--np--…)` reference string. */
+export function getToken(
+  group: string,
+  item: string = 'base',
+  config?: CoreTokenConfig
+): string {
+  return resolveToken(group, item, config).var
+}
+
+/** Returns the bare CSS variable name (no `var(...)` wrapper). */
+export function getTokenKey(
+  group: string,
+  item: string = 'base',
+  config?: CoreTokenConfig
+): string {
+  return resolveToken(group, item, config).key
+}
+
+/** Returns the raw token value (e.g. `"16px"`, an hsla string). */
+export function getTokenValue(
+  group: string,
+  item: string = 'base',
+  config?: CoreTokenConfig
+): string {
+  return resolveToken(group, item, config).value
 }

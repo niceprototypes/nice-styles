@@ -1,3 +1,4 @@
+[2026-05-14] major: Refactor token getters to return strings; add Key/Value sibling functions (getTokenKey, getTokenValue, getColorTokenKey, getColorTokenValue, getSizeTokenKey, getSizeTokenValue, getComponentTokenKey, getComponentTokenValue). Mirrors the getBreakpoint precedent. Callers drop .var/.key/.value access.
 [2026-05-12 20:08] minor: Add setBreakpoints runtime override (Shape C) — mutates BREAKPOINTS in place and injects an override @media stylesheet
 [2026-05-12 20:08] minor: Source BREAKPOINTS from src/tokens/breakpoints.json via generated/breakpointsData.ts (Shape A — build-time customization)
 [2026-05-12 20:08] ✓ major: Refactor getBreakpoint to return string; add getBreakpointValue; remove BreakpointResult type
