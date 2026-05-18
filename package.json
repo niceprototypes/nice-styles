@@ -22,7 +22,7 @@
       "import": "./dist/constants.js",
       "default": "./dist/constants.js"
     },
-    "./variables.css": "./dist/variables.css",
+    "./tokens.css": "./dist/tokens.css",
     "./color-scheme.css": "./dist/color-scheme.css",
     "./css/*.css": "./dist/css/*.css",
     "./static/*": "./static/*",
