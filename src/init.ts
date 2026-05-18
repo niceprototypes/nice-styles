@@ -20,3 +20,8 @@ registerModule('color', 'day', colorData)
 
 /** Size module dimensions come pre-keyed by breakpoint: { phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} } */
 registerModule('size', BREAKPOINT_PHONE, sizeData)
+
+// Seed the registry. Side-effect import — running this module mutates the
+// singleton in `./registry/createRegistry.ts`. The registry is independent of
+// the module store above; both are populated from the same source data.
+import './registry/index.js'

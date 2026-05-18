@@ -8,7 +8,7 @@
  *
  * | File | Contents |
  * |------|----------|
- * | `dist/variables.css` | Combined :root block with all semantic variables, primitives, breakpoint @media blocks, and auto dark mode @media (prefers-color-scheme) |
+ * | `dist/tokens.css` | Combined :root block with all semantic variables, primitives, breakpoint @media blocks, and auto dark mode @media (prefers-color-scheme) |
  * | `dist/css/{group}.css` | Individual per-group CSS files for selective imports |
  */
 
@@ -33,11 +33,11 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
   if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true })
   if (!fs.existsSync(cssDir)) fs.mkdirSync(cssDir, { recursive: true })
 
-  // Combined variables.css — semantic variables, primitives, breakpoint @media, and auto dark mode block
+  // Combined tokens.css — semantic variables, primitives, breakpoint @media, and mode awareness block
   const { css: combinedCss } = buildCombinedCss(
     tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens
   )
-  const cssPath = path.join(distDir, 'variables.css')
+  const cssPath = path.join(distDir, 'tokens.css')
   fs.writeFileSync(cssPath, combinedCss, 'utf-8')
   console.log(`✓ Generated: ${cssPath}`)
 

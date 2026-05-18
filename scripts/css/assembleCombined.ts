@@ -2,9 +2,10 @@
  * Combined CSS assembler.
  *
  * Collects output from core and component emitters into a single
- * dist/variables.css file. Auto dark mode is built in — the
+ * dist/variables.css file. Mode awareness — the
  * `@media (prefers-color-scheme: dark)` block plus the `[data-theme]`
- * overrides are appended after the `:root` block.
+ * overrides — is always emitted; per-component overrides (e.g. `mode="day"`)
+ * are how consumers opt out at the call site.
  */
 
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
@@ -132,7 +133,7 @@ export function buildCombinedCss(
 
   const pushColorSchemeMediaBlock = () => {
     if (allNightMediaBody.length === 0) return
-    // Auto dark mode — reassigns semantic variables to night primitives when OS prefers dark
+    // Mode awareness — reassigns semantic variables to night primitives when OS prefers dark
     cssLines.push('')
     cssLines.push('@media (prefers-color-scheme: dark) {')
     cssLines.push('\t:root {')
@@ -168,7 +169,7 @@ export function buildCombinedCss(
   pushRootClose()
   pushSizeMediaBlocks(sizeResult.mediaBlocks)
 
-  // Phase 5: auto dark mode — @media block + [data-theme] overrides
+  // Phase 5: mode awareness — @media block + [data-theme] overrides
   pushColorSchemeMediaBlock()
 
   return { css: cssLines.join('\n') }

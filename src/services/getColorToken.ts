@@ -21,7 +21,7 @@ export function getColorToken(
   item: string = 'base',
   mode: string = 'day'
 ): string {
-  return getToken(group, item, { mode })
+  return getToken(group, item, mode)
 }
 
 /** Returns the bare CSS variable name for a color token. */
@@ -30,7 +30,7 @@ export function getColorTokenKey(
   item: string = 'base',
   mode: string = 'day'
 ): string {
-  return getTokenKey(group, item, { mode })
+  return getTokenKey(group, item, mode)
 }
 
 /** Returns the raw color value (e.g. an hsla string). */
@@ -39,5 +39,5 @@ export function getColorTokenValue(
   item: string = 'base',
   mode: string = 'day'
 ): string {
-  return getTokenValue(group, item, { mode })
+  return getTokenValue(group, item, mode)
 }

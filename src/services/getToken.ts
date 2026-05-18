@@ -1,17 +1,10 @@
 /**
- * Unified core token getter.
- *
- * Resolves a token across all registered modules. Without config, returns the
- * base core value. With config.mode, checks the "color" module. With
- * config.breakpoint, checks the "size" module.
- *
- * Resolution order:
- * 1. If config.mode → look up "color" module at that mode key
- * 2. If config.breakpoint → look up "size" module at that breakpoint key
- * 3. Fall back to "core" module at default key ("base")
+ * Unified token getter — reads from the runtime registry seeded by the
+ * generated token data and extended at runtime via `registerTokens` /
+ * `createTokens`.
  *
  * Three sibling functions return the three accessor forms:
- * - `getToken` — the `var(...)` reference (the common case)
+ * - `getToken` — the `var(--np--…)` reference (the common case)
  * - `getTokenKey` — the bare CSS variable name (no `var(...)` wrapper)
  * - `getTokenValue` — the raw underlying value (e.g. `"16px"`)
  *
@@ -20,24 +13,22 @@
  * // → "var(--np--font-size--base)"
  *
  * @example
- * getTokenKey("fontSize", "base")
- * // → "--np--font-size--base"
+ * getToken("foregroundColor", "base", "night")
+ * // → "var(--np--foreground-color--base--night)"
  *
  * @example
  * getTokenValue("fontSize", "base")
  * // → "16px"
+ *
+ * Throws on unknown token names. Use [Symbol.hasInstance] of `registry` for
+ * detection if you need to branch on presence.
  */
 
-import { getModuleValue } from '../store.js'
-import { getConstant } from './getConstant.js'
+import { getTokenFromMap, type TokenDefinition } from '../utilities/getTokenFromMap.js'
+import { isStyleValue } from '../utilities/isStyleValue.js'
+import { DEFAULT_MODE } from '../constants/styleValues.js'
+import { registry, type RegistryEntry } from '../registry/index.js'
 import { formatError } from '../utilities/formatError.js'
-
-export interface CoreTokenConfig {
-  /** Theme mode (e.g., "day", "night"). Looks up the "color" module. */
-  mode?: string
-  /** Responsive breakpoint (e.g., "phone", "tablet", "laptop"). Looks up the "size" module. */
-  breakpoint?: string
-}
 
 interface InternalTokenResult {
   key: string
@@ -45,70 +36,54 @@ interface InternalTokenResult {
   value: string
 }
 
-function resolveToken(
-  group: string,
-  item: string,
-  config?: CoreTokenConfig
-): InternalTokenResult {
-  const { mode, breakpoint } = config ?? {}
-
-  let value: string | undefined
-
-  if (mode) {
-    value = getModuleValue('color', mode, group, item)
+/**
+ * Extract default-mode variants from a registry entry. ModeValue entries are
+ * flattened to their `day` value; BreakpointValue entries remain as-is so
+ * `getTokenFromMap` can pick the right primitive when needed.
+ */
+function getDefaultVariants(entry: RegistryEntry): TokenDefinition {
+  const result: TokenDefinition = {}
+  for (const [key, value] of Object.entries(entry.variants)) {
+    if (isStyleValue("mode", value)) {
+      result[key] = value[DEFAULT_MODE]
+    } else {
+      result[key] = value as TokenDefinition[string]
+    }
   }
+  return result
+}
 
-  if (value === undefined && breakpoint) {
-    value = getModuleValue('size', breakpoint, group, item)
-  }
-
-  if (value === undefined) {
-    value = getModuleValue('core', undefined, group, item)
-  }
-  if (value === undefined) {
-    value = getModuleValue('color', undefined, group, item)
-  }
-  if (value === undefined) {
-    value = getModuleValue('size', undefined, group, item)
-  }
-
-  if (value === undefined) {
+function resolveToken(name: string, variant: string, mode?: string): InternalTokenResult {
+  const entry = registry.get(name)
+  if (!entry) {
     throw new Error(
       formatError('tokenNotFound', {
-        tokenName: group,
+        tokenName: name,
         prefix: '',
-        available: ''
+        available: '',
       })
     )
   }
-
-  const cssConstant = getConstant(group, item, { mode })
-  return { key: cssConstant.key, var: cssConstant.var, value }
+  const defaultVariants = getDefaultVariants(entry)
+  return getTokenFromMap(
+    { [name]: defaultVariants },
+    name,
+    variant,
+    { mode, prefix: entry.prefix }
+  )
 }
 
 /** Returns the `var(--np--…)` reference string. */
-export function getToken(
-  group: string,
-  item: string = 'base',
-  config?: CoreTokenConfig
-): string {
-  return resolveToken(group, item, config).var
+export function getToken(name: string, variant: string = 'base', mode?: string): string {
+  return resolveToken(name, variant, mode).var
 }
 
 /** Returns the bare CSS variable name (no `var(...)` wrapper). */
-export function getTokenKey(
-  group: string,
-  item: string = 'base',
-  config?: CoreTokenConfig
-): string {
-  return resolveToken(group, item, config).key
+export function getTokenKey(name: string, variant: string = 'base', mode?: string): string {
+  return resolveToken(name, variant, mode).key
 }
 
 /** Returns the raw token value (e.g. `"16px"`, an hsla string). */
-export function getTokenValue(
-  group: string,
-  item: string = 'base',
-  config?: CoreTokenConfig
-): string {
-  return resolveToken(group, item, config).value
+export function getTokenValue(name: string, variant: string = 'base', mode?: string): string {
+  return resolveToken(name, variant, mode).value
 }

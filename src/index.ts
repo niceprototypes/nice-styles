@@ -69,11 +69,20 @@ export {
   getTokenFromMap,
   getTokenByPath,
   camelToKebab,
+  parseGoogleFontsUrl,
+  DEFAULT_MODE,
+  DEFAULT_BREAKPOINT,
+  STYLE_VALUE_KEYS,
+  isStyleValue,
+  registry,
+  registerTokens,
+  seedDimensionedTokens,
+  injectTokenCSS,
+  generateTokenCSS,
 } from './services/index.js'
 export type {
   BreakpointName,
   BreakpointValues,
-  CoreTokenConfig,
   CssConstantResult,
   CssConstantOptions,
   TokenDefinition,
@@ -81,6 +90,15 @@ export type {
   ComponentTokenNode,
   TokenResult,
   TokenFromMapOptions,
+  ModeValue,
+  BreakpointValue,
+  FontAxis,
+  GoogleFontMetadata,
+  LinkAttributes,
+  GoogleFontsConfig,
+  StyleValueKind,
+  RegistryEntry,
+  DimensionedTokenSeed,
 } from './services/index.js'
 
 // Export type definitions
