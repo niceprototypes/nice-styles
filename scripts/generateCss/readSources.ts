@@ -9,16 +9,16 @@
  * | File | Shape | Role |
  * |------|-------|------|
  * | `module.json` | `{ group: { item: value } }` | Core tokens — no dimension variants |
- * | `module.color.json` | `{ day: { group: { item: value } }, night: {...} }` | Color tokens keyed by mode |
- * | `module.size.json` | `{ phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} }` | Size tokens keyed by breakpoint |
+ * | `module.modes.json` | `{ day: { group: { item: value } }, night: {...} }` | Color tokens keyed by mode |
+ * | `module.breakpoints.json` | `{ phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} }` | Size tokens keyed by breakpoint |
  * | `component.json` | `{ day: { prefix: { ...nested } }, night: {...} }` | Component tokens keyed by mode |
  *
  * ## Merge strategy
  *
  * The `tokens` field in the returned object is a unified map of all semantic defaults:
  * - Core tokens (no variants) from `module.json`
- * - Color day values from `module.color.json` → day dimension
- * - Size small values from `module.size.json` → phone dimension
+ * - Color day values from `module.modes.json` → day dimension
+ * - Size small values from `module.breakpoints.json` → phone dimension
  *
  * This merged map drives both the `:root` semantic variable emission and the
  * per-group individual CSS files in `dist/css/`.
@@ -33,7 +33,7 @@ import { BREAKPOINT_PHONE } from '../../src/constants/breakpoints.js'
 export interface TokenSources {
   /** Merged semantic defaults: core + color day + size phone */
   tokens: Tokens
-  /** Night-mode overrides from module.color.json */
+  /** Night-mode overrides from module.modes.json */
   nightTokens: NightTokens
   /** Full size module data for breakpoint primitive/media query emission */
   sizeTokens: SizeTokens
@@ -58,7 +58,7 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
 
   // Color module — day provides semantic defaults, night provides overrides
   const colorJson = JSON.parse(
-    fs.readFileSync(path.join(tokensDir, 'module.color.json'), 'utf-8')
+    fs.readFileSync(path.join(tokensDir, 'module.modes.json'), 'utf-8')
   )
   const colorDay: Tokens = colorJson.day || {}
   const nightTokens: NightTokens = colorJson.night || {}
@@ -72,7 +72,7 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
 
   // Size module — phone provides semantic defaults, tablet/laptop/desktop provide overrides
   const sizeTokens: SizeTokens = JSON.parse(
-    fs.readFileSync(path.join(tokensDir, 'module.size.json'), 'utf-8')
+    fs.readFileSync(path.join(tokensDir, 'module.breakpoints.json'), 'utf-8')
   )
   const sizePhone: Tokens = sizeTokens[BREAKPOINT_PHONE] || {}
 

@@ -63,12 +63,12 @@ function writeCoreTokens(generatedDir: string, data: TokenMap): void {
 }
 
 /**
- * Emit src/generated/colorTokensData.ts from module.color.json (keyed by mode).
+ * Emit src/generated/colorTokensData.ts from module.modes.json (keyed by mode).
  */
 function writeColorTokens(generatedDir: string, data: DimensionMap): void {
   writeFileWithHeader(
     path.join(generatedDir, 'colorTokensData.ts'),
-    'tokens/module.color.json',
+    'tokens/module.modes.json',
     `export type TokenDefinition = Record<string, string>\n\nexport type ColorTokensData = Record<string, Record<string, TokenDefinition>>`,
     'colorTokensData',
     'ColorTokensData',
@@ -77,12 +77,12 @@ function writeColorTokens(generatedDir: string, data: DimensionMap): void {
 }
 
 /**
- * Emit src/generated/sizeTokensData.ts from module.size.json (keyed by breakpoint).
+ * Emit src/generated/sizeTokensData.ts from module.breakpoints.json (keyed by breakpoint).
  */
 function writeSizeTokens(generatedDir: string, data: DimensionMap): void {
   writeFileWithHeader(
     path.join(generatedDir, 'sizeTokensData.ts'),
-    'tokens/module.size.json',
+    'tokens/module.breakpoints.json',
     `export type TokenDefinition = Record<string, string>\n\nexport type SizeTokensData = Record<string, Record<string, TokenDefinition>>`,
     'sizeTokensData',
     'SizeTokensData',

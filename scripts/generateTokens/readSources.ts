@@ -18,9 +18,9 @@ export type BreakpointsJson = Record<string, number>
 export interface TokenJsonSources {
   /** module.json — flat core tokens */
   core: TokenMap
-  /** module.color.json — keyed by mode (day/night) */
+  /** module.modes.json — keyed by mode (day/night) */
   color: DimensionMap
-  /** module.size.json — keyed by breakpoint */
+  /** module.breakpoints.json — keyed by breakpoint */
   size: DimensionMap
   /** component.json day branch — keyed by component prefix */
   component: ComponentTokensJson
@@ -41,8 +41,8 @@ function readJson<T>(filePath: string): T {
  */
 export function readTokenJsonSources(tokensDir: string): TokenJsonSources {
   const core = readJson<TokenMap>(path.join(tokensDir, 'module.json'))
-  const color = readJson<DimensionMap>(path.join(tokensDir, 'module.color.json'))
-  const size = readJson<DimensionMap>(path.join(tokensDir, 'module.size.json'))
+  const color = readJson<DimensionMap>(path.join(tokensDir, 'module.modes.json'))
+  const size = readJson<DimensionMap>(path.join(tokensDir, 'module.breakpoints.json'))
   // component.json wraps day/night; the data writer only emits day
   const componentJson = readJson<{ day: ComponentTokensJson; night?: ComponentTokensJson }>(
     path.join(tokensDir, 'component.json')

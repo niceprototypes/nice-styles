@@ -2,7 +2,7 @@
  * Combined CSS assembler.
  *
  * Collects output from core and component emitters into a single
- * dist/variables.css file. Mode awareness — the
+ * dist/tokens.css file. Mode awareness — the
  * `@media (prefers-color-scheme: dark)` block plus the `[data-theme]`
  * overrides — is always emitted; per-component overrides (e.g. `mode="day"`)
  * are how consumers opt out at the call site.
@@ -15,7 +15,7 @@ import { generateComponentTokenCss } from './emitComponentTokens.js'
 import { generateSizeTokenCss } from './emitSizeTokens.js'
 
 /**
- * Builds the combined dist/variables.css containing all token groups.
+ * Builds the combined dist/tokens.css containing all token groups.
  *
  * Structure:
  * ```css

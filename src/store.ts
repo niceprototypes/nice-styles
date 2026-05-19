@@ -127,7 +127,7 @@ export function getModule(name: string): TokenModule | undefined {
  *
  * Mutates `BREAKPOINTS` in place (omitted keys are preserved), then re-emits
  * the size-token @media cascade and injects it as a `<style data-nice-breakpoints>`
- * element. The injected stylesheet has higher cascade weight than `variables.css`
+ * element. The injected stylesheet has higher cascade weight than `tokens.css`
  * (later in source order), so semantic vars start switching at the new thresholds.
  *
  * `getBreakpoint`, `getBreakpointValue`, and any other reader of `BREAKPOINTS`

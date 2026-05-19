@@ -17,8 +17,8 @@
  * ## Input
  *
  * - `src/tokens/module.json` — Flat core tokens
- * - `src/tokens/module.color.json` — Color tokens keyed by mode
- * - `src/tokens/module.size.json` — Size tokens keyed by breakpoint
+ * - `src/tokens/module.modes.json` — Color tokens keyed by mode
+ * - `src/tokens/module.breakpoints.json` — Size tokens keyed by breakpoint
  * - `src/tokens/component.json` — Component tokens (day/night)
  * - `src/tokens/breakpoints.json` — Pixel thresholds keyed by breakpoint name
  *

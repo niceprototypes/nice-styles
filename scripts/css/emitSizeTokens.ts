@@ -7,7 +7,7 @@
  * - Color: semantic var → day/night primitives → @media (prefers-color-scheme)
  * - Size:  semantic var → phone/tablet/laptop/desktop primitives → @media (min-width)
  *
- * Phone-first: module.size.json phone dimension holds the base truth. The semantic
+ * Phone-first: module.breakpoints.json phone dimension holds the base truth. The semantic
  * variable (e.g., --np--font-size--large) holds the phone value by default and is
  * reassigned to breakpoint primitives via min-width media queries at wider viewports.
  *

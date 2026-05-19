@@ -37,13 +37,13 @@ export function readTypeSources(tokensDir: string): TypeSources {
 
   // Day dimension provides the canonical variant names for color tokens
   const colorJson = readJson<{ day?: TokenMap; night?: TokenMap }>(
-    path.join(tokensDir, 'module.color.json')
+    path.join(tokensDir, 'module.modes.json')
   )
   const colorDay = colorJson.day || {}
 
   // Phone dimension provides the canonical variant names for size tokens
   const sizeJson = readJson<Record<string, TokenMap>>(
-    path.join(tokensDir, 'module.size.json')
+    path.join(tokensDir, 'module.breakpoints.json')
   )
   const sizePhone = sizeJson[BREAKPOINT_PHONE] || {}
 

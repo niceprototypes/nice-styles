@@ -3,12 +3,12 @@
  *
  * Used at runtime by `setBreakpoints` to re-emit the responsive cascade with
  * new pixel thresholds. The output mirrors what `scripts/css/emitSizeTokens.ts`
- * produces into `dist/variables.css` — same media body lines, same primitive
+ * produces into `dist/tokens.css` — same media body lines, same primitive
  * references — so the injected stylesheet overrides the build-time blocks
  * cleanly when later in source order.
  *
  * Primitives (`--*--phone`, `--*--laptop`, etc.) are NOT re-emitted here: they
- * already live in `:root` of `variables.css` and only their values would change
+ * already live in `:root` of `tokens.css` and only their values would change
  * with new thresholds — but the values themselves are unaffected by threshold
  * shifts. Only the @media triggers move.
  */

@@ -15,7 +15,7 @@ npm install nice-styles
 Import all CSS variables:
 
 ```css
-@import 'nice-styles/variables.css';
+@import 'nice-styles/tokens.css';
 
 .card {
   padding: var(--gap-base);
@@ -120,7 +120,7 @@ CSS variables for runtime styling:
            │                         │                   │
            ↓                         ↓                   │
     ┌──────────────┐         ┌──────────────┐           │
-    │variables.css │         │dist/types.d.ts│           │
+    │tokens.css    │         │dist/types.d.ts│           │
     │dist/css/*.css│         └──────────────┘           │
     └──────────────┘                ↑                    │
                              (bypasses tsc)              ↓
@@ -167,9 +167,9 @@ The `dist/` directory contains all compiled outputs consumed by users:
 
 #### CSS Files
 
-- **`variables.css`** (root level)
+- **`tokens.css`** (root level)
   - All CSS custom properties in one file
-  - Used when: `@import 'nice-styles/variables.css'`
+  - Used when: `@import 'nice-styles/tokens.css'`
 
 - **`dist/css/*.css`** (individual token files)
   - `animationDuration.css`
@@ -324,7 +324,7 @@ npm run build:tokens
 This automatically generates:
 - `src/tokens.ts` with `buttonSize` token object
 - `src/types.ts` with `ButtonSizeType = "small" | "medium" | "large"`
-- CSS variables in `variables.css`
+- CSS variables in `tokens.css`
 - Individual `dist/css/buttonSize.css` file
 
 3. Compile TypeScript:
