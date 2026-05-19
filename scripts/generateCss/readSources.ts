@@ -26,7 +26,7 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
-import type { Tokens, NightTokens, ComponentTokens, SizeTokens, Errors } from '../css/types.js'
+import type { Tokens, NightTokens, ComponentTokens, BreakpointTokens, Errors } from '../css/types.js'
 import { validateNightTokens, validateComponentNightTokens } from '../css/validate.js'
 import { BREAKPOINT_PHONE } from '../../src/constants/breakpoints.js'
 
@@ -35,8 +35,8 @@ export interface TokenSources {
   tokens: Tokens
   /** Night-mode overrides from module.modes.json */
   nightTokens: NightTokens
-  /** Full size module data for breakpoint primitive/media query emission */
-  sizeTokens: SizeTokens
+  /** Full breakpoints module data for breakpoint primitive/media query emission */
+  sizeTokens: BreakpointTokens
   /** Component day tokens from component.json */
   componentTokens: ComponentTokens
   /** Component night overrides from component.json */
@@ -56,25 +56,25 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
     fs.readFileSync(path.join(tokensDir, 'module.json'), 'utf-8')
   )
 
-  // Color module — day provides semantic defaults, night provides overrides
-  const colorJson = JSON.parse(
+  // Modes module — day provides semantic defaults, night provides overrides
+  const modesJson = JSON.parse(
     fs.readFileSync(path.join(tokensDir, 'module.modes.json'), 'utf-8')
   )
-  const colorDay: Tokens = colorJson.day || {}
-  const nightTokens: NightTokens = colorJson.night || {}
+  const modesDay: Tokens = modesJson.day || {}
+  const nightTokens: NightTokens = modesJson.night || {}
 
   // Validate: every night entry must have a corresponding day entry
   const errors: Errors = JSON.parse(fs.readFileSync(errorsPath, 'utf-8'))
   if (Object.keys(nightTokens).length > 0) {
-    validateNightTokens(colorDay, nightTokens, errors)
-    console.log('✓ Color module night tokens validated')
+    validateNightTokens(modesDay, nightTokens, errors)
+    console.log('✓ Modes module night tokens validated')
   }
 
-  // Size module — phone provides semantic defaults, tablet/laptop/desktop provide overrides
-  const sizeTokens: SizeTokens = JSON.parse(
+  // Breakpoints module — phone provides semantic defaults, tablet/laptop/desktop provide overrides
+  const sizeTokens: BreakpointTokens = JSON.parse(
     fs.readFileSync(path.join(tokensDir, 'module.breakpoints.json'), 'utf-8')
   )
-  const sizePhone: Tokens = sizeTokens[BREAKPOINT_PHONE] || {}
+  const breakpointsPhone: Tokens = sizeTokens[BREAKPOINT_PHONE] || {}
 
   // Component tokens — day/night wrapper, unchanged from previous architecture
   const componentJson = JSON.parse(
@@ -96,7 +96,7 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
 
   // Merge all sources into a unified semantic defaults map
   // Order: core → color day → size phone (later keys win on collision)
-  const tokens: Tokens = { ...coreTokens, ...colorDay, ...sizePhone }
+  const tokens: Tokens = { ...coreTokens, ...modesDay, ...breakpointsPhone }
 
   return { tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens }
 }

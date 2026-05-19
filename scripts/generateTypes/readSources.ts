@@ -30,24 +30,24 @@ function readJson<T>(filePath: string): T {
  *
  * Merge order: core → color day → size phone. Later keys win on collision —
  * phone-first sizing means the phone dimension carries the canonical variant
- * names for size tokens.
+ * names for breakpoint tokens.
  */
 export function readTypeSources(tokensDir: string): TypeSources {
   const core = readJson<TokenMap>(path.join(tokensDir, 'module.json'))
 
-  // Day dimension provides the canonical variant names for color tokens
-  const colorJson = readJson<{ day?: TokenMap; night?: TokenMap }>(
+  // Day dimension provides the canonical variant names for mode tokens
+  const modesJson = readJson<{ day?: TokenMap; night?: TokenMap }>(
     path.join(tokensDir, 'module.modes.json')
   )
-  const colorDay = colorJson.day || {}
+  const modesDay = modesJson.day || {}
 
-  // Phone dimension provides the canonical variant names for size tokens
-  const sizeJson = readJson<Record<string, TokenMap>>(
+  // Phone dimension provides the canonical variant names for breakpoint tokens
+  const breakpointsJson = readJson<Record<string, TokenMap>>(
     path.join(tokensDir, 'module.breakpoints.json')
   )
-  const sizePhone = sizeJson[BREAKPOINT_PHONE] || {}
+  const breakpointsPhone = breakpointsJson[BREAKPOINT_PHONE] || {}
 
-  const tokens: TokenMap = { ...core, ...colorDay, ...sizePhone }
+  const tokens: TokenMap = { ...core, ...modesDay, ...breakpointsPhone }
 
   // Component prefix list comes from component.json day keys
   const componentJson = readJson<{ day: Record<string, unknown>; night?: Record<string, unknown> }>(

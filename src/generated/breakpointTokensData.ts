@@ -8,9 +8,9 @@
 
 export type TokenDefinition = Record<string, string>
 
-export type SizeTokensData = Record<string, Record<string, TokenDefinition>>
+export type BreakpointTokensData = Record<string, Record<string, TokenDefinition>>
 
-const sizeTokensData: SizeTokensData = {
+const breakpointTokensData: BreakpointTokensData = {
   "phone": {
     "fontSize": {
       "smaller": "11px",
@@ -49,4 +49,4 @@ const sizeTokensData: SizeTokensData = {
   }
 } as const
 
-export default sizeTokensData
+export default breakpointTokensData

@@ -7,7 +7,7 @@
  * Also provides buildIndividualCss for per-group CSS files (dist/css/*.css).
  */
 
-import { getConstant } from '../../src/services/getConstant.js'
+import { getConstantKey } from '../../src/services/getConstant.js'
 import type { CssEmitResult } from './types.js'
 
 /**
@@ -15,29 +15,29 @@ import type { CssEmitResult } from './types.js'
  * This is the variable components reference; the media query later reassigns it.
  */
 function buildSemanticLine(cssName: string, variant: string, value: string): string {
-  return `\t${getConstant(cssName, variant).key}: ${value};`
+  return `\t${getConstantKey(cssName, variant)}: ${value};`
 }
 
 /**
  * Build the day-mode primitive line — pinned to the day value, never reassigned.
  */
 function buildDayPrimitiveLine(cssName: string, variant: string, value: string): string {
-  return `\t${getConstant(cssName, variant, { mode: "day" }).key}: ${value};`
+  return `\t${getConstantKey(cssName, variant, { mode: "day" })}: ${value};`
 }
 
 /**
  * Build the night-mode primitive line — pinned to the night value, never reassigned.
  */
 function buildNightPrimitiveLine(cssName: string, variant: string, value: string): string {
-  return `\t${getConstant(cssName, variant, { mode: "night" }).key}: ${value};`
+  return `\t${getConstantKey(cssName, variant, { mode: "night" })}: ${value};`
 }
 
 /**
  * Build the @media body line that reassigns the semantic var to the night primitive.
  */
 function buildNightMediaLine(cssName: string, variant: string): string {
-  const semantic = getConstant(cssName, variant).key
-  const nightPrimitive = getConstant(cssName, variant, { mode: "night" }).key
+  const semantic = getConstantKey(cssName, variant)
+  const nightPrimitive = getConstantKey(cssName, variant, { mode: "night" })
   return `\t\t${semantic}: var(${nightPrimitive});`
 }
 

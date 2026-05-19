@@ -30,7 +30,7 @@
 
 import { camelToKebab } from '../utilities/camelToKebab.js'
 import { isStyleValue } from '../utilities/isStyleValue.js'
-import { getConstant } from './getConstant.js'
+import { getConstantKey } from './getConstant.js'
 import { getBreakpoint } from './getBreakpoint.js'
 import { setBreakpoints } from './setBreakpoints.js'
 import { registerTokens } from '../registry/index.js'
@@ -76,39 +76,39 @@ function processVariants(
   for (const [variant, value] of Object.entries(variants)) {
     if (isStyleValue('breakpoint', value)) {
       const defaultValue = value[DEFAULT_BREAKPOINT]
-      const cssVar = getConstant(cssName, variant, { pkg })
-      defaultDeclarations.push(`${cssVar.key}: ${defaultValue};`)
+      const cssKey = getConstantKey(cssName, variant, { pkg })
+      defaultDeclarations.push(`${cssKey}: ${defaultValue};`)
 
       for (const [breakpoint, bpValue] of Object.entries(value)) {
         if (breakpoint !== DEFAULT_BREAKPOINT) {
-          const bpCssVar = getConstant(cssName, variant, { breakpoint, pkg })
-          defaultDeclarations.push(`${bpCssVar.key}: ${bpValue};`)
+          const bpCssKey = getConstantKey(cssName, variant, { breakpoint, pkg })
+          defaultDeclarations.push(`${bpCssKey}: ${bpValue};`)
 
           const declarations = breakpointDeclarations.get(breakpoint)
           if (declarations) {
-            declarations.push(`${cssVar.key}: var(${bpCssVar.key});`)
+            declarations.push(`${cssKey}: var(${bpCssKey});`)
           }
         }
       }
     } else if (isStyleValue('mode', value)) {
       const defaultValue = value[DEFAULT_MODE]
-      const cssVar = getConstant(cssName, variant, { pkg })
-      defaultDeclarations.push(`${cssVar.key}: ${defaultValue};`)
+      const cssKey = getConstantKey(cssName, variant, { pkg })
+      defaultDeclarations.push(`${cssKey}: ${defaultValue};`)
 
       for (const [mode, modeValue] of Object.entries(value)) {
         if (mode !== DEFAULT_MODE) {
-          const modeCssVar = getConstant(cssName, variant, { mode, pkg })
-          defaultDeclarations.push(`${modeCssVar.key}: ${modeValue};`)
+          const modeCssKey = getConstantKey(cssName, variant, { mode, pkg })
+          defaultDeclarations.push(`${modeCssKey}: ${modeValue};`)
 
           const declarations = modeDeclarations.get(mode)
           if (declarations) {
-            declarations.push(`${cssVar.key}: var(${modeCssVar.key});`)
+            declarations.push(`${cssKey}: var(${modeCssKey});`)
           }
         }
       }
     } else {
-      const cssVar = getConstant(cssName, variant, { pkg })
-      defaultDeclarations.push(`${cssVar.key}: ${value};`)
+      const cssKey = getConstantKey(cssName, variant, { pkg })
+      defaultDeclarations.push(`${cssKey}: ${value};`)
     }
   }
 }

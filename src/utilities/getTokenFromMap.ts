@@ -1,4 +1,4 @@
-import { getConstant, NAMESPACE } from '../services/getConstant.js'
+import { getConstant, getConstantKey, NAMESPACE } from '../services/getConstant.js'
 import { camelToKebab } from './camelToKebab.js'
 import { formatError } from './formatError.js'
 
@@ -107,11 +107,9 @@ export function getTokenFromMap(
     )
   }
 
-  const cssConstant = getConstant(cssName, variantKey, { mode, pkg: prefix })
-
   return {
-    key: cssConstant.key,
-    var: cssConstant.var,
+    key: getConstantKey(cssName, variantKey, { mode, pkg: prefix }),
+    var: getConstant(cssName, variantKey, { mode, pkg: prefix }),
     value: String(value),
   }
 }

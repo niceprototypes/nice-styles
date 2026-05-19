@@ -49,17 +49,18 @@ export {
   getToken,
   getTokenKey,
   getTokenValue,
-  getColorToken,
-  getColorTokenKey,
-  getColorTokenValue,
-  getSizeToken,
-  getSizeTokenKey,
-  getSizeTokenValue,
+  getModeToken,
+  getModeTokenKey,
+  getModeTokenValue,
+  getBreakpointToken,
+  getBreakpointTokenKey,
+  getBreakpointTokenValue,
   setCoreTokens,
-  setColorTokens,
-  setSizeTokens,
+  setModeTokens,
+  setBreakpointTokens,
   setBreakpoints,
   getConstant,
+  getConstantKey,
   NAMESPACE,
   getComponentToken,
   getComponentTokenKey,
@@ -83,7 +84,6 @@ export {
 export type {
   BreakpointName,
   BreakpointValues,
-  CssConstantResult,
   CssConstantOptions,
   TokenDefinition,
   TokenMap,
@@ -135,9 +135,9 @@ export type { ModeType } from './modeTypes.js'
 
 // Export the raw tokens data — flat core + day color values + small size values
 import tokensData from './generated/tokensData.js'
-import colorTokensData from './generated/colorTokensData.js'
-import sizeTokensData from './generated/sizeTokensData.js'
-export const Theme = { ...tokensData, ...colorTokensData.day, ...sizeTokensData.small }
+import modeTokensData from './generated/modeTokensData.js'
+import breakpointTokensData from './generated/breakpointTokensData.js'
+export const Theme = { ...tokensData, ...modeTokensData.day, ...breakpointTokensData.small }
 
 // Export component tokens data — used by nice-react-styles to detect component prefixes
 import componentTokensData from './generated/componentTokensData.js'
@@ -146,5 +146,5 @@ export { componentTokensData }
 // Export raw color and size token modules — used by nice-react-styles to seed
 // foregroundColor/backgroundColor/borderColor (mode-aware) and fontSize (breakpoint-aware)
 // in its runtime registry with the original ModeValue/BreakpointValue shapes.
-export { default as colorTokensData } from './generated/colorTokensData.js'
-export { default as sizeTokensData } from './generated/sizeTokensData.js'
+export { default as modeTokensData } from './generated/modeTokensData.js'
+export { default as breakpointTokensData } from './generated/breakpointTokensData.js'

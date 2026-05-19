@@ -1,8 +1,8 @@
 /**
- * Build the @media cascade for size tokens as a self-contained CSS string.
+ * Build the @media cascade for breakpoint tokens as a self-contained CSS string.
  *
  * Used at runtime by `setBreakpoints` to re-emit the responsive cascade with
- * new pixel thresholds. The output mirrors what `scripts/css/emitSizeTokens.ts`
+ * new pixel thresholds. The output mirrors what `scripts/css/emitBreakpointTokens.ts`
  * produces into `dist/tokens.css` — same media body lines, same primitive
  * references — so the injected stylesheet overrides the build-time blocks
  * cleanly when later in source order.
@@ -14,7 +14,7 @@
  */
 
 import { camelToKebab } from './camelToKebab.js'
-import { getConstant } from '../services/getConstant.js'
+import { getConstantKey } from '../services/getConstant.js'
 import {
   BREAKPOINT_PHONE,
   BREAKPOINT_TABLET,
@@ -28,8 +28,8 @@ import type { DimensionMap } from '../store.js'
  * Build one media-body line that reassigns the semantic var to a breakpoint primitive.
  */
 function buildMediaLine(cssName: string, variant: string, breakpoint: string): string {
-  const semantic = getConstant(cssName, variant).key
-  const primitive = getConstant(cssName, variant, { breakpoint }).key
+  const semantic = getConstantKey(cssName, variant)
+  const primitive = getConstantKey(cssName, variant, { breakpoint })
   return `\t\t${semantic}: var(${primitive});`
 }
 
@@ -61,10 +61,10 @@ function wrapMediaBlock(minWidth: number, body: string[]): string {
 }
 
 /**
- * Build the full size-token @media cascade for the given size module data
+ * Build the full size-token @media cascade for the given breakpoints module data
  * and breakpoint thresholds.
  *
- * @param sizeData - Size module data keyed by breakpoint (phone/tablet/laptop/desktop)
+ * @param sizeData - Breakpoints module data keyed by breakpoint (phone/tablet/laptop/desktop)
  * @param breakpoints - Pixel thresholds to use for the @media queries
  */
 export function buildSizeMediaCss(

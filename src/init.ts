@@ -8,17 +8,17 @@
 
 import { registerModule } from './store.js'
 import coreData from './generated/tokensData.js'
-import colorData from './generated/colorTokensData.js'
-import sizeData from './generated/sizeTokensData.js'
+import colorData from './generated/modeTokensData.js'
+import sizeData from './generated/breakpointTokensData.js'
 import { BREAKPOINT_PHONE } from './constants/breakpoints.js'
 
 /** Wrap core's flat token map into the dimensioned format: { base: tokenMap } */
 registerModule('core', 'base', { base: coreData })
 
-/** Color module dimensions come pre-keyed by mode: { day: {...}, night: {...} } */
+/** Modes module dimensions come pre-keyed by mode: { day: {...}, night: {...} } */
 registerModule('color', 'day', colorData)
 
-/** Size module dimensions come pre-keyed by breakpoint: { phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} } */
+/** Breakpoints module dimensions come pre-keyed by breakpoint: { phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} } */
 registerModule('size', BREAKPOINT_PHONE, sizeData)
 
 // Seed the registry. Side-effect import — running this module mutates the

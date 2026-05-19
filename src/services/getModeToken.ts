@@ -5,18 +5,18 @@
  * functions return the three accessor forms.
  *
  * @example
- * getColorToken("foregroundColor", "base", "night")
+ * getModeToken("foregroundColor", "base", "night")
  * // → "var(--np--foreground-color--base--night)"
  *
  * @example
- * getColorTokenValue("foregroundColor", "base", "night")
+ * getModeTokenValue("foregroundColor", "base", "night")
  * // → "hsla(210, 5%, 95%, 1)"
  */
 
 import { getToken, getTokenKey, getTokenValue } from './getToken.js'
 
 /** Returns the `var(--np--…)` reference for a color token. */
-export function getColorToken(
+export function getModeToken(
   group: string,
   item: string = 'base',
   mode: string = 'day'
@@ -25,7 +25,7 @@ export function getColorToken(
 }
 
 /** Returns the bare CSS variable name for a color token. */
-export function getColorTokenKey(
+export function getModeTokenKey(
   group: string,
   item: string = 'base',
   mode: string = 'day'
@@ -34,7 +34,7 @@ export function getColorTokenKey(
 }
 
 /** Returns the raw color value (e.g. an hsla string). */
-export function getColorTokenValue(
+export function getModeTokenValue(
   group: string,
   item: string = 'base',
   mode: string = 'day'

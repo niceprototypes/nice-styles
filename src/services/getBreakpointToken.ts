@@ -9,17 +9,17 @@
  * Three sibling functions return the three accessor forms.
  *
  * @example
- * import { getSizeToken, BREAKPOINT_TABLET } from "nice-styles"
+ * import { getBreakpointToken, BREAKPOINT_TABLET } from "nice-styles"
  *
- * getSizeToken("fontSize", "large", BREAKPOINT_TABLET)
+ * getBreakpointToken("fontSize", "large", BREAKPOINT_TABLET)
  * // → "var(--np--font-size--large--tablet)"
  *
  * @example
- * getSizeTokenValue("fontSize", "large", BREAKPOINT_TABLET)
+ * getBreakpointTokenValue("fontSize", "large", BREAKPOINT_TABLET)
  * // → "28px"
  */
 
-import { getConstant } from './getConstant.js'
+import { getConstant, getConstantKey } from './getConstant.js'
 import { formatError } from '../utilities/formatError.js'
 import { isStyleValue } from '../utilities/isStyleValue.js'
 import { registry } from '../registry/index.js'
@@ -51,25 +51,25 @@ function resolveSizeValue(group: string, item: string, breakpoint: string): stri
 }
 
 /** Returns the pinned `var(--np--…--{breakpoint})` reference for a size token. */
-export function getSizeToken(
+export function getBreakpointToken(
   group: string,
   item: string = 'base',
   breakpoint: string = BREAKPOINT_PHONE
 ): string {
-  return getConstant(group, item, { breakpoint }).var
+  return getConstant(group, item, { breakpoint })
 }
 
 /** Returns the pinned bare CSS variable name. */
-export function getSizeTokenKey(
+export function getBreakpointTokenKey(
   group: string,
   item: string = 'base',
   breakpoint: string = BREAKPOINT_PHONE
 ): string {
-  return getConstant(group, item, { breakpoint }).key
+  return getConstantKey(group, item, { breakpoint })
 }
 
 /** Returns the raw size value at the given breakpoint (e.g. `"16px"`). */
-export function getSizeTokenValue(
+export function getBreakpointTokenValue(
   group: string,
   item: string = 'base',
   breakpoint: string = BREAKPOINT_PHONE

@@ -1,13 +1,13 @@
 /**
- * Batch setter for size module (breakpoint) token overrides.
+ * Batch setter for breakpoints module (breakpoint) token overrides.
  *
- * Merges the provided overrides into the size module and reprocesses.
+ * Merges the provided overrides into the breakpoints module and reprocesses.
  * Each key is a breakpoint name ("phone", "tablet", "laptop") mapping to token groups.
  *
  * @param tokens - Override map: { breakpoint: { group: { item: value } } }
  *
  * @example
- * setSizeTokens({
+ * setBreakpointTokens({
  *   medium: {
  *     fontSize: { large: "28px" }
  *   },
@@ -20,6 +20,6 @@
 import { setModuleOverrides } from '../store.js'
 import type { DimensionMap } from '../store.js'
 
-export function setSizeTokens(tokens: DimensionMap): void {
+export function setBreakpointTokens(tokens: DimensionMap): void {
   setModuleOverrides('size', tokens)
 }

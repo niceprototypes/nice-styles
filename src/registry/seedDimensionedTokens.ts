@@ -5,11 +5,11 @@ import type { RegistryEntry } from './createRegistry.js'
  * Configuration for one dimensioned token module.
  *
  * - `data` is shaped { [dim]: { [tokenName]: { [variant]: cssValue } } } where
- *   `dim` is a mode (day/night) for color tokens or a breakpoint
- *   (phone/tablet/laptop) for size tokens.
+ *   `dim` is a mode (day/night) for mode tokens or a breakpoint
+ *   (phone/tablet/laptop) for breakpoint tokens.
  * - `defaultDim` defines the variant set used to enumerate registry entries.
  * - `modesForEntry` is what's recorded on each registry entry's `modes` Set;
- *   color modules pass their full mode set, size modules pass DEFAULT_MODE only
+ *   modes modules pass their full mode set, breakpoints modules pass DEFAULT_MODE only
  *   because breakpoints are not modes.
  */
 export interface DimensionedTokenSeed {

@@ -1,8 +1,8 @@
 /**
- * Size module CSS emitter.
+ * Breakpoints module CSS emitter.
  *
  * Produces breakpoint primitives (inside :root) and @media blocks (outside :root)
- * from the size module data. Mirrors the color module pattern:
+ * from the breakpoints module data. Mirrors the modes module pattern:
  *
  * - Color: semantic var → day/night primitives → @media (prefers-color-scheme)
  * - Size:  semantic var → phone/tablet/laptop/desktop primitives → @media (min-width)
@@ -27,7 +27,7 @@
  * - Desktop: @media (min-width: 1720px) — reassigns semantic to desktop primitive
  */
 
-import { getConstant } from '../../src/services/getConstant.js'
+import { getConstantKey } from '../../src/services/getConstant.js'
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
 import {
   BREAKPOINTS,
@@ -36,16 +36,16 @@ import {
   BREAKPOINT_LAPTOP,
   BREAKPOINT_DESKTOP,
 } from '../../src/constants/breakpoints.js'
-import type { SizeTokens } from './types.js'
+import type { BreakpointTokens } from './types.js'
 
-export interface SizeEmitResult {
+export interface BreakpointEmitResult {
   /** Breakpoint primitive lines for inside :root */
   primitiveLines: string[]
   /** Complete @media blocks for appending after :root */
   mediaBlocks: string[]
 }
 
-type SizeGroup = Record<string, string>
+type BreakpointGroup = Record<string, string>
 
 /**
  * Build a breakpoint primitive line — `\t--np--{cssName}--{variant}--{bp}: {value};`.
@@ -57,15 +57,15 @@ function buildBreakpointPrimitive(
   breakpoint: string,
   value: string
 ): string {
-  return `\t${getConstant(cssName, variant, { breakpoint }).key}: ${value};`
+  return `\t${getConstantKey(cssName, variant, { breakpoint })}: ${value};`
 }
 
 /**
  * Build the @media body line that reassigns the semantic var to a breakpoint primitive.
  */
 function buildMediaLine(cssName: string, variant: string, breakpoint: string): string {
-  const semantic = getConstant(cssName, variant).key
-  const primitive = getConstant(cssName, variant, { breakpoint }).key
+  const semantic = getConstantKey(cssName, variant)
+  const primitive = getConstantKey(cssName, variant, { breakpoint })
   return `\t\t${semantic}: var(${primitive});`
 }
 
@@ -80,7 +80,7 @@ function emitOverride(
   cssName: string,
   variant: string,
   breakpoint: string,
-  group: SizeGroup,
+  group: BreakpointGroup,
   primitiveLines: string[],
   mediaLines: string[]
 ): void {
@@ -113,9 +113,9 @@ function pushMediaBlock(
  * Phone-only groups never need breakpoint primitives — they're already in the semantic value.
  */
 function collectOverriddenGroups(
-  tablet: SizeTokens[string],
-  laptop: SizeTokens[string],
-  desktop: SizeTokens[string]
+  tablet: BreakpointTokens[string],
+  laptop: BreakpointTokens[string],
+  desktop: BreakpointTokens[string]
 ): Set<string> {
   return new Set([
     ...Object.keys(tablet),
@@ -128,9 +128,9 @@ function collectOverriddenGroups(
  * Collect the unique set of variants across the three override breakpoints for a single group.
  */
 function collectVariantsForGroup(
-  tabletGroup: SizeGroup,
-  laptopGroup: SizeGroup,
-  desktopGroup: SizeGroup
+  tabletGroup: BreakpointGroup,
+  laptopGroup: BreakpointGroup,
+  desktopGroup: BreakpointGroup
 ): Set<string> {
   return new Set([
     ...Object.keys(tabletGroup),
@@ -140,11 +140,11 @@ function collectVariantsForGroup(
 }
 
 /**
- * Generates breakpoint primitives and @media blocks from the size module.
+ * Generates breakpoint primitives and @media blocks from the breakpoints module.
  *
- * @param sizeTokens - Size module data: { phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} }
+ * @param sizeTokens - Breakpoints module data: { phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} }
  */
-export function generateSizeTokenCss(sizeTokens: SizeTokens): SizeEmitResult {
+export function generateBreakpointTokenCss(sizeTokens: BreakpointTokens): BreakpointEmitResult {
   const phoneDefaults = sizeTokens[BREAKPOINT_PHONE] || {}
   const tabletOverrides = sizeTokens[BREAKPOINT_TABLET] || {}
   const laptopOverrides = sizeTokens[BREAKPOINT_LAPTOP] || {}

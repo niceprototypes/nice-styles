@@ -25,8 +25,8 @@
  * ## Output
  *
  * - `src/generated/tokensData.ts`
- * - `src/generated/colorTokensData.ts`
- * - `src/generated/sizeTokensData.ts`
+ * - `src/generated/modeTokensData.ts`
+ * - `src/generated/breakpointTokensData.ts`
  * - `src/generated/componentTokensData.ts`
  * - `src/generated/breakpointsData.ts`
  */

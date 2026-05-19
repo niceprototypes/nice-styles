@@ -22,8 +22,8 @@ export interface ComponentTokens {
   [prefix: string]: { [key: string]: TokenNode }
 }
 
-/** Size module: { breakpoint: { group: { item: value } } } */
-export interface SizeTokens {
+/** Breakpoints module: { breakpoint: { group: { item: value } } } */
+export interface BreakpointTokens {
   [breakpoint: string]: {
     [group: string]: Record<string, string>
   }

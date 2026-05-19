@@ -12,7 +12,7 @@
  * @example
  * // Initialization (called once at import time from generated defaults)
  * registerModule("core", "base", { base: coreTokensData })
- * registerModule("color", "day", { day: colorDay, night: colorNight })
+ * registerModule("color", "day", { day: modesDay, night: colorNight })
  * registerModule("size", "small", { small: {}, medium: {}, large: {} })
  *
  * @example

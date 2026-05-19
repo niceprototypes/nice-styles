@@ -2,13 +2,13 @@
  * Token registry barrel.
  *
  * Importing this module triggers the seed (flat core tokens + dimensioned
- * color + size tokens). The registry singleton lives in `./createRegistry.ts`;
+ * color + breakpoint tokens). The registry singleton lives in `./createRegistry.ts`;
  * everything else here is seeding and re-exports.
  */
 
 import tokensData from '../generated/tokensData.js'
-import colorTokensData from '../generated/colorTokensData.js'
-import sizeTokensData from '../generated/sizeTokensData.js'
+import modeTokensData from '../generated/modeTokensData.js'
+import breakpointTokensData from '../generated/breakpointTokensData.js'
 import { DEFAULT_MODE } from '../constants/styleValues.js'
 import { BREAKPOINT_PHONE } from '../constants/breakpoints.js'
 import { registry } from './createRegistry.js'
@@ -23,16 +23,16 @@ for (const [name, def] of Object.entries(tokensData)) {
 }
 
 // Seed: dimensioned token modules.
-// - colorTokensData is keyed by mode (day, night). The mode keys ARE modes, so they're recorded on each entry's `modes` Set.
-// - sizeTokensData is keyed by breakpoint (phone, tablet, laptop, desktop). Breakpoints are NOT modes, so each entry keeps `modes` at DEFAULT_MODE only.
+// - modeTokensData is keyed by mode (day, night). The mode keys ARE modes, so they're recorded on each entry's `modes` Set.
+// - breakpointTokensData is keyed by breakpoint (phone, tablet, laptop, desktop). Breakpoints are NOT modes, so each entry keeps `modes` at DEFAULT_MODE only.
 seedDimensionedTokens(registry, [
   {
-    data: colorTokensData as unknown as Record<string, Record<string, Record<string, string>>>,
+    data: modeTokensData as unknown as Record<string, Record<string, Record<string, string>>>,
     defaultDim: DEFAULT_MODE,
-    modesForEntry: new Set(Object.keys(colorTokensData)),
+    modesForEntry: new Set(Object.keys(modeTokensData)),
   },
   {
-    data: sizeTokensData as unknown as Record<string, Record<string, Record<string, string>>>,
+    data: breakpointTokensData as unknown as Record<string, Record<string, Record<string, string>>>,
     defaultDim: BREAKPOINT_PHONE,
     modesForEntry: new Set([DEFAULT_MODE]),
   },

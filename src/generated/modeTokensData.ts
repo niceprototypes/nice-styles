@@ -8,9 +8,9 @@
 
 export type TokenDefinition = Record<string, string>
 
-export type ColorTokensData = Record<string, Record<string, TokenDefinition>>
+export type ModeTokensData = Record<string, Record<string, TokenDefinition>>
 
-const colorTokensData: ColorTokensData = {
+const modeTokensData: ModeTokensData = {
   "day": {
     "foregroundColor": {
       "base": "hsla(210, 5%, 5%, 1)",
@@ -57,4 +57,4 @@ const colorTokensData: ColorTokensData = {
   }
 } as const
 
-export default colorTokensData
+export default modeTokensData

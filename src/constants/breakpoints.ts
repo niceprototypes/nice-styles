@@ -9,7 +9,7 @@
  * import these constants rather than hard-coding the literals.
  *
  * Range layout (phone-first):
- *   phone   : 0      – 640    (max-width query, default — no media query for size tokens)
+ *   phone   : 0      – 640    (max-width query, default — no media query for breakpoint tokens)
  *   tablet  : 641    – 1279   (derived range — min-width 641, max-width 1279)
  *   laptop  : 1280   – 1719   (min-width 1280, max-width 1719 when bounded)
  *   desktop : 1720   – ∞      (min-width 1720)

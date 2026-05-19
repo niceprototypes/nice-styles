@@ -63,29 +63,29 @@ function writeCoreTokens(generatedDir: string, data: TokenMap): void {
 }
 
 /**
- * Emit src/generated/colorTokensData.ts from module.modes.json (keyed by mode).
+ * Emit src/generated/modeTokensData.ts from module.modes.json (keyed by mode).
  */
-function writeColorTokens(generatedDir: string, data: DimensionMap): void {
+function writeModeTokens(generatedDir: string, data: DimensionMap): void {
   writeFileWithHeader(
-    path.join(generatedDir, 'colorTokensData.ts'),
+    path.join(generatedDir, 'modeTokensData.ts'),
     'tokens/module.modes.json',
-    `export type TokenDefinition = Record<string, string>\n\nexport type ColorTokensData = Record<string, Record<string, TokenDefinition>>`,
-    'colorTokensData',
-    'ColorTokensData',
+    `export type TokenDefinition = Record<string, string>\n\nexport type ModeTokensData = Record<string, Record<string, TokenDefinition>>`,
+    'modeTokensData',
+    'ModeTokensData',
     data
   )
 }
 
 /**
- * Emit src/generated/sizeTokensData.ts from module.breakpoints.json (keyed by breakpoint).
+ * Emit src/generated/breakpointTokensData.ts from module.breakpoints.json (keyed by breakpoint).
  */
-function writeSizeTokens(generatedDir: string, data: DimensionMap): void {
+function writeBreakpointTokens(generatedDir: string, data: DimensionMap): void {
   writeFileWithHeader(
-    path.join(generatedDir, 'sizeTokensData.ts'),
+    path.join(generatedDir, 'breakpointTokensData.ts'),
     'tokens/module.breakpoints.json',
-    `export type TokenDefinition = Record<string, string>\n\nexport type SizeTokensData = Record<string, Record<string, TokenDefinition>>`,
-    'sizeTokensData',
-    'SizeTokensData',
+    `export type TokenDefinition = Record<string, string>\n\nexport type BreakpointTokensData = Record<string, Record<string, TokenDefinition>>`,
+    'breakpointTokensData',
+    'BreakpointTokensData',
     data
   )
 }
@@ -123,8 +123,8 @@ function writeBreakpoints(generatedDir: string, data: BreakpointsJson): void {
  */
 export function writeTokenDataFiles(sources: TokenJsonSources, generatedDir: string): void {
   writeCoreTokens(generatedDir, sources.core)
-  writeColorTokens(generatedDir, sources.color)
-  writeSizeTokens(generatedDir, sources.size)
+  writeModeTokens(generatedDir, sources.color)
+  writeBreakpointTokens(generatedDir, sources.size)
   writeComponentTokens(generatedDir, sources.component)
   writeBreakpoints(generatedDir, sources.breakpoints)
 }

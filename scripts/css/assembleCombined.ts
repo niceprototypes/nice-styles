@@ -9,10 +9,10 @@
  */
 
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
-import type { Tokens, NightTokens, ComponentTokens, SizeTokens } from './types.js'
+import type { Tokens, NightTokens, ComponentTokens, BreakpointTokens } from './types.js'
 import { generateTokenGroupCss } from './emitCoreTokens.js'
 import { generateComponentTokenCss } from './emitComponentTokens.js'
-import { generateSizeTokenCss } from './emitSizeTokens.js'
+import { generateBreakpointTokenCss } from './emitBreakpointTokens.js'
 
 /**
  * Builds the combined dist/tokens.css containing all token groups.
@@ -42,7 +42,7 @@ export function buildCombinedCss(
   nightTokens: NightTokens,
   componentTokens: ComponentTokens,
   componentNightTokens: ComponentTokens,
-  sizeTokens: SizeTokens
+  sizeTokens: BreakpointTokens
 ): { css: string } {
   // Four accumulators — semantic lines go inline, primitives are batched at the end of :root,
   // and night-media lines accumulate for the trailing @media (prefers-color-scheme: dark) block
@@ -164,7 +164,7 @@ export function buildCombinedCss(
   allNightMediaBody.push(...componentResult.nightMediaBody)
 
   // Phase 4: size breakpoint primitives — inside :root; media blocks go outside
-  const sizeResult = generateSizeTokenCss(sizeTokens)
+  const sizeResult = generateBreakpointTokenCss(sizeTokens)
   pushSizePrimitives(sizeResult.primitiveLines)
   pushRootClose()
   pushSizeMediaBlocks(sizeResult.mediaBlocks)
