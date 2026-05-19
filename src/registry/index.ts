@@ -2,7 +2,7 @@
  * Token registry barrel.
  *
  * Importing this module triggers the seed (flat core tokens + dimensioned
- * color + breakpoint tokens). The registry singleton lives in `./createRegistry.ts`;
+ * mode + breakpoint tokens). The registry singleton lives in `./createRegistry.ts`;
  * everything else here is seeding and re-exports.
  */
 
