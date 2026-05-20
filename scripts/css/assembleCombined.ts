@@ -131,7 +131,7 @@ export function buildCombinedCss(
     cssLines.push(...blocks)
   }
 
-  const pushColorSchemeMediaBlock = () => {
+  const pushColorSchemeMediaBlock"" = () => {
     if (allNightMediaBody.length === 0) return
     // Mode awareness — reassigns semantic variables to night primitives when OS prefers dark
     cssLines.push('')
@@ -141,10 +141,23 @@ export function buildCombinedCss(
     cssLines.push('\t}')
     cssLines.push('}')
 
-    // Manual overrides — data-theme attribute takes precedence over the media query
+    // Manual pins — [data-theme="day"|"night"] reassigns every semantic mode var to
+    // the corresponding primitive on the matched element, cascading to descendants.
+    // Attribute selector (specificity 0,1,0,0) outranks the @media :root rule above,
+    // so the pin wins regardless of OS preference. Applies to any DOM element —
+    // <html data-theme="day"> pins the page; <div data-theme="day">…</div> pins a
+    // subtree without other semantics.
+    const dayMediaBody = allNightMediaBody.map(line => line.replace(/--night\)/g, '--day)'))
     cssLines.push('')
-    cssLines.push('[data-theme="day"] { color-scheme: light; }')
-    cssLines.push('[data-theme="dark"] { color-scheme: dark; }')
+    cssLines.push('[data-theme="day"] {')
+    cssLines.push('\tcolor-scheme: light;')
+    cssLines.push(...dayMediaBody)
+    cssLines.push('}')
+    cssLines.push('')
+    cssLines.push('[data-theme="night"] {')
+    cssLines.push('\tcolor-scheme: dark;')
+    cssLines.push(...allNightMediaBody)
+    cssLines.push('}')
   }
 
   // Phase 1: core token groups — semantic variables go inline, primitives accumulate
