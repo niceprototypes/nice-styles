@@ -112,7 +112,7 @@ export type {
   BorderWidthType,
   BoxShadowType,
   CellHeightType,
-  ForegroundColorType,
+  ColorType,
   FontFamilyType,
   FontSizeType,
   FontWeightType,
@@ -144,7 +144,7 @@ import componentTokensData from './generated/componentTokensData.js'
 export { componentTokensData }
 
 // Export raw color and size token modules — used by nice-react-styles to seed
-// foregroundColor/backgroundColor/borderColor (mode-aware) and fontSize (breakpoint-aware)
+// color/backgroundColor/borderColor (mode-aware) and fontSize (breakpoint-aware)
 // in its runtime registry with the original ModeValue/BreakpointValue shapes.
 export { default as modeTokensData } from './generated/modeTokensData.js'
 export { default as breakpointTokensData } from './generated/breakpointTokensData.js'

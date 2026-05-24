@@ -5,11 +5,11 @@
  * functions return the three accessor forms.
  *
  * @example
- * getModeToken("foregroundColor", "base", "night")
- * // → "var(--np--foreground-color--base--night)"
+ * getModeToken("color", "base", "night")
+ * // → "var(--np--color--base--night)"
  *
  * @example
- * getModeTokenValue("foregroundColor", "base", "night")
+ * getModeTokenValue("color", "base", "night")
  * // → "hsla(210, 5%, 95%, 1)"
  */
 

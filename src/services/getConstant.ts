@@ -48,8 +48,8 @@ function buildKey(
  *
  * @example
  * // Base tokens
- * getConstant("foregroundColor", "base")
- * // "var(--np--foreground-color--base)"
+ * getConstant("color", "base")
+ * // "var(--np--color--base)"
  *
  * @example
  * // Force day mode
@@ -82,8 +82,8 @@ export function getConstant(
  * common case), use `getConstant` instead.
  *
  * @example
- * getConstantKey("foregroundColor", "base")
- * // "--np--foreground-color--base"
+ * getConstantKey("color", "base")
+ * // "--np--color--base"
  *
  * @example
  * getConstantKey("fontSize", "large", { breakpoint: "phone" })

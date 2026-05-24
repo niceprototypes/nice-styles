@@ -12,7 +12,7 @@ export type ModeTokensData = Record<string, Record<string, TokenDefinition>>
 
 const modeTokensData: ModeTokensData = {
   "day": {
-    "foregroundColor": {
+    "color": {
       "base": "hsla(210, 5%, 5%, 1)",
       "light": "hsla(210, 5%, 25%, 1)",
       "lighter": "hsla(210, 5%, 50%, 1)",
@@ -34,7 +34,7 @@ const modeTokensData: ModeTokensData = {
     }
   },
   "night": {
-    "foregroundColor": {
+    "color": {
       "base": "hsla(210, 5%, 95%, 1)",
       "light": "hsla(210, 5%, 95%, 0.85)",
       "lighter": "hsla(210, 5%, 95%, 0.55)",

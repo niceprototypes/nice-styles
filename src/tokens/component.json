@@ -25,56 +25,56 @@
       "status": {
         "primary": {
           "base": {
-            "backgroundColor": "var(--np--foreground-color--base)",
-            "borderColor": "var(--np--foreground-color--base)",
-            "foregroundColor": "var(--np--foreground-color--base--night)"
+            "backgroundColor": "var(--np--color--base)",
+            "borderColor": "var(--np--color--base)",
+            "color": "var(--np--color--base--night)"
           },
           "disabled": {
             "backgroundColor": "#ddd",
             "borderColor": "#ddd",
-            "foregroundColor": "#888"
+            "color": "#888"
           },
           "error": {
-            "backgroundColor": "var(--np--foreground-color--error)",
-            "borderColor": "var(--np--foreground-color--error)",
-            "foregroundColor": "#fff"
+            "backgroundColor": "var(--np--color--error)",
+            "borderColor": "var(--np--color--error)",
+            "color": "#fff"
           },
           "success": {
-            "backgroundColor": "var(--np--foreground-color--success)",
-            "borderColor": "var(--np--foreground-color--success)",
-            "foregroundColor": "#fff"
+            "backgroundColor": "var(--np--color--success)",
+            "borderColor": "var(--np--color--success)",
+            "color": "#fff"
           },
           "warning": {
-            "backgroundColor": "var(--np--foreground-color--warning)",
-            "borderColor": "var(--np--foreground-color--warning)",
-            "foregroundColor": "#fff"
+            "backgroundColor": "var(--np--color--warning)",
+            "borderColor": "var(--np--color--warning)",
+            "color": "#fff"
           }
         },
         "secondary": {
           "base": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--lightest)",
-            "foregroundColor": "var(--np--foreground-color--base)"
+            "borderColor": "var(--np--color--lightest)",
+            "color": "var(--np--color--base)"
           },
           "disabled": {
             "backgroundColor": "transparent",
             "borderColor": "#ddd",
-            "foregroundColor": "#888"
+            "color": "#888"
           },
           "error": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--error)",
-            "foregroundColor": "var(--np--foreground-color--error)"
+            "borderColor": "var(--np--color--error)",
+            "color": "var(--np--color--error)"
           },
           "success": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--success)",
-            "foregroundColor": "var(--np--foreground-color--success)"
+            "borderColor": "var(--np--color--success)",
+            "color": "var(--np--color--success)"
           },
           "warning": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--warning)",
-            "foregroundColor": "var(--np--foreground-color--warning)"
+            "borderColor": "var(--np--color--warning)",
+            "color": "var(--np--color--warning)"
           }
         }
       }
@@ -88,15 +88,15 @@
         "larger": "var(--np--font-size--larger)"
       },
       "color": {
-        "base": "var(--np--foreground-color--base)",
-        "light": "var(--np--foreground-color--light)",
-        "lighter": "var(--np--foreground-color--lighter)",
-        "lightest": "var(--np--foreground-color--lightest)",
-        "disabled": "var(--np--foreground-color--disabled)",
-        "link": "var(--np--foreground-color--link)",
-        "success": "var(--np--foreground-color--success)",
-        "warning": "var(--np--foreground-color--warning)",
-        "error": "var(--np--foreground-color--error)"
+        "base": "var(--np--color--base)",
+        "light": "var(--np--color--light)",
+        "lighter": "var(--np--color--lighter)",
+        "lightest": "var(--np--color--lightest)",
+        "disabled": "var(--np--color--disabled)",
+        "link": "var(--np--color--link)",
+        "success": "var(--np--color--success)",
+        "warning": "var(--np--color--warning)",
+        "error": "var(--np--color--error)"
       },
       "strokeWidth": {
         "small": "var(--np--border-width--small)",
@@ -115,16 +115,16 @@
         "base": "var(--np--background-color--base)",
         "alternate": "var(--np--background-color--alternate)"
       },
-      "foregroundColor": {
-        "base": "var(--np--foreground-color--base)",
-        "light": "var(--np--foreground-color--light)",
-        "lighter": "var(--np--foreground-color--lighter)",
-        "lightest": "var(--np--foreground-color--lightest)",
-        "disabled": "var(--np--foreground-color--disabled)",
-        "link": "var(--np--foreground-color--link)",
-        "success": "var(--np--foreground-color--success)",
-        "warning": "var(--np--foreground-color--warning)",
-        "error": "var(--np--foreground-color--error)"
+      "color": {
+        "base": "var(--np--color--base)",
+        "light": "var(--np--color--light)",
+        "lighter": "var(--np--color--lighter)",
+        "lightest": "var(--np--color--lightest)",
+        "disabled": "var(--np--color--disabled)",
+        "link": "var(--np--color--link)",
+        "success": "var(--np--color--success)",
+        "warning": "var(--np--color--warning)",
+        "error": "var(--np--color--error)"
       }
     },
     "lightbox": {
@@ -178,15 +178,15 @@
         "wider": "var(--np--letter-spacing--wider)"
       },
       "color": {
-        "base": "var(--np--foreground-color--base)",
-        "light": "var(--np--foreground-color--light)",
-        "lighter": "var(--np--foreground-color--lighter)",
-        "lightest": "var(--np--foreground-color--lightest)",
-        "disabled": "var(--np--foreground-color--disabled)",
-        "link": "var(--np--foreground-color--link)",
-        "success": "var(--np--foreground-color--success)",
-        "warning": "var(--np--foreground-color--warning)",
-        "error": "var(--np--foreground-color--error)"
+        "base": "var(--np--color--base)",
+        "light": "var(--np--color--light)",
+        "lighter": "var(--np--color--lighter)",
+        "lightest": "var(--np--color--lightest)",
+        "disabled": "var(--np--color--disabled)",
+        "link": "var(--np--color--link)",
+        "success": "var(--np--color--success)",
+        "warning": "var(--np--color--warning)",
+        "error": "var(--np--color--error)"
       },
       "maxWidth": {
         "prose": "65ch",
@@ -220,65 +220,65 @@
         "primary": {
           "base": {
             "backgroundColor": "var(--np--background-color--base)",
-            "borderColor": "var(--np--foreground-color--lightest)",
-            "foregroundColor": "var(--np--foreground-color--base)",
-            "placeholderColor": "var(--np--foreground-color--lighter)"
+            "borderColor": "var(--np--color--lightest)",
+            "color": "var(--np--color--base)",
+            "placeholderColor": "var(--np--color--lighter)"
           },
           "disabled": {
             "backgroundColor": "#f5f5f5",
             "borderColor": "#ddd",
-            "foregroundColor": "#888",
+            "color": "#888",
             "placeholderColor": "#aaa"
           },
           "error": {
             "backgroundColor": "var(--np--background-color--base)",
-            "borderColor": "var(--np--foreground-color--error)",
-            "foregroundColor": "var(--np--foreground-color--base)",
-            "placeholderColor": "var(--np--foreground-color--lighter)"
+            "borderColor": "var(--np--color--error)",
+            "color": "var(--np--color--base)",
+            "placeholderColor": "var(--np--color--lighter)"
           },
           "success": {
             "backgroundColor": "var(--np--background-color--base)",
-            "borderColor": "var(--np--foreground-color--success)",
-            "foregroundColor": "var(--np--foreground-color--base)",
-            "placeholderColor": "var(--np--foreground-color--lighter)"
+            "borderColor": "var(--np--color--success)",
+            "color": "var(--np--color--base)",
+            "placeholderColor": "var(--np--color--lighter)"
           },
           "warning": {
             "backgroundColor": "var(--np--background-color--base)",
-            "borderColor": "var(--np--foreground-color--warning)",
-            "foregroundColor": "var(--np--foreground-color--base)",
-            "placeholderColor": "var(--np--foreground-color--lighter)"
+            "borderColor": "var(--np--color--warning)",
+            "color": "var(--np--color--base)",
+            "placeholderColor": "var(--np--color--lighter)"
           }
         },
         "secondary": {
           "base": {
             "backgroundColor": "var(--np--background-color--alternate)",
             "borderColor": "transparent",
-            "foregroundColor": "var(--np--foreground-color--base)",
-            "placeholderColor": "var(--np--foreground-color--lighter)"
+            "color": "var(--np--color--base)",
+            "placeholderColor": "var(--np--color--lighter)"
           },
           "disabled": {
             "backgroundColor": "#f5f5f5",
             "borderColor": "transparent",
-            "foregroundColor": "#888",
+            "color": "#888",
             "placeholderColor": "#aaa"
           },
           "error": {
             "backgroundColor": "var(--np--background-color--alternate)",
-            "borderColor": "var(--np--foreground-color--error)",
-            "foregroundColor": "var(--np--foreground-color--base)",
-            "placeholderColor": "var(--np--foreground-color--lighter)"
+            "borderColor": "var(--np--color--error)",
+            "color": "var(--np--color--base)",
+            "placeholderColor": "var(--np--color--lighter)"
           },
           "success": {
             "backgroundColor": "var(--np--background-color--alternate)",
-            "borderColor": "var(--np--foreground-color--success)",
-            "foregroundColor": "var(--np--foreground-color--base)",
-            "placeholderColor": "var(--np--foreground-color--lighter)"
+            "borderColor": "var(--np--color--success)",
+            "color": "var(--np--color--base)",
+            "placeholderColor": "var(--np--color--lighter)"
           },
           "warning": {
             "backgroundColor": "var(--np--background-color--alternate)",
-            "borderColor": "var(--np--foreground-color--warning)",
-            "foregroundColor": "var(--np--foreground-color--base)",
-            "placeholderColor": "var(--np--foreground-color--lighter)"
+            "borderColor": "var(--np--color--warning)",
+            "color": "var(--np--color--base)",
+            "placeholderColor": "var(--np--color--lighter)"
           }
         }
       }
@@ -289,56 +289,56 @@
       "status": {
         "primary": {
           "base": {
-            "backgroundColor": "var(--np--foreground-color--base--night)",
-            "borderColor": "var(--np--foreground-color--base--night)",
-            "foregroundColor": "var(--np--foreground-color--base--day)"
+            "backgroundColor": "var(--np--color--base--night)",
+            "borderColor": "var(--np--color--base--night)",
+            "color": "var(--np--color--base--day)"
           },
           "disabled": {
-            "backgroundColor": "var(--np--foreground-color--base--night)",
-            "borderColor": "var(--np--foreground-color--base--night)",
-            "foregroundColor": "var(--np--foreground-color--base--day)"
+            "backgroundColor": "var(--np--color--base--night)",
+            "borderColor": "var(--np--color--base--night)",
+            "color": "var(--np--color--base--day)"
           },
           "error": {
-            "backgroundColor": "var(--np--foreground-color--error--night)",
-            "borderColor": "var(--np--foreground-color--error--night)",
-            "foregroundColor": "var(--np--foreground-color--base--day)"
+            "backgroundColor": "var(--np--color--error--night)",
+            "borderColor": "var(--np--color--error--night)",
+            "color": "var(--np--color--base--day)"
           },
           "success": {
-            "backgroundColor": "var(--np--foreground-color--success--night)",
-            "borderColor": "var(--np--foreground-color--success--night)",
-            "foregroundColor": "var(--np--foreground-color--base--day)"
+            "backgroundColor": "var(--np--color--success--night)",
+            "borderColor": "var(--np--color--success--night)",
+            "color": "var(--np--color--base--day)"
           },
           "warning": {
-            "backgroundColor": "var(--np--foreground-color--warning--night)",
-            "borderColor": "var(--np--foreground-color--warning--night)",
-            "foregroundColor": "var(--np--foreground-color--base--day)"
+            "backgroundColor": "var(--np--color--warning--night)",
+            "borderColor": "var(--np--color--warning--night)",
+            "color": "var(--np--color--base--day)"
           }
         },
         "secondary": {
           "base": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--lightest--night)",
-            "foregroundColor": "var(--np--foreground-color--base--night)"
+            "borderColor": "var(--np--color--lightest--night)",
+            "color": "var(--np--color--base--night)"
           },
           "disabled": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--base--night)",
-            "foregroundColor": "var(--np--foreground-color--base--night)"
+            "borderColor": "var(--np--color--base--night)",
+            "color": "var(--np--color--base--night)"
           },
           "error": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--error--night)",
-            "foregroundColor": "var(--np--foreground-color--error--night)"
+            "borderColor": "var(--np--color--error--night)",
+            "color": "var(--np--color--error--night)"
           },
           "success": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--success--night)",
-            "foregroundColor": "var(--np--foreground-color--success--night)"
+            "borderColor": "var(--np--color--success--night)",
+            "color": "var(--np--color--success--night)"
           },
           "warning": {
             "backgroundColor": "transparent",
-            "borderColor": "var(--np--foreground-color--warning--night)",
-            "foregroundColor": "var(--np--foreground-color--warning--night)"
+            "borderColor": "var(--np--color--warning--night)",
+            "color": "var(--np--color--warning--night)"
           }
         }
       }

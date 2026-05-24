@@ -23,7 +23,7 @@
  * @example
  * // Value resolution (called by getters)
  * getModuleValue("core", undefined, "gap", "base")    // → "16px" (uses defaultKey "base")
- * getModuleValue("color", "night", "foregroundColor", "base")  // → night value
+ * getModuleValue("color", "night", "color", "base")  // → night value
  */
 
 import type { TokenMap } from './utilities/separateTokens.js'
@@ -155,7 +155,7 @@ export function setBreakpointOverrides(overrides: Partial<BreakpointValues>): vo
  *
  * @param name - Module identifier ("core", "color", "size")
  * @param dimensionKey - Which dimension to look up (e.g., "night", "tablet"). Falls back to module's defaultKey if undefined.
- * @param group - Token group (e.g., "foregroundColor", "gap")
+ * @param group - Token group (e.g., "color", "gap")
  * @param item - Token item within the group (e.g., "base", "large")
  * @returns The resolved value string, or undefined if not found
  */

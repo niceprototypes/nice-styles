@@ -13,8 +13,8 @@
  * // → "var(--np--font-size--base)"
  *
  * @example
- * getToken("foregroundColor", "base", "night")
- * // → "var(--np--foreground-color--base--night)"
+ * getToken("color", "base", "night")
+ * // → "var(--np--color--base--night)"
  *
  * @example
  * getTokenValue("fontSize", "base")

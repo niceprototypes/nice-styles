@@ -63,8 +63,8 @@ export interface TokenFromMapOptions {
  * **Mode option** (for theme variants):
  * When mode is specified (e.g., "dark"), the CSS variable includes the mode suffix:
  * ```ts
- * getTokenFromMap(tokens, "foregroundColor", "base", { mode: "dark" })
- * // → { key: "--np--foreground-color--base--dark", ... }
+ * getTokenFromMap(tokens, "color", "base", { mode: "dark" })
+ * // → { key: "--np--color--base--dark", ... }
  * ```
  *
  * @param tokenMap - Token definitions mapping variant keys to values
