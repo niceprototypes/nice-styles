@@ -131,7 +131,7 @@ export function buildCombinedCss(
     cssLines.push(...blocks)
   }
 
-  const pushColorSchemeMediaBlock"" = () => {
+  const pushColorSchemeMediaBlock = () => {
     if (allNightMediaBody.length === 0) return
     // Mode awareness — reassigns semantic variables to night primitives when OS prefers dark
     cssLines.push('')

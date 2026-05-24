@@ -1,6 +1,6 @@
 {
   "name": "nice-styles",
-  "version": "10.0.0",
+  "version": "11.0.0",
   "description": "A collection of CSS custom properties (variables) for consistent design tokens",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -42,7 +42,8 @@
     "build:post": "tsx scripts/postBuild.ts",
     "dev": "tsc --watch & tsx scripts/generateCss/index.ts --watch & tsx scripts/generateTokens/index.ts --watch & tsx scripts/generateTypes/index.ts --watch",
     "test": "echo \"No tests configured\"",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "prepare": "npm run build"
   },
   "publishConfig": {
     "access": "public",
@@ -72,5 +73,7 @@
     "@types/node": "^24.8.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3"
-  }
+  },
+  "peerDependencies": {},
+  "dependencies": {}
 }
