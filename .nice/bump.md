@@ -1,0 +1,1 @@
+[2026-05-26 02:30] patch: Adjust backgroundColor and borderColor token values — give day mode visible striping contrast between base and dark backgrounds, soften night-mode dark backgroundColor for less aggressive contrast, and darken day borderColor.darker.

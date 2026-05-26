@@ -51,7 +51,7 @@ const tokensData: TokensData = {
   },
   "fontFamily": {
     "base": "\"Google Sans Flex\", sans-serif",
-    "code": "\"Roboto Mono\", \"Courier New\", serif",
+    "code": "\"Roboto Mono\", \"Courier New\", monospace",
     "heading": "\"Google Sans Flex\", sans-serif"
   },
   "fontWeight": {

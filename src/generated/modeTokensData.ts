@@ -24,13 +24,13 @@ const modeTokensData: ModeTokensData = {
       "error": "hsla(10, 92%, 63%, 1)"
     },
     "backgroundColor": {
-      "base": "hsla(0, 100%, 100%, 1)",
-      "dark": "hsla(0, 100%, 100%, 1)"
+      "base": "hsla(0, 5%, 100%, 1)",
+      "dark": "hsla(0, 5%, 95%, 1)"
     },
     "borderColor": {
       "base": "hsla(240, 9%, 91%, 1)",
       "dark": "hsla(210, 8%, 58%, 1)",
-      "darker": "hsla(210, 10%, 25%, 1)"
+      "darker": "hsla(210, 10%, 20%, 1)"
     }
   },
   "night": {
@@ -47,12 +47,12 @@ const modeTokensData: ModeTokensData = {
     },
     "backgroundColor": {
       "base": "hsla(240, 5%, 15%, 1)",
-      "dark": "hsla(240, 5%, 10%, 1)"
+      "dark": "hsla(240, 5%, 12.5%, 1)"
     },
     "borderColor": {
-      "base": "hsla(210, 5%, 95%, 0.25)",
-      "dark": "hsla(210, 5%, 95%, 0.5)",
-      "darker": "hsla(210, 5%, 95%, 0.75)"
+      "base": "hsla(240, 5%, 25%, 1)",
+      "dark": "hsla(240, 5%, 50%, 1)",
+      "darker": "hsla(240, 5%, 100%, 1)"
     }
   }
 } as const
