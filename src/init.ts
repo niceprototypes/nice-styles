@@ -8,14 +8,14 @@
 
 import { registerModule } from './store.js'
 import coreData from './generated/tokensData.js'
-import colorData from './generated/modeTokensData.js'
+import colorData from './generated/themeTokensData.js'
 import sizeData from './generated/breakpointTokensData.js'
 import { BREAKPOINT_PHONE } from './constants/breakpoints.js'
 
 /** Wrap core's flat token map into the dimensioned format: { base: tokenMap } */
 registerModule('core', 'base', { base: coreData })
 
-/** Modes module dimensions come pre-keyed by mode: { day: {...}, night: {...} } */
+/** Themes module dimensions come pre-keyed by theme: { day: {...}, night: {...} } */
 registerModule('color', 'day', colorData)
 
 /** Breakpoints module dimensions come pre-keyed by breakpoint: { phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} } */

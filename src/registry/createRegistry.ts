@@ -1,12 +1,12 @@
-import type { ModeValue, BreakpointValue } from '../types/styleValues.js'
+import type { ThemeValue, BreakpointValue } from '../types/styleValues.js'
 
 /**
  * Registry entry storing token variants and their CSS prefix.
  */
 export interface RegistryEntry {
   prefix?: string
-  variants: Record<string, string | number | ModeValue | BreakpointValue>
-  modes: Set<string>
+  variants: Record<string, string | number | ThemeValue | BreakpointValue>
+  themes: Set<string>
 }
 
 /**

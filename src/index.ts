@@ -49,14 +49,14 @@ export {
   getToken,
   getTokenKey,
   getTokenValue,
-  getModeToken,
-  getModeTokenKey,
-  getModeTokenValue,
+  getThemeToken,
+  getThemeTokenKey,
+  getThemeTokenValue,
   getBreakpointToken,
   getBreakpointTokenKey,
   getBreakpointTokenValue,
   setCoreTokens,
-  setModeTokens,
+  setThemeTokens,
   setBreakpointTokens,
   setBreakpoints,
   getConstant,
@@ -65,13 +65,12 @@ export {
   getComponentToken,
   getComponentTokenKey,
   getComponentTokenValue,
-  getInvertedMode,
   getTextHeight,
   getTokenFromMap,
   getTokenByPath,
   camelToKebab,
   parseGoogleFontsUrl,
-  DEFAULT_MODE,
+  DEFAULT_THEME,
   DEFAULT_BREAKPOINT,
   STYLE_VALUE_KEYS,
   isStyleValue,
@@ -90,7 +89,7 @@ export type {
   ComponentTokenNode,
   TokenResult,
   TokenFromMapOptions,
-  ModeValue,
+  ThemeValue,
   BreakpointValue,
   FontAxis,
   GoogleFontMetadata,
@@ -130,21 +129,27 @@ export type {
   SpacingType,
 } from './layoutTypes.js'
 
-// Export mode types
-export type { ModeType } from './modeTypes.js'
+// Export theme types
+export type { ThemeType } from './themeTypes.js'
 
-// Export the raw tokens data — flat core + day color values + small size values
+// Export the raw tokens data — flat core + day theme values + small size values.
+// Renamed from `Theme` to `Colors` to avoid collision with the new <Theme>
+// component exported from nice-react-styles. Despite the name, this object
+// carries more than colors — flat core primitives (font-size, gap, etc.) and
+// small-breakpoint size primitives — but the styled-components ThemeProvider
+// consumption path inside nice-react-styles' StylesProvider only reads the
+// color values today.
 import tokensData from './generated/tokensData.js'
-import modeTokensData from './generated/modeTokensData.js'
+import themeTokensData from './generated/themeTokensData.js'
 import breakpointTokensData from './generated/breakpointTokensData.js'
-export const Theme = { ...tokensData, ...modeTokensData.day, ...breakpointTokensData.small }
+export const Colors = { ...tokensData, ...themeTokensData.day, ...breakpointTokensData.small }
 
 // Export component tokens data — used by nice-react-styles to detect component prefixes
 import componentTokensData from './generated/componentTokensData.js'
 export { componentTokensData }
 
-// Export raw color and size token modules — used by nice-react-styles to seed
-// color/backgroundColor/borderColor (mode-aware) and fontSize (breakpoint-aware)
-// in its runtime registry with the original ModeValue/BreakpointValue shapes.
-export { default as modeTokensData } from './generated/modeTokensData.js'
+// Export raw theme and breakpoint token modules — used by nice-react-styles to seed
+// color/backgroundColor/borderColor (theme-aware) and fontSize (breakpoint-aware)
+// in its runtime registry with the original ThemeValue/BreakpointValue shapes.
+export { default as themeTokensData } from './generated/themeTokensData.js'
 export { default as breakpointTokensData } from './generated/breakpointTokensData.js'

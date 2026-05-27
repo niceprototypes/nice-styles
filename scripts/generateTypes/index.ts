@@ -17,7 +17,7 @@
  * ## Input
  *
  * - `src/tokens/module.json` — Core tokens (no dimension variants)
- * - `src/tokens/module.modes.json` — Color tokens keyed by mode
+ * - `src/tokens/module.themes.json` — Color tokens keyed by theme
  * - `src/tokens/module.breakpoints.json` — Size tokens keyed by breakpoint
  * - `src/tokens/component.json` — Component tokens (day/night)
  *

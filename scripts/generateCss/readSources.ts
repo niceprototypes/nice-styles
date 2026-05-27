@@ -9,15 +9,15 @@
  * | File | Shape | Role |
  * |------|-------|------|
  * | `module.json` | `{ group: { item: value } }` | Core tokens — no dimension variants |
- * | `module.modes.json` | `{ day: { group: { item: value } }, night: {...} }` | Color tokens keyed by mode |
+ * | `module.themes.json` | `{ day: { group: { item: value } }, night: {...} }` | Color tokens keyed by theme |
  * | `module.breakpoints.json` | `{ phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} }` | Size tokens keyed by breakpoint |
- * | `component.json` | `{ day: { prefix: { ...nested } }, night: {...} }` | Component tokens keyed by mode |
+ * | `component.json` | `{ day: { prefix: { ...nested } }, night: {...} }` | Component tokens keyed by theme |
  *
  * ## Merge strategy
  *
  * The `tokens` field in the returned object is a unified map of all semantic defaults:
  * - Core tokens (no variants) from `module.json`
- * - Color day values from `module.modes.json` → day dimension
+ * - Color day values from `module.themes.json` → day dimension
  * - Size small values from `module.breakpoints.json` → phone dimension
  *
  * This merged map drives both the `:root` semantic variable emission and the
@@ -33,7 +33,7 @@ import { BREAKPOINT_PHONE } from '../../src/constants/breakpoints.js'
 export interface TokenSources {
   /** Merged semantic defaults: core + color day + size phone */
   tokens: Tokens
-  /** Night-mode overrides from module.modes.json */
+  /** Night-theme overrides from module.themes.json */
   nightTokens: NightTokens
   /** Full breakpoints module data for breakpoint primitive/media query emission */
   sizeTokens: BreakpointTokens
@@ -56,18 +56,18 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
     fs.readFileSync(path.join(tokensDir, 'module.json'), 'utf-8')
   )
 
-  // Modes module — day provides semantic defaults, night provides overrides
-  const modesJson = JSON.parse(
-    fs.readFileSync(path.join(tokensDir, 'module.modes.json'), 'utf-8')
+  // Themes module — day provides semantic defaults, night provides overrides
+  const themesJson = JSON.parse(
+    fs.readFileSync(path.join(tokensDir, 'module.themes.json'), 'utf-8')
   )
-  const modesDay: Tokens = modesJson.day || {}
-  const nightTokens: NightTokens = modesJson.night || {}
+  const themesDay: Tokens = themesJson.day || {}
+  const nightTokens: NightTokens = themesJson.night || {}
 
   // Validate: every night entry must have a corresponding day entry
   const errors: Errors = JSON.parse(fs.readFileSync(errorsPath, 'utf-8'))
   if (Object.keys(nightTokens).length > 0) {
-    validateNightTokens(modesDay, nightTokens, errors)
-    console.log('✓ Modes module night tokens validated')
+    validateNightTokens(themesDay, nightTokens, errors)
+    console.log('✓ Themes module night tokens validated')
   }
 
   // Breakpoints module — phone provides semantic defaults, tablet/laptop/desktop provide overrides
@@ -96,7 +96,7 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
 
   // Merge all sources into a unified semantic defaults map
   // Order: core → color day → size phone (later keys win on collision)
-  const tokens: Tokens = { ...coreTokens, ...modesDay, ...breakpointsPhone }
+  const tokens: Tokens = { ...coreTokens, ...themesDay, ...breakpointsPhone }
 
   return { tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens }
 }

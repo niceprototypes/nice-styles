@@ -16,24 +16,23 @@ export {
 } from '../constants/breakpoints.js'
 export type { BreakpointValues } from '../constants/breakpoints.js'
 export { getToken, getTokenKey, getTokenValue } from './getToken.js'
-export { getModeToken, getModeTokenKey, getModeTokenValue } from './getModeToken.js'
+export { getThemeToken, getThemeTokenKey, getThemeTokenValue } from './getThemeToken.js'
 export { getBreakpointToken, getBreakpointTokenKey, getBreakpointTokenValue } from './getBreakpointToken.js'
 export { setCoreTokens } from './setCoreTokens.js'
-export { setModeTokens } from './setModeTokens.js'
+export { setThemeTokens } from './setThemeTokens.js'
 export { setBreakpointTokens } from './setBreakpointTokens.js'
 export { setBreakpoints } from './setBreakpoints.js'
 export { getConstant, getConstantKey, NAMESPACE } from './getConstant.js'
 export type { CssConstantOptions } from './getConstant.js'
 export { getComponentToken, getComponentTokenKey, getComponentTokenValue } from './getComponentToken.js'
-export { getInvertedMode } from './getInvertedMode.js'
 export { default as getTextHeight } from './getTextHeight.js'
 
 export { parseGoogleFontsUrl } from './parseGoogleFontsUrl.js'
 
 // Style-value types and constants
-export type { ModeValue, BreakpointValue } from '../types/styleValues.js'
+export type { ThemeValue, BreakpointValue } from '../types/styleValues.js'
 export type { FontAxis, GoogleFontMetadata, LinkAttributes, GoogleFontsConfig } from '../types/googleFonts.js'
-export { DEFAULT_MODE, DEFAULT_BREAKPOINT, STYLE_VALUE_KEYS } from '../constants/styleValues.js'
+export { DEFAULT_THEME, DEFAULT_BREAKPOINT, STYLE_VALUE_KEYS } from '../constants/styleValues.js'
 export type { StyleValueKind } from '../constants/styleValues.js'
 export { isStyleValue } from '../utilities/isStyleValue.js'
 

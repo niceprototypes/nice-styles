@@ -46,8 +46,8 @@ export interface TokenResult {
  * Options for getTokenFromMap
  */
 export interface TokenFromMapOptions {
-  /** Theme mode (e.g., "dark"). Appends --{mode} to CSS variable. */
-  mode?: string
+  /** Theme name (e.g., "night"). Appends --{theme} to CSS variable. */
+  theme?: string
   /** Component prefix (e.g., "button", "icon"). Omit for base tokens. */
   prefix?: string
 }
@@ -60,17 +60,17 @@ export interface TokenFromMapOptions {
  * ```
  * CSS name derived from key via camelToKebab: strokeWidth → stroke-width
  *
- * **Mode option** (for theme variants):
- * When mode is specified (e.g., "dark"), the CSS variable includes the mode suffix:
+ * **Theme option** (for theme variants):
+ * When theme is specified (e.g., "night"), the CSS variable includes the theme suffix:
  * ```ts
- * getTokenFromMap(tokens, "color", "base", { mode: "dark" })
- * // → { key: "--np--color--base--dark", ... }
+ * getTokenFromMap(tokens, "color", "base", { theme: "night" })
+ * // → { key: "--np--color--base--night", ... }
  * ```
  *
  * @param tokenMap - Token definitions mapping variant keys to values
  * @param tokenName - camelCase token key (e.g., "fontSize", "strokeWidth")
  * @param variant - Variant within token (defaults to "base")
- * @param options - Optional mode and prefix
+ * @param options - Optional theme and prefix
  * @returns { key, var, value } - CSS variable name, var() wrapped, raw value
  * @throws Error if token or variant not found
  */
@@ -80,7 +80,7 @@ export function getTokenFromMap(
   variant?: string,
   options?: TokenFromMapOptions
 ): TokenResult {
-  const { mode, prefix } = options ?? {}
+  const { theme, prefix } = options ?? {}
   const definition = tokenMap[tokenName]
   if (!definition) {
     throw new Error(
@@ -108,8 +108,8 @@ export function getTokenFromMap(
   }
 
   return {
-    key: getConstantKey(cssName, variantKey, { mode, pkg: prefix }),
-    var: getConstant(cssName, variantKey, { mode, pkg: prefix }),
+    key: getConstantKey(cssName, variantKey, { theme, pkg: prefix }),
+    var: getConstant(cssName, variantKey, { theme, pkg: prefix }),
     value: String(value),
   }
 }
@@ -123,7 +123,7 @@ export function getTokenFromMap(
  *
  * @param tree - Nested component token tree (from componentTokensData[prefix])
  * @param path - Array of path segments to the leaf value
- * @param options - Optional mode and prefix
+ * @param options - Optional theme and prefix
  * @returns { key, var, value } - CSS variable name, var() wrapped, raw value
  * @throws Error if any path segment not found or path doesn't reach a leaf
  *
@@ -140,7 +140,7 @@ export function getTokenByPath(
   path: string[],
   options?: TokenFromMapOptions
 ): TokenResult {
-  const { mode, prefix } = options ?? {}
+  const { theme, prefix } = options ?? {}
 
   let current: ComponentTokenNode = tree as { [key: string]: ComponentTokenNode }
   for (let i = 0; i < path.length; i++) {
@@ -166,7 +166,7 @@ export function getTokenByPath(
   }
 
   const cssSegments = path.map(s => camelToKebab(s))
-  const suffix = mode ? `--${mode}` : ''
+  const suffix = theme ? `--${theme}` : ''
   const key = prefix
     ? `--${NAMESPACE}--${prefix}--${cssSegments.join('--')}${suffix}`
     : `--${NAMESPACE}--${cssSegments.join('--')}${suffix}`

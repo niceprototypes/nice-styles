@@ -36,8 +36,8 @@ interface InternalTokenResult {
 function resolveComponentToken(
   prefix: ComponentPrefix,
   tokenNameOrPath: string | string[],
-  variantOrMode?: string,
-  mode?: string
+  variantOrTheme?: string,
+  theme?: string
 ): InternalTokenResult {
   const componentData = componentTokensData[prefix]
   if (!componentData) {
@@ -46,14 +46,14 @@ function resolveComponentToken(
   }
 
   if (Array.isArray(tokenNameOrPath)) {
-    return getTokenByPath(componentData, tokenNameOrPath, { mode: variantOrMode, prefix })
+    return getTokenByPath(componentData, tokenNameOrPath, { theme: variantOrTheme, prefix })
   }
 
   return getTokenFromMap(
     componentData as Record<string, Record<string, string | number>>,
     tokenNameOrPath,
-    variantOrMode ?? 'base',
-    { mode, prefix }
+    variantOrTheme ?? 'base',
+    { theme, prefix }
   )
 }
 
@@ -61,28 +61,28 @@ function resolveComponentToken(
 export function getComponentToken(
   prefix: ComponentPrefix,
   tokenNameOrPath: string | string[],
-  variantOrMode?: string,
-  mode?: string
+  variantOrTheme?: string,
+  theme?: string
 ): string {
-  return resolveComponentToken(prefix, tokenNameOrPath, variantOrMode, mode).var
+  return resolveComponentToken(prefix, tokenNameOrPath, variantOrTheme, theme).var
 }
 
 /** Returns the bare CSS variable name for a component token. */
 export function getComponentTokenKey(
   prefix: ComponentPrefix,
   tokenNameOrPath: string | string[],
-  variantOrMode?: string,
-  mode?: string
+  variantOrTheme?: string,
+  theme?: string
 ): string {
-  return resolveComponentToken(prefix, tokenNameOrPath, variantOrMode, mode).key
+  return resolveComponentToken(prefix, tokenNameOrPath, variantOrTheme, theme).key
 }
 
 /** Returns the raw value for a component token. */
 export function getComponentTokenValue(
   prefix: ComponentPrefix,
   tokenNameOrPath: string | string[],
-  variantOrMode?: string,
-  mode?: string
+  variantOrTheme?: string,
+  theme?: string
 ): string {
-  return resolveComponentToken(prefix, tokenNameOrPath, variantOrMode, mode).value
+  return resolveComponentToken(prefix, tokenNameOrPath, variantOrTheme, theme).value
 }

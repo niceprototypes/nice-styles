@@ -26,7 +26,7 @@
 
 import { getTokenFromMap, type TokenDefinition } from '../utilities/getTokenFromMap.js'
 import { isStyleValue } from '../utilities/isStyleValue.js'
-import { DEFAULT_MODE } from '../constants/styleValues.js'
+import { DEFAULT_THEME } from '../constants/styleValues.js'
 import { registry, type RegistryEntry } from '../registry/index.js'
 import { formatError } from '../utilities/formatError.js'
 
@@ -37,15 +37,15 @@ interface InternalTokenResult {
 }
 
 /**
- * Extract default-mode variants from a registry entry. ModeValue entries are
+ * Extract default-theme variants from a registry entry. ThemeValue entries are
  * flattened to their `day` value; BreakpointValue entries remain as-is so
  * `getTokenFromMap` can pick the right primitive when needed.
  */
 function getDefaultVariants(entry: RegistryEntry): TokenDefinition {
   const result: TokenDefinition = {}
   for (const [key, value] of Object.entries(entry.variants)) {
-    if (isStyleValue("mode", value)) {
-      result[key] = value[DEFAULT_MODE]
+    if (isStyleValue("theme", value)) {
+      result[key] = value[DEFAULT_THEME]
     } else {
       result[key] = value as TokenDefinition[string]
     }
@@ -53,7 +53,7 @@ function getDefaultVariants(entry: RegistryEntry): TokenDefinition {
   return result
 }
 
-function resolveToken(name: string, variant: string, mode?: string): InternalTokenResult {
+function resolveToken(name: string, variant: string, theme?: string): InternalTokenResult {
   const entry = registry.get(name)
   if (!entry) {
     throw new Error(
@@ -69,21 +69,21 @@ function resolveToken(name: string, variant: string, mode?: string): InternalTok
     { [name]: defaultVariants },
     name,
     variant,
-    { mode, prefix: entry.prefix }
+    { theme, prefix: entry.prefix }
   )
 }
 
 /** Returns the `var(--np--…)` reference string. */
-export function getToken(name: string, variant: string = 'base', mode?: string): string {
-  return resolveToken(name, variant, mode).var
+export function getToken(name: string, variant: string = 'base', theme?: string): string {
+  return resolveToken(name, variant, theme).var
 }
 
 /** Returns the bare CSS variable name (no `var(...)` wrapper). */
-export function getTokenKey(name: string, variant: string = 'base', mode?: string): string {
-  return resolveToken(name, variant, mode).key
+export function getTokenKey(name: string, variant: string = 'base', theme?: string): string {
+  return resolveToken(name, variant, theme).key
 }
 
 /** Returns the raw token value (e.g. `"16px"`, an hsla string). */
-export function getTokenValue(name: string, variant: string = 'base', mode?: string): string {
-  return resolveToken(name, variant, mode).value
+export function getTokenValue(name: string, variant: string = 'base', theme?: string): string {
+  return resolveToken(name, variant, theme).value
 }

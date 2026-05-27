@@ -9,9 +9,9 @@ export const NAMESPACE = "np"
  * Options for getConstant / getConstantKey
  */
 export interface CssConstantOptions {
-  /** Theme mode suffix (e.g., "day", "night"). Appends --{mode} to the key. */
-  mode?: string
-  /** Responsive breakpoint suffix (e.g., "small", "large"). Appends --{breakpoint} to the key. Mutually exclusive with mode — breakpoint takes precedence when both are provided. */
+  /** Theme suffix (e.g., "day", "night"). Appends --{theme} to the key. */
+  theme?: string
+  /** Responsive breakpoint suffix (e.g., "small", "large"). Appends --{breakpoint} to the key. Mutually exclusive with theme — breakpoint takes precedence when both are provided. */
   breakpoint?: string
   /** Component prefix (e.g., "button", "icon"). Omit for base tokens. */
   pkg?: string
@@ -21,7 +21,7 @@ export interface CssConstantOptions {
  * Builds the bare CSS variable name for a Nice token, following the pattern
  * `--np--{token}--{param}` for base tokens and
  * `--np--{pkg}--{token}--{param}` for component tokens, with optional
- * `--{mode}` or `--{breakpoint}` suffix.
+ * `--{theme}` or `--{breakpoint}` suffix.
  *
  * Internal helper — both `getConstant` and `getConstantKey` build the same
  * key, they just differ in whether they wrap it in `var(...)`.
@@ -31,9 +31,9 @@ function buildKey(
   param: string,
   options?: CssConstantOptions
 ): string {
-  const { mode, breakpoint, pkg } = options ?? {}
-  // Breakpoint takes precedence over mode — they are mutually exclusive suffixes
-  const suffix = breakpoint ? `--${breakpoint}` : mode ? `--${mode}` : ''
+  const { theme, breakpoint, pkg } = options ?? {}
+  // Breakpoint takes precedence over theme — they are mutually exclusive suffixes
+  const suffix = breakpoint ? `--${breakpoint}` : theme ? `--${theme}` : ''
   return pkg
     ? `--${NAMESPACE}--${pkg}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}`
     : `--${NAMESPACE}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}`
@@ -52,8 +52,8 @@ function buildKey(
  * // "var(--np--color--base)"
  *
  * @example
- * // Force day mode
- * getConstant("backgroundColor", "base", { mode: "day" })
+ * // Force day theme
+ * getConstant("backgroundColor", "base", { theme: "day" })
  * // "var(--np--background-color--base--day)"
  *
  * @example

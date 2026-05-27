@@ -1,7 +1,7 @@
 import { BREAKPOINT_PHONE, BREAKPOINT_TABLET, BREAKPOINT_LAPTOP, BREAKPOINT_DESKTOP } from './breakpoints.js'
 
-/** Default mode string value. */
-export const DEFAULT_MODE = "day"
+/** Default theme string value. */
+export const DEFAULT_THEME = "day"
 
 /** Default breakpoint string value — phone-first, so phone is the base. */
 export const DEFAULT_BREAKPOINT = BREAKPOINT_PHONE
@@ -12,7 +12,7 @@ export const DEFAULT_BREAKPOINT = BREAKPOINT_PHONE
  * to this kind.
  */
 export const STYLE_VALUE_KEYS = {
-  mode: [DEFAULT_MODE, "night"],
+  theme: [DEFAULT_THEME, "night"],
   breakpoint: [DEFAULT_BREAKPOINT, BREAKPOINT_TABLET, BREAKPOINT_LAPTOP, BREAKPOINT_DESKTOP],
 } as const
 

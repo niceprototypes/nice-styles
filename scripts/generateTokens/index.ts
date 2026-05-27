@@ -17,7 +17,7 @@
  * ## Input
  *
  * - `src/tokens/module.json` — Flat core tokens
- * - `src/tokens/module.modes.json` — Color tokens keyed by mode
+ * - `src/tokens/module.themes.json` — Color tokens keyed by theme
  * - `src/tokens/module.breakpoints.json` — Size tokens keyed by breakpoint
  * - `src/tokens/component.json` — Component tokens (day/night)
  * - `src/tokens/breakpoints.json` — Pixel thresholds keyed by breakpoint name
@@ -25,7 +25,7 @@
  * ## Output
  *
  * - `src/generated/tokensData.ts`
- * - `src/generated/modeTokensData.ts`
+ * - `src/generated/themeTokensData.ts`
  * - `src/generated/breakpointTokensData.ts`
  * - `src/generated/componentTokensData.ts`
  * - `src/generated/breakpointsData.ts`

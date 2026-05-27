@@ -63,15 +63,15 @@ function writeCoreTokens(generatedDir: string, data: TokenMap): void {
 }
 
 /**
- * Emit src/generated/modeTokensData.ts from module.modes.json (keyed by mode).
+ * Emit src/generated/themeTokensData.ts from module.themes.json (keyed by theme).
  */
-function writeModeTokens(generatedDir: string, data: DimensionMap): void {
+function writeThemeTokens(generatedDir: string, data: DimensionMap): void {
   writeFileWithHeader(
-    path.join(generatedDir, 'modeTokensData.ts'),
-    'tokens/module.modes.json',
-    `export type TokenDefinition = Record<string, string>\n\nexport type ModeTokensData = Record<string, Record<string, TokenDefinition>>`,
-    'modeTokensData',
-    'ModeTokensData',
+    path.join(generatedDir, 'themeTokensData.ts'),
+    'tokens/module.themes.json',
+    `export type TokenDefinition = Record<string, string>\n\nexport type ThemeTokensData = Record<string, Record<string, TokenDefinition>>`,
+    'themeTokensData',
+    'ThemeTokensData',
     data
   )
 }
@@ -123,7 +123,7 @@ function writeBreakpoints(generatedDir: string, data: BreakpointsJson): void {
  */
 export function writeTokenDataFiles(sources: TokenJsonSources, generatedDir: string): void {
   writeCoreTokens(generatedDir, sources.core)
-  writeModeTokens(generatedDir, sources.color)
+  writeThemeTokens(generatedDir, sources.color)
   writeBreakpointTokens(generatedDir, sources.size)
   writeComponentTokens(generatedDir, sources.component)
   writeBreakpoints(generatedDir, sources.breakpoints)

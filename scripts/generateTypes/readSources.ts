@@ -35,11 +35,11 @@ function readJson<T>(filePath: string): T {
 export function readTypeSources(tokensDir: string): TypeSources {
   const core = readJson<TokenMap>(path.join(tokensDir, 'module.json'))
 
-  // Day dimension provides the canonical variant names for mode tokens
-  const modesJson = readJson<{ day?: TokenMap; night?: TokenMap }>(
-    path.join(tokensDir, 'module.modes.json')
+  // Day dimension provides the canonical variant names for theme tokens
+  const themesJson = readJson<{ day?: TokenMap; night?: TokenMap }>(
+    path.join(tokensDir, 'module.themes.json')
   )
-  const modesDay = modesJson.day || {}
+  const themesDay = themesJson.day || {}
 
   // Phone dimension provides the canonical variant names for breakpoint tokens
   const breakpointsJson = readJson<Record<string, TokenMap>>(
@@ -47,7 +47,7 @@ export function readTypeSources(tokensDir: string): TypeSources {
   )
   const breakpointsPhone = breakpointsJson[BREAKPOINT_PHONE] || {}
 
-  const tokens: TokenMap = { ...core, ...modesDay, ...breakpointsPhone }
+  const tokens: TokenMap = { ...core, ...themesDay, ...breakpointsPhone }
 
   // Component prefix list comes from component.json day keys
   const componentJson = readJson<{ day: Record<string, unknown>; night?: Record<string, unknown> }>(
