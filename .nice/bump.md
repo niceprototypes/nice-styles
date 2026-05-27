@@ -1,3 +1,5 @@
+[2026-05-27 14:55] patch: Fix CSS-emit regression from the mode → theme rename — emitCoreTokens.ts was still passing `{ mode: "day" }` / `{ mode: "night" }` to `getConstantKey`, but `CssConstantOptions.mode` had been renamed to `theme`. The unrecognized `mode` option silently dropped the suffix, so `--np--color--base--day` and `--np--color--base--night` primitives were emitted as `--np--color--base` and overwrote the semantic var at `:root` (night winning by source order). All `--np--color--*`, `--np--background-color--*`, and `--np--border-color--*` resolved to night values regardless of `data-theme`. Pass `{ theme: "day" }` / `{ theme: "night" }` instead; rebuild restores the suffixed primitives at lines 88 / 104 of `dist/tokens.css` and the `[data-theme="…"]` cascade works again.
+
 [2026-05-26 03:30] major: Rename `mode` → `theme` across the API surface to align with the `data-theme` HTML attribute and CSS cascade.
 
 API renames:

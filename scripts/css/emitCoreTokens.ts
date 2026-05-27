@@ -19,17 +19,17 @@ function buildSemanticLine(cssName: string, variant: string, value: string): str
 }
 
 /**
- * Build the day-mode primitive line — pinned to the day value, never reassigned.
+ * Build the day-theme primitive line — pinned to the day value, never reassigned.
  */
 function buildDayPrimitiveLine(cssName: string, variant: string, value: string): string {
-  return `\t${getConstantKey(cssName, variant, { mode: "day" })}: ${value};`
+  return `\t${getConstantKey(cssName, variant, { theme: "day" })}: ${value};`
 }
 
 /**
- * Build the night-mode primitive line — pinned to the night value, never reassigned.
+ * Build the night-theme primitive line — pinned to the night value, never reassigned.
  */
 function buildNightPrimitiveLine(cssName: string, variant: string, value: string): string {
-  return `\t${getConstantKey(cssName, variant, { mode: "night" })}: ${value};`
+  return `\t${getConstantKey(cssName, variant, { theme: "night" })}: ${value};`
 }
 
 /**
@@ -37,7 +37,7 @@ function buildNightPrimitiveLine(cssName: string, variant: string, value: string
  */
 function buildNightMediaLine(cssName: string, variant: string): string {
   const semantic = getConstantKey(cssName, variant)
-  const nightPrimitive = getConstantKey(cssName, variant, { mode: "night" })
+  const nightPrimitive = getConstantKey(cssName, variant, { theme: "night" })
   return `\t\t${semantic}: var(${nightPrimitive});`
 }
 
