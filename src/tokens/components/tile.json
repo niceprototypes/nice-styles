@@ -1,0 +1,20 @@
+{
+  "backgroundColor": {
+    "base": "var(--np--background-color--base)",
+    "alternate": "var(--np--background-color--alternate)"
+  },
+  "color": {
+    "base": "var(--np--color--base)",
+    "light": "var(--np--color--light)",
+    "lighter": "var(--np--color--lighter)",
+    "lightest": "var(--np--color--lightest)",
+    "disabled": "var(--np--color--disabled)",
+    "link": "var(--np--color--link)",
+    "success": "var(--np--color--success)",
+    "warning": "var(--np--color--warning)",
+    "error": "var(--np--color--error)"
+  },
+  "$themes": {
+    "night": {}
+  }
+}

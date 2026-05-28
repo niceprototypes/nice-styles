@@ -23,4 +23,4 @@ export type BackgroundColorType = "base" | "dark"
 export type BorderColorType = "base" | "dark" | "darker"
 export type FontSizeType = "smaller" | "small" | "base" | "large" | "larger"
 
-export type ComponentPrefix = "button" | "icon" | "tile" | "lightbox" | "image" | "typography" | "input"
+export type ComponentPrefix = "button" | "icon" | "image" | "input" | "lightbox" | "tile" | "typography"

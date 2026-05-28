@@ -1,0 +1,139 @@
+{
+  "size": {
+    "smaller": "var(--np--cell-height--smaller)",
+    "small": "var(--np--cell-height--small)",
+    "base": "var(--np--cell-height--base)",
+    "large": "var(--np--cell-height--large)",
+    "larger": "var(--np--cell-height--larger)"
+  },
+  "spacing": {
+    "smaller": "calc(var(--np--cell-height--smaller) / 2)",
+    "small": "calc(var(--np--cell-height--small) / 2)",
+    "base": "calc(var(--np--cell-height--base) / 2)",
+    "large": "calc(var(--np--cell-height--large) / 2)",
+    "larger": "calc(var(--np--cell-height--larger) / 2)"
+  },
+  "borderRadius": {
+    "smaller": "var(--np--border-radius--smaller)",
+    "small": "var(--np--border-radius--small)",
+    "base": "var(--np--border-radius--base)",
+    "large": "var(--np--border-radius--large)",
+    "larger": "var(--np--border-radius--larger)"
+  },
+  "status": {
+    "primary": {
+      "base": {
+        "backgroundColor": "var(--np--color--base)",
+        "borderColor": "var(--np--color--base)",
+        "color": "var(--np--color--base--night)"
+      },
+      "disabled": {
+        "backgroundColor": "#ddd",
+        "borderColor": "#ddd",
+        "color": "#888"
+      },
+      "error": {
+        "backgroundColor": "var(--np--color--error)",
+        "borderColor": "var(--np--color--error)",
+        "color": "#fff"
+      },
+      "success": {
+        "backgroundColor": "var(--np--color--success)",
+        "borderColor": "var(--np--color--success)",
+        "color": "#fff"
+      },
+      "warning": {
+        "backgroundColor": "var(--np--color--warning)",
+        "borderColor": "var(--np--color--warning)",
+        "color": "#fff"
+      }
+    },
+    "secondary": {
+      "base": {
+        "backgroundColor": "transparent",
+        "borderColor": "var(--np--color--lightest)",
+        "color": "var(--np--color--base)"
+      },
+      "disabled": {
+        "backgroundColor": "transparent",
+        "borderColor": "#ddd",
+        "color": "#888"
+      },
+      "error": {
+        "backgroundColor": "transparent",
+        "borderColor": "var(--np--color--error)",
+        "color": "var(--np--color--error)"
+      },
+      "success": {
+        "backgroundColor": "transparent",
+        "borderColor": "var(--np--color--success)",
+        "color": "var(--np--color--success)"
+      },
+      "warning": {
+        "backgroundColor": "transparent",
+        "borderColor": "var(--np--color--warning)",
+        "color": "var(--np--color--warning)"
+      }
+    }
+  },
+  "$themes": {
+    "night": {
+      "status": {
+        "primary": {
+          "base": {
+            "backgroundColor": "var(--np--color--base--night)",
+            "borderColor": "var(--np--color--base--night)",
+            "color": "var(--np--color--base--day)"
+          },
+          "disabled": {
+            "backgroundColor": "var(--np--color--base--night)",
+            "borderColor": "var(--np--color--base--night)",
+            "color": "var(--np--color--base--day)"
+          },
+          "error": {
+            "backgroundColor": "var(--np--color--error--night)",
+            "borderColor": "var(--np--color--error--night)",
+            "color": "var(--np--color--base--day)"
+          },
+          "success": {
+            "backgroundColor": "var(--np--color--success--night)",
+            "borderColor": "var(--np--color--success--night)",
+            "color": "var(--np--color--base--day)"
+          },
+          "warning": {
+            "backgroundColor": "var(--np--color--warning--night)",
+            "borderColor": "var(--np--color--warning--night)",
+            "color": "var(--np--color--base--day)"
+          }
+        },
+        "secondary": {
+          "base": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--color--lightest--night)",
+            "color": "var(--np--color--base--night)"
+          },
+          "disabled": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--color--base--night)",
+            "color": "var(--np--color--base--night)"
+          },
+          "error": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--color--error--night)",
+            "color": "var(--np--color--error--night)"
+          },
+          "success": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--color--success--night)",
+            "color": "var(--np--color--success--night)"
+          },
+          "warning": {
+            "backgroundColor": "transparent",
+            "borderColor": "var(--np--color--warning--night)",
+            "color": "var(--np--color--warning--night)"
+          }
+        }
+      }
+    }
+  }
+}

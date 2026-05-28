@@ -121,28 +121,6 @@ const componentTokensData: ComponentTokensData = {
       "base": "0 0 16 16"
     }
   },
-  "tile": {
-    "backgroundColor": {
-      "base": "var(--np--background-color--base)",
-      "alternate": "var(--np--background-color--alternate)"
-    },
-    "color": {
-      "base": "var(--np--color--base)",
-      "light": "var(--np--color--light)",
-      "lighter": "var(--np--color--lighter)",
-      "lightest": "var(--np--color--lightest)",
-      "disabled": "var(--np--color--disabled)",
-      "link": "var(--np--color--link)",
-      "success": "var(--np--color--success)",
-      "warning": "var(--np--color--warning)",
-      "error": "var(--np--color--error)"
-    }
-  },
-  "lightbox": {
-    "zIndex": {
-      "base": "9999"
-    }
-  },
   "image": {
     "borderRadius": {
       "smaller": "var(--np--border-radius--smaller)",
@@ -153,56 +131,6 @@ const componentTokensData: ComponentTokensData = {
     },
     "objectFit": {
       "base": "cover"
-    }
-  },
-  "typography": {
-    "fontSize": {
-      "smaller": "var(--np--font-size--smaller)",
-      "small": "var(--np--font-size--small)",
-      "base": "var(--np--font-size--base)",
-      "large": "var(--np--font-size--large)",
-      "larger": "var(--np--font-size--larger)"
-    },
-    "fontFamily": {
-      "base": "var(--np--font-family--base)",
-      "code": "var(--np--font-family--code)",
-      "heading": "var(--np--font-family--heading)"
-    },
-    "fontWeight": {
-      "light": "var(--np--font-weight--light)",
-      "base": "var(--np--font-weight--base)",
-      "medium": "var(--np--font-weight--medium)",
-      "semibold": "var(--np--font-weight--semibold)",
-      "bold": "var(--np--font-weight--bold)",
-      "extrabold": "var(--np--font-weight--extrabold)",
-      "black": "var(--np--font-weight--black)"
-    },
-    "lineHeight": {
-      "condensed": "var(--np--line-height--condensed)",
-      "base": "var(--np--line-height--base)",
-      "expanded": "var(--np--line-height--expanded)"
-    },
-    "letterSpacing": {
-      "tight": "var(--np--letter-spacing--tight)",
-      "base": "var(--np--letter-spacing--base)",
-      "wide": "var(--np--letter-spacing--wide)",
-      "wider": "var(--np--letter-spacing--wider)"
-    },
-    "color": {
-      "base": "var(--np--color--base)",
-      "light": "var(--np--color--light)",
-      "lighter": "var(--np--color--lighter)",
-      "lightest": "var(--np--color--lightest)",
-      "disabled": "var(--np--color--disabled)",
-      "link": "var(--np--color--link)",
-      "success": "var(--np--color--success)",
-      "warning": "var(--np--color--warning)",
-      "error": "var(--np--color--error)"
-    },
-    "maxWidth": {
-      "prose": "65ch",
-      "wide": "80ch",
-      "full": "none"
     }
   },
   "input": {
@@ -292,6 +220,78 @@ const componentTokensData: ComponentTokensData = {
           "placeholderColor": "var(--np--color--lighter)"
         }
       }
+    }
+  },
+  "lightbox": {
+    "zIndex": {
+      "base": "9999"
+    }
+  },
+  "tile": {
+    "backgroundColor": {
+      "base": "var(--np--background-color--base)",
+      "alternate": "var(--np--background-color--alternate)"
+    },
+    "color": {
+      "base": "var(--np--color--base)",
+      "light": "var(--np--color--light)",
+      "lighter": "var(--np--color--lighter)",
+      "lightest": "var(--np--color--lightest)",
+      "disabled": "var(--np--color--disabled)",
+      "link": "var(--np--color--link)",
+      "success": "var(--np--color--success)",
+      "warning": "var(--np--color--warning)",
+      "error": "var(--np--color--error)"
+    }
+  },
+  "typography": {
+    "fontSize": {
+      "smaller": "var(--np--font-size--smaller)",
+      "small": "var(--np--font-size--small)",
+      "base": "var(--np--font-size--base)",
+      "large": "var(--np--font-size--large)",
+      "larger": "var(--np--font-size--larger)"
+    },
+    "fontFamily": {
+      "base": "var(--np--font-family--base)",
+      "code": "var(--np--font-family--code)",
+      "heading": "var(--np--font-family--heading)"
+    },
+    "fontWeight": {
+      "light": "var(--np--font-weight--light)",
+      "base": "var(--np--font-weight--base)",
+      "medium": "var(--np--font-weight--medium)",
+      "semibold": "var(--np--font-weight--semibold)",
+      "bold": "var(--np--font-weight--bold)",
+      "extrabold": "var(--np--font-weight--extrabold)",
+      "black": "var(--np--font-weight--black)"
+    },
+    "lineHeight": {
+      "condensed": "var(--np--line-height--condensed)",
+      "base": "var(--np--line-height--base)",
+      "expanded": "var(--np--line-height--expanded)"
+    },
+    "letterSpacing": {
+      "tight": "var(--np--letter-spacing--tight)",
+      "base": "var(--np--letter-spacing--base)",
+      "wide": "var(--np--letter-spacing--wide)",
+      "wider": "var(--np--letter-spacing--wider)"
+    },
+    "color": {
+      "base": "var(--np--color--base)",
+      "light": "var(--np--color--light)",
+      "lighter": "var(--np--color--lighter)",
+      "lightest": "var(--np--color--lightest)",
+      "disabled": "var(--np--color--disabled)",
+      "link": "var(--np--color--link)",
+      "success": "var(--np--color--success)",
+      "warning": "var(--np--color--warning)",
+      "error": "var(--np--color--error)"
+    },
+    "maxWidth": {
+      "prose": "65ch",
+      "wide": "80ch",
+      "full": "none"
     }
   }
 } as const

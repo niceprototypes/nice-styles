@@ -70,5 +70,87 @@
     "condensed": "1.25",
     "base": "1.5",
     "expanded": "1.75"
+  },
+  "color": {
+    "base": "hsla(210, 5%, 5%, 1)",
+    "light": "hsla(210, 5%, 25%, 1)",
+    "lighter": "hsla(210, 5%, 50%, 1)",
+    "lightest": "hsla(210, 5%, 75%, 1)",
+    "disabled": "hsla(210, 5%, 5%, 0.6)",
+    "link": "hsla(212, 100%, 46%, 1)",
+    "success": "hsla(146, 68%, 44%, 1)",
+    "warning": "hsla(29, 98%, 62%, 1)",
+    "error": "hsla(10, 92%, 63%, 1)"
+  },
+  "backgroundColor": {
+    "base": "hsla(0, 5%, 100%, 1)",
+    "dark": "hsla(0, 5%, 95%, 1)"
+  },
+  "borderColor": {
+    "base": "hsla(240, 9%, 91%, 1)",
+    "dark": "hsla(210, 8%, 58%, 1)",
+    "darker": "hsla(210, 10%, 20%, 1)"
+  },
+  "$breakpoints": {
+    "phone": {
+      "fontSize": {
+        "smaller": "11px",
+        "small": "12px",
+        "base": "14px",
+        "large": "20px",
+        "larger": "28px"
+      }
+    },
+    "tablet": {
+      "fontSize": {
+        "smaller": "11px",
+        "small": "12px",
+        "base": "14px",
+        "large": "20px",
+        "larger": "28px"
+      }
+    },
+    "laptop": {
+      "fontSize": {
+        "smaller": "12px",
+        "small": "14px",
+        "base": "16px",
+        "large": "24px",
+        "larger": "32px"
+      }
+    },
+    "desktop": {
+      "fontSize": {
+        "smaller": "12px",
+        "small": "14px",
+        "base": "16px",
+        "large": "24px",
+        "larger": "32px"
+      }
+    }
+  },
+  "$themes": {
+    "night": {
+      "color": {
+        "base": "hsla(210, 5%, 95%, 1)",
+        "light": "hsla(210, 5%, 95%, 0.85)",
+        "lighter": "hsla(210, 5%, 95%, 0.55)",
+        "lightest": "hsla(210, 5%, 95%, 0.25)",
+        "disabled": "hsla(210, 5%, 95%, 0.6)",
+        "link": "hsla(202, 90%, 65%, 1)",
+        "success": "hsla(146, 58%, 59%, 1)",
+        "warning": "hsla(29, 88%, 72%, 1)",
+        "error": "hsla(10, 82%, 75%, 1)"
+      },
+      "backgroundColor": {
+        "base": "hsla(240, 5%, 15%, 1)",
+        "dark": "hsla(240, 5%, 12.5%, 1)"
+      },
+      "borderColor": {
+        "base": "hsla(240, 5%, 25%, 1)",
+        "dark": "hsla(240, 5%, 50%, 1)",
+        "darker": "hsla(240, 5%, 100%, 1)"
+      }
+    }
   }
 }

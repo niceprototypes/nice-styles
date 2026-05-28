@@ -1,9 +1,16 @@
 /**
  * Token JSON source reader for the data-generation pipeline.
  *
- * Loads the four token source files used by writeData. No merging is done here —
+ * Loads the five token source files used by writeData. No merging is done here —
  * downstream writers each emit their own dedicated dist file, so source data is
  * passed through unchanged.
+ *
+ * **Layout:** `module.json` is the comprehensive base (static tokens + the
+ * default-theme values for theme-conditional groups like color, backgroundColor,
+ * borderColor). `module.themes.json` is keyed by alternative theme names only
+ * (`{night, …}`) — the base is unwrapped at the top of `module.json`, not under
+ * a `day` key. The reader reconstitutes the legacy `{core, themesDay,
+ * themesNight}` split so downstream emit code stays shape-stable.
  */
 
 import * as fs from 'fs'
@@ -16,9 +23,9 @@ export type ComponentTokensJson = Record<string, { [key: string]: ComponentToken
 export type BreakpointsJson = Record<string, number>
 
 export interface TokenJsonSources {
-  /** module.json — flat core tokens */
+  /** Static core tokens (no theme variation) */
   core: TokenMap
-  /** module.themes.json — keyed by theme (day/night) */
+  /** Theme-keyed tokens — `{day: ..., night: ...}` shape for downstream writers */
   color: DimensionMap
   /** module.breakpoints.json — keyed by breakpoint */
   size: DimensionMap
@@ -37,16 +44,58 @@ function readJson<T>(filePath: string): T {
 }
 
 /**
+ * Read base + alt-themes data and reconstitute the legacy `{core, themesDay,
+ * themesNight}` split so downstream emit logic doesn't need to change.
+ * Themed groups (color, backgroundColor, borderColor, …) are split out of the
+ * merged base file by checking which group names appear in any alt theme.
+ */
+function readModule(tokensDir: string): { core: TokenMap; themesDay: TokenMap; themesNight: TokenMap; breakpoints: DimensionMap } {
+  const moduleJson = readJson<TokenMap & { $themes?: DimensionMap; $breakpoints?: DimensionMap }>(
+    path.join(tokensDir, 'module.json')
+  )
+  // Alt themes and breakpoint overrides live under reserved `$themes` and
+  // `$breakpoints` keys. Everything else at the top level is base.
+  const { $themes: themes = {}, $breakpoints: embeddedBreakpoints, ...base } = moduleJson
+  // Themed groups = union of group keys across all alternative themes.
+  const themedGroups = new Set<string>(Object.values(themes).flatMap((t) => Object.keys(t)))
+  const core: TokenMap = {}
+  const themesDay: TokenMap = {}
+  for (const [group, variants] of Object.entries(base)) {
+    if (themedGroups.has(group)) themesDay[group] = variants
+    else core[group] = variants
+  }
+  return { core, themesDay, themesNight: themes.night || {}, breakpoints: embeddedBreakpoints ?? {} }
+}
+
+/**
  * Read every token JSON source from tokensDir.
  */
+/**
+ * Read per-component token files from `tokens/components/`. Each file's stem
+ * is the component prefix (`button.json` → `button`). Folds into the legacy
+ * `componentTokens` shape so downstream emit logic is unchanged.
+ */
+function readComponentTokens(tokensDir: string): ComponentTokensJson {
+  const componentsDir = path.join(tokensDir, 'components')
+  const baseFiles = fs.readdirSync(componentsDir).filter((f) => f.endsWith('.json')).sort()
+  const out: ComponentTokensJson = {}
+  for (const filename of baseFiles) {
+    const prefix = filename.replace(/\.json$/, '')
+    const parsed = readJson<{ [key: string]: ComponentTokenNode } & { $themes?: unknown }>(
+      path.join(componentsDir, filename)
+    )
+    // Strip `$themes` from the base; this writer only emits the day branch.
+    const { $themes, ...base } = parsed
+    out[prefix] = base as { [key: string]: ComponentTokenNode }
+  }
+  return out
+}
+
 export function readTokenJsonSources(tokensDir: string): TokenJsonSources {
-  const core = readJson<TokenMap>(path.join(tokensDir, 'module.json'))
-  const color = readJson<DimensionMap>(path.join(tokensDir, 'module.themes.json'))
-  const size = readJson<DimensionMap>(path.join(tokensDir, 'module.breakpoints.json'))
-  // component.json wraps day/night; the data writer only emits day
-  const componentJson = readJson<{ day: ComponentTokensJson; night?: ComponentTokensJson }>(
-    path.join(tokensDir, 'component.json')
-  )
+  const { core, themesDay, themesNight, breakpoints: size } = readModule(tokensDir)
+  const color: DimensionMap = { day: themesDay, night: themesNight }
+
+  const component = readComponentTokens(tokensDir)
   const breakpoints = readJson<BreakpointsJson>(path.join(tokensDir, 'breakpoints.json'))
-  return { core, color, size, component: componentJson.day, breakpoints }
+  return { core, color, size, component, breakpoints }
 }

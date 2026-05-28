@@ -1,0 +1,15 @@
+{
+  "borderRadius": {
+    "smaller": "var(--np--border-radius--smaller)",
+    "small": "var(--np--border-radius--small)",
+    "base": "var(--np--border-radius--base)",
+    "large": "var(--np--border-radius--large)",
+    "larger": "var(--np--border-radius--larger)"
+  },
+  "objectFit": {
+    "base": "cover"
+  },
+  "$themes": {
+    "night": {}
+  }
+}
