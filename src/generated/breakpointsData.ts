@@ -9,7 +9,7 @@
 export type BreakpointsData = Record<string, number>
 
 const breakpointsData: BreakpointsData = {
-  "phone": 640,
+  "tablet": 641,
   "laptop": 1280,
   "desktop": 1720
 } as const

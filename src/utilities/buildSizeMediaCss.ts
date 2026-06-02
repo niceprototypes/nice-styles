@@ -16,7 +16,6 @@
 import { camelToKebab } from './camelToKebab.js'
 import { getConstantKey } from '../services/getConstant.js'
 import {
-  BREAKPOINT_PHONE,
   BREAKPOINT_TABLET,
   BREAKPOINT_LAPTOP,
   BREAKPOINT_DESKTOP,
@@ -72,7 +71,7 @@ export function buildSizeMediaCss(
   breakpoints: BreakpointValues
 ): string {
   const tabletBlock = wrapMediaBlock(
-    breakpoints[BREAKPOINT_PHONE] + 1,
+    breakpoints[BREAKPOINT_TABLET],
     collectMediaLines(sizeData, BREAKPOINT_TABLET)
   )
   const laptopBlock = wrapMediaBlock(

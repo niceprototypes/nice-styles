@@ -185,8 +185,8 @@ export function generateBreakpointTokenCss(sizeTokens: BreakpointTokens): Breakp
 
   // Assemble @media blocks — phone-first ascending: tablet → laptop → desktop
   const mediaBlocks: string[] = []
-  // Tablet threshold is phone + 1px so it activates immediately after the phone band ends
-  pushMediaBlock(mediaBlocks, BREAKPOINTS[BREAKPOINT_PHONE] + 1, tabletMediaLines)
+  // Tablet is the first editable floor; the phone base runs from 0 up to tablet − 1.
+  pushMediaBlock(mediaBlocks, BREAKPOINTS[BREAKPOINT_TABLET], tabletMediaLines)
   pushMediaBlock(mediaBlocks, BREAKPOINTS[BREAKPOINT_LAPTOP], laptopMediaLines)
   pushMediaBlock(mediaBlocks, BREAKPOINTS[BREAKPOINT_DESKTOP], desktopMediaLines)
 

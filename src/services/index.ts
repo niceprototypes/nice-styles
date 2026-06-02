@@ -28,10 +28,12 @@ export { getComponentToken, getComponentTokenKey, getComponentTokenValue } from 
 export { default as getTextHeight } from './getTextHeight.js'
 
 export { parseGoogleFontsUrl } from './parseGoogleFontsUrl.js'
+export { parseAdobeFontsUrl } from './parseAdobeFontsUrl.js'
 
 // Style-value types and constants
 export type { ThemeValue, BreakpointValue } from '../types/styleValues.js'
 export type { FontAxis, GoogleFontMetadata, LinkAttributes, GoogleFontsConfig } from '../types/googleFonts.js'
+export type { AdobeFontMetadata, AdobeFontsConfig } from '../types/adobeFonts.js'
 export { DEFAULT_THEME, DEFAULT_BREAKPOINT, STYLE_VALUE_KEYS } from '../constants/styleValues.js'
 export type { StyleValueKind } from '../constants/styleValues.js'
 export { isStyleValue } from '../utilities/isStyleValue.js'

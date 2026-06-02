@@ -24,8 +24,8 @@ interface ResolvedBreakpoint {
  * Resolve a breakpoint name into its numeric threshold and @media query.
  *
  * Breakpoint behavior:
- * - `phone`:   max-width query (0 to phone threshold)
- * - `tablet`:  min-width query (phone + 1 and up)
+ * - `phone`:   max-width query (0 up to the base ceiling — derived as tablet − 1)
+ * - `tablet`:  min-width query (tablet threshold and up)
  * - `laptop`:  min-width query (laptop threshold and up)
  * - `desktop`: min-width query (desktop threshold and up)
  *
@@ -37,12 +37,13 @@ interface ResolvedBreakpoint {
  */
 function resolveBreakpoint(name: BreakpointName, exact?: boolean): ResolvedBreakpoint {
   if (name === BREAKPOINT_PHONE) {
-    const value = BREAKPOINTS[BREAKPOINT_PHONE]
+    // phone is the base — its ceiling is one below the first floor (tablet).
+    const value = BREAKPOINTS[BREAKPOINT_TABLET] - 1
     return { value, query: `@media (max-width: ${value}px)` }
   }
 
   if (name === BREAKPOINT_TABLET) {
-    const value = BREAKPOINTS[BREAKPOINT_PHONE] + 1
+    const value = BREAKPOINTS[BREAKPOINT_TABLET]
     if (exact) {
       const maxValue = BREAKPOINTS[BREAKPOINT_LAPTOP] - 1
       return { value, query: `@media (min-width: ${value}px) and (max-width: ${maxValue}px)` }
