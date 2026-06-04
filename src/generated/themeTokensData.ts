@@ -12,6 +12,15 @@ export type ThemeTokensData = Record<string, Record<string, TokenDefinition>>
 
 const themeTokensData: ThemeTokensData = {
   "day": {
+    "backgroundColor": {
+      "base": "hsla(0, 5%, 100%, 1)",
+      "dark": "hsla(0, 5%, 95%, 1)"
+    },
+    "borderColor": {
+      "base": "hsla(240, 9%, 91%, 1)",
+      "dark": "hsla(210, 8%, 58%, 1)",
+      "darker": "hsla(210, 10%, 20%, 1)"
+    },
     "color": {
       "base": "hsla(210, 5%, 5%, 1)",
       "light": "hsla(210, 5%, 25%, 1)",
@@ -22,18 +31,18 @@ const themeTokensData: ThemeTokensData = {
       "success": "hsla(146, 68%, 44%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",
       "error": "hsla(10, 92%, 63%, 1)"
-    },
-    "backgroundColor": {
-      "base": "hsla(0, 5%, 100%, 1)",
-      "dark": "hsla(0, 5%, 95%, 1)"
-    },
-    "borderColor": {
-      "base": "hsla(240, 9%, 91%, 1)",
-      "dark": "hsla(210, 8%, 58%, 1)",
-      "darker": "hsla(210, 10%, 20%, 1)"
     }
   },
   "night": {
+    "backgroundColor": {
+      "base": "hsla(240, 5%, 15%, 1)",
+      "dark": "hsla(240, 5%, 12.5%, 1)"
+    },
+    "borderColor": {
+      "base": "hsla(240, 5%, 25%, 1)",
+      "dark": "hsla(240, 5%, 50%, 1)",
+      "darker": "hsla(240, 5%, 100%, 1)"
+    },
     "color": {
       "base": "hsla(210, 5%, 95%, 1)",
       "light": "hsla(210, 5%, 95%, 0.85)",
@@ -44,15 +53,6 @@ const themeTokensData: ThemeTokensData = {
       "success": "hsla(146, 58%, 59%, 1)",
       "warning": "hsla(29, 88%, 72%, 1)",
       "error": "hsla(10, 82%, 75%, 1)"
-    },
-    "backgroundColor": {
-      "base": "hsla(240, 5%, 15%, 1)",
-      "dark": "hsla(240, 5%, 12.5%, 1)"
-    },
-    "borderColor": {
-      "base": "hsla(240, 5%, 25%, 1)",
-      "dark": "hsla(240, 5%, 50%, 1)",
-      "darker": "hsla(240, 5%, 100%, 1)"
     }
   }
 } as const

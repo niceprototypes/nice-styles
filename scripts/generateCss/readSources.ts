@@ -29,6 +29,7 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
+import { readModuleFolder } from '../shared/readModuleFolder.js'
 import type { Tokens, NightTokens, ComponentTokens, BreakpointTokens, Errors } from '../css/types.js'
 import { validateNightTokens, validateComponentNightTokens } from '../css/validate.js'
 import { BREAKPOINT_PHONE } from '../../src/constants/breakpoints.js'
@@ -86,8 +87,7 @@ function readModule(tokensDir: string): {
   nightTokens: NightTokens
   sizeTokens: BreakpointTokens
 } {
-  const moduleJson: Tokens & { $themes?: Record<string, Tokens>; $breakpoints?: BreakpointTokens } =
-    JSON.parse(fs.readFileSync(path.join(tokensDir, 'module.json'), 'utf-8'))
+  const moduleJson = readModuleFolder<Tokens & { $themes?: Record<string, Tokens>; $breakpoints?: BreakpointTokens }>(tokensDir)
   // Alt themes and breakpoint overrides live under reserved `$themes` and
   // `$breakpoints` keys. Everything else at the top level is base.
   const { $themes: themes = {}, $breakpoints: embeddedBreakpoints, ...base } = moduleJson

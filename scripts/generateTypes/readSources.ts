@@ -12,6 +12,7 @@
 
 import * as fs from 'fs'
 import * as path from 'path'
+import { readModuleFolder } from '../shared/readModuleFolder.js'
 import { BREAKPOINT_PHONE } from '../../src/constants/breakpoints.js'
 
 export type TokenMap = Record<string, Record<string, string>>
@@ -37,9 +38,7 @@ function readJson<T>(filePath: string): T {
  * group names appear in any alt theme.
  */
 function readModule(tokensDir: string): { core: TokenMap; themesDay: TokenMap; breakpoints: DimensionMap } {
-  const moduleJson = readJson<TokenMap & { $themes?: DimensionMap; $breakpoints?: DimensionMap }>(
-    path.join(tokensDir, 'module.json')
-  )
+  const moduleJson = readModuleFolder<TokenMap & { $themes?: DimensionMap; $breakpoints?: DimensionMap }>(tokensDir)
   // Alt themes and breakpoint overrides live under reserved `$themes` and
   // `$breakpoints` keys. Everything else at the top level is base.
   const { $themes: themes = {}, $breakpoints: embeddedBreakpoints, ...base } = moduleJson

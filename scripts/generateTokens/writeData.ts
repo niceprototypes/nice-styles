@@ -54,7 +54,7 @@ function writeFileWithHeader(
 function writeCoreTokens(generatedDir: string, data: TokenMap): void {
   writeFileWithHeader(
     path.join(generatedDir, 'tokensData.ts'),
-    'tokens/module.json',
+    'tokens/modules',
     `export type TokenDefinition = Record<string, string>\n\nexport type TokensData = Record<string, TokenDefinition>`,
     'tokensData',
     'TokensData',

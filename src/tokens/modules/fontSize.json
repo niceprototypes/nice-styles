@@ -1,0 +1,32 @@
+{
+  "$breakpoints": {
+    "phone": {
+      "smaller": "11px",
+      "small": "12px",
+      "base": "14px",
+      "large": "20px",
+      "larger": "28px"
+    },
+    "tablet": {
+      "smaller": "11px",
+      "small": "12px",
+      "base": "14px",
+      "large": "20px",
+      "larger": "28px"
+    },
+    "laptop": {
+      "smaller": "12px",
+      "small": "14px",
+      "base": "16px",
+      "large": "24px",
+      "larger": "32px"
+    },
+    "desktop": {
+      "smaller": "12px",
+      "small": "14px",
+      "base": "16px",
+      "large": "24px",
+      "larger": "32px"
+    }
+  }
+}
