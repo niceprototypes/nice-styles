@@ -47,6 +47,10 @@ export interface TokenSources {
   componentNightTokens: ComponentTokens
   /** Component breakpoint overrides (per prefix → breakpoint → partial tree) */
   componentBreakpointTokens: ComponentBreakpointTokens
+  /** Module alt themes other than `night` (per theme name → group → variants) */
+  extraThemes: Record<string, Tokens>
+  /** Component alt themes other than `night` (per prefix → theme name → partial tree) */
+  componentExtraThemes: Record<string, Record<string, ComponentTokens[string]>>
 }
 
 /**
@@ -59,12 +63,14 @@ function readComponentTokens(tokensDir: string): {
   componentTokens: ComponentTokens
   componentNightTokens: ComponentTokens
   componentBreakpointTokens: ComponentBreakpointTokens
+  componentExtraThemes: Record<string, Record<string, ComponentTokens[string]>>
 } {
   const componentsDir = path.join(tokensDir, 'components')
   const baseFiles = fs.readdirSync(componentsDir).filter((f) => f.endsWith('.json')).sort()
   const componentTokens: ComponentTokens = {}
   const componentNightTokens: ComponentTokens = {}
   const componentBreakpointTokens: ComponentBreakpointTokens = {}
+  const componentExtraThemes: Record<string, Record<string, ComponentTokens[string]>> = {}
   for (const filename of baseFiles) {
     const prefix = filename.replace(/\.json$/, '')
     const parsed: Record<string, unknown> & {
@@ -77,11 +83,19 @@ function readComponentTokens(tokensDir: string): {
     if ($themes && $themes.night) {
       componentNightTokens[prefix] = $themes.night as ComponentTokens[string]
     }
+    // Any theme other than `night` is an extra (pin-only) theme.
+    if ($themes) {
+      const extras: Record<string, ComponentTokens[string]> = {}
+      for (const [name, tree] of Object.entries($themes)) {
+        if (name !== 'night') extras[name] = tree as ComponentTokens[string]
+      }
+      if (Object.keys(extras).length > 0) componentExtraThemes[prefix] = extras
+    }
     if ($breakpoints) {
       componentBreakpointTokens[prefix] = $breakpoints as ComponentBreakpointTokens[string]
     }
   }
-  return { componentTokens, componentNightTokens, componentBreakpointTokens }
+  return { componentTokens, componentNightTokens, componentBreakpointTokens, componentExtraThemes }
 }
 
 /**
@@ -93,6 +107,7 @@ function readModule(tokensDir: string): {
   coreTokens: Tokens
   themesDay: Tokens
   nightTokens: NightTokens
+  extraThemes: Record<string, Tokens>
   sizeTokens: BreakpointTokens
 } {
   const moduleJson = readModuleFolder<Tokens & { $themes?: Record<string, Tokens>; $breakpoints?: BreakpointTokens }>(tokensDir)
@@ -106,10 +121,17 @@ function readModule(tokensDir: string): {
     if (themedGroups.has(group)) themesDay[group] = variants
     else coreTokens[group] = variants
   }
+  // `night` is the OS-default dark theme (day/night path); every other named
+  // theme is an "extra" handled additively as a [data-theme] pin.
+  const extraThemes: Record<string, Tokens> = {}
+  for (const [name, groups] of Object.entries(themes)) {
+    if (name !== 'night') extraThemes[name] = groups
+  }
   return {
     coreTokens,
     themesDay,
     nightTokens: themes.night || {},
+    extraThemes,
     sizeTokens: embeddedBreakpoints ?? {},
   }
 }
@@ -122,7 +144,7 @@ function readModule(tokensDir: string): {
  * @param errorsPath - Absolute path to src/errors.json (validation message templates)
  */
 export function readTokenSources(tokensDir: string, errorsPath: string): TokenSources {
-  const { coreTokens, themesDay, nightTokens, sizeTokens } = readModule(tokensDir)
+  const { coreTokens, themesDay, nightTokens, extraThemes, sizeTokens } = readModule(tokensDir)
 
   // Validate: every night entry must have a corresponding day entry
   const errors: Errors = JSON.parse(fs.readFileSync(errorsPath, 'utf-8'))
@@ -131,11 +153,17 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
     console.log('✓ Themes module night tokens validated')
   }
 
+  // Validate every extra theme against the day base the same way (it's the registration site)
+  for (const [name, groups] of Object.entries(extraThemes)) {
+    validateNightTokens(themesDay, groups, errors)
+    console.log(`✓ Themes module "${name}" tokens validated`)
+  }
+
   // phone provides semantic defaults; tablet/laptop/desktop provide overrides
   const breakpointsPhone: Tokens = sizeTokens[BREAKPOINT_PHONE] || {}
 
   // Component tokens — glob per-prefix files; fall back to legacy component.json
-  const { componentTokens, componentNightTokens, componentBreakpointTokens } = readComponentTokens(tokensDir)
+  const { componentTokens, componentNightTokens, componentBreakpointTokens, componentExtraThemes } = readComponentTokens(tokensDir)
 
   const componentCount = Object.keys(componentTokens).length
   if (componentCount > 0) {
@@ -154,9 +182,24 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
     console.log('✓ Component breakpoint tokens validated')
   }
 
+  // Validate every component extra theme against its base tree (regroup by theme name)
+  const extraThemeByName: Record<string, ComponentTokens> = {}
+  for (const [prefix, byTheme] of Object.entries(componentExtraThemes)) {
+    for (const [name, tree] of Object.entries(byTheme)) {
+      ;(extraThemeByName[name] ??= {})[prefix] = tree
+    }
+  }
+  for (const [name, byPrefix] of Object.entries(extraThemeByName)) {
+    validateComponentNightTokens(componentTokens, byPrefix)
+    console.log(`✓ Component "${name}" tokens validated`)
+  }
+
   // Merge all sources into a unified semantic defaults map
   // Order: core → color day → size phone (later keys win on collision)
   const tokens: Tokens = { ...coreTokens, ...themesDay, ...breakpointsPhone }
 
-  return { tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens, componentBreakpointTokens }
+  return {
+    tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens,
+    componentBreakpointTokens, extraThemes, componentExtraThemes,
+  }
 }

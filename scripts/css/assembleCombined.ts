@@ -14,6 +14,8 @@ import { generateTokenGroupCss } from './emitCoreTokens.js'
 import { generateComponentTokenCss } from './emitComponentTokens.js'
 import { generateBreakpointTokenCss } from './emitBreakpointTokens.js'
 import { generateComponentBreakpointCss } from './emitComponentBreakpointTokens.js'
+import { generateExtraThemeCss, generateComponentExtraThemeCss } from './emitExtraThemeTokens.js'
+import type { TokenNode } from './types.js'
 
 /**
  * Builds the combined dist/tokens.css containing all token groups.
@@ -44,7 +46,9 @@ export function buildCombinedCss(
   componentTokens: ComponentTokens,
   componentNightTokens: ComponentTokens,
   sizeTokens: BreakpointTokens,
-  componentBreakpointTokens: ComponentBreakpointTokens
+  componentBreakpointTokens: ComponentBreakpointTokens,
+  extraThemes: Record<string, Tokens>,
+  componentExtraThemes: Record<string, Record<string, { [key: string]: TokenNode }>>
 ): { css: string } {
   // Four accumulators — semantic lines go inline, primitives are batched at the end of :root,
   // and night-media lines accumulate for the trailing @media (prefers-color-scheme: dark) block
@@ -183,14 +187,23 @@ export function buildCombinedCss(
   // primitive sections go inside :root, both media-block stacks go after it.
   const sizeResult = generateBreakpointTokenCss(sizeTokens)
   const componentSizeResult = generateComponentBreakpointCss(componentTokens, componentBreakpointTokens)
+  // Extra (non-night) theme primitives also live inside :root; their pins go in Phase 6.
+  const extraThemeResult = generateExtraThemeCss(extraThemes)
+  const componentExtraThemeResult = generateComponentExtraThemeCss(componentExtraThemes)
   pushSizePrimitives(sizeResult.primitiveLines)
   pushSizePrimitives(componentSizeResult.primitiveLines)
+  pushSizePrimitives(extraThemeResult.primitiveLines)
+  pushSizePrimitives(componentExtraThemeResult.primitiveLines)
   pushRootClose()
   pushSizeMediaBlocks(sizeResult.mediaBlocks)
   pushSizeMediaBlocks(componentSizeResult.mediaBlocks)
 
-  // Phase 5: mode awareness — @media block + [data-theme] overrides
+  // Phase 5: mode awareness — @media (prefers-color-scheme) + [data-theme="day"|"night"]
   pushColorSchemeMediaBlock()
+
+  // Phase 6: extra-theme pins — one [data-theme="{name}"] block per non-night theme
+  pushSizeMediaBlocks(extraThemeResult.pinBlocks)
+  pushSizeMediaBlocks(componentExtraThemeResult.pinBlocks)
 
   return { css: cssLines.join('\n') }
 }
