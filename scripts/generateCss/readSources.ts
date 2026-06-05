@@ -30,8 +30,8 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { readModuleFolder } from '../shared/readModuleFolder.js'
-import type { Tokens, NightTokens, ComponentTokens, BreakpointTokens, Errors } from '../css/types.js'
-import { validateNightTokens, validateComponentNightTokens } from '../css/validate.js'
+import type { Tokens, NightTokens, ComponentTokens, ComponentBreakpointTokens, BreakpointTokens, Errors } from '../css/types.js'
+import { validateNightTokens, validateComponentNightTokens, validateComponentBreakpointTokens } from '../css/validate.js'
 import { BREAKPOINT_PHONE } from '../../src/constants/breakpoints.js'
 
 export interface TokenSources {
@@ -45,6 +45,8 @@ export interface TokenSources {
   componentTokens: ComponentTokens
   /** Component night overrides from component.json */
   componentNightTokens: ComponentTokens
+  /** Component breakpoint overrides (per prefix → breakpoint → partial tree) */
+  componentBreakpointTokens: ComponentBreakpointTokens
 }
 
 /**
@@ -56,24 +58,30 @@ export interface TokenSources {
 function readComponentTokens(tokensDir: string): {
   componentTokens: ComponentTokens
   componentNightTokens: ComponentTokens
+  componentBreakpointTokens: ComponentBreakpointTokens
 } {
   const componentsDir = path.join(tokensDir, 'components')
   const baseFiles = fs.readdirSync(componentsDir).filter((f) => f.endsWith('.json')).sort()
   const componentTokens: ComponentTokens = {}
   const componentNightTokens: ComponentTokens = {}
+  const componentBreakpointTokens: ComponentBreakpointTokens = {}
   for (const filename of baseFiles) {
     const prefix = filename.replace(/\.json$/, '')
-    const parsed: Record<string, unknown> & { $themes?: Record<string, unknown> } = JSON.parse(
-      fs.readFileSync(path.join(componentsDir, filename), 'utf-8')
-    )
-    // Alt themes live under the reserved `$themes` key inside the component file.
-    const { $themes, ...base } = parsed
+    const parsed: Record<string, unknown> & {
+      $themes?: Record<string, unknown>
+      $breakpoints?: Record<string, unknown>
+    } = JSON.parse(fs.readFileSync(path.join(componentsDir, filename), 'utf-8'))
+    // Reserved override axes live under `$themes` / `$breakpoints` inside the file.
+    const { $themes, $breakpoints, ...base } = parsed
     componentTokens[prefix] = base as ComponentTokens[string]
     if ($themes && $themes.night) {
       componentNightTokens[prefix] = $themes.night as ComponentTokens[string]
     }
+    if ($breakpoints) {
+      componentBreakpointTokens[prefix] = $breakpoints as ComponentBreakpointTokens[string]
+    }
   }
-  return { componentTokens, componentNightTokens }
+  return { componentTokens, componentNightTokens, componentBreakpointTokens }
 }
 
 /**
@@ -127,7 +135,7 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
   const breakpointsPhone: Tokens = sizeTokens[BREAKPOINT_PHONE] || {}
 
   // Component tokens — glob per-prefix files; fall back to legacy component.json
-  const { componentTokens, componentNightTokens } = readComponentTokens(tokensDir)
+  const { componentTokens, componentNightTokens, componentBreakpointTokens } = readComponentTokens(tokensDir)
 
   const componentCount = Object.keys(componentTokens).length
   if (componentCount > 0) {
@@ -140,9 +148,15 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
     console.log('✓ Component night tokens validated')
   }
 
+  // Validate: every component breakpoint entry must have a corresponding base entry
+  if (Object.keys(componentBreakpointTokens).length > 0) {
+    validateComponentBreakpointTokens(componentTokens, componentBreakpointTokens)
+    console.log('✓ Component breakpoint tokens validated')
+  }
+
   // Merge all sources into a unified semantic defaults map
   // Order: core → color day → size phone (later keys win on collision)
   const tokens: Tokens = { ...coreTokens, ...themesDay, ...breakpointsPhone }
 
-  return { tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens }
+  return { tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens, componentBreakpointTokens }
 }

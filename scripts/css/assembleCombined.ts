@@ -9,10 +9,11 @@
  */
 
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
-import type { Tokens, NightTokens, ComponentTokens, BreakpointTokens } from './types.js'
+import type { Tokens, NightTokens, ComponentTokens, ComponentBreakpointTokens, BreakpointTokens } from './types.js'
 import { generateTokenGroupCss } from './emitCoreTokens.js'
 import { generateComponentTokenCss } from './emitComponentTokens.js'
 import { generateBreakpointTokenCss } from './emitBreakpointTokens.js'
+import { generateComponentBreakpointCss } from './emitComponentBreakpointTokens.js'
 
 /**
  * Builds the combined dist/tokens.css containing all token groups.
@@ -42,7 +43,8 @@ export function buildCombinedCss(
   nightTokens: NightTokens,
   componentTokens: ComponentTokens,
   componentNightTokens: ComponentTokens,
-  sizeTokens: BreakpointTokens
+  sizeTokens: BreakpointTokens,
+  componentBreakpointTokens: ComponentBreakpointTokens
 ): { css: string } {
   // Four accumulators — semantic lines go inline, primitives are batched at the end of :root,
   // and night-media lines accumulate for the trailing @media (prefers-color-scheme: dark) block
@@ -176,11 +178,16 @@ export function buildCombinedCss(
   // Merge component night-media lines into the shared accumulator for the @media block below
   allNightMediaBody.push(...componentResult.nightMediaBody)
 
-  // Phase 4: size breakpoint primitives — inside :root; media blocks go outside
+  // Phase 4: size breakpoint primitives — inside :root; media blocks go outside.
+  // Module (flat) and component (nested) breakpoints emit the same shape; both
+  // primitive sections go inside :root, both media-block stacks go after it.
   const sizeResult = generateBreakpointTokenCss(sizeTokens)
+  const componentSizeResult = generateComponentBreakpointCss(componentTokens, componentBreakpointTokens)
   pushSizePrimitives(sizeResult.primitiveLines)
+  pushSizePrimitives(componentSizeResult.primitiveLines)
   pushRootClose()
   pushSizeMediaBlocks(sizeResult.mediaBlocks)
+  pushSizeMediaBlocks(componentSizeResult.mediaBlocks)
 
   // Phase 5: mode awareness — @media block + [data-theme] overrides
   pushColorSchemeMediaBlock()

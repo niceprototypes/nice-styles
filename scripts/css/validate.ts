@@ -6,7 +6,7 @@
  * generating CSS with orphan night tokens that have no semantic variable.
  */
 
-import type { Tokens, NightTokens, ComponentTokens, TokenNode, Errors } from './types.js'
+import type { Tokens, NightTokens, ComponentTokens, ComponentBreakpointTokens, TokenNode, Errors } from './types.js'
 
 /**
  * Replaces {placeholder} patterns in an error template with provided values.
@@ -156,5 +156,59 @@ export function validateComponentNightTokens(
       nightTokenMap as { [key: string]: TokenNode },
       [prefix]
     )
+  }
+}
+
+/**
+ * Validates that every path in component breakpoint tokens exists in the
+ * component day/base tree. The breakpoint-axis parallel of
+ * validateComponentNightTokens — walks each `{ breakpoint: partialTree }`
+ * override against the base, so an override can't reference a missing path.
+ */
+export function validateComponentBreakpointTokens(
+  componentTokens: ComponentTokens,
+  componentBreakpointTokens: ComponentBreakpointTokens
+): void {
+  function validateRecursive(
+    dayNode: { [key: string]: TokenNode },
+    bpNode: { [key: string]: TokenNode },
+    path: string[]
+  ): void {
+    for (const [key, bpValue] of Object.entries(bpNode)) {
+      const fullPath = [...path, key]
+      const dayValue = dayNode[key]
+
+      if (dayValue === undefined) {
+        throw new Error(
+          `Build error: Component breakpoint defines "${fullPath.join('.')}" but it doesn't exist in base tokens. Available: ${Object.keys(dayNode).join(', ')}`
+        )
+      }
+
+      // Breakpoint is a branch — base must also be a branch at the same path
+      if (typeof bpValue === 'object' && bpValue !== null) {
+        const baseIsBranch = typeof dayValue === 'object' && dayValue !== null
+        if (!baseIsBranch) {
+          throw new Error(
+            `Build error: Component breakpoint defines a nested object at "${fullPath.join('.')}" but base has a leaf value.`
+          )
+        }
+        validateRecursive(
+          dayValue as { [key: string]: TokenNode },
+          bpValue as { [key: string]: TokenNode },
+          fullPath
+        )
+      }
+    }
+  }
+
+  for (const [prefix, bpMap] of Object.entries(componentBreakpointTokens)) {
+    assertComponentPrefixExists(prefix, componentTokens)
+    for (const [breakpoint, tree] of Object.entries(bpMap)) {
+      validateRecursive(
+        componentTokens[prefix] as { [key: string]: TokenNode },
+        tree as { [key: string]: TokenNode },
+        [prefix, `$breakpoints.${breakpoint}`]
+      )
+    }
   }
 }

@@ -16,7 +16,7 @@ import type { ComponentTokens, TokenNode, CssEmitResult } from './types.js'
  * Build the full CSS variable name from a component prefix and a nesting path.
  * Each path segment is kebab-cased independently before joining with `--`.
  */
-function buildCssKey(prefix: string, pathSegments: string[]): string {
+export function buildCssKey(prefix: string, pathSegments: string[]): string {
   const cssSegments = pathSegments.map(s => camelToKebab(s))
   return `--${NAMESPACE}--${prefix}--${cssSegments.join('--')}`
 }

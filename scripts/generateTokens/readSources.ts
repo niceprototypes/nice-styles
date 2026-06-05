@@ -80,11 +80,11 @@ function readComponentTokens(tokensDir: string): ComponentTokensJson {
   const out: ComponentTokensJson = {}
   for (const filename of baseFiles) {
     const prefix = filename.replace(/\.json$/, '')
-    const parsed = readJson<{ [key: string]: ComponentTokenNode } & { $themes?: unknown }>(
+    const parsed = readJson<{ [key: string]: ComponentTokenNode } & { $themes?: unknown; $breakpoints?: unknown }>(
       path.join(componentsDir, filename)
     )
-    // Strip `$themes` from the base; this writer only emits the day branch.
-    const { $themes, ...base } = parsed
+    // Strip the reserved override axes; this writer only emits the day/base branch.
+    const { $themes, $breakpoints, ...base } = parsed
     out[prefix] = base as { [key: string]: ComponentTokenNode }
   }
   return out

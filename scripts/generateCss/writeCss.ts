@@ -27,7 +27,7 @@ import type { TokenSources } from './readSources.js'
  * @param cssDir - Absolute path to dist/css/
  */
 export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: string): void {
-  const { tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens } = sources
+  const { tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens, componentBreakpointTokens } = sources
 
   // Ensure output directories exist
   if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true })
@@ -35,7 +35,7 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
 
   // Combined tokens.css — semantic variables, primitives, breakpoint @media, and mode awareness block
   const { css: combinedCss } = buildCombinedCss(
-    tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens
+    tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens, componentBreakpointTokens
   )
   const cssPath = path.join(distDir, 'tokens.css')
   fs.writeFileSync(cssPath, combinedCss, 'utf-8')

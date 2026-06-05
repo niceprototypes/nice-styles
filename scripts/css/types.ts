@@ -29,6 +29,17 @@ export interface BreakpointTokens {
   }
 }
 
+/**
+ * Component breakpoint overrides: { prefix: { breakpoint: { ...nested partial tree... } } }.
+ * The breakpoint-axis parallel of the component theme overrides — each breakpoint
+ * holds a partial mirror of the component's (arbitrarily nested) base tree.
+ */
+export interface ComponentBreakpointTokens {
+  [prefix: string]: {
+    [breakpoint: string]: { [key: string]: TokenNode }
+  }
+}
+
 /** Error message templates with {placeholder} syntax */
 export interface Errors {
   [key: string]: string
