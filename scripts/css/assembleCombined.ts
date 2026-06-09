@@ -15,6 +15,7 @@ import { generateComponentTokenCss } from './emitComponentTokens.js'
 import { generateBreakpointTokenCss } from './emitBreakpointTokens.js'
 import { generateComponentBreakpointCss } from './emitComponentBreakpointTokens.js'
 import { generateExtraThemeCss, generateComponentExtraThemeCss } from './emitExtraThemeTokens.js'
+import { generateShorthandCss } from './emitShorthand.js'
 import type { TokenNode } from './types.js'
 
 /**
@@ -49,10 +50,11 @@ export function buildCombinedCss(
   componentBreakpointTokens: ComponentBreakpointTokens,
   extraThemes: Record<string, Tokens>,
   componentExtraThemes: Record<string, Record<string, { [key: string]: TokenNode }>>
-): { css: string } {
+): { css: string; shorthandCss: string } {
   // Four accumulators — semantic lines go inline, primitives are batched at the end of :root,
   // and night-media lines accumulate for the trailing @media (prefers-color-scheme: dark) block
   const cssLines: string[] = []
+  const allModuleSemanticLines: string[] = []
   const allDayPrimitives: string[] = []
   const allNightPrimitives: string[] = []
   const allNightMediaBody: string[] = []
@@ -78,6 +80,9 @@ export function buildCombinedCss(
 
       // Semantic lines go inline per group for visual grouping in the output CSS
       cssLines.push(...semanticLines)
+      // Also retained for the shorthand pass — terminal `base` semantics (e.g.
+      // --np--color--base) become bare aliases (--np--color).
+      allModuleSemanticLines.push(...semanticLines)
       // Primitives and media body accumulate across all groups for batched output
       allDayPrimitives.push(...dayPrimitives)
       allNightPrimitives.push(...nightPrimitives)
@@ -205,5 +210,26 @@ export function buildCombinedCss(
   pushSizeMediaBlocks(extraThemeResult.pinBlocks)
   pushSizeMediaBlocks(componentExtraThemeResult.pinBlocks)
 
-  return { css: cssLines.join('\n') }
+  // Phase 7: shorthand aliases (modules + components) — derive `base`-less
+  // aliases from every emitted declaration carrying a `base` segment, in two
+  // classes: terminal `base` (bare default, from semantic lines) and infix
+  // `base` (dimensional primitives + component status base-state).
+  const allDeclarationLines = [
+    // Module: semantics give terminal-base bare aliases; primitives give infix
+    ...allModuleSemanticLines,
+    ...allDayPrimitives,
+    ...allNightPrimitives,
+    ...sizeResult.primitiveLines,
+    ...extraThemeResult.primitiveLines,
+    // Component: semantics carry terminal base (flat tokens) + base-state infix;
+    // primitives carry the base-state + a suffix
+    ...componentResult.semanticLines,
+    ...componentResult.dayPrimitives,
+    ...componentResult.nightPrimitives,
+    ...componentSizeResult.primitiveLines,
+    ...componentExtraThemeResult.primitiveLines,
+  ]
+  const shorthandCss = generateShorthandCss(allDeclarationLines, Object.keys(componentTokens))
+
+  return { css: cssLines.join('\n'), shorthandCss }
 }

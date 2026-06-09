@@ -15,8 +15,8 @@ import type { ComponentPrefix } from '../generated/types.js'
  *
  * **Path lookup** — for deeply nested tokens (walks arbitrary depth):
  * ```ts
- * getComponentToken("button", ["status", "primary", "base", "backgroundColor"])
- * // → "var(--np--button--status--primary--base--background-color)"
+ * getComponentToken("button", ["status", "primary", "backgroundColor", "base"])
+ * // → "var(--np--button--status--primary--background-color--base)"
  * ```
  *
  * Three sibling functions return the three accessor forms:

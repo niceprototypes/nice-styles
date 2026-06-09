@@ -8,7 +8,8 @@
  *
  * | File | Contents |
  * |------|----------|
- * | `dist/tokens.css` | Combined :root block with all semantic variables, primitives, breakpoint @media blocks, and auto dark mode @media (prefers-color-scheme) |
+ * | `dist/tokens.css` | Combined :root block with all semantic variables, primitives, breakpoint @media blocks, auto dark mode @media (prefers-color-scheme), and the shorthand-alias block appended at the end |
+ * | `dist/shorthand.css` | Standalone copy of the `base`-less aliases (module + component) — same block appended to tokens.css, also available for selective import |
  * | `dist/css/{group}.css` | Individual per-group CSS files for selective imports |
  */
 
@@ -37,13 +38,24 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
   if (!fs.existsSync(cssDir)) fs.mkdirSync(cssDir, { recursive: true })
 
   // Combined tokens.css — semantic variables, primitives, breakpoint @media, and mode awareness block
-  const { css: combinedCss } = buildCombinedCss(
+  const { css: combinedCss, shorthandCss } = buildCombinedCss(
     tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens,
     componentBreakpointTokens, extraThemes, componentExtraThemes
   )
+  // tokens.css carries the shorthand block appended at the end, so every
+  // consumer of `nice-styles/tokens.css` (via StylesProvider) gets the aliases
+  // with no extra import. var() resolves at use time, so appending after the
+  // canonical declarations is order-independent.
   const cssPath = path.join(distDir, 'tokens.css')
-  fs.writeFileSync(cssPath, combinedCss, 'utf-8')
+  fs.writeFileSync(cssPath, `${combinedCss}\n\n${shorthandCss}`, 'utf-8')
   console.log(`✓ Generated: ${cssPath}`)
+
+  // Standalone copy — the same alias block, for consumers who want only the
+  // shorthands (or to read/diff them in isolation). Exported as
+  // "nice-styles/shorthand.css".
+  const shorthandPath = path.join(distDir, 'shorthand.css')
+  fs.writeFileSync(shorthandPath, shorthandCss, 'utf-8')
+  console.log(`✓ Generated: ${shorthandPath}`)
 
   // Individual per-group CSS files for selective imports (dist/css/{group}.css)
   const tokenNames = Object.keys(tokens)

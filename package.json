@@ -24,6 +24,7 @@
     },
     "./tokens.css": "./dist/tokens.css",
     "./color-scheme.css": "./dist/color-scheme.css",
+    "./shorthand.css": "./dist/shorthand.css",
     "./css/*.css": "./dist/css/*.css",
     "./static/*": "./static/*",
     "./package.json": "./package.json"

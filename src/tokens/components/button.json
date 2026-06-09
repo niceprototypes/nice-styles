@@ -22,57 +22,49 @@
   },
   "status": {
     "primary": {
-      "base": {
-        "backgroundColor": "var(--np--color--base)",
-        "borderColor": "var(--np--color--base)",
-        "color": "var(--np--color--base--night)"
+      "backgroundColor": {
+        "base": "var(--np--color--base)",
+        "disabled": "#ddd",
+        "error": "var(--np--color--error)",
+        "success": "var(--np--color--success)",
+        "warning": "var(--np--color--warning)"
       },
-      "disabled": {
-        "backgroundColor": "#ddd",
-        "borderColor": "#ddd",
-        "color": "#888"
+      "borderColor": {
+        "base": "var(--np--color--base)",
+        "disabled": "#ddd",
+        "error": "var(--np--color--error)",
+        "success": "var(--np--color--success)",
+        "warning": "var(--np--color--warning)"
       },
-      "error": {
-        "backgroundColor": "var(--np--color--error)",
-        "borderColor": "var(--np--color--error)",
-        "color": "#fff"
-      },
-      "success": {
-        "backgroundColor": "var(--np--color--success)",
-        "borderColor": "var(--np--color--success)",
-        "color": "#fff"
-      },
-      "warning": {
-        "backgroundColor": "var(--np--color--warning)",
-        "borderColor": "var(--np--color--warning)",
-        "color": "#fff"
+      "color": {
+        "base": "var(--np--color--base--night)",
+        "disabled": "#888",
+        "error": "#fff",
+        "success": "#fff",
+        "warning": "#fff"
       }
     },
     "secondary": {
-      "base": {
-        "backgroundColor": "transparent",
-        "borderColor": "var(--np--color--lightest)",
-        "color": "var(--np--color--base)"
+      "backgroundColor": {
+        "base": "transparent",
+        "disabled": "transparent",
+        "error": "transparent",
+        "success": "transparent",
+        "warning": "transparent"
       },
-      "disabled": {
-        "backgroundColor": "transparent",
-        "borderColor": "#ddd",
-        "color": "#888"
+      "borderColor": {
+        "base": "var(--np--color--lightest)",
+        "disabled": "#ddd",
+        "error": "var(--np--color--error)",
+        "success": "var(--np--color--success)",
+        "warning": "var(--np--color--warning)"
       },
-      "error": {
-        "backgroundColor": "transparent",
-        "borderColor": "var(--np--color--error)",
-        "color": "var(--np--color--error)"
-      },
-      "success": {
-        "backgroundColor": "transparent",
-        "borderColor": "var(--np--color--success)",
-        "color": "var(--np--color--success)"
-      },
-      "warning": {
-        "backgroundColor": "transparent",
-        "borderColor": "var(--np--color--warning)",
-        "color": "var(--np--color--warning)"
+      "color": {
+        "base": "var(--np--color--base)",
+        "disabled": "#888",
+        "error": "var(--np--color--error)",
+        "success": "var(--np--color--success)",
+        "warning": "var(--np--color--warning)"
       }
     }
   },
@@ -80,57 +72,49 @@
     "night": {
       "status": {
         "primary": {
-          "base": {
-            "backgroundColor": "var(--np--color--base--night)",
-            "borderColor": "var(--np--color--base--night)",
-            "color": "var(--np--color--base--day)"
+          "backgroundColor": {
+            "base": "var(--np--color--base--night)",
+            "disabled": "var(--np--color--base--night)",
+            "error": "var(--np--color--error--night)",
+            "success": "var(--np--color--success--night)",
+            "warning": "var(--np--color--warning--night)"
           },
-          "disabled": {
-            "backgroundColor": "var(--np--color--base--night)",
-            "borderColor": "var(--np--color--base--night)",
-            "color": "var(--np--color--base--day)"
+          "borderColor": {
+            "base": "var(--np--color--base--night)",
+            "disabled": "var(--np--color--base--night)",
+            "error": "var(--np--color--error--night)",
+            "success": "var(--np--color--success--night)",
+            "warning": "var(--np--color--warning--night)"
           },
-          "error": {
-            "backgroundColor": "var(--np--color--error--night)",
-            "borderColor": "var(--np--color--error--night)",
-            "color": "var(--np--color--base--day)"
-          },
-          "success": {
-            "backgroundColor": "var(--np--color--success--night)",
-            "borderColor": "var(--np--color--success--night)",
-            "color": "var(--np--color--base--day)"
-          },
-          "warning": {
-            "backgroundColor": "var(--np--color--warning--night)",
-            "borderColor": "var(--np--color--warning--night)",
-            "color": "var(--np--color--base--day)"
+          "color": {
+            "base": "var(--np--color--base--day)",
+            "disabled": "var(--np--color--base--day)",
+            "error": "var(--np--color--base--day)",
+            "success": "var(--np--color--base--day)",
+            "warning": "var(--np--color--base--day)"
           }
         },
         "secondary": {
-          "base": {
-            "backgroundColor": "transparent",
-            "borderColor": "var(--np--color--lightest--night)",
-            "color": "var(--np--color--base--night)"
+          "backgroundColor": {
+            "base": "transparent",
+            "disabled": "transparent",
+            "error": "transparent",
+            "success": "transparent",
+            "warning": "transparent"
           },
-          "disabled": {
-            "backgroundColor": "transparent",
-            "borderColor": "var(--np--color--base--night)",
-            "color": "var(--np--color--base--night)"
+          "borderColor": {
+            "base": "var(--np--color--lightest--night)",
+            "disabled": "var(--np--color--base--night)",
+            "error": "var(--np--color--error--night)",
+            "success": "var(--np--color--success--night)",
+            "warning": "var(--np--color--warning--night)"
           },
-          "error": {
-            "backgroundColor": "transparent",
-            "borderColor": "var(--np--color--error--night)",
-            "color": "var(--np--color--error--night)"
-          },
-          "success": {
-            "backgroundColor": "transparent",
-            "borderColor": "var(--np--color--success--night)",
-            "color": "var(--np--color--success--night)"
-          },
-          "warning": {
-            "backgroundColor": "transparent",
-            "borderColor": "var(--np--color--warning--night)",
-            "color": "var(--np--color--warning--night)"
+          "color": {
+            "base": "var(--np--color--base--night)",
+            "disabled": "var(--np--color--base--night)",
+            "error": "var(--np--color--error--night)",
+            "success": "var(--np--color--success--night)",
+            "warning": "var(--np--color--warning--night)"
           }
         }
       }
