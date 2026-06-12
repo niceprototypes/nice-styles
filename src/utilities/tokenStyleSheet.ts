@@ -1,10 +1,10 @@
 /**
  * tokenStyleSheet — Singleton style sheet manager for Nice token CSS.
  *
- * All token CSS produced by `createTokens` / `generateTokenCSS` is collected
+ * All token CSS produced by `setTokens` / `generateTokenCSS` is collected
  * into a single `<style data-nice-tokens>` element in `<head>`. Calling with
  * the same prefix replaces the previous CSS for that prefix, so multiple
- * `createTokens` calls don't duplicate `:root` blocks.
+ * `setTokens` calls don't duplicate `:root` blocks.
  *
  * Sibling helper: `breakpointStyleSheet.ts` (same pattern, different
  * `data-*` attribute, single-writer instead of prefix-keyed).

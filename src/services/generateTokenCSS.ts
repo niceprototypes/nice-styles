@@ -1,7 +1,7 @@
 /**
  * Generate the CSS string for a token map and register the tokens.
  *
- * Framework-agnostic core of `createTokens`. Takes a token map (flat tokens,
+ * Framework-agnostic core of `setTokens`. Takes a token map (flat tokens,
  * component-prefix overrides, optional top-level `breakpoints` key), registers
  * the flat tokens, forwards `breakpoints` to `setBreakpoints`, and builds the
  * full `:root` + `@media` CSS string. Returns the string for the caller to do
@@ -31,22 +31,28 @@
 import { camelToKebab } from '../utilities/camelToKebab.js'
 import { isStyleValue } from '../utilities/isStyleValue.js'
 import { getConstantKey } from './getConstant.js'
-import { getBreakpoint } from './getBreakpoint.js'
 import { setBreakpoints } from './setBreakpoints.js'
+import {
+  isBreakpointKeyMap,
+  parseBreakpointKey,
+  breakpointKeyQuery,
+  compareBreakpointSpecificity,
+  type ParsedBreakpointKey,
+} from './breakpointKey.js'
 import { registerTokens } from '../registry/index.js'
 import componentTokensData from '../generated/componentTokensData.js'
 import {
   DEFAULT_THEME,
-  DEFAULT_BREAKPOINT,
 } from '../constants/styleValues.js'
-import {
-  BREAKPOINT_TABLET,
-  BREAKPOINT_LAPTOP,
-  BREAKPOINT_DESKTOP,
-  type BreakpointValues,
-} from '../constants/breakpoints.js'
+import type { BreakpointValues } from '../constants/breakpoints.js'
 import type { TokenMap } from '../utilities/getTokenFromMap.js'
 import type { ThemeValue, BreakpointValue } from '../types/styleValues.js'
+
+/** A breakpoint declaration tagged with its parsed key, for specificity sorting. */
+interface BreakpointEntry {
+  parsed: ParsedBreakpointKey
+  declaration: string
+}
 
 type VariantValue = string | number | ThemeValue | BreakpointValue
 type VariantMap = Record<string, VariantValue>
@@ -61,7 +67,11 @@ const componentPrefixes = new Set(Object.keys(componentTokensData))
  * Handles three value shapes:
  * - Simple value: `"16px"` → single :root declaration
  * - ThemeValue: `{ day: "#000", night: "#fff" }` → default + theme primitives + theme media entries
- * - BreakpointValue: `{ phone: "14px", laptop: "20px" }` → default + breakpoint primitives + breakpoint media entries
+ * - BreakpointValue (inline shorthand): `{ "laptop+": "20px", tablet: "16px" }`
+ *   → keys whose query is "all viewports" (`phone+` / `desktop-`) land in `:root`
+ *   as the base; every other key is grouped under its resolved `@media` query.
+ *   Bare names are exact bands; `+` = up (min-width), `-` = down (max-width).
+ *   The base is optional — omit it to override an existing token upward only.
  *
  * BreakpointValue is checked before ThemeValue — they are mutually exclusive on the same variant.
  */
@@ -71,23 +81,23 @@ function processVariants(
   pkg: string | undefined,
   defaultDeclarations: string[],
   themeDeclarations: Map<string, string[]>,
-  breakpointDeclarations: Map<string, string[]>
+  breakpointGroups: Map<string, BreakpointEntry[]>
 ): void {
   for (const [variant, value] of Object.entries(variants)) {
-    if (isStyleValue('breakpoint', value)) {
-      const defaultValue = value[DEFAULT_BREAKPOINT]
+    if (isBreakpointKeyMap(value)) {
       const cssKey = getConstantKey(cssName, variant, { pkg })
-      defaultDeclarations.push(`${cssKey}: ${defaultValue};`)
 
-      for (const [breakpoint, bpValue] of Object.entries(value)) {
-        if (breakpoint !== DEFAULT_BREAKPOINT) {
-          const bpCssKey = getConstantKey(cssName, variant, { breakpoint, pkg })
-          defaultDeclarations.push(`${bpCssKey}: ${bpValue};`)
-
-          const declarations = breakpointDeclarations.get(breakpoint)
-          if (declarations) {
-            declarations.push(`${cssKey}: var(${bpCssKey});`)
-          }
+      for (const [key, bpValue] of Object.entries(value)) {
+        const declaration = `${cssKey}: ${bpValue};`
+        const query = breakpointKeyQuery(key)
+        if (query === null) {
+          // `phone+` / `desktop-` span every viewport → unconditional base.
+          defaultDeclarations.push(declaration)
+        } else {
+          const entry: BreakpointEntry = { parsed: parseBreakpointKey(key), declaration }
+          const group = breakpointGroups.get(query)
+          if (group) group.push(entry)
+          else breakpointGroups.set(query, [entry])
         }
       }
     } else if (isStyleValue('theme', value)) {
@@ -114,17 +124,15 @@ function processVariants(
 }
 
 /**
- * Scan a variant map for theme and breakpoint dimension keys. Populates the
- * shared themes/breakpoints sets so the declaration maps can be pre-initialized
- * before processing.
+ * Scan a variant map for theme dimension keys, so the per-theme declaration
+ * map can be pre-initialized before processing. Breakpoint groups are keyed by
+ * resolved `@media` query and built lazily during processing, so they need no
+ * pre-seed here.
  */
-function collectDimensions(variants: VariantMap, themes: Set<string>, breakpoints: Set<string>): void {
+function collectThemes(variants: VariantMap, themes: Set<string>): void {
   for (const value of Object.values(variants)) {
-    if (isStyleValue('breakpoint', value)) {
-      for (const bp of Object.keys(value)) {
-        breakpoints.add(bp)
-      }
-    } else if (isStyleValue('theme', value)) {
+    // Breakpoint maps are handled separately; only theme values seed here.
+    if (!isBreakpointKeyMap(value) && isStyleValue('theme', value)) {
       for (const theme of Object.keys(value)) {
         themes.add(theme)
       }
@@ -161,16 +169,16 @@ export function generateTokenCSS<T extends TokenMap | TokenMapWithThemes>(
   // Register flat tokens — component overrides work via CSS variable cascade.
   registerTokens(flatTokens, prefix)
 
-  // Collect themes and breakpoints from flat tokens and component overrides.
+  // Collect themes from flat tokens and component overrides (breakpoint groups
+  // are keyed by query and built lazily during processing).
   const themes = new Set<string>([DEFAULT_THEME])
-  const breakpoints = new Set<string>([DEFAULT_BREAKPOINT])
 
   for (const variants of Object.values(flatTokens)) {
-    collectDimensions(variants, themes, breakpoints)
+    collectThemes(variants, themes)
   }
   for (const tokenGroups of Object.values(componentOverrides)) {
     for (const variants of Object.values(tokenGroups)) {
-      collectDimensions(variants, themes, breakpoints)
+      collectThemes(variants, themes)
     }
   }
 
@@ -180,20 +188,19 @@ export function generateTokenCSS<T extends TokenMap | TokenMapWithThemes>(
   for (const theme of themes) {
     if (theme !== DEFAULT_THEME) themeDeclarations.set(theme, [])
   }
-  const breakpointDeclarations: Map<string, string[]> = new Map()
-  for (const bp of breakpoints) {
-    if (bp !== DEFAULT_BREAKPOINT) breakpointDeclarations.set(bp, [])
-  }
+  // Breakpoint declarations grouped by resolved @media query string, so keys
+  // sharing a query (e.g. `desktop` and `desktop+`) merge into one block.
+  const breakpointGroups: Map<string, BreakpointEntry[]> = new Map()
 
   // Flat tokens — 2-level: tokenName -> variant.
   for (const [tokenKey, variants] of Object.entries(flatTokens)) {
-    processVariants(camelToKebab(tokenKey), variants, prefix, defaultDeclarations, themeDeclarations, breakpointDeclarations)
+    processVariants(camelToKebab(tokenKey), variants, prefix, defaultDeclarations, themeDeclarations, breakpointGroups)
   }
 
   // Component token overrides — 3-level: prefix -> tokenName -> variant.
   for (const [componentPrefix, tokenGroups] of Object.entries(componentOverrides)) {
     for (const [tokenName, variants] of Object.entries(tokenGroups)) {
-      processVariants(camelToKebab(tokenName), variants, componentPrefix, defaultDeclarations, themeDeclarations, breakpointDeclarations)
+      processVariants(camelToKebab(tokenName), variants, componentPrefix, defaultDeclarations, themeDeclarations, breakpointGroups)
     }
   }
 
@@ -218,26 +225,30 @@ export function generateTokenCSS<T extends TokenMap | TokenMapWithThemes>(
     }
   }
 
-  // Breakpoint media queries — always active (not opt-in), phone-first via min-width.
-  const breakpointQueries: Record<string, string> = {
-    [BREAKPOINT_TABLET]: getBreakpoint(BREAKPOINT_TABLET),
-    [BREAKPOINT_LAPTOP]: getBreakpoint(BREAKPOINT_LAPTOP),
-    [BREAKPOINT_DESKTOP]: getBreakpoint(BREAKPOINT_DESKTOP),
-  }
+  // Breakpoint @media blocks — always active (not opt-in). Emit one block per
+  // resolved query, ordered LEAST → MOST specific so the most specific block is
+  // last and wins by source order (same `:root` specificity everywhere). Within
+  // a block, declarations are likewise ordered least → most specific.
+  const mostSpecific = (entries: BreakpointEntry[]): ParsedBreakpointKey =>
+    entries.reduce(
+      (best, entry) => (compareBreakpointSpecificity(entry.parsed, best) > 0 ? entry.parsed : best),
+      entries[0].parsed
+    )
 
-  for (const [bp, declarations] of breakpointDeclarations.entries()) {
-    if (declarations.length > 0) {
-      const query = breakpointQueries[bp]
-      if (query) {
-        cssString += `
+  const sortedGroups = [...breakpointGroups.entries()].sort(([, a], [, b]) =>
+    compareBreakpointSpecificity(mostSpecific(a), mostSpecific(b))
+  )
+
+  for (const [query, entries] of sortedGroups) {
+    if (entries.length === 0) continue
+    const ordered = [...entries].sort((a, b) => compareBreakpointSpecificity(a.parsed, b.parsed))
+    cssString += `
     ${query} {
       :root {
-        ${declarations.join('\n        ')}
+        ${ordered.map((entry) => entry.declaration).join('\n        ')}
       }
     }
     `
-      }
-    }
   }
 
   return cssString

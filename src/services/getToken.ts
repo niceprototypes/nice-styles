@@ -1,7 +1,7 @@
 /**
  * Unified token getter — reads from the runtime registry seeded by the
  * generated token data and extended at runtime via `registerTokens` /
- * `createTokens`.
+ * `setTokens`.
  *
  * Three sibling functions return the three accessor forms:
  * - `getToken` — the `var(--np--…)` reference (the common case)

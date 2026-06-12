@@ -8,6 +8,16 @@
 export { getBreakpoint, getBreakpointValue } from './getBreakpoint.js'
 export type { BreakpointName } from './getBreakpoint.js'
 export {
+  parseBreakpointKey,
+  breakpointKeyMatches,
+  breakpointKeyRangeSize,
+  compareBreakpointSpecificity,
+  breakpointKeyQuery,
+  isBreakpointName,
+  isBreakpointKeyMap,
+} from './breakpointKey.js'
+export type { BreakpointKey, BreakpointModifier, ParsedBreakpointKey } from './breakpointKey.js'
+export {
   BREAKPOINT_PHONE,
   BREAKPOINT_TABLET,
   BREAKPOINT_LAPTOP,
@@ -30,6 +40,14 @@ export { default as getTextHeight } from './getTextHeight.js'
 export { parseGoogleFontsUrl } from './parseGoogleFontsUrl.js'
 export { parseAdobeFontsUrl } from './parseAdobeFontsUrl.js'
 
+// Font loading — framework-agnostic config builders, the JS-only <head>
+// injector (analog of the React FontLoader), and the injectFonts convenience entry.
+export { buildGoogleFontsConfig } from './buildGoogleFontsConfig.js'
+export { buildAdobeFontsConfig } from './buildAdobeFontsConfig.js'
+export { injectFontLinks } from './injectFontLinks.js'
+export { injectFonts } from './injectFonts.js'
+export type { InjectFontsConfig } from './injectFonts.js'
+
 // Style-value types and constants
 export type { ThemeValue, BreakpointValue } from '../types/styleValues.js'
 export type { FontAxis, GoogleFontMetadata, LinkAttributes, GoogleFontsConfig } from '../types/googleFonts.js'
@@ -42,10 +60,10 @@ export { isStyleValue } from '../utilities/isStyleValue.js'
 export { registry, registerTokens, seedDimensionedTokens } from '../registry/index.js'
 export type { RegistryEntry, DimensionedTokenSeed } from '../registry/index.js'
 
-// Runtime CSS injection for createTokens / setBreakpoints
+// Runtime CSS injection for setTokens / setBreakpoints
 export { injectTokenCSS } from '../utilities/tokenStyleSheet.js'
 
-// CSS generation — pure JS core of createTokens. The React wrapper in
+// CSS generation — pure JS core of setTokens. The React wrapper in
 // nice-react-styles calls this then injectTokenCSS.
 export { generateTokenCSS } from './generateTokenCSS.js'
 
