@@ -1,4 +1,5 @@
 {
-  "base": "300ms",
-  "slow": "600ms"
+  "fast": "160ms",
+  "base": "240ms",
+  "slow": "480ms"
 }

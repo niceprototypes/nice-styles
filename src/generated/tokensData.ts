@@ -12,8 +12,9 @@ export type TokensData = Record<string, TokenDefinition>
 
 const tokensData: TokensData = {
   "animationDuration": {
-    "base": "300ms",
-    "slow": "600ms"
+    "fast": "160ms",
+    "base": "240ms",
+    "slow": "480ms"
   },
   "animationEasing": {
     "base": "ease-in-out",

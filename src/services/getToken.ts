@@ -18,7 +18,7 @@
  *
  * @example
  * getTokenValue("fontSize", "base")
- * // → "16px"
+ * // → "14px"  (the default/phone primitive of a breakpoint-driven token)
  *
  * Throws on unknown token names. Use [Symbol.hasInstance] of `registry` for
  * detection if you need to branch on presence.
@@ -26,7 +26,7 @@
 
 import { getTokenFromMap, type TokenDefinition } from '../utilities/getTokenFromMap.js'
 import { isStyleValue } from '../utilities/isStyleValue.js'
-import { DEFAULT_THEME } from '../constants/styleValues.js'
+import { DEFAULT_THEME, DEFAULT_BREAKPOINT } from '../constants/styleValues.js'
 import { registry, type RegistryEntry } from '../registry/index.js'
 import { formatError } from '../utilities/formatError.js'
 
@@ -37,14 +37,19 @@ interface InternalTokenResult {
 }
 
 /**
- * Extract default-theme variants from a registry entry. ThemeValue entries are
- * flattened to their `day` value; BreakpointValue entries remain as-is so
- * `getTokenFromMap` can pick the right primitive when needed.
+ * Extract the default-dimension primitive for each variant of a registry entry.
+ * BreakpointValue entries fold to their default (phone) value; ThemeValue
+ * entries fold to their `day` value; plain primitives pass through. Without the
+ * breakpoint branch, a breakpoint-driven variant (e.g. fontSize) would reach
+ * `getTokenFromMap` as an object and stringify to "[object Object]".
  */
 function getDefaultVariants(entry: RegistryEntry): TokenDefinition {
   const result: TokenDefinition = {}
   for (const [key, value] of Object.entries(entry.variants)) {
-    if (isStyleValue("theme", value)) {
+    // Breakpoint checked first per isStyleValue's discriminator guidance.
+    if (isStyleValue("breakpoint", value)) {
+      result[key] = value[DEFAULT_BREAKPOINT]
+    } else if (isStyleValue("theme", value)) {
       result[key] = value[DEFAULT_THEME]
     } else {
       result[key] = value as TokenDefinition[string]

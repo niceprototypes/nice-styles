@@ -6,7 +6,7 @@
  * To regenerate: npm run build:types
  */
 
-export type AnimationDurationType = "base" | "slow"
+export type AnimationDurationType = "fast" | "base" | "slow"
 export type AnimationEasingType = "base" | "linear" | "ease-in" | "ease-out" | "ease"
 export type BackgroundSizeType = "contain" | "cover" | "fill" | "none" | "scale-down"
 export type BorderRadiusType = "smaller" | "small" | "base" | "large" | "larger"
@@ -18,7 +18,7 @@ export type FontWeightType = "light" | "base" | "medium" | "semibold" | "bold" |
 export type GapType = "none" | "smaller" | "small" | "base" | "large" | "larger"
 export type LetterSpacingType = "tight" | "base" | "wide" | "wider"
 export type LineHeightType = "single" | "condensed" | "base" | "expanded"
-export type BackgroundColorType = "base" | "dark"
+export type BackgroundColorType = "base" | "dark" | "success" | "warning" | "error" | "link"
 export type BorderColorType = "base" | "dark" | "darker"
 export type ColorType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "warning" | "error"
 export type FontSizeType = "smaller" | "small" | "base" | "large" | "larger"

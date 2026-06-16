@@ -35,6 +35,8 @@ export { setBreakpoints } from './setBreakpoints.js'
 export { getConstant, getConstantKey, NAMESPACE } from './getConstant.js'
 export type { CssConstantOptions } from './getConstant.js'
 export { getComponentToken, getComponentTokenKey, getComponentTokenValue } from './getComponentToken.js'
+export { getHSLA } from './getHSLA.js'
+export type { GetHSLAOptions } from './getHSLA.js'
 export { default as getTextHeight } from './getTextHeight.js'
 
 export { parseGoogleFontsUrl } from './parseGoogleFontsUrl.js'
