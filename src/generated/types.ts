@@ -7,7 +7,7 @@
  */
 
 export type AnimationDurationType = "base" | "slow"
-export type AnimationEasingType = "base"
+export type AnimationEasingType = "base" | "linear" | "ease-in" | "ease-out" | "ease"
 export type BackgroundSizeType = "contain" | "cover" | "fill" | "none" | "scale-down"
 export type BorderRadiusType = "smaller" | "small" | "base" | "large" | "larger"
 export type BorderWidthType = "none" | "small" | "base" | "large"

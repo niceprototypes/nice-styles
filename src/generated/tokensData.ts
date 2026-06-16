@@ -16,7 +16,11 @@ const tokensData: TokensData = {
     "slow": "600ms"
   },
   "animationEasing": {
-    "base": "ease-in-out"
+    "base": "ease-in-out",
+    "linear": "linear",
+    "ease-in": "ease-in",
+    "ease-out": "ease-out",
+    "ease": "ease"
   },
   "backgroundSize": {
     "contain": "contain",
