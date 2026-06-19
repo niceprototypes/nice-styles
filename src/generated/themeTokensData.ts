@@ -20,6 +20,14 @@ const themeTokensData: ThemeTokensData = {
       "error": "hsla(10, 85%, 93%, 1)",
       "link": "hsla(212, 70%, 92%, 1)"
     },
+    "backgroundColorInverse": {
+      "base": "hsla(240, 5%, 15%, 1)",
+      "dark": "hsla(240, 5%, 12.5%, 1)",
+      "success": "hsla(146, 45%, 18%, 1)",
+      "warning": "hsla(29, 60%, 18%, 1)",
+      "error": "hsla(10, 55%, 20%, 1)",
+      "link": "hsla(202, 50%, 18%, 1)"
+    },
     "borderColor": {
       "base": "hsla(240, 9%, 91%, 1)",
       "dark": "hsla(210, 8%, 58%, 1)",
@@ -35,6 +43,17 @@ const themeTokensData: ThemeTokensData = {
       "success": "hsla(146, 68%, 44%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",
       "error": "hsla(10, 92%, 63%, 1)"
+    },
+    "colorInverse": {
+      "base": "hsla(210, 5%, 95%, 1)",
+      "light": "hsla(210, 5%, 95%, 0.85)",
+      "lighter": "hsla(210, 5%, 95%, 0.55)",
+      "lightest": "hsla(210, 5%, 95%, 0.25)",
+      "disabled": "hsla(210, 5%, 95%, 0.6)",
+      "link": "hsla(202, 90%, 65%, 1)",
+      "success": "hsla(146, 58%, 59%, 1)",
+      "warning": "hsla(29, 88%, 72%, 1)",
+      "error": "hsla(10, 82%, 75%, 1)"
     }
   },
   "night": {
@@ -45,6 +64,14 @@ const themeTokensData: ThemeTokensData = {
       "warning": "hsla(29, 60%, 18%, 1)",
       "error": "hsla(10, 55%, 20%, 1)",
       "link": "hsla(202, 50%, 18%, 1)"
+    },
+    "backgroundColorInverse": {
+      "base": "hsla(0, 5%, 100%, 1)",
+      "dark": "hsla(0, 5%, 95%, 1)",
+      "success": "hsla(146, 60%, 92%, 1)",
+      "warning": "hsla(29, 90%, 92%, 1)",
+      "error": "hsla(10, 85%, 93%, 1)",
+      "link": "hsla(212, 70%, 92%, 1)"
     },
     "borderColor": {
       "base": "hsla(240, 5%, 25%, 1)",
@@ -61,6 +88,17 @@ const themeTokensData: ThemeTokensData = {
       "success": "hsla(146, 58%, 59%, 1)",
       "warning": "hsla(29, 88%, 72%, 1)",
       "error": "hsla(10, 82%, 75%, 1)"
+    },
+    "colorInverse": {
+      "base": "hsla(210, 5%, 5%, 1)",
+      "light": "hsla(210, 5%, 25%, 1)",
+      "lighter": "hsla(210, 5%, 50%, 1)",
+      "lightest": "hsla(210, 5%, 75%, 1)",
+      "disabled": "hsla(210, 5%, 5%, 0.6)",
+      "link": "hsla(212, 100%, 46%, 1)",
+      "success": "hsla(146, 68%, 44%, 1)",
+      "warning": "hsla(29, 98%, 62%, 1)",
+      "error": "hsla(10, 92%, 63%, 1)"
     }
   }
 } as const
