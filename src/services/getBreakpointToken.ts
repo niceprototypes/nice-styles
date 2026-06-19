@@ -6,16 +6,16 @@
  * regardless of viewport. For the auto-switching semantic variable, use
  * `getToken` directly — that's the common case.
  *
- * Three sibling functions return the three accessor forms.
+ * The group name is positional; variant / breakpoint go in an options object.
  *
  * @example
  * import { getBreakpointToken, BREAKPOINT_TABLET } from "nice-styles"
  *
- * getBreakpointToken("fontSize", "large", BREAKPOINT_TABLET)
+ * getBreakpointToken("fontSize", { variant: "large", breakpoint: BREAKPOINT_TABLET })
  * // → "var(--np--font-size--large--tablet)"
  *
  * @example
- * getBreakpointTokenValue("fontSize", "large", BREAKPOINT_TABLET)
+ * getBreakpointTokenValue("fontSize", { variant: "large", breakpoint: BREAKPOINT_TABLET })
  * // → "28px"
  */
 
@@ -24,6 +24,11 @@ import { formatError } from '../utilities/formatError.js'
 import { isStyleValue } from '../utilities/isStyleValue.js'
 import { registry } from '../registry/index.js'
 import { BREAKPOINT_PHONE } from '../constants/breakpoints.js'
+
+export interface BreakpointTokenOptions {
+  variant?: string
+  breakpoint?: string
+}
 
 function resolveSizeValue(group: string, item: string, breakpoint: string): string {
   const entry = registry.get(group)
@@ -51,28 +56,16 @@ function resolveSizeValue(group: string, item: string, breakpoint: string): stri
 }
 
 /** Returns the pinned `var(--np--…--{breakpoint})` reference for a size token. */
-export function getBreakpointToken(
-  group: string,
-  item: string = 'base',
-  breakpoint: string = BREAKPOINT_PHONE
-): string {
-  return getConstant(group, item, { breakpoint })
+export function getBreakpointToken(group: string, { variant = 'base', breakpoint = BREAKPOINT_PHONE }: BreakpointTokenOptions = {}): string {
+  return getConstant(group, variant, { breakpoint })
 }
 
 /** Returns the pinned bare CSS variable name. */
-export function getBreakpointTokenKey(
-  group: string,
-  item: string = 'base',
-  breakpoint: string = BREAKPOINT_PHONE
-): string {
-  return getConstantKey(group, item, { breakpoint })
+export function getBreakpointTokenKey(group: string, { variant = 'base', breakpoint = BREAKPOINT_PHONE }: BreakpointTokenOptions = {}): string {
+  return getConstantKey(group, variant, { breakpoint })
 }
 
 /** Returns the raw size value at the given breakpoint (e.g. `"16px"`). */
-export function getBreakpointTokenValue(
-  group: string,
-  item: string = 'base',
-  breakpoint: string = BREAKPOINT_PHONE
-): string {
-  return resolveSizeValue(group, item, breakpoint)
+export function getBreakpointTokenValue(group: string, { variant = 'base', breakpoint = BREAKPOINT_PHONE }: BreakpointTokenOptions = {}): string {
+  return resolveSizeValue(group, variant, breakpoint)
 }

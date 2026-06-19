@@ -8,17 +8,24 @@
  * - `getTokenKey` — the bare CSS variable name (no `var(...)` wrapper)
  * - `getTokenValue` — the raw underlying value (e.g. `"16px"`)
  *
+ * The token name is the only positional argument; variant / theme / inverse go
+ * in an options object.
+ *
  * @example
- * getToken("fontSize", "base")
+ * getToken("fontSize", { variant: "base" })
  * // → "var(--np--font-size--base)"
  *
  * @example
- * getToken("color", "base", "night")
+ * getToken("color", { variant: "base", theme: "night" })
  * // → "var(--np--color--base--night)"
  *
  * @example
- * getTokenValue("fontSize", "base")
- * // → "14px"  (the default/phone primitive of a breakpoint-driven token)
+ * getToken("backgroundColor", { inverse: true })
+ * // → "var(--np--background-color-inverse--base)"
+ *
+ * @example
+ * getTokenValue("fontSize")
+ * // → "14px"  (base variant; default/phone primitive of a breakpoint-driven token)
  *
  * Throws on unknown token names. Use [Symbol.hasInstance] of `registry` for
  * detection if you need to branch on presence.
@@ -78,17 +85,34 @@ function resolveToken(name: string, variant: string, theme?: string): InternalTo
   )
 }
 
+/**
+ * Options for the token getters. All optional; the token `name` stays positional.
+ * - `variant` — variant within the group (default `"base"`)
+ * - `theme`   — pin to a theme primitive (e.g. `"night"`)
+ * - `inverse` — resolve the inverse group (`${name}Inverse`); valid for
+ *               `color` / `backgroundColor`, throws on groups with no inverse
+ */
+export interface TokenOptions {
+  variant?: string
+  theme?: string
+  inverse?: boolean
+}
+
+// The inverse modules are named `${group}Inverse` (color → colorInverse,
+// backgroundColor → backgroundColorInverse).
+const resolveName = (name: string, inverse: boolean): string => (inverse ? `${name}Inverse` : name)
+
 /** Returns the `var(--np--…)` reference string. */
-export function getToken(name: string, variant: string = 'base', theme?: string): string {
-  return resolveToken(name, variant, theme).var
+export function getToken(name: string, { variant = 'base', theme, inverse = false }: TokenOptions = {}): string {
+  return resolveToken(resolveName(name, inverse), variant, theme).var
 }
 
 /** Returns the bare CSS variable name (no `var(...)` wrapper). */
-export function getTokenKey(name: string, variant: string = 'base', theme?: string): string {
-  return resolveToken(name, variant, theme).key
+export function getTokenKey(name: string, { variant = 'base', theme, inverse = false }: TokenOptions = {}): string {
+  return resolveToken(resolveName(name, inverse), variant, theme).key
 }
 
 /** Returns the raw token value (e.g. `"16px"`, an hsla string). */
-export function getTokenValue(name: string, variant: string = 'base', theme?: string): string {
-  return resolveToken(name, variant, theme).value
+export function getTokenValue(name: string, { variant = 'base', theme, inverse = false }: TokenOptions = {}): string {
+  return resolveToken(resolveName(name, inverse), variant, theme).value
 }

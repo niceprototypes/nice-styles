@@ -5,17 +5,19 @@ import type { ComponentPrefix } from '../generated/types.js'
 /**
  * Component-scoped token getters.
  *
- * Two calling conventions:
+ * Only the component `prefix` is positional; the token name, variant, and
+ * mode go in an options object. `token` may be a string (flat, depth-1
+ * lookup) or a path array (nested lookup, walks arbitrary depth).
  *
- * **Flat lookup** — for tokens at depth 1 (tokenName → variant → value):
+ * **Flat lookup:**
  * ```ts
- * getComponentToken("button", "size", "base")
+ * getComponentToken("button", { token: "size", variant: "base" })
  * // → "var(--np--button--size--base)"
  * ```
  *
- * **Path lookup** — for deeply nested tokens (walks arbitrary depth):
+ * **Path lookup** (variant is part of the path):
  * ```ts
- * getComponentToken("button", ["status", "primary", "backgroundColor", "base"])
+ * getComponentToken("button", { token: ["status", "primary", "backgroundColor", "base"] })
  * // → "var(--np--button--status--primary--background-color--base)"
  * ```
  *
@@ -27,6 +29,15 @@ import type { ComponentPrefix } from '../generated/types.js'
  * @throws Error if prefix, token, variant, or path segment not found
  */
 
+export interface ComponentTokenOptions {
+  /** Token name (depth-1) or a path array for nested tokens. */
+  token: string | string[]
+  /** Variant within the token (flat lookups only; default "base"). */
+  variant?: string
+  /** Theme/mode pin (e.g. "night"). */
+  mode?: string
+}
+
 interface InternalTokenResult {
   key: string
   var: string
@@ -35,9 +46,7 @@ interface InternalTokenResult {
 
 function resolveComponentToken(
   prefix: ComponentPrefix,
-  tokenNameOrPath: string | string[],
-  variantOrTheme?: string,
-  theme?: string
+  { token, variant, mode }: ComponentTokenOptions
 ): InternalTokenResult {
   const componentData = componentTokensData[prefix]
   if (!componentData) {
@@ -45,44 +54,29 @@ function resolveComponentToken(
     throw new Error(`Component prefix "${prefix}" not found. Available prefixes: ${available}`)
   }
 
-  if (Array.isArray(tokenNameOrPath)) {
-    return getTokenByPath(componentData, tokenNameOrPath, { theme: variantOrTheme, prefix })
+  if (Array.isArray(token)) {
+    return getTokenByPath(componentData, token, { theme: mode, prefix })
   }
 
   return getTokenFromMap(
     componentData as Record<string, Record<string, string | number>>,
-    tokenNameOrPath,
-    variantOrTheme ?? 'base',
-    { theme, prefix }
+    token,
+    variant ?? 'base',
+    { theme: mode, prefix }
   )
 }
 
 /** Returns the `var(--np--…)` reference for a component token. */
-export function getComponentToken(
-  prefix: ComponentPrefix,
-  tokenNameOrPath: string | string[],
-  variantOrTheme?: string,
-  theme?: string
-): string {
-  return resolveComponentToken(prefix, tokenNameOrPath, variantOrTheme, theme).var
+export function getComponentToken(prefix: ComponentPrefix, options: ComponentTokenOptions): string {
+  return resolveComponentToken(prefix, options).var
 }
 
 /** Returns the bare CSS variable name for a component token. */
-export function getComponentTokenKey(
-  prefix: ComponentPrefix,
-  tokenNameOrPath: string | string[],
-  variantOrTheme?: string,
-  theme?: string
-): string {
-  return resolveComponentToken(prefix, tokenNameOrPath, variantOrTheme, theme).key
+export function getComponentTokenKey(prefix: ComponentPrefix, options: ComponentTokenOptions): string {
+  return resolveComponentToken(prefix, options).key
 }
 
 /** Returns the raw value for a component token. */
-export function getComponentTokenValue(
-  prefix: ComponentPrefix,
-  tokenNameOrPath: string | string[],
-  variantOrTheme?: string,
-  theme?: string
-): string {
-  return resolveComponentToken(prefix, tokenNameOrPath, variantOrTheme, theme).value
+export function getComponentTokenValue(prefix: ComponentPrefix, options: ComponentTokenOptions): string {
+  return resolveComponentToken(prefix, options).value
 }

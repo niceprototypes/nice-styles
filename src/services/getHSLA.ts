@@ -117,7 +117,7 @@ export function getHSLA({ module, token = 'base', theme, values = [] }: GetHSLAO
   const parsed = [Number(match[1]), Number(match[2]), Number(match[3]), Number(match[4])]
 
   // The CSS variable name this token resolves to — used to make clamp warnings actionable.
-  const tokenKey = getTokenKey(module, token, theme)
+  const tokenKey = getTokenKey(module, { variant: token, theme })
 
   // Apply each delta, then clamp to the channel's range, warning on clamp.
   const adjusted = CHANNELS.map((channel, i) => {
