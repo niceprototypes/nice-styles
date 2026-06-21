@@ -14,6 +14,7 @@ import type {
   DimensionMap,
   ComponentTokensJson,
   BreakpointsJson,
+  InverseData,
 } from './readSources.js'
 
 /**
@@ -119,6 +120,21 @@ function writeBreakpoints(generatedDir: string, data: BreakpointsJson): void {
 }
 
 /**
+ * Emit src/generated/inverseTokensData.ts from the `$inverse` dimension
+ * (group → {day, night} → variant → value). Consumed by getToken({ inverse }).
+ */
+function writeInverseTokens(generatedDir: string, data: InverseData): void {
+  writeFileWithHeader(
+    path.join(generatedDir, 'inverseTokensData.ts'),
+    'tokens/modules ($inverse)',
+    `export type TokenDefinition = Record<string, string>\n\nexport type InverseTokensData = Record<string, { day: TokenDefinition; night: TokenDefinition }>`,
+    'inverseTokensData',
+    'InverseTokensData',
+    data
+  )
+}
+
+/**
  * Emit all generated token data files.
  */
 export function writeTokenDataFiles(sources: TokenJsonSources, generatedDir: string): void {
@@ -127,4 +143,5 @@ export function writeTokenDataFiles(sources: TokenJsonSources, generatedDir: str
   writeBreakpointTokens(generatedDir, sources.size)
   writeComponentTokens(generatedDir, sources.component)
   writeBreakpoints(generatedDir, sources.breakpoints)
+  writeInverseTokens(generatedDir, sources.inverse)
 }

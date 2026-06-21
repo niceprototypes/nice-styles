@@ -1,6 +1,8 @@
 {
   "none": "0",
+  "smaller": "0.75px",
   "small": "1px",
   "base": "1.5px",
-  "large": "2px"
+  "large": "2px",
+  "larger": "4px"
 }

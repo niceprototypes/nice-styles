@@ -39,13 +39,19 @@ const tokensData: TokensData = {
   },
   "borderWidth": {
     "none": "0",
+    "smaller": "0.75px",
     "small": "1px",
     "base": "1.5px",
-    "large": "2px"
+    "large": "2px",
+    "larger": "4px"
   },
   "boxShadow": {
     "base": "0 1px 4px hsla(0, 0%, 0%, 0.075)",
     "large": "0 2px 8px hsla(0, 0%, 0%, 0.1)"
+  },
+  "brandColor": {
+    "base": "hsla(240, 100%, 74.5%, 1)",
+    "secondary": "hsla(198, 100%, 54.1%, 1)"
   },
   "cellHeight": {
     "smaller": "24px",

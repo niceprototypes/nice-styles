@@ -49,7 +49,9 @@ export function buildCombinedCss(
   sizeTokens: BreakpointTokens,
   componentBreakpointTokens: ComponentBreakpointTokens,
   extraThemes: Record<string, Tokens>,
-  componentExtraThemes: Record<string, Record<string, { [key: string]: TokenNode }>>
+  componentExtraThemes: Record<string, Record<string, { [key: string]: TokenNode }>>,
+  inverseTokens: Tokens = {},
+  inverseNightTokens: NightTokens = {}
 ): { css: string; shorthandCss: string } {
   // Four accumulators — semantic lines go inline, primitives are batched at the end of :root,
   // and night-media lines accumulate for the trailing @media (prefers-color-scheme: dark) block
@@ -92,6 +94,27 @@ export function buildCombinedCss(
       if (i < tokenNames.length - 1) {
         cssLines.push('')
       }
+    }
+  }
+
+  // Inverse colors (the `$inverse` dimension) emit under their BASE group name
+  // with a trailing `--inverse` segment on every var. Same machinery as themed
+  // groups — semantic + day/night primitives + a media flip — so they react to
+  // prefers-color-scheme / [data-theme] exactly like normal tokens.
+  const pushInverseTokenGroups = () => {
+    const inverseGroups = Object.keys(inverseTokens)
+    if (inverseGroups.length === 0) return
+    cssLines.push('')
+    cssLines.push('\t/* Inverse colors */')
+    for (const group of inverseGroups) {
+      const cssName = camelToKebab(group)
+      const nightVariants = inverseNightTokens[group] || {}
+      const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody } =
+        generateTokenGroupCss(cssName, inverseTokens[group], nightVariants, true)
+      cssLines.push(...semanticLines)
+      allDayPrimitives.push(...dayPrimitives)
+      allNightPrimitives.push(...nightPrimitives)
+      allNightMediaBody.push(...nightMediaBody)
     }
   }
 
@@ -158,7 +181,10 @@ export function buildCombinedCss(
     // so the pin wins regardless of OS preference. Applies to any DOM element —
     // <html data-theme="day"> pins the page; <div data-theme="day">…</div> pins a
     // subtree without other semantics.
-    const dayMediaBody = allNightMediaBody.map(line => line.replace(/--night\)/g, '--day)'))
+    // Flip the night primitive ref to day for the day pin. The optional
+    // `--inverse` tail is preserved so inverse vars pin correctly too
+    // (`--night--inverse)` → `--day--inverse)`).
+    const dayMediaBody = allNightMediaBody.map(line => line.replace(/--night(--inverse)?\)/g, '--day$1)'))
     cssLines.push('')
     cssLines.push('[data-theme="day"] {')
     cssLines.push('\tcolor-scheme: light;')
@@ -174,6 +200,8 @@ export function buildCombinedCss(
   // Phase 1: core token groups — semantic variables go inline, primitives accumulate
   pushRootOpen()
   pushCoreTokenGroups()
+  // Inverse colors fold into the same primitive/media accumulators.
+  pushInverseTokenGroups()
 
   // Phase 2: batched core primitives after all semantic groups
   pushDayPrimitives()

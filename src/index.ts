@@ -21,7 +21,7 @@
  * console.log(fontSize.var)   // "var(--np--font-size--base)"
  * console.log(fontSize.value) // "16px"
  *
- * const large = getToken('fontSize', { variant: 'large' })
+ * const large = getToken('fontSize', 'large')
  * // → "var(--np--font-size--large)"
  * ```
  *

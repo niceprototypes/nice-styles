@@ -20,6 +20,6 @@ const getTextHeight = (
   fontSize: FontSizeType = "base",
   lineHeight: LineHeightType = "base"
 ): string =>
-  `calc(${getToken("fontSize", { variant: fontSize })} * ${getToken("lineHeight", { variant: lineHeight })})`
+  `calc(${getToken("fontSize", fontSize)} * ${getToken("lineHeight", lineHeight)})`
 
 export default getTextHeight

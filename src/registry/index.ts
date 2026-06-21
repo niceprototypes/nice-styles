@@ -11,7 +11,7 @@ import themeTokensData from '../generated/themeTokensData.js'
 import breakpointTokensData from '../generated/breakpointTokensData.js'
 import { DEFAULT_THEME } from '../constants/styleValues.js'
 import { BREAKPOINT_PHONE } from '../constants/breakpoints.js'
-import { registry } from './createRegistry.js'
+import { registry, type RegistryEntry } from './createRegistry.js'
 import { seedDimensionedTokens } from './seedDimensionedTokens.js'
 
 // Seed: flat core tokens (animationDuration, gap, borderRadius, etc.).
@@ -37,6 +37,23 @@ seedDimensionedTokens(registry, [
     themesForEntry: new Set([DEFAULT_THEME]),
   },
 ])
+
+/**
+ * Pristine snapshot of the registry, deep-cloned immediately after seeding —
+ * before any consumer `setTokens` / `registerTokens` mutates the live registry.
+ * Readers that must show canonical defaults regardless of runtime overrides
+ * (the token reference docs, tooling) resolve against this via the getters'
+ * `pristine` option. Variant objects are plain string/number maps (or nested
+ * ThemeValue/BreakpointValue string maps), so a JSON clone is sufficient.
+ */
+export const defaultsRegistry = new Map<string, RegistryEntry>()
+for (const [name, entry] of registry) {
+  defaultsRegistry.set(name, {
+    prefix: entry.prefix,
+    variants: JSON.parse(JSON.stringify(entry.variants)),
+    themes: new Set(entry.themes),
+  })
+}
 
 export { registry } from './createRegistry.js'
 export type { RegistryEntry } from './createRegistry.js'

@@ -15,6 +15,8 @@ export interface CssConstantOptions {
   breakpoint?: string
   /** Component prefix (e.g., "button", "icon"). Omit for base tokens. */
   pkg?: string
+  /** Inverse-color flag. Appends a separate `--inverse` segment last (after any theme/breakpoint), e.g. `--np--color--base--night--inverse`. */
+  inverse?: boolean
 }
 
 /**
@@ -31,12 +33,14 @@ function buildKey(
   param: string,
   options?: CssConstantOptions
 ): string {
-  const { theme, breakpoint, pkg } = options ?? {}
+  const { theme, breakpoint, pkg, inverse } = options ?? {}
   // Breakpoint takes precedence over theme — they are mutually exclusive suffixes
   const suffix = breakpoint ? `--${breakpoint}` : theme ? `--${theme}` : ''
+  // Inverse is a separate trailing segment, kept distinct from the theme.
+  const inverseSuffix = inverse ? '--inverse' : ''
   return pkg
-    ? `--${NAMESPACE}--${pkg}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}`
-    : `--${NAMESPACE}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}`
+    ? `--${NAMESPACE}--${pkg}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}${inverseSuffix}`
+    : `--${NAMESPACE}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}${inverseSuffix}`
 }
 
 /**

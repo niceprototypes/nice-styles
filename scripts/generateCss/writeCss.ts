@@ -31,38 +31,38 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
   const {
     tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens,
     componentBreakpointTokens, extraThemes, componentExtraThemes,
+    inverseTokens, inverseNightTokens,
   } = sources
 
   // Ensure output directories exist
   if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true })
   if (!fs.existsSync(cssDir)) fs.mkdirSync(cssDir, { recursive: true })
 
-  // Combined tokens.css — semantic variables, primitives, breakpoint @media, and mode awareness block
-  const { css: combinedCss, shorthandCss } = buildCombinedCss(
+  // Combined tokens.css — semantic variables, primitives (incl. inverse),
+  // breakpoint @media, and the mode-awareness block.
+  const { css: combinedCss } = buildCombinedCss(
     tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens,
-    componentBreakpointTokens, extraThemes, componentExtraThemes
+    componentBreakpointTokens, extraThemes, componentExtraThemes,
+    inverseTokens, inverseNightTokens
   )
-  // tokens.css carries the shorthand block appended at the end, so every
-  // consumer of `nice-styles/tokens.css` (via StylesProvider) gets the aliases
-  // with no extra import. var() resolves at use time, so appending after the
-  // canonical declarations is order-independent.
+  // The base-less shorthand aliases are DEPRECATED for now (pending a
+  // static-name/dynamic-value replacement). tokens.css no longer appends them
+  // and dist/shorthand.css is not emitted.
   const cssPath = path.join(distDir, 'tokens.css')
-  fs.writeFileSync(cssPath, `${combinedCss}\n\n${shorthandCss}`, 'utf-8')
+  fs.writeFileSync(cssPath, `${combinedCss}\n`, 'utf-8')
   console.log(`✓ Generated: ${cssPath}`)
 
-  // Standalone copy — the same alias block, for consumers who want only the
-  // shorthands (or to read/diff them in isolation). Exported as
-  // "nice-styles/shorthand.css".
-  const shorthandPath = path.join(distDir, 'shorthand.css')
-  fs.writeFileSync(shorthandPath, shorthandCss, 'utf-8')
-  console.log(`✓ Generated: ${shorthandPath}`)
-
-  // Individual per-group CSS files for selective imports (dist/css/{group}.css)
+  // Individual per-group CSS files for selective imports (dist/css/{group}.css).
+  // Groups with an inverse dimension (color / backgroundColor) carry their
+  // --inverse vars in the same file.
   const tokenNames = Object.keys(tokens)
   for (const tokenName of tokenNames) {
     const cssName = camelToKebab(tokenName)
     const nightVariants = nightTokens[tokenName] || {}
-    const css = buildIndividualCss(cssName, tokens[tokenName], nightVariants)
+    const css = buildIndividualCss(
+      cssName, tokens[tokenName], nightVariants,
+      inverseTokens[tokenName], inverseNightTokens[tokenName]
+    )
     fs.writeFileSync(path.join(cssDir, `${tokenName}.css`), css, 'utf-8')
   }
   console.log(`✓ Generated: ${tokenNames.length} files in ${cssDir}`)

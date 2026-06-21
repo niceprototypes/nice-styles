@@ -22,7 +22,7 @@ export interface ThemeTokenOptions {
 
 /** Returns the `var(--np--…)` reference for a theme-dimensioned token. */
 export function getThemeToken(group: string, { variant = 'base', theme = 'day' }: ThemeTokenOptions = {}): string {
-  return getToken(group, { variant, theme })
+  return getToken(group, variant, { theme })
 }
 
 /** Returns the bare CSS variable name for a theme-dimensioned token. */

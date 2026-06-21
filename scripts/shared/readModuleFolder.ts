@@ -24,6 +24,8 @@ type Variants = Record<string, unknown>
 interface GroupFile {
   $breakpoints?: Record<string, Variants>
   $themes?: Record<string, Variants>
+  /** Inverse-color dimension — a self-contained sub-module (base variants + its own `$themes`). */
+  $inverse?: Record<string, unknown>
   [variant: string]: unknown
 }
 
@@ -43,10 +45,11 @@ export function readModuleFolder<T = Record<string, unknown>>(tokensDir: string)
   const base: Record<string, Variants> = {}
   const breakpoints: Record<string, Record<string, Variants>> = {}
   const themes: Record<string, Record<string, Variants>> = {}
+  const inverse: Record<string, Record<string, unknown>> = {}
 
   for (const filename of files) {
     const group = filename.replace(/\.json$/, '')
-    const { $breakpoints, $themes, ...groupBase }: GroupFile = JSON.parse(
+    const { $breakpoints, $themes, $inverse, ...groupBase }: GroupFile = JSON.parse(
       fs.readFileSync(path.join(moduleDir, filename), 'utf-8')
     )
 
@@ -66,10 +69,14 @@ export function readModuleFolder<T = Record<string, unknown>>(tokensDir: string)
         ;(themes[theme] ??= {})[group] = variants
       }
     }
+
+    // The inverse sub-module is kept whole, keyed by group → { base + its $themes }.
+    if ($inverse) inverse[group] = $inverse
   }
 
   const out: Record<string, unknown> = { ...base }
   if (Object.keys(breakpoints).length > 0) out.$breakpoints = breakpoints
   if (Object.keys(themes).length > 0) out.$themes = themes
+  if (Object.keys(inverse).length > 0) out.$inverse = inverse
   return out as T
 }

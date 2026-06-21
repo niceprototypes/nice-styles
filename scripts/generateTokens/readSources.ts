@@ -22,6 +22,8 @@ export type DimensionMap = Record<string, TokenMap>
 export type ComponentTokenNode = string | { [key: string]: ComponentTokenNode }
 export type ComponentTokensJson = Record<string, { [key: string]: ComponentTokenNode }>
 export type BreakpointsJson = Record<string, number>
+/** Inverse values per group, keyed group → {day, night} → variant → value. */
+export type InverseData = Record<string, { day: Record<string, string>; night: Record<string, string> }>
 
 export interface TokenJsonSources {
   /** Static core tokens (no theme variation) */
@@ -34,6 +36,8 @@ export interface TokenJsonSources {
   component: ComponentTokensJson
   /** breakpoints.json — pixel thresholds keyed by breakpoint name */
   breakpoints: BreakpointsJson
+  /** Inverse-color values per group (the `$inverse` dimension), for getToken({ inverse }). */
+  inverse: InverseData
 }
 
 /**
@@ -50,11 +54,13 @@ function readJson<T>(filePath: string): T {
  * Themed groups (color, backgroundColor, borderColor, …) are split out of the
  * merged base file by checking which group names appear in any alt theme.
  */
-function readModule(tokensDir: string): { core: TokenMap; themesDay: TokenMap; themesNight: TokenMap; breakpoints: DimensionMap } {
-  const moduleJson = readModuleFolder<TokenMap & { $themes?: DimensionMap; $breakpoints?: DimensionMap }>(tokensDir)
-  // Alt themes and breakpoint overrides live under reserved `$themes` and
-  // `$breakpoints` keys. Everything else at the top level is base.
-  const { $themes: themes = {}, $breakpoints: embeddedBreakpoints, ...base } = moduleJson
+type InverseSub = { $themes?: DimensionMap; [variant: string]: unknown }
+
+function readModule(tokensDir: string): { core: TokenMap; themesDay: TokenMap; themesNight: TokenMap; breakpoints: DimensionMap; inverse: InverseData } {
+  const moduleJson = readModuleFolder<TokenMap & { $themes?: DimensionMap; $breakpoints?: DimensionMap; $inverse?: Record<string, InverseSub> }>(tokensDir)
+  // Alt themes, breakpoint, and inverse overrides live under reserved `$themes`,
+  // `$breakpoints`, and `$inverse` keys. Everything else at the top level is base.
+  const { $themes: themes = {}, $breakpoints: embeddedBreakpoints, $inverse: inverseRaw = {}, ...base } = moduleJson
   // Themed groups = union of group keys across all alternative themes.
   const themedGroups = new Set<string>(Object.values(themes).flatMap((t) => Object.keys(t)))
   const core: TokenMap = {}
@@ -63,7 +69,13 @@ function readModule(tokensDir: string): { core: TokenMap; themesDay: TokenMap; t
     if (themedGroups.has(group)) themesDay[group] = variants
     else core[group] = variants
   }
-  return { core, themesDay, themesNight: themes.night || {}, breakpoints: embeddedBreakpoints ?? {} }
+  // Split each `$inverse` sub-module into its day (base) and night values.
+  const inverse: InverseData = {}
+  for (const [group, sub] of Object.entries(inverseRaw)) {
+    const { $themes: invThemes, ...invBase } = sub
+    inverse[group] = { day: invBase as Record<string, string>, night: (invThemes?.night ?? {}) as Record<string, string> }
+  }
+  return { core, themesDay, themesNight: themes.night || {}, breakpoints: embeddedBreakpoints ?? {}, inverse }
 }
 
 /**
@@ -91,10 +103,10 @@ function readComponentTokens(tokensDir: string): ComponentTokensJson {
 }
 
 export function readTokenJsonSources(tokensDir: string): TokenJsonSources {
-  const { core, themesDay, themesNight, breakpoints: size } = readModule(tokensDir)
+  const { core, themesDay, themesNight, breakpoints: size, inverse } = readModule(tokensDir)
   const color: DimensionMap = { day: themesDay, night: themesNight }
 
   const component = readComponentTokens(tokensDir)
   const breakpoints = readJson<BreakpointsJson>(path.join(tokensDir, 'breakpoints.json'))
-  return { core, color, size, component, breakpoints }
+  return { core, color, size, component, breakpoints, inverse }
 }

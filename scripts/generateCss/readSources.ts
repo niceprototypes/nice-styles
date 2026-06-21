@@ -51,6 +51,10 @@ export interface TokenSources {
   extraThemes: Record<string, Tokens>
   /** Component alt themes other than `night` (per prefix → theme name → partial tree) */
   componentExtraThemes: Record<string, Record<string, ComponentTokens[string]>>
+  /** Inverse day values per group (the `$inverse` base) — emitted under the base group with a `--inverse` segment. */
+  inverseTokens: Tokens
+  /** Inverse night overrides per group (the `$inverse.$themes.night`). */
+  inverseNightTokens: NightTokens
 }
 
 /**
@@ -103,17 +107,21 @@ function readComponentTokens(tokensDir: string): {
  * themesDay, nightTokens}` split. Themed groups are split out of the merged
  * base file by checking which group names appear in any alt theme.
  */
+type InverseSub = { $themes?: Record<string, Tokens[string]>; [variant: string]: unknown }
+
 function readModule(tokensDir: string): {
   coreTokens: Tokens
   themesDay: Tokens
   nightTokens: NightTokens
   extraThemes: Record<string, Tokens>
   sizeTokens: BreakpointTokens
+  inverseTokens: Tokens
+  inverseNightTokens: NightTokens
 } {
-  const moduleJson = readModuleFolder<Tokens & { $themes?: Record<string, Tokens>; $breakpoints?: BreakpointTokens }>(tokensDir)
-  // Alt themes and breakpoint overrides live under reserved `$themes` and
-  // `$breakpoints` keys. Everything else at the top level is base.
-  const { $themes: themes = {}, $breakpoints: embeddedBreakpoints, ...base } = moduleJson
+  const moduleJson = readModuleFolder<Tokens & { $themes?: Record<string, Tokens>; $breakpoints?: BreakpointTokens; $inverse?: Record<string, InverseSub> }>(tokensDir)
+  // Alt themes, breakpoint, and inverse overrides live under reserved `$themes`,
+  // `$breakpoints`, and `$inverse` keys. Everything else at the top level is base.
+  const { $themes: themes = {}, $breakpoints: embeddedBreakpoints, $inverse: inverseRaw = {}, ...base } = moduleJson
   const themedGroups = new Set<string>(Object.values(themes).flatMap((t) => Object.keys(t)))
   const coreTokens: Tokens = {}
   const themesDay: Tokens = {}
@@ -127,12 +135,24 @@ function readModule(tokensDir: string): {
   for (const [name, groups] of Object.entries(themes)) {
     if (name !== 'night') extraThemes[name] = groups
   }
+  // Each `$inverse` sub-module is its own base (day) + `$themes.night`; split
+  // them into the same `{day, night}` shape the themed path uses, keyed by the
+  // BASE group name (color, backgroundColor) — no module-name parsing.
+  const inverseTokens: Tokens = {}
+  const inverseNightTokens: NightTokens = {}
+  for (const [group, sub] of Object.entries(inverseRaw)) {
+    const { $themes: invThemes, ...invBase } = sub
+    inverseTokens[group] = invBase as Tokens[string]
+    inverseNightTokens[group] = (invThemes?.night ?? {}) as NightTokens[string]
+  }
   return {
     coreTokens,
     themesDay,
     nightTokens: themes.night || {},
     extraThemes,
     sizeTokens: embeddedBreakpoints ?? {},
+    inverseTokens,
+    inverseNightTokens,
   }
 }
 
@@ -144,13 +164,19 @@ function readModule(tokensDir: string): {
  * @param errorsPath - Absolute path to src/errors.json (validation message templates)
  */
 export function readTokenSources(tokensDir: string, errorsPath: string): TokenSources {
-  const { coreTokens, themesDay, nightTokens, extraThemes, sizeTokens } = readModule(tokensDir)
+  const { coreTokens, themesDay, nightTokens, extraThemes, sizeTokens, inverseTokens, inverseNightTokens } = readModule(tokensDir)
 
   // Validate: every night entry must have a corresponding day entry
   const errors: Errors = JSON.parse(fs.readFileSync(errorsPath, 'utf-8'))
   if (Object.keys(nightTokens).length > 0) {
     validateNightTokens(themesDay, nightTokens, errors)
     console.log('✓ Themes module night tokens validated')
+  }
+
+  // Validate each inverse sub-module's night against its own day base.
+  if (Object.keys(inverseNightTokens).length > 0) {
+    validateNightTokens(inverseTokens, inverseNightTokens, errors)
+    console.log('✓ Inverse night tokens validated')
   }
 
   // Validate every extra theme against the day base the same way (it's the registration site)
@@ -201,5 +227,6 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
   return {
     tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens,
     componentBreakpointTokens, extraThemes, componentExtraThemes,
+    inverseTokens, inverseNightTokens,
   }
 }
