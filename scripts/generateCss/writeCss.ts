@@ -8,8 +8,7 @@
  *
  * | File | Contents |
  * |------|----------|
- * | `dist/tokens.css` | Combined :root block with all semantic variables, primitives, breakpoint @media blocks, auto dark mode @media (prefers-color-scheme), and the shorthand-alias block appended at the end |
- * | `dist/shorthand.css` | Standalone copy of the `base`-less aliases (module + component) — same block appended to tokens.css, also available for selective import |
+ * | `dist/tokens.css` | Combined :root block with all semantic variables, primitives, breakpoint @media blocks, and auto dark mode @media (prefers-color-scheme) |
  * | `dist/css/{group}.css` | Individual per-group CSS files for selective imports |
  */
 
@@ -45,11 +44,8 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
     componentBreakpointTokens, extraThemes, componentExtraThemes,
     inverseTokens, inverseNightTokens
   )
-  // The base-less shorthand aliases are DEPRECATED for now (pending a
-  // static-name/dynamic-value replacement). tokens.css no longer appends them
-  // and dist/shorthand.css is not emitted.
   const cssPath = path.join(distDir, 'tokens.css')
-  fs.writeFileSync(cssPath, `${combinedCss}\n`, 'utf-8')
+  fs.writeFileSync(cssPath, combinedCss, 'utf-8')
   console.log(`✓ Generated: ${cssPath}`)
 
   // Individual per-group CSS files for selective imports (dist/css/{group}.css).

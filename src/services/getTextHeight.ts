@@ -14,7 +14,7 @@ import type { LineHeightType } from '../generated/types.js'
  *
  * @example
  * getTextHeight("small", "base")
- * // → "calc(var(--np--font-size--small) * var(--np--line-height--base))"
+ * // → "calc(var(--np--font-size--small) * var(--np--line-height))"
  */
 const getTextHeight = (
   fontSize: FontSizeType = "base",

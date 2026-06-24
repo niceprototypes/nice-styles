@@ -50,7 +50,7 @@ function buildNightMediaLine(cssName: string, variant: string, inverse: boolean)
  * - If a night override exists, also emits day/night primitives and a media-body line.
  *
  * `inverse` adds a trailing `--inverse` segment to every variable (the base
- * group's `$inverse` dimension → `--np--color--base--inverse` /
+ * group's `$inverse` dimension → `--np--color--inverse` /
  * `--day--inverse` / `--night--inverse`). Inverse groups always carry a full
  * night override, so they emit primitives + a media-flip line for every variant.
  */

@@ -2,32 +2,40 @@
   "size": {
     "smaller": "var(--np--cell-height--smaller)",
     "small": "var(--np--cell-height--small)",
-    "base": "var(--np--cell-height--base)",
+    "base": "var(--np--cell-height)",
     "large": "var(--np--cell-height--large)",
     "larger": "var(--np--cell-height--larger)"
   },
   "spacing": {
     "smaller": "calc(var(--np--cell-height--smaller) / 2)",
     "small": "calc(var(--np--cell-height--small) / 2)",
-    "base": "calc(var(--np--cell-height--base) / 2)",
+    "base": "calc(var(--np--cell-height) / 2)",
     "large": "calc(var(--np--cell-height--large) / 2)",
     "larger": "calc(var(--np--cell-height--larger) / 2)"
   },
   "borderRadius": {
     "smaller": "var(--np--border-radius--smaller)",
     "small": "var(--np--border-radius--small)",
-    "base": "var(--np--border-radius--base)",
+    "base": "var(--np--border-radius)",
     "large": "var(--np--border-radius--large)",
     "larger": "var(--np--border-radius--larger)"
+  },
+  "borderWidth": {
+    "none": "var(--np--border-width--none)",
+    "smaller": "var(--np--border-width--smaller)",
+    "small": "var(--np--border-width--small)",
+    "base": "var(--np--border-width)",
+    "large": "var(--np--border-width--large)",
+    "larger": "var(--np--border-width--larger)"
   },
   "status": {
     "primary": {
       "backgroundColor": {
-        "base": "var(--np--background-color--base)",
+        "base": "var(--np--background-color)",
         "disabled": "#f5f5f5",
-        "error": "var(--np--background-color--base)",
-        "success": "var(--np--background-color--base)",
-        "warning": "var(--np--background-color--base)"
+        "error": "var(--np--background-color)",
+        "success": "var(--np--background-color)",
+        "warning": "var(--np--background-color)"
       },
       "borderColor": {
         "base": "var(--np--color--lightest)",
@@ -37,11 +45,11 @@
         "warning": "var(--np--color--warning)"
       },
       "color": {
-        "base": "var(--np--color--base)",
+        "base": "var(--np--color)",
         "disabled": "#888",
-        "error": "var(--np--color--base)",
-        "success": "var(--np--color--base)",
-        "warning": "var(--np--color--base)"
+        "error": "var(--np--color)",
+        "success": "var(--np--color)",
+        "warning": "var(--np--color)"
       },
       "placeholderColor": {
         "base": "var(--np--color--lighter)",
@@ -67,11 +75,11 @@
         "warning": "var(--np--color--warning)"
       },
       "color": {
-        "base": "var(--np--color--base)",
+        "base": "var(--np--color)",
         "disabled": "#888",
-        "error": "var(--np--color--base)",
-        "success": "var(--np--color--base)",
-        "warning": "var(--np--color--base)"
+        "error": "var(--np--color)",
+        "success": "var(--np--color)",
+        "warning": "var(--np--color)"
       },
       "placeholderColor": {
         "base": "var(--np--color--lighter)",

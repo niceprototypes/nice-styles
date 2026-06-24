@@ -15,42 +15,55 @@ const componentTokensData: ComponentTokensData = {
     "size": {
       "smaller": "var(--np--cell-height--smaller)",
       "small": "var(--np--cell-height--small)",
-      "base": "var(--np--cell-height--base)",
+      "base": "var(--np--cell-height)",
       "large": "var(--np--cell-height--large)",
       "larger": "var(--np--cell-height--larger)"
     },
     "spacing": {
       "smaller": "calc(var(--np--cell-height--smaller) / 2)",
       "small": "calc(var(--np--cell-height--small) / 2)",
-      "base": "calc(var(--np--cell-height--base) / 2)",
+      "base": "calc(var(--np--cell-height) / 2)",
       "large": "calc(var(--np--cell-height--large) / 2)",
       "larger": "calc(var(--np--cell-height--larger) / 2)"
     },
     "borderRadius": {
       "smaller": "var(--np--border-radius--smaller)",
       "small": "var(--np--border-radius--small)",
-      "base": "var(--np--border-radius--base)",
+      "base": "var(--np--border-radius)",
       "large": "var(--np--border-radius--large)",
       "larger": "var(--np--border-radius--larger)"
+    },
+    "borderWidth": {
+      "none": "var(--np--border-width--none)",
+      "smaller": "var(--np--border-width--smaller)",
+      "small": "var(--np--border-width--small)",
+      "base": "var(--np--border-width)",
+      "large": "var(--np--border-width--large)",
+      "larger": "var(--np--border-width--larger)"
+    },
+    "borderColor": {
+      "base": "var(--np--border-color)",
+      "dark": "var(--np--border-color--dark)",
+      "darker": "var(--np--border-color--darker)"
     },
     "status": {
       "primary": {
         "backgroundColor": {
-          "base": "var(--np--color--base)",
+          "base": "var(--np--color)",
           "disabled": "#ddd",
           "error": "var(--np--color--error)",
           "success": "var(--np--color--success)",
           "warning": "var(--np--color--warning)"
         },
         "borderColor": {
-          "base": "var(--np--color--base)",
+          "base": "var(--np--color)",
           "disabled": "#ddd",
           "error": "var(--np--color--error)",
           "success": "var(--np--color--success)",
           "warning": "var(--np--color--warning)"
         },
         "color": {
-          "base": "var(--np--color--base--night)",
+          "base": "var(--np--color--night)",
           "disabled": "#888",
           "error": "#fff",
           "success": "#fff",
@@ -73,7 +86,7 @@ const componentTokensData: ComponentTokensData = {
           "warning": "var(--np--color--warning)"
         },
         "color": {
-          "base": "var(--np--color--base)",
+          "base": "var(--np--color)",
           "disabled": "#888",
           "error": "var(--np--color--error)",
           "success": "var(--np--color--success)",
@@ -82,16 +95,26 @@ const componentTokensData: ComponentTokensData = {
       }
     }
   },
+  "form": {
+    "gap": {
+      "none": "var(--np--gap--none)",
+      "smaller": "var(--np--gap--smaller)",
+      "small": "var(--np--gap--small)",
+      "base": "var(--np--gap)",
+      "large": "var(--np--gap--large)",
+      "larger": "var(--np--gap--larger)"
+    }
+  },
   "icon": {
     "size": {
       "smaller": "var(--np--font-size--smaller)",
       "small": "var(--np--font-size--small)",
-      "base": "var(--np--font-size--base)",
+      "base": "var(--np--font-size)",
       "large": "var(--np--font-size--large)",
       "larger": "var(--np--font-size--larger)"
     },
     "color": {
-      "base": "var(--np--color--base)",
+      "base": "var(--np--color)",
       "light": "var(--np--color--light)",
       "lighter": "var(--np--color--lighter)",
       "lightest": "var(--np--color--lightest)",
@@ -103,10 +126,10 @@ const componentTokensData: ComponentTokensData = {
     },
     "strokeWidth": {
       "small": "var(--np--border-width--small)",
-      "base": "var(--np--border-width--base)",
+      "base": "var(--np--border-width)",
       "large": "var(--np--border-width--large)"
     },
-    "spinningAnimationDuration": {
+    "animationDuration": {
       "base": "var(--np--animation-duration--slow)"
     },
     "viewBox": {
@@ -117,9 +140,29 @@ const componentTokensData: ComponentTokensData = {
     "borderRadius": {
       "smaller": "var(--np--border-radius--smaller)",
       "small": "var(--np--border-radius--small)",
-      "base": "var(--np--border-radius--base)",
+      "base": "var(--np--border-radius)",
       "large": "var(--np--border-radius--large)",
       "larger": "var(--np--border-radius--larger)"
+    },
+    "borderWidth": {
+      "none": "var(--np--border-width--none)",
+      "smaller": "var(--np--border-width--smaller)",
+      "small": "var(--np--border-width--small)",
+      "base": "var(--np--border-width)",
+      "large": "var(--np--border-width--large)",
+      "larger": "var(--np--border-width--larger)"
+    },
+    "borderColor": {
+      "base": "var(--np--border-color)",
+      "dark": "var(--np--border-color--dark)",
+      "darker": "var(--np--border-color--darker)"
+    },
+    "backgroundSize": {
+      "contain": "var(--np--background-size--contain)",
+      "cover": "var(--np--background-size--cover)",
+      "fill": "var(--np--background-size--fill)",
+      "none": "var(--np--background-size--none)",
+      "scale-down": "var(--np--background-size--scale-down)"
     },
     "objectFit": {
       "base": "cover"
@@ -129,32 +172,40 @@ const componentTokensData: ComponentTokensData = {
     "size": {
       "smaller": "var(--np--cell-height--smaller)",
       "small": "var(--np--cell-height--small)",
-      "base": "var(--np--cell-height--base)",
+      "base": "var(--np--cell-height)",
       "large": "var(--np--cell-height--large)",
       "larger": "var(--np--cell-height--larger)"
     },
     "spacing": {
       "smaller": "calc(var(--np--cell-height--smaller) / 2)",
       "small": "calc(var(--np--cell-height--small) / 2)",
-      "base": "calc(var(--np--cell-height--base) / 2)",
+      "base": "calc(var(--np--cell-height) / 2)",
       "large": "calc(var(--np--cell-height--large) / 2)",
       "larger": "calc(var(--np--cell-height--larger) / 2)"
     },
     "borderRadius": {
       "smaller": "var(--np--border-radius--smaller)",
       "small": "var(--np--border-radius--small)",
-      "base": "var(--np--border-radius--base)",
+      "base": "var(--np--border-radius)",
       "large": "var(--np--border-radius--large)",
       "larger": "var(--np--border-radius--larger)"
+    },
+    "borderWidth": {
+      "none": "var(--np--border-width--none)",
+      "smaller": "var(--np--border-width--smaller)",
+      "small": "var(--np--border-width--small)",
+      "base": "var(--np--border-width)",
+      "large": "var(--np--border-width--large)",
+      "larger": "var(--np--border-width--larger)"
     },
     "status": {
       "primary": {
         "backgroundColor": {
-          "base": "var(--np--background-color--base)",
+          "base": "var(--np--background-color)",
           "disabled": "#f5f5f5",
-          "error": "var(--np--background-color--base)",
-          "success": "var(--np--background-color--base)",
-          "warning": "var(--np--background-color--base)"
+          "error": "var(--np--background-color)",
+          "success": "var(--np--background-color)",
+          "warning": "var(--np--background-color)"
         },
         "borderColor": {
           "base": "var(--np--color--lightest)",
@@ -164,11 +215,11 @@ const componentTokensData: ComponentTokensData = {
           "warning": "var(--np--color--warning)"
         },
         "color": {
-          "base": "var(--np--color--base)",
+          "base": "var(--np--color)",
           "disabled": "#888",
-          "error": "var(--np--color--base)",
-          "success": "var(--np--color--base)",
-          "warning": "var(--np--color--base)"
+          "error": "var(--np--color)",
+          "success": "var(--np--color)",
+          "warning": "var(--np--color)"
         },
         "placeholderColor": {
           "base": "var(--np--color--lighter)",
@@ -194,11 +245,11 @@ const componentTokensData: ComponentTokensData = {
           "warning": "var(--np--color--warning)"
         },
         "color": {
-          "base": "var(--np--color--base)",
+          "base": "var(--np--color)",
           "disabled": "#888",
-          "error": "var(--np--color--base)",
-          "success": "var(--np--color--base)",
-          "warning": "var(--np--color--base)"
+          "error": "var(--np--color)",
+          "success": "var(--np--color)",
+          "warning": "var(--np--color)"
         },
         "placeholderColor": {
           "base": "var(--np--color--lighter)",
@@ -217,11 +268,23 @@ const componentTokensData: ComponentTokensData = {
   },
   "tile": {
     "backgroundColor": {
-      "base": "var(--np--background-color--base)",
+      "base": "var(--np--background-color)",
+      "dark": "var(--np--background-color--dark)",
+      "success": "var(--np--background-color--success)",
+      "warning": "var(--np--background-color--warning)",
+      "error": "var(--np--background-color--error)",
+      "link": "var(--np--background-color--link)",
       "alternate": "var(--np--background-color--alternate)"
     },
+    "backgroundSize": {
+      "contain": "var(--np--background-size--contain)",
+      "cover": "var(--np--background-size--cover)",
+      "fill": "var(--np--background-size--fill)",
+      "none": "var(--np--background-size--none)",
+      "scale-down": "var(--np--background-size--scale-down)"
+    },
     "color": {
-      "base": "var(--np--color--base)",
+      "base": "var(--np--color)",
       "light": "var(--np--color--light)",
       "lighter": "var(--np--color--lighter)",
       "lightest": "var(--np--color--lightest)",
@@ -236,18 +299,18 @@ const componentTokensData: ComponentTokensData = {
     "fontSize": {
       "smaller": "var(--np--font-size--smaller)",
       "small": "var(--np--font-size--small)",
-      "base": "var(--np--font-size--base)",
+      "base": "var(--np--font-size)",
       "large": "var(--np--font-size--large)",
       "larger": "var(--np--font-size--larger)"
     },
     "fontFamily": {
-      "base": "var(--np--font-family--base)",
+      "base": "var(--np--font-family)",
       "code": "var(--np--font-family--code)",
       "heading": "var(--np--font-family--heading)"
     },
     "fontWeight": {
       "light": "var(--np--font-weight--light)",
-      "base": "var(--np--font-weight--base)",
+      "base": "var(--np--font-weight)",
       "medium": "var(--np--font-weight--medium)",
       "semibold": "var(--np--font-weight--semibold)",
       "bold": "var(--np--font-weight--bold)",
@@ -256,17 +319,17 @@ const componentTokensData: ComponentTokensData = {
     },
     "lineHeight": {
       "condensed": "var(--np--line-height--condensed)",
-      "base": "var(--np--line-height--base)",
+      "base": "var(--np--line-height)",
       "expanded": "var(--np--line-height--expanded)"
     },
     "letterSpacing": {
       "tight": "var(--np--letter-spacing--tight)",
-      "base": "var(--np--letter-spacing--base)",
+      "base": "var(--np--letter-spacing)",
       "wide": "var(--np--letter-spacing--wide)",
       "wider": "var(--np--letter-spacing--wider)"
     },
     "color": {
-      "base": "var(--np--color--base)",
+      "base": "var(--np--color)",
       "light": "var(--np--color--light)",
       "lighter": "var(--np--color--lighter)",
       "lightest": "var(--np--color--lightest)",

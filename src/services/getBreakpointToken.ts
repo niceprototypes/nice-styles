@@ -2,7 +2,7 @@
  * Size (breakpoint-pinned) token getters.
  *
  * Returns a *pinned* reference to a specific breakpoint's primitive, e.g.
- * `var(--np--font-size--base--laptop)`. Use this when a value must stay fixed
+ * `var(--np--font-size--laptop)`. Use this when a value must stay fixed
  * regardless of viewport. For the auto-switching semantic variable, use
  * `getToken` directly — that's the common case.
  *

@@ -6,7 +6,7 @@
  *
  * @example
  * getThemeToken("color", { variant: "base", theme: "night" })
- * // → "var(--np--color--base--night)"
+ * // → "var(--np--color--night)"
  *
  * @example
  * getThemeTokenValue("color", { variant: "base", theme: "night" })

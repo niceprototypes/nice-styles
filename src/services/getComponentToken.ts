@@ -12,13 +12,13 @@ import type { ComponentPrefix } from '../generated/types.js'
  * **Flat lookup:**
  * ```ts
  * getComponentToken("button", { token: "size", variant: "base" })
- * // → "var(--np--button--size--base)"
+ * // → "var(--np--button--size)"
  * ```
  *
  * **Path lookup** (variant is part of the path):
  * ```ts
  * getComponentToken("button", { token: ["status", "primary", "backgroundColor", "base"] })
- * // → "var(--np--button--status--primary--background-color--base)"
+ * // → "var(--np--button--status--primary--background-color)"
  * ```
  *
  * Three sibling functions return the three accessor forms:

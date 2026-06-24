@@ -1,10 +1,22 @@
 {
   "backgroundColor": {
-    "base": "var(--np--background-color--base)",
+    "base": "var(--np--background-color)",
+    "dark": "var(--np--background-color--dark)",
+    "success": "var(--np--background-color--success)",
+    "warning": "var(--np--background-color--warning)",
+    "error": "var(--np--background-color--error)",
+    "link": "var(--np--background-color--link)",
     "alternate": "var(--np--background-color--alternate)"
   },
+  "backgroundSize": {
+    "contain": "var(--np--background-size--contain)",
+    "cover": "var(--np--background-size--cover)",
+    "fill": "var(--np--background-size--fill)",
+    "none": "var(--np--background-size--none)",
+    "scale-down": "var(--np--background-size--scale-down)"
+  },
   "color": {
-    "base": "var(--np--color--base)",
+    "base": "var(--np--color)",
     "light": "var(--np--color--light)",
     "lighter": "var(--np--color--lighter)",
     "lightest": "var(--np--color--lightest)",

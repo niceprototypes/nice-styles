@@ -64,7 +64,7 @@ export interface TokenFromMapOptions {
  * When theme is specified (e.g., "night"), the CSS variable includes the theme suffix:
  * ```ts
  * getTokenFromMap(tokens, "color", "base", { theme: "night" })
- * // → { key: "--np--color--base--night", ... }
+ * // → { key: "--np--color--night", ... }
  * ```
  *
  * @param tokenMap - Token definitions mapping variant keys to values
@@ -127,13 +127,16 @@ export function getTokenFromMap(
  * @returns { key, var, value } - CSS variable name, var() wrapped, raw value
  * @throws Error if any path segment not found or path doesn't reach a leaf
  *
+ * The implicit `base` default carries no segment in the variable name, so any
+ * `base` path segment is dropped when building the key.
+ *
  * @example
  * getTokenByPath(buttonTree, ["status", "primary", "base", "backgroundColor"], { prefix: "button" })
- * // → { key: "--np--button--status--primary--base--background-color", var: "var(...)", value: "..." }
+ * // → { key: "--np--button--status--primary--background-color", var: "var(...)", value: "..." }
  *
  * @example
  * getTokenByPath(buttonTree, ["size", "base"], { prefix: "button" })
- * // → { key: "--np--button--size--base", var: "var(...)", value: "var(--np--cell-height--base)" }
+ * // → { key: "--np--button--size", var: "var(...)", value: "var(--np--cell-height)" }
  */
 export function getTokenByPath(
   tree: { [key: string]: ComponentTokenNode },
@@ -165,7 +168,10 @@ export function getTokenByPath(
     )
   }
 
-  const cssSegments = path.map(s => camelToKebab(s))
+  // `base` is the implicit default — it contributes no segment to the variable
+  // name (terminal `["size","base"]` → `--np--button--size`; infix base-state →
+  // dropped too), so non-base segments stay and `base` is filtered out.
+  const cssSegments = path.map(s => camelToKebab(s)).filter(s => s !== 'base')
   const suffix = theme ? `--${theme}` : ''
   const key = prefix
     ? `--${NAMESPACE}--${prefix}--${cssSegments.join('--')}${suffix}`

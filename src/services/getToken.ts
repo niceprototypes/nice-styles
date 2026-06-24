@@ -14,15 +14,15 @@
  *
  * @example
  * getToken("fontSize", "base")
- * // → "var(--np--font-size--base)"
+ * // → "var(--np--font-size)"
  *
  * @example
  * getToken("color", "base", { theme: "night" })
- * // → "var(--np--color--base--night)"
+ * // → "var(--np--color--night)"
  *
  * @example
  * getToken("backgroundColor", undefined, { inverse: true })
- * // → "var(--np--background-color--base--inverse)"
+ * // → "var(--np--background-color--inverse)"
  *
  * @example
  * getTokenValue("fontSize")
@@ -98,7 +98,7 @@ function resolveToken(name: string, variant: string, theme?: string, pristine = 
  * - `variant` — variant within the group (default `"base"`)
  * - `theme`   — pin to a theme primitive (e.g. `"night"`)
  * - `inverse` — the inverse-color dimension. Appends a trailing `--inverse`
- *               segment (`--np--color--base--inverse`, `--night--inverse` with
+ *               segment (`--np--color--inverse`, `--night--inverse` with
  *               a theme). Valid for `color` / `backgroundColor`; throws otherwise.
  * - `pristine` — resolve against the seed snapshot taken before any runtime
  *               `setTokens` override. The var/key are identical either way; only

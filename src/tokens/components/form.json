@@ -1,0 +1,13 @@
+{
+  "gap": {
+    "none": "var(--np--gap--none)",
+    "smaller": "var(--np--gap--smaller)",
+    "small": "var(--np--gap--small)",
+    "base": "var(--np--gap)",
+    "large": "var(--np--gap--large)",
+    "larger": "var(--np--gap--larger)"
+  },
+  "$themes": {
+    "night": {}
+  }
+}

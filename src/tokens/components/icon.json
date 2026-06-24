@@ -2,12 +2,12 @@
   "size": {
     "smaller": "var(--np--font-size--smaller)",
     "small": "var(--np--font-size--small)",
-    "base": "var(--np--font-size--base)",
+    "base": "var(--np--font-size)",
     "large": "var(--np--font-size--large)",
     "larger": "var(--np--font-size--larger)"
   },
   "color": {
-    "base": "var(--np--color--base)",
+    "base": "var(--np--color)",
     "light": "var(--np--color--light)",
     "lighter": "var(--np--color--lighter)",
     "lightest": "var(--np--color--lightest)",
@@ -19,10 +19,10 @@
   },
   "strokeWidth": {
     "small": "var(--np--border-width--small)",
-    "base": "var(--np--border-width--base)",
+    "base": "var(--np--border-width)",
     "large": "var(--np--border-width--large)"
   },
-  "spinningAnimationDuration": {
+  "animationDuration": {
     "base": "var(--np--animation-duration--slow)"
   },
   "viewBox": {

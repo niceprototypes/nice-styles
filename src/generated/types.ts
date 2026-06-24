@@ -26,4 +26,4 @@ export type FontSizeType = "smaller" | "small" | "base" | "large" | "larger"
 export type BackgroundColorInverseType = "base" | "dark" | "success" | "warning" | "error" | "link"
 export type ColorInverseType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "warning" | "error"
 
-export type ComponentPrefix = "button" | "icon" | "image" | "input" | "lightbox" | "tile" | "typography"
+export type ComponentPrefix = "button" | "form" | "icon" | "image" | "input" | "lightbox" | "tile" | "typography"

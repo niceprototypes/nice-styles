@@ -17,7 +17,9 @@ import type { ComponentTokens, TokenNode, CssEmitResult } from './types.js'
  * Each path segment is kebab-cased independently before joining with `--`.
  */
 export function buildCssKey(prefix: string, pathSegments: string[]): string {
-  const cssSegments = pathSegments.map(s => camelToKebab(s))
+  // `base` is the implicit default — it contributes no segment to the variable
+  // name (`size.base` → `--np--button--size`), so it's filtered out.
+  const cssSegments = pathSegments.map(s => camelToKebab(s)).filter(s => s !== 'base')
   return `--${NAMESPACE}--${prefix}--${cssSegments.join('--')}`
 }
 
@@ -69,8 +71,8 @@ function getNightBranch(
  * for any component tokens that have night overrides.
  *
  * Walks the token tree recursively. Each nesting level becomes a -- segment:
- *   --np--button--size--base: var(--np--cell-height--base);
- *   --np--button--status--primary--base--background-color: var(--np--color--base);
+ *   --np--button--size: var(--np--cell-height);
+ *   --np--button--status--primary--background-color: var(--np--color);
  *
  * For tokens with night overrides, emits day/night primitives and media query entries.
  */

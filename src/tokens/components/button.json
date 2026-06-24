@@ -2,42 +2,55 @@
   "size": {
     "smaller": "var(--np--cell-height--smaller)",
     "small": "var(--np--cell-height--small)",
-    "base": "var(--np--cell-height--base)",
+    "base": "var(--np--cell-height)",
     "large": "var(--np--cell-height--large)",
     "larger": "var(--np--cell-height--larger)"
   },
   "spacing": {
     "smaller": "calc(var(--np--cell-height--smaller) / 2)",
     "small": "calc(var(--np--cell-height--small) / 2)",
-    "base": "calc(var(--np--cell-height--base) / 2)",
+    "base": "calc(var(--np--cell-height) / 2)",
     "large": "calc(var(--np--cell-height--large) / 2)",
     "larger": "calc(var(--np--cell-height--larger) / 2)"
   },
   "borderRadius": {
     "smaller": "var(--np--border-radius--smaller)",
     "small": "var(--np--border-radius--small)",
-    "base": "var(--np--border-radius--base)",
+    "base": "var(--np--border-radius)",
     "large": "var(--np--border-radius--large)",
     "larger": "var(--np--border-radius--larger)"
+  },
+  "borderWidth": {
+    "none": "var(--np--border-width--none)",
+    "smaller": "var(--np--border-width--smaller)",
+    "small": "var(--np--border-width--small)",
+    "base": "var(--np--border-width)",
+    "large": "var(--np--border-width--large)",
+    "larger": "var(--np--border-width--larger)"
+  },
+  "borderColor": {
+    "base": "var(--np--border-color)",
+    "dark": "var(--np--border-color--dark)",
+    "darker": "var(--np--border-color--darker)"
   },
   "status": {
     "primary": {
       "backgroundColor": {
-        "base": "var(--np--color--base)",
+        "base": "var(--np--color)",
         "disabled": "#ddd",
         "error": "var(--np--color--error)",
         "success": "var(--np--color--success)",
         "warning": "var(--np--color--warning)"
       },
       "borderColor": {
-        "base": "var(--np--color--base)",
+        "base": "var(--np--color)",
         "disabled": "#ddd",
         "error": "var(--np--color--error)",
         "success": "var(--np--color--success)",
         "warning": "var(--np--color--warning)"
       },
       "color": {
-        "base": "var(--np--color--base--night)",
+        "base": "var(--np--color--night)",
         "disabled": "#888",
         "error": "#fff",
         "success": "#fff",
@@ -60,7 +73,7 @@
         "warning": "var(--np--color--warning)"
       },
       "color": {
-        "base": "var(--np--color--base)",
+        "base": "var(--np--color)",
         "disabled": "#888",
         "error": "var(--np--color--error)",
         "success": "var(--np--color--success)",
@@ -73,25 +86,25 @@
       "status": {
         "primary": {
           "backgroundColor": {
-            "base": "var(--np--color--base--night)",
-            "disabled": "var(--np--color--base--night)",
+            "base": "var(--np--color--night)",
+            "disabled": "var(--np--color--night)",
             "error": "var(--np--color--error--night)",
             "success": "var(--np--color--success--night)",
             "warning": "var(--np--color--warning--night)"
           },
           "borderColor": {
-            "base": "var(--np--color--base--night)",
-            "disabled": "var(--np--color--base--night)",
+            "base": "var(--np--color--night)",
+            "disabled": "var(--np--color--night)",
             "error": "var(--np--color--error--night)",
             "success": "var(--np--color--success--night)",
             "warning": "var(--np--color--warning--night)"
           },
           "color": {
-            "base": "var(--np--color--base--day)",
-            "disabled": "var(--np--color--base--day)",
-            "error": "var(--np--color--base--day)",
-            "success": "var(--np--color--base--day)",
-            "warning": "var(--np--color--base--day)"
+            "base": "var(--np--color--day)",
+            "disabled": "var(--np--color--day)",
+            "error": "var(--np--color--day)",
+            "success": "var(--np--color--day)",
+            "warning": "var(--np--color--day)"
           }
         },
         "secondary": {
@@ -104,14 +117,14 @@
           },
           "borderColor": {
             "base": "var(--np--color--lightest--night)",
-            "disabled": "var(--np--color--base--night)",
+            "disabled": "var(--np--color--night)",
             "error": "var(--np--color--error--night)",
             "success": "var(--np--color--success--night)",
             "warning": "var(--np--color--warning--night)"
           },
           "color": {
-            "base": "var(--np--color--base--night)",
-            "disabled": "var(--np--color--base--night)",
+            "base": "var(--np--color--night)",
+            "disabled": "var(--np--color--night)",
             "error": "var(--np--color--error--night)",
             "success": "var(--np--color--success--night)",
             "warning": "var(--np--color--warning--night)"

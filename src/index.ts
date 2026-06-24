@@ -17,8 +17,8 @@
  * ```ts
  * import { getToken } from 'nice-styles'
  * const fontSize = getToken('fontSize')
- * console.log(fontSize.key)   // "--np--font-size--base"
- * console.log(fontSize.var)   // "var(--np--font-size--base)"
+ * console.log(fontSize.key)   // "--np--font-size"
+ * console.log(fontSize.var)   // "var(--np--font-size)"
  * console.log(fontSize.value) // "16px"
  *
  * const large = getToken('fontSize', 'large')

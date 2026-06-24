@@ -15,15 +15,15 @@ export interface CssConstantOptions {
   breakpoint?: string
   /** Component prefix (e.g., "button", "icon"). Omit for base tokens. */
   pkg?: string
-  /** Inverse-color flag. Appends a separate `--inverse` segment last (after any theme/breakpoint), e.g. `--np--color--base--night--inverse`. */
+  /** Inverse-color flag. Appends a separate `--inverse` segment last (after any theme/breakpoint), e.g. `--np--color--night--inverse`. */
   inverse?: boolean
 }
 
 /**
  * Builds the bare CSS variable name for a Nice token, following the pattern
- * `--np--{token}--{param}` for base tokens and
- * `--np--{pkg}--{token}--{param}` for component tokens, with optional
- * `--{theme}` or `--{breakpoint}` suffix.
+ * `--np--{token}--{param}` for non-base tokens (`--np--{token}` when `param` is
+ * the implicit `base` default) and `--np--{pkg}--{token}--{param}` for component
+ * tokens, with optional `--{theme}` or `--{breakpoint}` suffix.
  *
  * Internal helper — both `getConstant` and `getConstantKey` build the same
  * key, they just differ in whether they wrap it in `var(...)`.
@@ -38,9 +38,13 @@ function buildKey(
   const suffix = breakpoint ? `--${breakpoint}` : theme ? `--${theme}` : ''
   // Inverse is a separate trailing segment, kept distinct from the theme.
   const inverseSuffix = inverse ? '--inverse' : ''
+  // `base` is the implicit default and carries no segment in the variable name:
+  // `--np--color` for base, `--np--color--night` for base+theme. Non-base
+  // variants read normally — `--np--color--light`.
+  const variant = camelToKebab(param) === 'base' ? '' : `--${camelToKebab(param)}`
   return pkg
-    ? `--${NAMESPACE}--${pkg}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}${inverseSuffix}`
-    : `--${NAMESPACE}--${camelToKebab(token)}--${camelToKebab(param)}${suffix}${inverseSuffix}`
+    ? `--${NAMESPACE}--${pkg}--${camelToKebab(token)}${variant}${suffix}${inverseSuffix}`
+    : `--${NAMESPACE}--${camelToKebab(token)}${variant}${suffix}${inverseSuffix}`
 }
 
 /**
@@ -51,14 +55,14 @@ function buildKey(
  * is the sibling `getConstantKey`.
  *
  * @example
- * // Base tokens
+ * // Base tokens (the `base` default is segment-less)
  * getConstant("color", "base")
- * // "var(--np--color--base)"
+ * // "var(--np--color)"
  *
  * @example
  * // Force day theme
  * getConstant("backgroundColor", "base", { theme: "day" })
- * // "var(--np--background-color--base--day)"
+ * // "var(--np--background-color--day)"
  *
  * @example
  * // Breakpoint primitive
@@ -87,7 +91,7 @@ export function getConstant(
  *
  * @example
  * getConstantKey("color", "base")
- * // "--np--color--base"
+ * // "--np--color"
  *
  * @example
  * getConstantKey("fontSize", "large", { breakpoint: "phone" })
