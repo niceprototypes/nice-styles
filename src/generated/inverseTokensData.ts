@@ -13,17 +13,19 @@ export type InverseTokensData = Record<string, { day: TokenDefinition; night: To
 const inverseTokensData: InverseTokensData = {
   "backgroundColor": {
     "day": {
-      "base": "hsla(240, 5%, 15%, 1)",
-      "dark": "hsla(240, 5%, 12.5%, 1)",
+      "base": "hsla(212, 10%, 15%, 1)",
+      "dark": "hsla(212, 10%, 13%, 1)",
       "success": "hsla(146, 45%, 18%, 1)",
+      "highlight": "hsla(48, 55%, 22%, 1)",
       "warning": "hsla(29, 60%, 18%, 1)",
       "error": "hsla(10, 55%, 20%, 1)",
       "link": "hsla(202, 50%, 18%, 1)"
     },
     "night": {
-      "base": "hsla(0, 5%, 100%, 1)",
-      "dark": "hsla(0, 5%, 95%, 1)",
+      "base": "hsla(212, 5%, 100%, 1)",
+      "dark": "hsla(212, 5%, 95%, 1)",
       "success": "hsla(146, 60%, 92%, 1)",
+      "highlight": "hsla(48, 100%, 80%, 1)",
       "warning": "hsla(29, 90%, 92%, 1)",
       "error": "hsla(10, 85%, 93%, 1)",
       "link": "hsla(212, 70%, 92%, 1)"
@@ -38,6 +40,7 @@ const inverseTokensData: InverseTokensData = {
       "disabled": "hsla(210, 5%, 95%, 0.6)",
       "link": "hsla(202, 90%, 65%, 1)",
       "success": "hsla(146, 58%, 59%, 1)",
+      "highlight": "hsla(48, 90%, 65%, 1)",
       "warning": "hsla(29, 88%, 72%, 1)",
       "error": "hsla(10, 82%, 75%, 1)"
     },
@@ -49,6 +52,7 @@ const inverseTokensData: InverseTokensData = {
       "disabled": "hsla(210, 5%, 5%, 0.6)",
       "link": "hsla(212, 100%, 46%, 1)",
       "success": "hsla(146, 68%, 44%, 1)",
+      "highlight": "hsla(48, 95%, 50%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",
       "error": "hsla(10, 92%, 63%, 1)"
     }

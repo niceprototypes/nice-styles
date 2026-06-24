@@ -6,9 +6,11 @@
  * value of `--np--border-color--dark--night`) rather than the day default —
  * then adds each entry of `values` to the matching channel.
  *
- * `values` is a per-channel delta in HSLA order: `[hue, saturation, lightness,
- * alpha]`. Each delta is added to the channel; pass `0` to leave a channel
- * untouched. Missing trailing entries are treated as `0`.
+ * `values` adjusts channels in HSLA order `[hue, saturation, lightness, alpha]`.
+ * Each entry is either an absolute replacement (a `number`, e.g. `200`) or a
+ * relative, signed adjustment (a `string` like `"+30"` / `"-30"`, added to /
+ * subtracted from the channel). Omit an entry (or pass `null`) to leave that
+ * channel untouched. Missing trailing entries are left untouched.
  *
  * Any channel that lands outside its legal range is clamped to the nearer
  * bound and a `console.warn` is emitted naming the channel and the token.
@@ -22,8 +24,10 @@
  *
  * @example
  * // --np--border-color--dark--night is hsla(240, 5%, 50%, 1)
- * getHSLA({ module: "borderColor", token: "dark", theme: "night", values: [0, 10, 0, -0.15] })
- * // → "hsla(240, 15%, 50%, 0.85)"
+ * getHSLA({ module: "borderColor", token: "dark", theme: "night", values: ["+0", "+10", "+0", "-0.15"] })
+ * // → "hsla(240, 15%, 50%, 0.85)"   (relative: signed strings add/subtract)
+ * getHSLA({ module: "borderColor", token: "dark", theme: "night", values: [200] })
+ * // → "hsla(200, 5%, 50%, 1)"       (absolute: a bare number replaces the channel)
  *
  * @throws if the module or token is unknown, if the requested theme has no
  * override, or if the resolved token is not an hsl/hsla color.
@@ -42,8 +46,13 @@ export interface GetHSLAOptions {
   token?: string
   /** Theme mode to read the value from, e.g. `"night"`. Defaults to the day base. */
   theme?: string
-  /** Per-channel deltas in HSLA order: `[hue, saturation, lightness, alpha]`. */
-  values?: readonly number[]
+  /**
+   * Per-channel adjustments in HSLA order `[hue, saturation, lightness, alpha]`.
+   * A `number` replaces the channel (absolute); a signed `string` like `"+30"`
+   * or `"-30"` adds/subtracts (relative). Omit an entry (or pass `null`) to
+   * leave that channel untouched.
+   */
+  values?: readonly (number | string | null | undefined)[]
 }
 
 /** Channel metadata in HSLA order — drives delta application, clamping, and warnings. */
@@ -60,6 +69,32 @@ const HSLA_PATTERN = /^hsla?\(\s*(-?[\d.]+)\s*,\s*(-?[\d.]+)%?\s*,\s*(-?[\d.]+)%
 /** Trim binary-float artifacts (e.g. 0.8500000001) without forcing integers. */
 function round(n: number): number {
   return Math.round(n * 1e4) / 1e4
+}
+
+/** A signed magnitude: a leading `+`/`-` then a number, e.g. `"+30"`, `"-0.2"`. */
+const SIGNED_MAGNITUDE = /^([+-])(\d*\.?\d+)$/
+
+/**
+ * Resolve one channel's target value from its `values` entry:
+ * - `number` → absolute replacement
+ * - signed string (`"+30"` / `"-30"`) → relative add/subtract from `current`
+ * - `null` / `undefined` (omitted) → `current`, unchanged
+ *
+ * @throws if a string entry is not a signed magnitude.
+ */
+function applyChannelValue(
+  channel: string,
+  current: number,
+  value: number | string | null | undefined
+): number {
+  if (value === null || value === undefined) return current
+  if (typeof value === 'number') return value
+  const match = SIGNED_MAGNITUDE.exec(value.trim())
+  if (!match) {
+    throw new Error(`getHSLA: ${channel} adjustment "${value}" must be a signed magnitude like "+30" or "-30"`)
+  }
+  const magnitude = Number(match[2])
+  return current + (match[1] === '-' ? -magnitude : magnitude)
 }
 
 export function getHSLA({ module, token = 'base', theme, values = [] }: GetHSLAOptions): string {
@@ -119,10 +154,10 @@ export function getHSLA({ module, token = 'base', theme, values = [] }: GetHSLAO
   // The CSS variable name this token resolves to — used to make clamp warnings actionable.
   const tokenKey = getTokenKey(module, { variant: token, theme })
 
-  // Apply each delta, then clamp to the channel's range, warning on clamp.
+  // Resolve each channel's target (number replaces, signed string adjusts,
+  // omitted leaves untouched), then clamp to the channel's range, warning on clamp.
   const adjusted = CHANNELS.map((channel, i) => {
-    const delta = typeof values[i] === 'number' ? values[i] : 0
-    const next = round(parsed[i] + delta)
+    const next = round(applyChannelValue(channel.name, parsed[i], values[i]))
 
     // Below floor — clamp up to the minimum.
     if (next < channel.min) {

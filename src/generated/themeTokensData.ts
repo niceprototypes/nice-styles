@@ -13,17 +13,23 @@ export type ThemeTokensData = Record<string, Record<string, TokenDefinition>>
 const themeTokensData: ThemeTokensData = {
   "day": {
     "backgroundColor": {
-      "base": "hsla(0, 5%, 100%, 1)",
-      "dark": "hsla(0, 5%, 95%, 1)",
+      "base": "hsla(212, 10%, 100%, 1)",
+      "dark": "hsla(212, 10%, 97%, 1)",
       "success": "hsla(146, 60%, 92%, 1)",
-      "warning": "hsla(29, 90%, 92%, 1)",
-      "error": "hsla(10, 85%, 93%, 1)",
-      "link": "hsla(212, 70%, 92%, 1)"
+      "highlight": "hsla(55, 100%, 94%, 1)",
+      "warning": "hsla(29, 100%, 94%, 1)",
+      "error": "hsla(10, 100%, 95%, 1)",
+      "link": "hsla(212, 100%, 95%, 1)"
     },
     "borderColor": {
       "base": "hsla(240, 9%, 91%, 1)",
       "dark": "hsla(210, 8%, 58%, 1)",
-      "darker": "hsla(210, 10%, 20%, 1)"
+      "darker": "hsla(210, 10%, 20%, 1)",
+      "success": "hsla(146, 65%, 80%, 1)",
+      "highlight": "hsla(48, 90%, 80%, 1)",
+      "warning": "hsla(29, 100%, 82%, 1)",
+      "error": "hsla(10, 100%, 85%, 1)",
+      "link": "hsla(212, 100%, 85%, 1)"
     },
     "color": {
       "base": "hsla(210, 5%, 5%, 1)",
@@ -33,15 +39,17 @@ const themeTokensData: ThemeTokensData = {
       "disabled": "hsla(210, 5%, 5%, 0.6)",
       "link": "hsla(212, 100%, 46%, 1)",
       "success": "hsla(146, 68%, 44%, 1)",
+      "highlight": "hsla(48, 95%, 50%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",
       "error": "hsla(10, 92%, 63%, 1)"
     }
   },
   "night": {
     "backgroundColor": {
-      "base": "hsla(240, 5%, 15%, 1)",
-      "dark": "hsla(240, 5%, 12.5%, 1)",
+      "base": "hsla(212, 10%, 15%, 1)",
+      "dark": "hsla(212, 10%, 13%, 1)",
       "success": "hsla(146, 45%, 18%, 1)",
+      "highlight": "hsla(48, 55%, 22%, 1)",
       "warning": "hsla(29, 60%, 18%, 1)",
       "error": "hsla(10, 55%, 20%, 1)",
       "link": "hsla(202, 50%, 18%, 1)"
@@ -49,7 +57,12 @@ const themeTokensData: ThemeTokensData = {
     "borderColor": {
       "base": "hsla(240, 5%, 25%, 1)",
       "dark": "hsla(240, 5%, 50%, 1)",
-      "darker": "hsla(240, 5%, 100%, 1)"
+      "darker": "hsla(240, 5%, 100%, 1)",
+      "success": "hsla(146, 50%, 32%, 1)",
+      "highlight": "hsla(48, 60%, 38%, 1)",
+      "warning": "hsla(29, 65%, 32%, 1)",
+      "error": "hsla(10, 60%, 34%, 1)",
+      "link": "hsla(202, 60%, 32%, 1)"
     },
     "color": {
       "base": "hsla(210, 5%, 95%, 1)",
@@ -59,6 +72,7 @@ const themeTokensData: ThemeTokensData = {
       "disabled": "hsla(210, 5%, 95%, 0.6)",
       "link": "hsla(202, 90%, 65%, 1)",
       "success": "hsla(146, 58%, 59%, 1)",
+      "highlight": "hsla(48, 90%, 65%, 1)",
       "warning": "hsla(29, 88%, 72%, 1)",
       "error": "hsla(10, 82%, 75%, 1)"
     }
