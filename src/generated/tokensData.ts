@@ -24,6 +24,7 @@ const tokensData: TokensData = {
     "ease": "ease"
   },
   "backgroundSize": {
+    "base": "auto",
     "contain": "contain",
     "cover": "cover",
     "fill": "fill",

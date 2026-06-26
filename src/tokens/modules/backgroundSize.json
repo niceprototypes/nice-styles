@@ -1,4 +1,5 @@
 {
+  "base": "auto",
   "contain": "contain",
   "cover": "cover",
   "fill": "fill",

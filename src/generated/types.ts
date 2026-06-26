@@ -8,7 +8,7 @@
 
 export type AnimationDurationType = "fast" | "base" | "slow"
 export type AnimationEasingType = "base" | "linear" | "ease-in" | "ease-out" | "ease"
-export type BackgroundSizeType = "contain" | "cover" | "fill" | "none" | "scale-down"
+export type BackgroundSizeType = "base" | "contain" | "cover" | "fill" | "none" | "scale-down"
 export type BorderRadiusType = "smaller" | "small" | "base" | "large" | "larger"
 export type BorderWidthType = "none" | "smaller" | "small" | "base" | "large" | "larger"
 export type BoxShadowType = "base" | "large"
