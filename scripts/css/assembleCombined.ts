@@ -15,6 +15,7 @@ import { generateComponentTokenCss } from './emitComponentTokens.js'
 import { generateBreakpointTokenCss } from './emitBreakpointTokens.js'
 import { generateComponentBreakpointCss } from './emitComponentBreakpointTokens.js'
 import { generateExtraThemeCss, generateComponentExtraThemeCss } from './emitExtraThemeTokens.js'
+import { buildCoreScopeMap, generateComponentAliasCss } from './emitComponentAliases.js'
 import type { TokenNode } from './types.js'
 
 /**
@@ -210,6 +211,17 @@ export function buildCombinedCss(
   // Merge component night-media lines into the shared accumulator for the @media block below
   allNightMediaBody.push(...componentResult.nightMediaBody)
 
+  // Auto-propagate bare aliases: any component token whose value is
+  // `var(--np--<core>)` tracks every scope the referenced core participates in
+  // (theme/night, breakpoints, extra themes), unless an authored override owns
+  // that path+scope. Night lines fold into the shared accumulator; breakpoint
+  // and extra-theme blocks are appended after :root in Phases 4 and 6.
+  const coreScopeMap = buildCoreScopeMap(nightTokens, sizeTokens, extraThemes)
+  const aliasResult = generateComponentAliasCss(
+    componentTokens, componentNightTokens, componentBreakpointTokens, componentExtraThemes, coreScopeMap
+  )
+  allNightMediaBody.push(...aliasResult.nightMediaBody)
+
   // Phase 4: size breakpoint primitives — inside :root; media blocks go outside.
   // Module (flat) and component (nested) breakpoints emit the same shape; both
   // primitive sections go inside :root, both media-block stacks go after it.
@@ -225,6 +237,8 @@ export function buildCombinedCss(
   pushRootClose()
   pushSizeMediaBlocks(sizeResult.mediaBlocks)
   pushSizeMediaBlocks(componentSizeResult.mediaBlocks)
+  // Alias-propagated breakpoint blocks (component tokens aliasing a breakpoint-driven core)
+  pushSizeMediaBlocks(aliasResult.bpMediaBlocks)
 
   // Phase 5: mode awareness — @media (prefers-color-scheme) + [data-theme="day"|"night"]
   pushColorSchemeMediaBlock()
@@ -232,6 +246,8 @@ export function buildCombinedCss(
   // Phase 6: extra-theme pins — one [data-theme="{name}"] block per non-night theme
   pushSizeMediaBlocks(extraThemeResult.pinBlocks)
   pushSizeMediaBlocks(componentExtraThemeResult.pinBlocks)
+  // Alias-propagated extra-theme pins (component tokens aliasing an extra-themed core)
+  pushSizeMediaBlocks(aliasResult.extraPinBlocks)
 
   return { css: cssLines.join('\n') }
 }
