@@ -160,8 +160,8 @@ function nextFloor(name: BreakpointName): number {
  * every viewport (`phone+`, `desktop-`) and therefore belongs in `:root` with
  * no wrapper.
  *
- * - up   → min-width (reuses `getBreakpoint`); `phone+` → null (base).
- * - exact→ the bounded band (reuses `getBreakpoint(name, true)`).
+ * - up   → min-width (reuses `getBreakpoint("name+")`); `phone+` → null (base).
+ * - exact→ the bounded band (reuses `getBreakpoint("name")`).
  * - down → max-width at the breakpoint's ceiling; `desktop-` → null (base).
  *
  * Reads `BREAKPOINTS` at call time, so `setBreakpoints` overrides apply.
@@ -172,10 +172,10 @@ export function breakpointKeyQuery(key: string): string | null {
 
   if (parsed.modifier === 'up') {
     if (parsed.name === BREAKPOINT_PHONE) return null // everything → base
-    return getBreakpoint(parsed.name)
+    return getBreakpoint(`${parsed.name}+`)
   }
   if (parsed.modifier === 'exact') {
-    return getBreakpoint(parsed.name, true)
+    return getBreakpoint(parsed.name)
   }
   // down
   if (parsed.name === BREAKPOINT_DESKTOP) return null // everything → base
