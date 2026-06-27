@@ -1,0 +1,63 @@
+/**
+ * nice-styles reset
+ *
+ * Static, token-driven baseline. Import after tokens.css so the var()
+ * references resolve. Scaffold scope — just enough elements to wire the file
+ * up; expand coverage (form controls, tables, headings scale) as needs surface.
+ */
+
+/* Predictable box model on every element */
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+/* Strip default margins so layout starts from zero */
+* {
+	margin: 0;
+}
+
+/* Honor OS light/dark preference for native controls and scrollbars */
+:root {
+	color-scheme: light dark;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+}
+
+/* Document base — typography and surface pulled from core tokens */
+body {
+	min-height: 100vh;
+	font-family: var(--np--font-family);
+	font-size: var(--np--font-size);
+	font-weight: var(--np--font-weight);
+	line-height: var(--np--line-height);
+	color: var(--np--color);
+	background-color: var(--np--background-color);
+}
+
+/* Media elements behave as blocks and never overflow their container */
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+/* Form controls inherit type instead of resetting to UA defaults */
+input,
+button,
+textarea,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+/* Links pick up the token link color */
+a {
+	color: var(--np--color--link);
+}

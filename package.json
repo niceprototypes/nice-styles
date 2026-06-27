@@ -23,6 +23,7 @@
       "default": "./dist/constants.js"
     },
     "./tokens.css": "./dist/tokens.css",
+    "./reset.css": "./static/reset.css",
     "./color-scheme.css": "./dist/color-scheme.css",
     "./css/*.css": "./dist/css/*.css",
     "./static/*": "./static/*",
