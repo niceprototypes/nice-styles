@@ -27,11 +27,13 @@ const componentTokensData: ComponentTokensData = {
       "larger": "calc(var(--np--cell-height--larger) / 2)"
     },
     "borderRadius": {
+      "none": "var(--np--border-radius--none)",
       "smaller": "var(--np--border-radius--smaller)",
       "small": "var(--np--border-radius--small)",
       "base": "var(--np--border-radius)",
       "large": "var(--np--border-radius--large)",
-      "larger": "var(--np--border-radius--larger)"
+      "larger": "var(--np--border-radius--larger)",
+      "rounded": "calc(var(--np--button--size) / 2)"
     },
     "borderWidth": {
       "none": "var(--np--border-width--none)",

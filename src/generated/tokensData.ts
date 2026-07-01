@@ -32,6 +32,7 @@ const tokensData: TokensData = {
     "scale-down": "scale-down"
   },
   "borderRadius": {
+    "none": "0",
     "smaller": "2px",
     "small": "4px",
     "base": "8px",
@@ -94,6 +95,13 @@ const tokensData: TokensData = {
     "condensed": "1.25",
     "base": "1.5",
     "expanded": "1.75"
+  },
+  "zIndex": {
+    "base": "0",
+    "low": "10",
+    "medium": "100",
+    "high": "1000",
+    "higher": "9999"
   }
 } as const
 
