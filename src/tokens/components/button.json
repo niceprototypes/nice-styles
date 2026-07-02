@@ -59,7 +59,7 @@
         "warning": "#fff"
       }
     },
-    "secondary": {
+    "base": {
       "backgroundColor": {
         "base": "transparent",
         "disabled": "transparent",
@@ -109,7 +109,7 @@
             "warning": "var(--np--color--day)"
           }
         },
-        "secondary": {
+        "base": {
           "backgroundColor": {
             "base": "transparent",
             "disabled": "transparent",
