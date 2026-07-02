@@ -72,7 +72,7 @@ const componentTokensData: ComponentTokensData = {
           "warning": "#fff"
         }
       },
-      "secondary": {
+      "base": {
         "backgroundColor": {
           "base": "transparent",
           "disabled": "transparent",
@@ -132,7 +132,9 @@ const componentTokensData: ComponentTokensData = {
       "large": "var(--np--border-width--large)"
     },
     "animationDuration": {
-      "base": "var(--np--animation-duration--slow)"
+      "fast": "var(--np--animation-duration)",
+      "base": "var(--np--animation-duration--slow)",
+      "slow": "var(--np--animation-duration--slower)"
     },
     "viewBox": {
       "base": "0 0 16 16"

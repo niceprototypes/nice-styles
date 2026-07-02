@@ -6,7 +6,7 @@
  * To regenerate: npm run build:types
  */
 
-export type AnimationDurationType = "fast" | "base" | "slow"
+export type AnimationDurationType = "faster" | "fast" | "base" | "slow" | "slower"
 export type AnimationEasingType = "base" | "linear" | "ease-in" | "ease-out" | "ease"
 export type BackgroundSizeType = "base" | "contain" | "cover" | "fill" | "none" | "scale-down"
 export type BorderRadiusType = "none" | "smaller" | "small" | "base" | "large" | "larger"
