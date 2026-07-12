@@ -1,0 +1,68 @@
+/**
+ * nice-styles reset — borders add-on
+ *
+ * Opt-in token borders for commonly-used native HTML elements: border, outline,
+ * border-radius, and the table border model. Border *colors* live here too (a
+ * border color is a border, not a color), so this module owns every border-*
+ * value while reset.colors.css owns fill/text. Native controls that have a 1:1
+ * Nice component — <button> and text fields (<input>/<textarea>/<select>) —
+ * adopt that component's own border tokens (--np--button--… / --np--input--…) so
+ * they match the React components; every other element uses base tokens
+ * (borderColor / borderWidth / borderRadius). Import AFTER reset.css (and after
+ * tokens.css). Additive: sets only outline / border*, so it never conflicts with
+ * reset.colors.css / reset.spacing.css / reset.responsive.css.
+ *
+ * Each section is labeled `camelCaseKey — Imperative description`.
+ */
+
+/* focusRing — Visible, token-colored keyboard focus ring */
+:focus-visible {
+	outline: var(--np--border-width) solid var(--np--border-color--link);
+	outline-offset: 2px;
+}
+
+/* nativeButton — Border and radius for native buttons */
+button,
+[type="button"],
+[type="submit"],
+[type="reset"] {
+	border: var(--np--button--border-width) solid var(--np--button--status--primary--border-color);
+	border-radius: var(--np--button--border-radius);
+}
+
+/* nativeField — Border and radius for text inputs / textareas / selects */
+input,
+textarea,
+select {
+	border: var(--np--input--border-width) solid var(--np--input--status--primary--border-color);
+	border-radius: var(--np--input--border-radius);
+}
+
+/* blockquote — Token accent border */
+blockquote {
+	border-inline-start: var(--np--border-width--large) solid var(--np--border-color);
+}
+
+/* rule — Token-colored horizontal rule */
+hr {
+	border: 0;
+	border-block-start: var(--np--border-width) solid var(--np--border-color);
+}
+
+/* codeSurface — Rounded corners for code-ish elements */
+code,
+kbd,
+pre,
+samp {
+	border-radius: var(--np--border-radius--small);
+}
+
+/* tableChrome — Collapse the border model and add token cell borders */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+th,
+td {
+	border: var(--np--border-width) solid var(--np--border-color);
+}

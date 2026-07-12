@@ -2,8 +2,11 @@
  * nice-styles reset
  *
  * Static, token-driven baseline. Import after tokens.css so the var()
- * references resolve. Scaffold scope — just enough elements to wire the file
- * up; expand coverage (form controls, tables, headings scale) as needs surface.
+ * references resolve. Follows the modern "sensible reset" model (Comeau/Bell),
+ * token-driven — it *provides* design-system defaults rather than stripping to
+ * a blank slate. Growth is tracked in
+ * `manifest/.reports/research/css-reset-standards-adoption.md`; the
+ * `Tokens/Reset` story is the validation surface (no-reset vs reset diff).
  *
  * Each section is labeled `camelCaseKey — Imperative description`: the key names
  * the reset (and reads like a future generateReset() flag, e.g. allSpacing:
@@ -18,10 +21,11 @@
 	box-sizing: border-box;
 }
 
-/* allSpacing — Initialize all margins and paddings to none */
-* {
+/* marginStrip — Remove default margins (except <dialog>, whose auto-margins
+   center it) so vertical spacing is authored, not inherited. Padding is left to
+   the UA / element rules below so list and form-control affordances survive. */
+*:not(dialog) {
 	margin: 0;
-	padding: 0;
 }
 
 /* colorScheme — Follow the OS light/dark preference for native controls and scrollbars */
@@ -29,14 +33,16 @@
 	color-scheme: light dark;
 }
 
-/* textSizeAdjust — Disable mobile browsers' automatic text inflation */
+/* textSizeAdjust — Disable mobile browsers' automatic text inflation (all prefixes) */
 html {
-	-webkit-text-size-adjust: 100%;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	text-size-adjust: none;
 }
 
 /* documentBase — Apply the token typography and surface to the document */
 body {
-	min-height: 100vh;
+	min-height: 100dvh;
 	font-family: var(--np--font-family);
 	font-size: var(--np--font-size);
 	font-weight: var(--np--font-weight);
@@ -45,22 +51,92 @@ body {
 	background-color: var(--np--background-color);
 }
 
-/* fluidMedia — Keep media from overflowing its container */
+/* fluidMedia — Keep media from overflowing its container and drop the inline
+   whitespace gap by making replaced elements block-level */
 img,
 picture,
 video,
 canvas,
 svg {
+	display: block;
 	max-width: 100%;
 }
 
-/* formInheritance — Inherit font and color into form controls instead of UA defaults */
+/* headingType — Give headings the token heading face, weight, tighter leading,
+   and balanced wrapping. The font-size scale has only two supra-base steps
+   (large, larger), so h1/h2 take those and h3–h6 sit at base size, set apart by
+   face and weight. A full h1–h6 size ramp needs dedicated heading-size tokens. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--np--font-family--heading);
+	font-weight: var(--np--font-weight--bold);
+	line-height: var(--np--line-height--condensed);
+	text-wrap: balance;
+}
+
+h1 {
+	font-size: var(--np--font-size--larger);
+}
+
+h2 {
+	font-size: var(--np--font-size--large);
+}
+
+/* textOverflow — Let long words and URLs wrap instead of overflowing */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+/* listIndent — Restore a token-sized indent for lists (the UA default is
+   ~40px; standardize it to the large gap token) */
+ul,
+ol {
+	padding-inline-start: var(--np--gap--large);
+}
+
+/* tableReset — Clear padding and margin on table elements so table layout is
+   authored, not inherited. (Cell-border collapse + border-spacing live in
+   reset.colors.css.) */
+table,
+caption,
+thead,
+tbody,
+tfoot,
+tr,
+th,
+td {
+	padding: 0;
+	margin: 0;
+}
+
+/* formInheritance — Inherit font and color into form controls instead of UA
+   defaults. `font` is shorthand (it includes line-height), so it must precede
+   the interactiveLineHeight rule below or it would reset that leading. */
 input,
 button,
 textarea,
 select {
 	font: inherit;
 	color: inherit;
+}
+
+/* interactiveLineHeight — Match the tighter heading leading on interactive
+   controls and labels (set after formInheritance so `font: inherit` doesn't
+   clobber it) */
+button,
+input,
+label {
+	line-height: var(--np--line-height--condensed);
 }
 
 /* linkColor — Color links with the token link color */

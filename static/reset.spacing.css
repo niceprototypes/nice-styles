@@ -1,0 +1,63 @@
+/**
+ * nice-styles reset — spacing add-on
+ *
+ * Opt-in spacing: block-flow margins plus cell sizing. Re-introduces the block
+ * margins that reset.css's `marginStrip` zeroes (token-driven flow spacing), and
+ * gives native controls and table cells the cell-height box + horizontal base-gap
+ * padding used by the cell-size-based components (Button, Input). Import AFTER
+ * reset.css (and after tokens.css so the var() references resolve). Sets only
+ * margin-block, height, and padding, so it never conflicts with reset.colors.css
+ * / reset.borders.css / reset.responsive.css, and its margins correctly override
+ * the reset's margin-strip because it loads later.
+ *
+ * Each section is labeled `camelCaseKey — Imperative description`.
+ */
+
+/* blockFlow — Space below block-level flow content */
+p,
+ul,
+ol,
+dl,
+blockquote,
+pre,
+figure,
+table,
+hr {
+	margin-block-end: var(--np--gap);
+}
+
+/* headingRhythm — More space above a heading than below, binding it to the
+   content that follows */
+h1 {
+	margin-block: var(--np--gap--larger) var(--np--gap--large);
+}
+h2 {
+	margin-block: var(--np--gap--large) var(--np--gap);
+}
+h3, h4, h5, h6, p {
+	margin-block: var(--np--gap);
+}
+
+/* nestedList — Tighten nested lists against their parent item */
+li > ul,
+li > ol {
+	margin-block: var(--np--gap--smaller) 0;
+}
+
+/* firstChildFlush — Drop the leading margin of a container's first flow child */
+:where(h1, h2, h3, h4, h5, h6, p):first-child {
+	margin-block-start: 0;
+}
+
+/* cellSizing — Give native controls and table cells the cell-height box +
+   horizontal base-gap padding used by the cell-size-based components (Button,
+   Input). Excludes toggles / range / color / file inputs and multi-line
+   <textarea>, which must not take a fixed control height. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+select,
+button,
+th,
+td {
+	height: var(--np--cell-height);
+	padding: 0 var(--np--gap);
+}

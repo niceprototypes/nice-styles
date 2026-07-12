@@ -48,63 +48,17 @@ const componentTokensData: ComponentTokensData = {
       "dark": "var(--np--border-color--dark)",
       "darker": "var(--np--border-color--darker)"
     },
-    "status": {
-      "primary": {
-        "backgroundColor": {
-          "base": "var(--np--color)",
-          "disabled": "#ddd",
-          "error": "var(--np--color--error)",
-          "success": "var(--np--color--success)",
-          "warning": "var(--np--color--warning)"
-        },
-        "borderColor": {
-          "base": "var(--np--color)",
-          "disabled": "#ddd",
-          "error": "var(--np--color--error)",
-          "success": "var(--np--color--success)",
-          "warning": "var(--np--color--warning)"
-        },
-        "color": {
-          "base": "var(--np--color--night)",
-          "disabled": "#888",
-          "error": "#fff",
-          "success": "#fff",
-          "warning": "#fff"
-        }
+    "icon": {
+      "color": {
+        "base": "currentColor"
       },
-      "base": {
-        "backgroundColor": {
-          "base": "transparent",
-          "disabled": "transparent",
-          "error": "transparent",
-          "success": "transparent",
-          "warning": "transparent"
-        },
-        "borderColor": {
-          "base": "var(--np--color--lightest)",
-          "disabled": "#ddd",
-          "error": "var(--np--color--error)",
-          "success": "var(--np--color--success)",
-          "warning": "var(--np--color--warning)"
-        },
-        "color": {
-          "base": "var(--np--color)",
-          "disabled": "#888",
-          "error": "var(--np--color--error)",
-          "success": "var(--np--color--success)",
-          "warning": "var(--np--color--warning)"
-        }
+      "size": {
+        "smaller": "var(--np--font-size--smaller)",
+        "small": "var(--np--font-size--small)",
+        "base": "var(--np--font-size)",
+        "large": "var(--np--font-size--large)",
+        "larger": "var(--np--font-size--larger)"
       }
-    }
-  },
-  "form": {
-    "gap": {
-      "none": "var(--np--gap--none)",
-      "smaller": "var(--np--gap--smaller)",
-      "small": "var(--np--gap--small)",
-      "base": "var(--np--gap)",
-      "large": "var(--np--gap--large)",
-      "larger": "var(--np--gap--larger)"
     }
   },
   "icon": {

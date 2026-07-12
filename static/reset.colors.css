@@ -1,0 +1,75 @@
+/**
+ * nice-styles reset — colors add-on
+ *
+ * Opt-in token fill and text colors for commonly-used native HTML elements:
+ * color, background-color, accent-color, and selection. Border colors are NOT
+ * here — a border color is a border, so it lives in reset.borders.css. Native
+ * controls that have a 1:1 Nice component — <button> and text fields
+ * (<input>/<textarea>/<select>) — adopt that component's own color tokens
+ * (--np--button--… / --np--input--…) so they match the React components; every
+ * other element uses base tokens (color / backgroundColor). Import AFTER
+ * reset.css (and after tokens.css). Additive: sets only color / background-color
+ * / accent-color, so it never conflicts with reset.borders.css /
+ * reset.spacing.css / reset.responsive.css.
+ *
+ * Each section is labeled `camelCaseKey — Imperative description`.
+ */
+
+/* links — Token link color and a clearer underline on hover */
+a {
+	color: var(--np--color--link);
+}
+a:hover {
+	text-decoration-thickness: 2px;
+}
+
+/* formTint — Tint native checkboxes / radios / range with the link color */
+:root {
+	accent-color: var(--np--color--link);
+}
+
+/* nativeButton — Filled surface and text for native buttons */
+button,
+[type="button"],
+[type="submit"],
+[type="reset"] {
+	background-color: var(--np--button--status--primary--background-color);
+	color: var(--np--button--status--primary--color);
+}
+
+/* nativeField — Surface and text for text inputs / textareas / selects */
+input,
+textarea,
+select {
+	background-color: var(--np--input--status--primary--background-color);
+	color: var(--np--input--status--primary--color);
+}
+::placeholder {
+	color: var(--np--input--status--primary--placeholder-color);
+}
+
+/* blockquote — Muted text for quoted passages */
+blockquote {
+	color: var(--np--color--light);
+}
+
+/* codeSurface — Subtle surface for code-ish elements */
+code,
+kbd,
+pre,
+samp {
+	background-color: var(--np--background-color--dark);
+}
+
+/* highlight — Token highlight for <mark> and user text selection */
+mark {
+	background-color: var(--np--background-color--highlight);
+}
+::selection {
+	background-color: var(--np--background-color--highlight);
+}
+
+/* tableChrome — Token header surface */
+th {
+	background-color: var(--np--background-color--dark);
+}

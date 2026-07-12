@@ -23,6 +23,7 @@ const themeTokensData: ThemeTokensData = {
     },
     "borderColor": {
       "base": "hsla(240, 9%, 91%, 1)",
+      "light": "hsla(240, 9%, 95%, 1)",
       "dark": "hsla(210, 8%, 58%, 1)",
       "darker": "hsla(210, 10%, 20%, 1)",
       "success": "hsla(146, 65%, 80%, 1)",
@@ -56,6 +57,7 @@ const themeTokensData: ThemeTokensData = {
     },
     "borderColor": {
       "base": "hsla(240, 5%, 25%, 1)",
+      "light": "hsla(240, 5%, 20%, 1)",
       "dark": "hsla(240, 5%, 50%, 1)",
       "darker": "hsla(240, 5%, 100%, 1)",
       "success": "hsla(146, 50%, 32%, 1)",
