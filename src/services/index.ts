@@ -69,6 +69,10 @@ export { injectTokenCSS } from '../utilities/tokenStyleSheet.js'
 // nice-react-styles calls this then injectTokenCSS.
 export { generateTokenCSS } from './generateTokenCSS.js'
 
+// Write `data-theme` on the document root to switch the day/night token cascade.
+export { applyTheme } from './applyTheme.js'
+export type { ThemeName } from './applyTheme.js'
+
 // Re-exported from utilities for sibling packages (nice-react-styles)
 export { getTokenFromMap, getTokenByPath } from '../utilities/getTokenFromMap.js'
 export type { TokenDefinition, TokenMap, ComponentTokenNode, TokenResult, TokenFromMapOptions } from '../utilities/getTokenFromMap.js'

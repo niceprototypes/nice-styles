@@ -92,8 +92,10 @@ export {
   seedDimensionedTokens,
   injectTokenCSS,
   generateTokenCSS,
+  applyTheme,
 } from './services/index.js'
 export type {
+  ThemeName,
   BreakpointName,
   BreakpointKey,
   BreakpointModifier,
