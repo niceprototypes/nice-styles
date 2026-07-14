@@ -26,7 +26,7 @@ button,
 [type="button"],
 [type="submit"],
 [type="reset"] {
-	border: var(--np--button--border-width) solid var(--np--button--status--primary--border-color);
+	border: var(--np--button--border-width) solid var(--np--color);
 	border-radius: var(--np--button--border-radius);
 }
 
