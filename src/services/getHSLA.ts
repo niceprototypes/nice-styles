@@ -22,11 +22,19 @@
  * | lightness | 2 | 0–100 |
  * | alpha | 3 | 0–1 |
  *
+ * Signature mirrors `getToken` — `module` and `theme` are positional, the rest
+ * (`token`, `values`) go in the options object.
+ *
+ * Note: returns a **static** color string (a literal `hsla(…)`, not a `var()`),
+ * so it does NOT flip with the `[data-theme]` cascade. For a theme-flipping color
+ * with a custom alpha, keep the token `var()` and use CSS relative-color syntax,
+ * e.g. `hsl(from ${getToken("backgroundColor")} h s l / 0.98)`.
+ *
  * @example
  * // --np--border-color--dark--night is hsla(240, 5%, 50%, 1)
- * getHSLA({ module: "borderColor", token: "dark", theme: "night", values: ["+0", "+10", "+0", "-0.15"] })
+ * getHSLA("borderColor", "night", { token: "dark", values: ["+0", "+10", "+0", "-0.15"] })
  * // → "hsla(240, 15%, 50%, 0.85)"   (relative: signed strings add/subtract)
- * getHSLA({ module: "borderColor", token: "dark", theme: "night", values: [200] })
+ * getHSLA("borderColor", "night", { token: "dark", values: [200] })
  * // → "hsla(200, 5%, 50%, 1)"       (absolute: a bare number replaces the channel)
  *
  * @throws if the module or token is unknown, if the requested theme has no
@@ -40,12 +48,8 @@ import { DEFAULT_THEME } from '../constants/styleValues.js'
 import { formatError } from '../utilities/formatError.js'
 
 export interface GetHSLAOptions {
-  /** Token group / module name, e.g. `"borderColor"`. */
-  module: string
   /** Variant within the module, e.g. `"dark"`. Defaults to `"base"`. */
   token?: string
-  /** Theme mode to read the value from, e.g. `"night"`. Defaults to the day base. */
-  theme?: string
   /**
    * Per-channel adjustments in HSLA order `[hue, saturation, lightness, alpha]`.
    * A `number` replaces the channel (absolute); a signed `string` like `"+30"`
@@ -97,7 +101,7 @@ function applyChannelValue(
   return current + (match[1] === '-' ? -magnitude : magnitude)
 }
 
-export function getHSLA({ module, token = 'base', theme, values = [] }: GetHSLAOptions): string {
+export function getHSLA(module: string, theme?: string, { token = 'base', values = [] }: GetHSLAOptions = {}): string {
   // Resolve the module (token group) from the registry.
   const entry = registry.get(module)
   if (!entry) {
