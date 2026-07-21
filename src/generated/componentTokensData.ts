@@ -61,6 +61,45 @@ const componentTokensData: ComponentTokensData = {
       }
     }
   },
+  "code": {
+    "backgroundColor": {
+      "base": "var(--np--background-color)"
+    },
+    "borderColor": {
+      "base": "var(--np--border-color)"
+    },
+    "borderRadius": {
+      "base": "var(--np--border-radius)",
+      "small": "var(--np--border-radius--small)"
+    },
+    "boxShadow": {
+      "base": "var(--np--box-shadow)"
+    },
+    "gap": {
+      "base": "var(--np--gap)"
+    },
+    "fontFamily": {
+      "base": "var(--np--font-family)",
+      "code": "var(--np--font-family--code)"
+    },
+    "fontSize": {
+      "smaller": "var(--np--font-size--smaller)",
+      "small": "var(--np--font-size--small)",
+      "base": "var(--np--font-size)"
+    },
+    "fontWeight": {
+      "semibold": "var(--np--font-weight--semibold)"
+    },
+    "lineHeight": {
+      "base": "var(--np--line-height)",
+      "expanded": "var(--np--line-height--expanded)"
+    },
+    "color": {
+      "base": "var(--np--color)",
+      "lightest": "var(--np--color--lightest)",
+      "link": "var(--np--color--link)"
+    }
+  },
   "icon": {
     "size": {
       "smaller": "var(--np--font-size--smaller)",
@@ -124,6 +163,56 @@ const componentTokensData: ComponentTokensData = {
     },
     "objectFit": {
       "base": "cover"
+    }
+  },
+  "ink": {
+    "fontSize": {
+      "smaller": "var(--np--font-size--smaller)",
+      "small": "var(--np--font-size--small)",
+      "base": "var(--np--font-size)",
+      "large": "var(--np--font-size--large)",
+      "larger": "var(--np--font-size--larger)"
+    },
+    "fontFamily": {
+      "base": "var(--np--font-family)",
+      "code": "var(--np--font-family--code)",
+      "heading": "var(--np--font-family--heading)"
+    },
+    "fontWeight": {
+      "light": "var(--np--font-weight--light)",
+      "base": "var(--np--font-weight)",
+      "medium": "var(--np--font-weight--medium)",
+      "semibold": "var(--np--font-weight--semibold)",
+      "bold": "var(--np--font-weight--bold)",
+      "extrabold": "var(--np--font-weight--extrabold)",
+      "black": "var(--np--font-weight--black)"
+    },
+    "lineHeight": {
+      "condensed": "var(--np--line-height--condensed)",
+      "base": "var(--np--line-height)",
+      "expanded": "var(--np--line-height--expanded)"
+    },
+    "letterSpacing": {
+      "tight": "var(--np--letter-spacing--tight)",
+      "base": "var(--np--letter-spacing)",
+      "wide": "var(--np--letter-spacing--wide)",
+      "wider": "var(--np--letter-spacing--wider)"
+    },
+    "color": {
+      "base": "var(--np--color)",
+      "light": "var(--np--color--light)",
+      "lighter": "var(--np--color--lighter)",
+      "lightest": "var(--np--color--lightest)",
+      "disabled": "var(--np--color--disabled)",
+      "link": "var(--np--color--link)",
+      "success": "var(--np--color--success)",
+      "warning": "var(--np--color--warning)",
+      "error": "var(--np--color--error)"
+    },
+    "maxWidth": {
+      "prose": "65ch",
+      "wide": "80ch",
+      "full": "none"
     }
   },
   "input": {
@@ -251,56 +340,6 @@ const componentTokensData: ComponentTokensData = {
       "success": "var(--np--color--success)",
       "warning": "var(--np--color--warning)",
       "error": "var(--np--color--error)"
-    }
-  },
-  "typography": {
-    "fontSize": {
-      "smaller": "var(--np--font-size--smaller)",
-      "small": "var(--np--font-size--small)",
-      "base": "var(--np--font-size)",
-      "large": "var(--np--font-size--large)",
-      "larger": "var(--np--font-size--larger)"
-    },
-    "fontFamily": {
-      "base": "var(--np--font-family)",
-      "code": "var(--np--font-family--code)",
-      "heading": "var(--np--font-family--heading)"
-    },
-    "fontWeight": {
-      "light": "var(--np--font-weight--light)",
-      "base": "var(--np--font-weight)",
-      "medium": "var(--np--font-weight--medium)",
-      "semibold": "var(--np--font-weight--semibold)",
-      "bold": "var(--np--font-weight--bold)",
-      "extrabold": "var(--np--font-weight--extrabold)",
-      "black": "var(--np--font-weight--black)"
-    },
-    "lineHeight": {
-      "condensed": "var(--np--line-height--condensed)",
-      "base": "var(--np--line-height)",
-      "expanded": "var(--np--line-height--expanded)"
-    },
-    "letterSpacing": {
-      "tight": "var(--np--letter-spacing--tight)",
-      "base": "var(--np--letter-spacing)",
-      "wide": "var(--np--letter-spacing--wide)",
-      "wider": "var(--np--letter-spacing--wider)"
-    },
-    "color": {
-      "base": "var(--np--color)",
-      "light": "var(--np--color--light)",
-      "lighter": "var(--np--color--lighter)",
-      "lightest": "var(--np--color--lightest)",
-      "disabled": "var(--np--color--disabled)",
-      "link": "var(--np--color--link)",
-      "success": "var(--np--color--success)",
-      "warning": "var(--np--color--warning)",
-      "error": "var(--np--color--error)"
-    },
-    "maxWidth": {
-      "prose": "65ch",
-      "wide": "80ch",
-      "full": "none"
     }
   }
 } as const

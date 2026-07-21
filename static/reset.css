@@ -40,7 +40,7 @@ html {
 	text-size-adjust: none;
 }
 
-/* documentBase — Apply the token typography and surface to the document */
+/* documentBase — Apply the token type styles and surface to the document */
 body {
 	min-height: 100dvh;
 	font-family: var(--np--font-family);

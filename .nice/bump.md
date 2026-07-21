@@ -1,3 +1,0 @@
-
-[2026-07-12 09:30] minor: Add applyTheme(theme, root?) service — writes `data-theme` ("day"|"night") on the document root (or a given element) to switch the day/night token cascade. Bridges an external theme toggle (host app, Storybook dark-mode) into nice theming; no-ops during SSR. Exports applyTheme and the ThemeName type.
-[2026-07-13 18:40] patch: reset.borders.css / reset.colors.css — repoint native form-button chrome off the removed --np--button--status--primary--* tokens to base color tokens (border/background: --np--color, text: --np--color--inverse), matching the button component's new filled default. Also fold `mark` into the `::selection` highlight rule. Reset output for native buttons changes accordingly.

@@ -4,10 +4,10 @@
  * ## Problem this solves
  *
  * A component token whose value is a bare alias to a core token —
- * `--np--typography--color--light: var(--np--color--light)` — is emitted only
+ * `--np--ink--color--light: var(--np--color--light)` — is emitted only
  * at `:root`. CSS custom-property substitution freezes that `var()` at `:root`
  * scope, so a `[data-theme="night"]` pin (which reassigns the *core*
- * `--np--color--light`, not the typography token) never reaches it. The
+ * `--np--color--light`, not the ink token) never reaches it. The
  * component token silently follows `:root`/OS instead of the pin.
  *
  * `emitComponentTokens` only fixes this when the component JSON authors a

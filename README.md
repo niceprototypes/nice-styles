@@ -37,6 +37,46 @@ For backward compatibility with deprecated variables:
 @import 'nice-styles/deprecated.css';
 ```
 
+### Breakpoints
+
+Breakpoints ship as **plain, browser-native CSS** — a bare `@import`, no build
+step in your app (works in Vite, esbuild, the Storybook manager, anywhere). Two
+native forms cover responsive needs; a third is an opt-in escape hatch.
+
+**1. Responsive tokens** — some tokens (e.g. `font-size`, `icon-size`) already
+change value per breakpoint via `tokens.css`. Use the token; it flips at each
+breakpoint automatically:
+
+```css
+@import 'nice-styles/tokens.css';
+.title { font-size: var(--np--font-size--large); } /* smaller on phone, larger on laptop */
+```
+
+**2. Utility classes** — `breakpoints.css` ships one display utility per
+breakpoint, `.np-hide-<breakpoint>`:
+
+```css
+@import 'nice-styles/breakpoints.css';
+```
+```html
+<aside class="np-hide-tablet-down">…</aside> <!-- hidden below tablet -->
+```
+
+Available: `np-hide-{phone,tablet,laptop,desktop}` (exact band),
+`np-hide-{tablet,laptop,desktop}-up`, `np-hide-{phone,tablet,laptop}-down`.
+Floors track `src/tokens/breakpoints.json` (tablet 641 / laptop 1280 / desktop 1720).
+
+**3. Optional — author your own media queries** (`breakpoints.custom-media.css`).
+Named `@custom-media` aliases for pipelines that already run PostCSS. **Requires
+`postcss-custom-media` (or `postcss-preset-env`) in your build** — `@custom-media`
+is not browser-native, so this is NOT part of the plain-import set. Prefer forms
+1–2 unless you specifically need to gate your own `@media` rules.
+
+```css
+@import 'nice-styles/breakpoints.custom-media.css'; /* + postcss-custom-media */
+@media (--np--tablet--up) { … }
+```
+
 ### TypeScript/JavaScript
 
 **Option 1: Import from main package** (recommended)
@@ -167,9 +207,27 @@ The `dist/` directory contains all compiled outputs consumed by users:
 
 #### CSS Files
 
+Every CSS asset is **browser-native plain CSS**: consumed by a bare `@import`,
+with **zero consumer-side transform**, in any bundler. This contract is what
+lets the set grow — a new asset (elevation, motion utilities, …) is one entry in
+`STANDALONE_ASSETS` (`scripts/generateCss/writeCss.ts`) whose `build()` returns
+native CSS, plus a matching `./<file>` export here. The single intentional
+exception is `breakpoints.custom-media.css` (see below), shipped opt-in and
+never required.
+
 - **`tokens.css`** (root level)
-  - All CSS custom properties in one file
+  - All CSS custom properties in one file, incl. responsive (per-breakpoint) and
+    dark-mode `@media` blocks
   - Used when: `@import 'nice-styles/tokens.css'`
+
+- **`breakpoints.css`** (root level)
+  - Native breakpoint utility classes (`.np-hide-<breakpoint>`), plain `@import`
+  - Used when: `@import 'nice-styles/breakpoints.css'`
+
+- **`breakpoints.custom-media.css`** (root level) — **optional, PostCSS-only**
+  - Named `@custom-media` aliases; requires `postcss-custom-media` in the
+    consumer. Not part of the plain-import set — the one asset that needs a
+    consumer transform, so it's opt-in.
 
 - **`dist/css/*.css`** (individual token files)
   - `animationDuration.css`

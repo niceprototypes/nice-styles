@@ -1,0 +1,42 @@
+{
+  "backgroundColor": {
+    "base": "var(--np--background-color)"
+  },
+  "borderColor": {
+    "base": "var(--np--border-color)"
+  },
+  "borderRadius": {
+    "base": "var(--np--border-radius)",
+    "small": "var(--np--border-radius--small)"
+  },
+  "boxShadow": {
+    "base": "var(--np--box-shadow)"
+  },
+  "gap": {
+    "base": "var(--np--gap)"
+  },
+  "fontFamily": {
+    "base": "var(--np--font-family)",
+    "code": "var(--np--font-family--code)"
+  },
+  "fontSize": {
+    "smaller": "var(--np--font-size--smaller)",
+    "small": "var(--np--font-size--small)",
+    "base": "var(--np--font-size)"
+  },
+  "fontWeight": {
+    "semibold": "var(--np--font-weight--semibold)"
+  },
+  "lineHeight": {
+    "base": "var(--np--line-height)",
+    "expanded": "var(--np--line-height--expanded)"
+  },
+  "color": {
+    "base": "var(--np--color)",
+    "lightest": "var(--np--color--lightest)",
+    "link": "var(--np--color--link)"
+  },
+  "$themes": {
+    "night": {}
+  }
+}
