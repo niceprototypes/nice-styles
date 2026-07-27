@@ -22,7 +22,12 @@
       "import": "./dist/constants.js",
       "default": "./dist/constants.js"
     },
-    "./tokens.css": "./dist/tokens.css",
+    "./services/*.js": {
+   "types": "./dist/services/*.d.ts",
+   "import": "./dist/services/*.js",
+   "default": "./dist/services/*.js"
+  },
+  "./tokens.css": "./dist/tokens.css",
     "./breakpoints.css": "./dist/breakpoints.css",
     "./breakpoints.custom-media.css": "./dist/breakpoints.custom-media.css",
     "./reset.css": "./static/reset.css",

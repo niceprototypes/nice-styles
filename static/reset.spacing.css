@@ -3,7 +3,7 @@
  *
  * Opt-in spacing: block-flow margins plus cell sizing. Re-introduces the block
  * margins that reset.css's `marginStrip` zeroes (token-driven flow spacing), and
- * gives native controls and table cells the cell-height box + horizontal base-gap
+ * gives native controls and table cells the size box + horizontal base-gap
  * padding used by the cell-size-based components (Button, Input). Import AFTER
  * reset.css (and after tokens.css so the var() references resolve). Sets only
  * margin-block, height, and padding, so it never conflicts with reset.colors.css
@@ -49,7 +49,7 @@ li > ol {
 	margin-block-start: 0;
 }
 
-/* cellSizing — Give native controls and table cells the cell-height box +
+/* cellSizing — Give native controls and table cells the size box +
    horizontal base-gap padding used by the cell-size-based components (Button,
    Input). Excludes toggles / range / color / file inputs and multi-line
    <textarea>, which must not take a fixed control height. */
@@ -58,6 +58,6 @@ select,
 button,
 th,
 td {
-	height: var(--np--cell-height);
+	height: var(--np--size);
 	padding: 0 var(--np--gap);
 }

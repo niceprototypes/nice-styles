@@ -71,7 +71,7 @@ function getNightBranch(
  * for any component tokens that have night overrides.
  *
  * Walks the token tree recursively. Each nesting level becomes a -- segment:
- *   --np--button--size: var(--np--cell-height);
+ *   --np--button--size: var(--np--size);
  *   --np--button--status--primary--background-color: var(--np--color);
  *
  * For tokens with night overrides, emits day/night primitives and media query entries.

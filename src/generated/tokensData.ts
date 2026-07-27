@@ -57,13 +57,6 @@ const tokensData: TokensData = {
     "base": "hsla(240, 100%, 74.5%, 1)",
     "secondary": "hsla(198, 100%, 54.1%, 1)"
   },
-  "cellHeight": {
-    "smaller": "24px",
-    "small": "32px",
-    "base": "48px",
-    "large": "64px",
-    "larger": "72px"
-  },
   "fontFamily": {
     "base": "\"Google Sans Flex\", sans-serif",
     "code": "\"Roboto Mono\", \"Courier New\", monospace",
@@ -97,6 +90,13 @@ const tokensData: TokensData = {
     "condensed": "1.25",
     "base": "1.5",
     "expanded": "1.75"
+  },
+  "size": {
+    "smaller": "24px",
+    "small": "32px",
+    "base": "48px",
+    "large": "64px",
+    "larger": "72px"
   },
   "zIndex": {
     "base": "0",

@@ -136,7 +136,7 @@ export function getTokenFromMap(
  *
  * @example
  * getTokenByPath(buttonTree, ["size", "base"], { prefix: "button" })
- * // → { key: "--np--button--size", var: "var(...)", value: "var(--np--cell-height)" }
+ * // → { key: "--np--button--size", var: "var(...)", value: "var(--np--size)" }
  */
 export function getTokenByPath(
   tree: { [key: string]: ComponentTokenNode },

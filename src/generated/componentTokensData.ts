@@ -13,18 +13,18 @@ export type ComponentTokensData = Record<string, { [key: string]: ComponentToken
 const componentTokensData: ComponentTokensData = {
   "button": {
     "size": {
-      "smaller": "var(--np--cell-height--smaller)",
-      "small": "var(--np--cell-height--small)",
-      "base": "var(--np--cell-height)",
-      "large": "var(--np--cell-height--large)",
-      "larger": "var(--np--cell-height--larger)"
+      "smaller": "var(--np--size--smaller)",
+      "small": "var(--np--size--small)",
+      "base": "var(--np--size)",
+      "large": "var(--np--size--large)",
+      "larger": "var(--np--size--larger)"
     },
     "spacing": {
-      "smaller": "calc(var(--np--cell-height--smaller) / 2)",
-      "small": "calc(var(--np--cell-height--small) / 2)",
-      "base": "calc(var(--np--cell-height) / 2)",
-      "large": "calc(var(--np--cell-height--large) / 2)",
-      "larger": "calc(var(--np--cell-height--larger) / 2)"
+      "smaller": "calc(var(--np--size--smaller) / 2)",
+      "small": "calc(var(--np--size--small) / 2)",
+      "base": "calc(var(--np--size) / 2)",
+      "large": "calc(var(--np--size--large) / 2)",
+      "larger": "calc(var(--np--size--larger) / 2)"
     },
     "borderRadius": {
       "none": "var(--np--border-radius--none)",
@@ -217,18 +217,18 @@ const componentTokensData: ComponentTokensData = {
   },
   "input": {
     "size": {
-      "smaller": "var(--np--cell-height--smaller)",
-      "small": "var(--np--cell-height--small)",
-      "base": "var(--np--cell-height)",
-      "large": "var(--np--cell-height--large)",
-      "larger": "var(--np--cell-height--larger)"
+      "smaller": "var(--np--size--smaller)",
+      "small": "var(--np--size--small)",
+      "base": "var(--np--size)",
+      "large": "var(--np--size--large)",
+      "larger": "var(--np--size--larger)"
     },
     "spacing": {
-      "smaller": "calc(var(--np--cell-height--smaller) / 2)",
-      "small": "calc(var(--np--cell-height--small) / 2)",
-      "base": "calc(var(--np--cell-height) / 2)",
-      "large": "calc(var(--np--cell-height--large) / 2)",
-      "larger": "calc(var(--np--cell-height--larger) / 2)"
+      "smaller": "calc(var(--np--size--smaller) / 2)",
+      "small": "calc(var(--np--size--small) / 2)",
+      "base": "calc(var(--np--size) / 2)",
+      "large": "calc(var(--np--size--large) / 2)",
+      "larger": "calc(var(--np--size--larger) / 2)"
     },
     "borderRadius": {
       "smaller": "var(--np--border-radius--smaller)",

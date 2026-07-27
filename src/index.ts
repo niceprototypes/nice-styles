@@ -132,7 +132,6 @@ export type {
   BorderRadiusType,
   BorderWidthType,
   BoxShadowType,
-  CellHeightType,
   ColorType,
   FontFamilyType,
   FontSizeType,
@@ -140,6 +139,7 @@ export type {
   GapType,
   LetterSpacingType,
   LineHeightType,
+  SizeType,
   ComponentPrefix,
 } from './generated/types.js'
 
