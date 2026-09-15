@@ -54,7 +54,7 @@ const STANDALONE_ASSETS: { file: string; build: () => string }[] = [
  */
 export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: string): void {
   const {
-    tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens,
+    tokens, nightTokens, componentTokens, componentNightTokens, breakpointTokens,
     componentBreakpointTokens, extraThemes, componentExtraThemes,
     inverseTokens, inverseNightTokens,
   } = sources
@@ -66,7 +66,7 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
   // Combined tokens.css — semantic variables, primitives (incl. inverse),
   // breakpoint @media, and the mode-awareness block.
   const { css: combinedCss } = buildCombinedCss(
-    tokens, nightTokens, componentTokens, componentNightTokens, sizeTokens,
+    tokens, nightTokens, componentTokens, componentNightTokens, breakpointTokens,
     componentBreakpointTokens, extraThemes, componentExtraThemes,
     inverseTokens, inverseNightTokens
   )

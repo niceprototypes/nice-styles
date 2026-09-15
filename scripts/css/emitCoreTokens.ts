@@ -43,6 +43,15 @@ function buildNightMediaLine(cssName: string, variant: string, inverse: boolean)
 }
 
 /**
+ * Build the [data-theme="day"] pin line that reassigns the semantic var to the day primitive.
+ */
+function buildDayPinLine(cssName: string, variant: string, inverse: boolean): string {
+  const semantic = getConstantKey(cssName, variant, { inverse })
+  const dayPrimitive = getConstantKey(cssName, variant, { theme: "day", inverse })
+  return `\t\t${semantic}: var(${dayPrimitive});`
+}
+
+/**
  * Generates CSS lines for a single core token group, including mode primitives.
  *
  * For each variant in the token group:
@@ -64,6 +73,7 @@ export function generateTokenGroupCss(
   const dayPrimitives: string[] = []
   const nightPrimitives: string[] = []
   const nightMediaBody: string[] = []
+  const dayPinBody: string[] = []
 
   for (const [variantName, value] of Object.entries(variants)) {
     semanticLines.push(buildSemanticLine(cssName, variantName, value, inverse))
@@ -73,10 +83,11 @@ export function generateTokenGroupCss(
       dayPrimitives.push(buildDayPrimitiveLine(cssName, variantName, value, inverse))
       nightPrimitives.push(buildNightPrimitiveLine(cssName, variantName, nightValue, inverse))
       nightMediaBody.push(buildNightMediaLine(cssName, variantName, inverse))
+      dayPinBody.push(buildDayPinLine(cssName, variantName, inverse))
     }
   }
 
-  return { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody }
+  return { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody, dayPinBody }
 }
 
 /**

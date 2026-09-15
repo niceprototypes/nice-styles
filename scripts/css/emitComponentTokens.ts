@@ -8,20 +8,8 @@
  * Nested tokens (status.primary.base.backgroundColor) produce deeper paths.
  */
 
-import { NAMESPACE } from '../../src/services/getConstant.js'
-import { camelToKebab } from '../../src/utilities/camelToKebab.js'
+import { getConstantKey } from '../../src/services/getConstant.js'
 import type { ComponentTokens, TokenNode, CssEmitResult } from './types.js'
-
-/**
- * Build the full CSS variable name from a component prefix and a nesting path.
- * Each path segment is kebab-cased independently before joining with `--`.
- */
-export function buildCssKey(prefix: string, pathSegments: string[]): string {
-  // `base` is the implicit default — it contributes no segment to the variable
-  // name (`size.base` → `--np--button--size`), so it's filtered out.
-  const cssSegments = pathSegments.map(s => camelToKebab(s)).filter(s => s !== 'base')
-  return `--${NAMESPACE}--${prefix}--${cssSegments.join('--')}`
-}
 
 /**
  * Build the semantic CSS variable line for a component token.
@@ -49,6 +37,13 @@ function buildNightPrimitiveLine(cssKey: string, value: string): string {
  */
 function buildNightMediaLine(cssKey: string): string {
   return `\t\t${cssKey}: var(${cssKey}--night);`
+}
+
+/**
+ * Build the [data-theme="day"] pin line that reassigns the semantic var to the day primitive.
+ */
+function buildDayPinLine(cssKey: string): string {
+  return `\t\t${cssKey}: var(${cssKey}--day);`
 }
 
 /**
@@ -84,6 +79,7 @@ export function generateComponentTokenCss(
   const dayPrimitives: string[] = []
   const nightPrimitives: string[] = []
   const nightMediaBody: string[] = []
+  const dayPinBody: string[] = []
 
   /**
    * Handle a leaf in the token tree. Emits the semantic line and, when a night
@@ -95,13 +91,14 @@ export function generateComponentTokenCss(
     value: string,
     nightValue: TokenNode | undefined
   ): void {
-    const cssKey = buildCssKey(prefix, pathSegments)
+    const cssKey = getConstantKey(pathSegments, 'base', { pkg: prefix })
     semanticLines.push(buildSemanticLine(cssKey, value))
 
     if (typeof nightValue !== 'string') return
     dayPrimitives.push(buildDayPrimitiveLine(cssKey, value))
     nightPrimitives.push(buildNightPrimitiveLine(cssKey, nightValue))
     nightMediaBody.push(buildNightMediaLine(cssKey))
+    dayPinBody.push(buildDayPinLine(cssKey))
   }
 
   /**
@@ -153,5 +150,5 @@ export function generateComponentTokenCss(
     )
   }
 
-  return { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody }
+  return { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody, dayPinBody }
 }

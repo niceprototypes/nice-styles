@@ -22,7 +22,7 @@
  * (native utility classes) or responsive tokens in `tokens.css`.
  *
  * Because that resolution happens at the consumer's build time, a runtime
- * `setBreakpoints()` call does NOT retroactively change these aliases.
+ * `setTokens({ breakpoints })` call does NOT retroactively change these aliases.
  *
  * @module scripts/css/emitCustomMedia
  */

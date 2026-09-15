@@ -12,7 +12,8 @@
  * query; tablet/laptop/desktop reassign the semantic var to their primitive.
  */
 
-import { buildCssKey } from './emitComponentTokens.js'
+import { getConstantKey } from '../../src/services/getConstant.js'
+import { minWidthBlock } from '../../src/utilities/tokenCss.js'
 import {
   BREAKPOINTS,
   BREAKPOINT_PHONE,
@@ -42,20 +43,6 @@ function getBranch(node: { [key: string]: TokenNode }, key: string): { [key: str
 function getLeaf(node: { [key: string]: TokenNode }, key: string): string | undefined {
   const sub = node[key]
   return typeof sub === 'string' ? sub : undefined
-}
-
-/**
- * Append a wrapped @media (min-width) block. No-op when empty, so the file
- * stays compact and the output matches the module breakpoint emitter exactly.
- */
-function pushMediaBlock(blocks: string[], minWidth: number, body: string[]): void {
-  if (body.length === 0) return
-  blocks.push('')
-  blocks.push(`@media (min-width: ${minWidth}px) {`)
-  blocks.push('\t:root {')
-  blocks.push(...body)
-  blocks.push('\t}')
-  blocks.push('}')
 }
 
 /**
@@ -95,7 +82,7 @@ export function generateComponentBreakpointCss(
           .filter((o): o is { bp: string; value: string } => o.value !== undefined)
         if (overrides.length === 0) continue
 
-        const cssKey = buildCssKey(prefix, newPath)
+        const cssKey = getConstantKey(newPath, 'base', { pkg: prefix })
         // Phone primitive — the base/default value the semantic var holds by default
         primitiveLines.push(`\t${cssKey}--${BREAKPOINT_PHONE}: ${value};`)
         for (const { bp, value: bpValue } of overrides) {
@@ -121,21 +108,18 @@ export function generateComponentBreakpointCss(
     for (const bp of OVERRIDE_BREAKPOINTS) {
       bpNodes[bp] = (bpMap[bp] as { [key: string]: TokenNode }) || {}
     }
-    // Seed the path empty — buildCssKey prepends the prefix itself (the [prefix]
+    // Seed the path empty — getConstantKey prepends the prefix itself (the [prefix]
     // seed is only for the validator's human-readable error paths).
     walk(prefix, tokenMap as { [key: string]: TokenNode }, bpNodes, [])
   }
 
   // Section header only when there are primitives — mirrors the module size section.
   if (primitiveLines.length > 0) {
-    primitiveLines.unshift('\t/* Component size breakpoint primitives */')
+    primitiveLines.unshift('\t/* Component breakpoint primitives */')
     primitiveLines.unshift('')
   }
 
-  const mediaBlocks: string[] = []
-  pushMediaBlock(mediaBlocks, BREAKPOINTS[BREAKPOINT_TABLET], mediaLines[BREAKPOINT_TABLET])
-  pushMediaBlock(mediaBlocks, BREAKPOINTS[BREAKPOINT_LAPTOP], mediaLines[BREAKPOINT_LAPTOP])
-  pushMediaBlock(mediaBlocks, BREAKPOINTS[BREAKPOINT_DESKTOP], mediaLines[BREAKPOINT_DESKTOP])
+  const mediaBlocks = OVERRIDE_BREAKPOINTS.flatMap((bp) => minWidthBlock(BREAKPOINTS[bp], mediaLines[bp]))
 
   return { primitiveLines, mediaBlocks }
 }

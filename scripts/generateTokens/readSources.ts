@@ -31,7 +31,7 @@ export interface TokenJsonSources {
   /** Theme-keyed tokens — `{day: ..., night: ...}` shape for downstream writers */
   color: DimensionMap
   /** module.breakpoints.json — keyed by breakpoint */
-  size: DimensionMap
+  breakpointTokens: DimensionMap
   /** component.json day branch — keyed by component prefix */
   component: ComponentTokensJson
   /** breakpoints.json — pixel thresholds keyed by breakpoint name */
@@ -103,10 +103,10 @@ function readComponentTokens(tokensDir: string): ComponentTokensJson {
 }
 
 export function readTokenJsonSources(tokensDir: string): TokenJsonSources {
-  const { core, themesDay, themesNight, breakpoints: size, inverse } = readModule(tokensDir)
+  const { core, themesDay, themesNight, breakpoints: breakpointTokens, inverse } = readModule(tokensDir)
   const color: DimensionMap = { day: themesDay, night: themesNight }
 
   const component = readComponentTokens(tokensDir)
   const breakpoints = readJson<BreakpointsJson>(path.join(tokensDir, 'breakpoints.json'))
-  return { core, color, size, component, breakpoints, inverse }
+  return { core, color, breakpointTokens, component, breakpoints, inverse }
 }

@@ -68,7 +68,7 @@ function nextFloor(name: BreakpointName): number {
  * `"phone+"` → `min-width: 0px`; `"desktop-"` → `min-width: 0px`. (`"phone"`/
  * `"phone-"` are equivalent, as are `"desktop"`/`"desktop+"`.)
  *
- * Reads BREAKPOINTS at call time so `setBreakpoints` overrides take effect
+ * Reads BREAKPOINTS at call time so `setTokens({ breakpoints })` overrides take effect
  * immediately without re-importing.
  *
  * @example

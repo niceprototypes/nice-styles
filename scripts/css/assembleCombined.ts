@@ -12,10 +12,11 @@ import { camelToKebab } from '../../src/utilities/camelToKebab.js'
 import type { Tokens, NightTokens, ComponentTokens, ComponentBreakpointTokens, BreakpointTokens } from './types.js'
 import { generateTokenGroupCss } from './emitCoreTokens.js'
 import { generateComponentTokenCss } from './emitComponentTokens.js'
-import { generateBreakpointTokenCss } from './emitBreakpointTokens.js'
+import { generateBreakpointTokenCss } from '../../src/utilities/breakpointTokenCss.js'
 import { generateComponentBreakpointCss } from './emitComponentBreakpointTokens.js'
 import { generateExtraThemeCss, generateComponentExtraThemeCss } from './emitExtraThemeTokens.js'
-import { buildCoreScopeMap, generateComponentAliasCss } from './emitComponentAliases.js'
+import { buildCoreScopeMap, generateComponentAliasCss } from '../../src/utilities/componentAliasCss.js'
+import { themeBlocks } from '../../src/utilities/tokenCss.js'
 import type { TokenNode } from './types.js'
 
 /**
@@ -46,7 +47,7 @@ export function buildCombinedCss(
   nightTokens: NightTokens,
   componentTokens: ComponentTokens,
   componentNightTokens: ComponentTokens,
-  sizeTokens: BreakpointTokens,
+  breakpointTokens: BreakpointTokens,
   componentBreakpointTokens: ComponentBreakpointTokens,
   extraThemes: Record<string, Tokens>,
   componentExtraThemes: Record<string, Record<string, { [key: string]: TokenNode }>>,
@@ -59,6 +60,7 @@ export function buildCombinedCss(
   const allDayPrimitives: string[] = []
   const allNightPrimitives: string[] = []
   const allNightMediaBody: string[] = []
+  const allDayPinBody: string[] = []
 
   const pushRootOpen = () => {
     cssLines.push(':root {')
@@ -76,7 +78,7 @@ export function buildCombinedCss(
       // Fall back to empty if this group has no night overrides
       const nightVariants = nightTokens[tokenName] || {}
 
-      const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody } =
+      const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody, dayPinBody } =
         generateTokenGroupCss(cssName, tokens[tokenName], nightVariants)
 
       // Semantic lines go inline per group for visual grouping in the output CSS
@@ -85,6 +87,7 @@ export function buildCombinedCss(
       allDayPrimitives.push(...dayPrimitives)
       allNightPrimitives.push(...nightPrimitives)
       allNightMediaBody.push(...nightMediaBody)
+      allDayPinBody.push(...dayPinBody)
 
       // Blank line between token groups for readability (except after the last one)
       if (i < tokenNames.length - 1) {
@@ -105,12 +108,13 @@ export function buildCombinedCss(
     for (const group of inverseGroups) {
       const cssName = camelToKebab(group)
       const nightVariants = inverseNightTokens[group] || {}
-      const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody } =
+      const { semanticLines, dayPrimitives, nightPrimitives, nightMediaBody, dayPinBody } =
         generateTokenGroupCss(cssName, inverseTokens[group], nightVariants, true)
       cssLines.push(...semanticLines)
       allDayPrimitives.push(...dayPrimitives)
       allNightPrimitives.push(...nightPrimitives)
       allNightMediaBody.push(...nightMediaBody)
+      allDayPinBody.push(...dayPinBody)
     }
   }
 
@@ -147,7 +151,7 @@ export function buildCombinedCss(
     cssLines.push(...lines)
   }
 
-  const pushSizePrimitives = (lines: string[]) => {
+  const pushLines = (lines: string[]) => {
     if (lines.length === 0) return
     cssLines.push(...lines)
   }
@@ -156,41 +160,11 @@ export function buildCombinedCss(
     cssLines.push('}')
   }
 
-  const pushSizeMediaBlocks = (blocks: string[]) => {
-    if (blocks.length === 0) return
-    cssLines.push(...blocks)
-  }
-
   const pushColorSchemeMediaBlock = () => {
-    if (allNightMediaBody.length === 0) return
-    // Mode awareness — reassigns semantic variables to night primitives when OS prefers dark
-    cssLines.push('')
-    cssLines.push('@media (prefers-color-scheme: dark) {')
-    cssLines.push('\t:root {')
-    cssLines.push(...allNightMediaBody)
-    cssLines.push('\t}')
-    cssLines.push('}')
-
-    // Manual pins — [data-theme="day"|"night"] reassigns every semantic mode var to
-    // the corresponding primitive on the matched element, cascading to descendants.
-    // Attribute selector (specificity 0,1,0,0) outranks the @media :root rule above,
-    // so the pin wins regardless of OS preference. Applies to any DOM element —
-    // <html data-theme="day"> pins the page; <div data-theme="day">…</div> pins a
-    // subtree without other semantics.
-    // Flip the night primitive ref to day for the day pin. The optional
-    // `--inverse` tail is preserved so inverse vars pin correctly too
-    // (`--night--inverse)` → `--day--inverse)`).
-    const dayMediaBody = allNightMediaBody.map(line => line.replace(/--night(--inverse)?\)/g, '--day$1)'))
-    cssLines.push('')
-    cssLines.push('[data-theme="day"] {')
-    cssLines.push('\tcolor-scheme: light;')
-    cssLines.push(...dayMediaBody)
-    cssLines.push('}')
-    cssLines.push('')
-    cssLines.push('[data-theme="night"] {')
-    cssLines.push('\tcolor-scheme: dark;')
-    cssLines.push(...allNightMediaBody)
-    cssLines.push('}')
+    // Mode awareness — the OS-preference @media block plus the [data-theme="day"|"night"]
+    // pins. A pin on any element reassigns every semantic mode var for that subtree
+    // and, being later in source order, wins over the OS-preference block.
+    cssLines.push(...themeBlocks(allNightMediaBody, allDayPinBody))
   }
 
   // Phase 1: core token groups — semantic variables go inline, primitives accumulate
@@ -210,44 +184,46 @@ export function buildCombinedCss(
   pushComponentNightPrimitives(componentResult.nightPrimitives)
   // Merge component night-media lines into the shared accumulator for the @media block below
   allNightMediaBody.push(...componentResult.nightMediaBody)
+  allDayPinBody.push(...componentResult.dayPinBody)
 
   // Auto-propagate bare aliases: any component token whose value is
   // `var(--np--<core>)` tracks every scope the referenced core participates in
   // (theme/night, breakpoints, extra themes), unless an authored override owns
   // that path+scope. Night lines fold into the shared accumulator; breakpoint
   // and extra-theme blocks are appended after :root in Phases 4 and 6.
-  const coreScopeMap = buildCoreScopeMap(nightTokens, sizeTokens, extraThemes)
+  const coreScopeMap = buildCoreScopeMap(nightTokens, breakpointTokens, extraThemes)
   const aliasResult = generateComponentAliasCss(
     componentTokens, componentNightTokens, componentBreakpointTokens, componentExtraThemes, coreScopeMap
   )
   allNightMediaBody.push(...aliasResult.nightMediaBody)
+  allDayPinBody.push(...aliasResult.dayPinBody)
 
-  // Phase 4: size breakpoint primitives — inside :root; media blocks go outside.
+  // Phase 4: breakpoint primitives — inside :root; media blocks go outside.
   // Module (flat) and component (nested) breakpoints emit the same shape; both
   // primitive sections go inside :root, both media-block stacks go after it.
-  const sizeResult = generateBreakpointTokenCss(sizeTokens)
-  const componentSizeResult = generateComponentBreakpointCss(componentTokens, componentBreakpointTokens)
+  const breakpointResult = generateBreakpointTokenCss(breakpointTokens)
+  const componentBreakpointResult = generateComponentBreakpointCss(componentTokens, componentBreakpointTokens)
   // Extra (non-night) theme primitives also live inside :root; their pins go in Phase 6.
   const extraThemeResult = generateExtraThemeCss(extraThemes)
   const componentExtraThemeResult = generateComponentExtraThemeCss(componentExtraThemes)
-  pushSizePrimitives(sizeResult.primitiveLines)
-  pushSizePrimitives(componentSizeResult.primitiveLines)
-  pushSizePrimitives(extraThemeResult.primitiveLines)
-  pushSizePrimitives(componentExtraThemeResult.primitiveLines)
+  pushLines(breakpointResult.primitiveLines)
+  pushLines(componentBreakpointResult.primitiveLines)
+  pushLines(extraThemeResult.primitiveLines)
+  pushLines(componentExtraThemeResult.primitiveLines)
   pushRootClose()
-  pushSizeMediaBlocks(sizeResult.mediaBlocks)
-  pushSizeMediaBlocks(componentSizeResult.mediaBlocks)
+  pushLines(breakpointResult.mediaBlocks)
+  pushLines(componentBreakpointResult.mediaBlocks)
   // Alias-propagated breakpoint blocks (component tokens aliasing a breakpoint-driven core)
-  pushSizeMediaBlocks(aliasResult.bpMediaBlocks)
+  pushLines(aliasResult.bpMediaBlocks)
 
   // Phase 5: mode awareness — @media (prefers-color-scheme) + [data-theme="day"|"night"]
   pushColorSchemeMediaBlock()
 
   // Phase 6: extra-theme pins — one [data-theme="{name}"] block per non-night theme
-  pushSizeMediaBlocks(extraThemeResult.pinBlocks)
-  pushSizeMediaBlocks(componentExtraThemeResult.pinBlocks)
+  pushLines(extraThemeResult.pinBlocks)
+  pushLines(componentExtraThemeResult.pinBlocks)
   // Alias-propagated extra-theme pins (component tokens aliasing an extra-themed core)
-  pushSizeMediaBlocks(aliasResult.extraPinBlocks)
+  pushLines(aliasResult.extraPinBlocks)
 
   return { css: cssLines.join('\n') }
 }

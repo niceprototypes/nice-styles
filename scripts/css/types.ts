@@ -1,7 +1,7 @@
 /**
  * Shared types for the CSS generation pipeline.
  *
- * Used by: validate, emitCoreTokens, emitComponentTokens, assembleCombined, assembleColorScheme
+ * Used by: validate, emitCoreTokens, emitComponentTokens, emitComponentBreakpointTokens, emitExtraThemeTokens, assembleCombined
  */
 
 /** Flat token format: { tokenName: { variant: value } } */
@@ -60,4 +60,6 @@ export interface CssEmitResult {
   nightPrimitives: string[]
   /** Lines for the @media (prefers-color-scheme: dark) body appended to tokens.css */
   nightMediaBody: string[]
+  /** The matching reassignments to `--day` primitives for the [data-theme="day"] pin */
+  dayPinBody: string[]
 }

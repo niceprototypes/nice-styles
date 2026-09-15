@@ -10,7 +10,7 @@
  * |------|-------|------|
  * | `module.json` | `{ group: { item: value } }` | Comprehensive base — static + default-theme values for theme-conditional groups |
  * | `module.themes.json` | `{ night: { group: { item: value } }, … }` | Alternative themes keyed by name; partial overrides of the base |
- * | `module.breakpoints.json` | `{ phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} }` | Size tokens keyed by breakpoint |
+ * | `module.breakpoints.json` | `{ phone: {...}, tablet: {...}, laptop: {...}, desktop: {...} }` | Breakpoint tokens keyed by breakpoint |
  * | `component.json` | `{ day: { prefix: { ...nested } }, night: {...} }` | Component tokens keyed by theme |
  *
  * Themed groups (color, backgroundColor, borderColor, …) are split out of the
@@ -21,7 +21,7 @@
  * The `tokens` field in the returned object is a unified map of all semantic defaults:
  * - Core tokens (no variants)
  * - Color day values (the base for theme-conditional groups)
- * - Size small values from `module.breakpoints.json` → phone dimension
+ * - Breakpoint phone values from `module.breakpoints.json`
  *
  * This merged map drives both the `:root` semantic variable emission and the
  * per-group individual CSS files in `dist/css/`.
@@ -35,12 +35,12 @@ import { validateNightTokens, validateComponentNightTokens, validateComponentBre
 import { BREAKPOINT_PHONE } from '../../src/constants/breakpoints.js'
 
 export interface TokenSources {
-  /** Merged semantic defaults: core + color day + size phone */
+  /** Merged semantic defaults: core + color day + breakpoint phone */
   tokens: Tokens
   /** Night-theme overrides from module.themes.json */
   nightTokens: NightTokens
   /** Full breakpoints module data for breakpoint primitive/media query emission */
-  sizeTokens: BreakpointTokens
+  breakpointTokens: BreakpointTokens
   /** Component day tokens from component.json */
   componentTokens: ComponentTokens
   /** Component night overrides from component.json */
@@ -114,7 +114,7 @@ function readModule(tokensDir: string): {
   themesDay: Tokens
   nightTokens: NightTokens
   extraThemes: Record<string, Tokens>
-  sizeTokens: BreakpointTokens
+  breakpointTokens: BreakpointTokens
   inverseTokens: Tokens
   inverseNightTokens: NightTokens
 } {
@@ -150,7 +150,7 @@ function readModule(tokensDir: string): {
     themesDay,
     nightTokens: themes.night || {},
     extraThemes,
-    sizeTokens: embeddedBreakpoints ?? {},
+    breakpointTokens: embeddedBreakpoints ?? {},
     inverseTokens,
     inverseNightTokens,
   }
@@ -164,7 +164,7 @@ function readModule(tokensDir: string): {
  * @param errorsPath - Absolute path to src/errors.json (validation message templates)
  */
 export function readTokenSources(tokensDir: string, errorsPath: string): TokenSources {
-  const { coreTokens, themesDay, nightTokens, extraThemes, sizeTokens, inverseTokens, inverseNightTokens } = readModule(tokensDir)
+  const { coreTokens, themesDay, nightTokens, extraThemes, breakpointTokens, inverseTokens, inverseNightTokens } = readModule(tokensDir)
 
   // Validate: every night entry must have a corresponding day entry
   const errors: Errors = JSON.parse(fs.readFileSync(errorsPath, 'utf-8'))
@@ -186,7 +186,7 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
   }
 
   // phone provides semantic defaults; tablet/laptop/desktop provide overrides
-  const breakpointsPhone: Tokens = sizeTokens[BREAKPOINT_PHONE] || {}
+  const breakpointsPhone: Tokens = breakpointTokens[BREAKPOINT_PHONE] || {}
 
   // Component tokens — glob per-prefix files; fall back to legacy component.json
   const { componentTokens, componentNightTokens, componentBreakpointTokens, componentExtraThemes } = readComponentTokens(tokensDir)
@@ -221,11 +221,11 @@ export function readTokenSources(tokensDir: string, errorsPath: string): TokenSo
   }
 
   // Merge all sources into a unified semantic defaults map
-  // Order: core → color day → size phone (later keys win on collision)
+  // Order: core → color day → breakpoint phone (later keys win on collision)
   const tokens: Tokens = { ...coreTokens, ...themesDay, ...breakpointsPhone }
 
   return {
-    tokens, nightTokens, sizeTokens, componentTokens, componentNightTokens,
+    tokens, nightTokens, breakpointTokens, componentTokens, componentNightTokens,
     componentBreakpointTokens, extraThemes, componentExtraThemes,
     inverseTokens, inverseNightTokens,
   }

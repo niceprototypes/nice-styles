@@ -164,7 +164,7 @@ function nextFloor(name: BreakpointName): number {
  * - exact→ the bounded band (reuses `getBreakpoint("name")`).
  * - down → max-width at the breakpoint's ceiling; `desktop-` → null (base).
  *
- * Reads `BREAKPOINTS` at call time, so `setBreakpoints` overrides apply.
+ * Reads `BREAKPOINTS` at call time, so `setTokens({ breakpoints })` overrides apply.
  */
 export function breakpointKeyQuery(key: string): string | null {
   const parsed = parseBreakpointKey(key)

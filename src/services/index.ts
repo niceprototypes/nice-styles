@@ -27,7 +27,6 @@ export {
 export type { BreakpointValues } from '../constants/breakpoints.js'
 export { getToken } from './getToken.js'
 export type { TokenOptions, TokenAccessor } from './getToken.js'
-export { setBreakpoints } from './setBreakpoints.js'
 export { getConstant, getConstantKey, NAMESPACE } from './getConstant.js'
 export type { CssConstantOptions } from './getConstant.js'
 export { transformColor } from './transformColor.js'
@@ -57,7 +56,7 @@ export { isStyleValue } from '../utilities/isStyleValue.js'
 export { registry, registerTokens } from '../registry/index.js'
 export type { TokenEntry, TokenValue } from '../registry/index.js'
 
-// Runtime CSS injection for setTokens / setBreakpoints
+// Runtime CSS injection for setTokens
 export { injectTokenCSS } from '../utilities/tokenStyleSheet.js'
 
 // CSS generation — pure JS core of setTokens. The React wrapper in

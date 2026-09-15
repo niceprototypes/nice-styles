@@ -1,7 +1,7 @@
 /**
  * breakpointStyleSheet — Singleton style element for runtime breakpoint overrides.
  *
- * `setBreakpoints` re-emits the size-token @media cascade with new thresholds.
+ * `setTokens({ breakpoints })` re-emits the breakpoint-token @media cascade with new thresholds.
  * The resulting CSS is injected into a single `<style data-nice-breakpoints>`
  * element appended to `<head>`. Subsequent calls replace its contents, so the
  * stylesheet always reflects the most recent override set.

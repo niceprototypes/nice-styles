@@ -44,7 +44,7 @@ export interface BreakpointValues {
  * Editable pixel floors. `phone` has no entry — it is the implicit base
  * (everything below `tablet`), so its ceiling is derived as `tablet − 1`.
  *
- * Mutable by design: `setBreakpoints` rewrites the object in place so
+ * Mutable by design: `setTokens({ breakpoints })` rewrites the object in place so
  * `getBreakpoint`, `getBreakpointValue`, and any other reader pick up
  * the new values without re-importing. The object reference is stable.
  */

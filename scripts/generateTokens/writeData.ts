@@ -140,7 +140,7 @@ function writeInverseTokens(generatedDir: string, data: InverseData): void {
 export function writeTokenDataFiles(sources: TokenJsonSources, generatedDir: string): void {
   writeCoreTokens(generatedDir, sources.core)
   writeThemeTokens(generatedDir, sources.color)
-  writeBreakpointTokens(generatedDir, sources.size)
+  writeBreakpointTokens(generatedDir, sources.breakpointTokens)
   writeComponentTokens(generatedDir, sources.component)
   writeBreakpoints(generatedDir, sources.breakpoints)
   writeInverseTokens(generatedDir, sources.inverse)

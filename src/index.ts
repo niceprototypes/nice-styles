@@ -54,7 +54,6 @@ export {
   BREAKPOINT_DESKTOP,
   BREAKPOINTS,
   getToken,
-  setBreakpoints,
   getConstant,
   getConstantKey,
   NAMESPACE,

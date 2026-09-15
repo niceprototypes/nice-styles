@@ -15,7 +15,7 @@
 
 import { getConstantKey } from '../../src/services/getConstant.js'
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
-import { buildCssKey } from './emitComponentTokens.js'
+import { pinBlock } from '../../src/utilities/tokenCss.js'
 import type { Tokens, TokenNode } from './types.js'
 
 export interface ExtraThemeResult {
@@ -23,15 +23,6 @@ export interface ExtraThemeResult {
   primitiveLines: string[]
   /** Complete `[data-theme="{theme}"] { … }` pin blocks for after :root */
   pinBlocks: string[]
-}
-
-/** Append a `[data-theme="{theme}"]` pin block. No-op when the body is empty. */
-function pushPinBlock(blocks: string[], theme: string, body: string[]): void {
-  if (body.length === 0) return
-  blocks.push('')
-  blocks.push(`[data-theme="${theme}"] {`)
-  blocks.push(...body)
-  blocks.push('}')
 }
 
 /**
@@ -57,7 +48,7 @@ export function generateExtraThemeCss(extraThemes: Record<string, Tokens>): Extr
         pinBody.push(`\t${getConstantKey(cssName, variant)}: var(${primitive});`)
       }
     }
-    pushPinBlock(pinBlocks, theme, pinBody)
+    pinBlocks.push(...pinBlock(theme, pinBody))
   }
   return { primitiveLines, pinBlocks }
 }
@@ -74,7 +65,7 @@ function walkTheme(
   for (const [key, value] of Object.entries(themeNode)) {
     const newPath = [...path, key]
     if (typeof value === 'string') {
-      const cssKey = buildCssKey(prefix, newPath)
+      const cssKey = getConstantKey(newPath, 'base', { pkg: prefix })
       primOut.push(`\t${cssKey}--${theme}: ${value};`)
       pinOut.push(`\t${cssKey}: var(${cssKey}--${theme});`)
     } else if (value && typeof value === 'object') {
@@ -108,7 +99,7 @@ export function generateComponentExtraThemeCss(
       const tree = byTheme[theme]
       if (tree) walkTheme(prefix, tree, [], theme, primitiveLines, pinBody)
     }
-    pushPinBlock(pinBlocks, theme, pinBody)
+    pinBlocks.push(...pinBlock(theme, pinBody))
   }
   return { primitiveLines, pinBlocks }
 }
