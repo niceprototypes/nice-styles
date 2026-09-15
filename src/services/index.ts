@@ -25,18 +25,13 @@ export {
   BREAKPOINTS,
 } from '../constants/breakpoints.js'
 export type { BreakpointValues } from '../constants/breakpoints.js'
-export { getToken, getTokenKey, getTokenValue } from './getToken.js'
-export { getThemeToken, getThemeTokenKey, getThemeTokenValue } from './getThemeToken.js'
-export { getBreakpointToken, getBreakpointTokenKey, getBreakpointTokenValue } from './getBreakpointToken.js'
-export { setCoreTokens } from './setCoreTokens.js'
-export { setThemeTokens } from './setThemeTokens.js'
-export { setBreakpointTokens } from './setBreakpointTokens.js'
+export { getToken } from './getToken.js'
+export type { TokenOptions, TokenAccessor } from './getToken.js'
 export { setBreakpoints } from './setBreakpoints.js'
 export { getConstant, getConstantKey, NAMESPACE } from './getConstant.js'
 export type { CssConstantOptions } from './getConstant.js'
-export { getComponentToken, getComponentTokenKey, getComponentTokenValue } from './getComponentToken.js'
-export { getHSLA } from './getHSLA.js'
-export type { GetHSLAOptions } from './getHSLA.js'
+export { transformColor } from './transformColor.js'
+export type { TransformColorOptions } from './transformColor.js'
 export { default as getTextHeight } from './getTextHeight.js'
 
 export { parseGoogleFontsUrl } from './parseGoogleFontsUrl.js'
@@ -59,8 +54,8 @@ export type { StyleValueKind } from '../constants/styleValues.js'
 export { isStyleValue } from '../utilities/isStyleValue.js'
 
 // Registry — seeded at module load via init.ts → registry/index.ts side-effect
-export { registry, registerTokens, seedDimensionedTokens } from '../registry/index.js'
-export type { RegistryEntry, DimensionedTokenSeed } from '../registry/index.js'
+export { registry, registerTokens } from '../registry/index.js'
+export type { TokenEntry, TokenValue } from '../registry/index.js'
 
 // Runtime CSS injection for setTokens / setBreakpoints
 export { injectTokenCSS } from '../utilities/tokenStyleSheet.js'
@@ -74,6 +69,5 @@ export { applyTheme } from './applyTheme.js'
 export type { ThemeName } from './applyTheme.js'
 
 // Re-exported from utilities for sibling packages (nice-react-styles)
-export { getTokenFromMap, getTokenByPath } from '../utilities/getTokenFromMap.js'
-export type { TokenDefinition, TokenMap, ComponentTokenNode, TokenResult, TokenFromMapOptions } from '../utilities/getTokenFromMap.js'
+export type { TokenDefinition, TokenMap, ComponentTokenNode } from '../types/tokenMap.js'
 export { camelToKebab } from '../utilities/camelToKebab.js'

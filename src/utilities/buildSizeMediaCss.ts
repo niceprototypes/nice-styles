@@ -21,7 +21,9 @@ import {
   BREAKPOINT_DESKTOP,
   type BreakpointValues,
 } from '../constants/breakpoints.js'
-import type { DimensionMap } from '../store.js'
+import type { BreakpointTokensData } from '../generated/breakpointTokensData.js'
+
+type DimensionMap = BreakpointTokensData
 
 /**
  * Build one media-body line that reassigns the semantic var to a breakpoint primitive.

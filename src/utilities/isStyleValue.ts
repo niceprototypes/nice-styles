@@ -1,4 +1,5 @@
-import { STYLE_VALUE_KEYS, type StyleValueKind } from '../constants/styleValues.js'
+import { DEFAULT_THEME, type StyleValueKind } from '../constants/styleValues.js'
+import { isBreakpointKeyMap } from '../services/breakpointKey.js'
 import type { ThemeValue, BreakpointValue } from '../types/styleValues.js'
 
 interface StyleValueByKind {
@@ -7,21 +8,26 @@ interface StyleValueByKind {
 }
 
 /**
- * Check if a value is a style-value object of the given kind.
+ * Check if a value is a style-value object of the given kind. The single value
+ * classifier for the registry, getters, and CSS generation.
  *
- * Discriminates by the kind's default key (`"day"` for theme, `"phone"` for
- * breakpoint). When a value has both kinds' default keys, callers should
- * check `"breakpoint"` first.
+ * - `breakpoint`: a non-empty plain object whose every key is a breakpoint key —
+ *   bare (`phone`) or with a range modifier (`laptop+`, `tablet-`).
+ * - `theme`: a plain object that is not a breakpoint map and defines the
+ *   default theme key (`day`).
+ *
+ * The two kinds are mutually exclusive, so check order does not matter.
  */
 export function isStyleValue<K extends StyleValueKind>(
   kind: K,
   value: unknown
 ): value is StyleValueByKind[K] {
-  const discriminator = STYLE_VALUE_KEYS[kind][0]
+  if (kind === 'breakpoint') return isBreakpointKeyMap(value)
   return (
-    typeof value === "object" &&
+    typeof value === 'object' &&
     value !== null &&
-    discriminator in value &&
-    typeof (value as Record<string, unknown>)[discriminator] !== "undefined"
+    !Array.isArray(value) &&
+    !isBreakpointKeyMap(value) &&
+    typeof (value as Record<string, unknown>)[DEFAULT_THEME] !== 'undefined'
   )
 }

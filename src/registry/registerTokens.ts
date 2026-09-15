@@ -1,46 +1,31 @@
-import type { TokenMap } from '../utilities/getTokenFromMap.js'
-import type { ThemeValue } from '../types/styleValues.js'
-import { DEFAULT_THEME } from '../constants/styleValues.js'
-import { isStyleValue } from '../utilities/isStyleValue.js'
-import { registry } from './createRegistry.js'
+import { getConstantKey } from '../services/getConstant.js'
+import { registry, type TokenValue } from './createRegistry.js'
 
 /**
- * Register tokens into the unified registry.
+ * Write tokens into the registry's runtime layer.
  *
- * Supports two value formats:
- * - Simple value: `{ base: "16px" }` (default theme only)
- * - Theme value: `{ base: { day: "16px", night: "18px" } }`
+ * Each variant is keyed by its CSS variable name, so an override of a
+ * generated token (core or component) lands on the same entry as its seed and
+ * layers over it; a new name creates a runtime-only entry. Entries are never
+ * replaced wholesale — the seed survives, and readers fall back to it for any
+ * theme or breakpoint the override does not cover.
  *
- * @param tokenMap - Object mapping token names to variant → value objects
- * @param prefix - Optional component prefix for CSS variables (e.g., "button", "tile")
+ * @param tokenMap - `{ group: { variant: value } }`; values may be plain, theme, or breakpoint values
+ * @param prefix - Component prefix (e.g. "button"); omit for core and custom tokens
  */
 export function registerTokens(
-  tokenMap: TokenMap | Record<string, Record<string, string | number | ThemeValue>>,
+  tokenMap: Record<string, Record<string, TokenValue>>,
   prefix?: string
 ): void {
-  for (const [name, variants] of Object.entries(tokenMap)) {
-    const existing = registry.get(name)
-    const themes = new Set<string>([DEFAULT_THEME])
-
-    for (const value of Object.values(variants)) {
-      if (isStyleValue("theme", value)) {
-        for (const theme of Object.keys(value)) {
-          themes.add(theme)
-        }
+  for (const [group, variants] of Object.entries(tokenMap)) {
+    for (const [variant, value] of Object.entries(variants)) {
+      const key = getConstantKey(group, variant, { pkg: prefix })
+      const existing = registry.get(key)
+      if (existing) {
+        existing.runtime = value
+      } else {
+        registry.set(key, { key, prefix, path: [group], variant, inverse: false, runtime: value })
       }
     }
-
-    let mergedVariants: Record<string, string | number | ThemeValue>
-
-    if (existing) {
-      mergedVariants = { ...existing.variants, ...variants }
-      for (const theme of existing.themes) {
-        themes.add(theme)
-      }
-    } else {
-      mergedVariants = variants
-    }
-
-    registry.set(name, { prefix, variants: mergedVariants, themes })
   }
 }

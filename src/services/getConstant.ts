@@ -29,7 +29,7 @@ export interface CssConstantOptions {
  * key, they just differ in whether they wrap it in `var(...)`.
  */
 function buildKey(
-  token: string,
+  token: string | string[],
   param: string,
   options?: CssConstantOptions
 ): string {
@@ -38,21 +38,22 @@ function buildKey(
   const suffix = breakpoint ? `--${breakpoint}` : theme ? `--${theme}` : ''
   // Inverse is a separate trailing segment, kept distinct from the theme.
   const inverseSuffix = inverse ? '--inverse' : ''
-  // `base` is the implicit default and carries no segment in the variable name:
-  // `--np--color` for base, `--np--color--night` for base+theme. Non-base
-  // variants read normally — `--np--color--light`.
-  const variant = camelToKebab(param) === 'base' ? '' : `--${camelToKebab(param)}`
-  return pkg
-    ? `--${NAMESPACE}--${pkg}--${camelToKebab(token)}${variant}${suffix}${inverseSuffix}`
-    : `--${NAMESPACE}--${camelToKebab(token)}${variant}${suffix}${inverseSuffix}`
+  // A token is a group name or a nested group path (component trees, e.g.
+  // ["icon", "size"]). `base` is the implicit default and carries no segment
+  // anywhere in the name: `--np--color` for base, `--np--color--night` for
+  // base+theme, `--np--button--icon--size` for ["icon", "size"] + base.
+  const segments = [...(Array.isArray(token) ? token : [token]), param]
+    .map(camelToKebab)
+    .filter((segment) => segment !== '' && segment !== 'base')
+  const namespace = pkg ? `--${NAMESPACE}--${pkg}` : `--${NAMESPACE}`
+  return `${namespace}--${segments.join('--')}${suffix}${inverseSuffix}`
 }
 
 /**
  * Returns the `var(--np--…)` reference string for a Nice token.
  *
- * Mirrors the `getToken` / `getTokenKey` / `getTokenValue` getter pattern —
- * the common case (CSS variable reference) is the bare return, the bare key
- * is the sibling `getConstantKey`.
+ * Builds the name only — no registry lookup. To read a registered token, use
+ * `getToken`; the bare key is the sibling `getConstantKey`.
  *
  * @example
  * // Base tokens (the `base` default is segment-less)
@@ -75,7 +76,7 @@ function buildKey(
  * // "var(--np--button--height--small)"
  */
 export function getConstant(
-  token: string,
+  token: string | string[],
   param: string,
   options?: CssConstantOptions
 ): string {
@@ -98,7 +99,7 @@ export function getConstant(
  * // "--np--font-size--large--phone"
  */
 export function getConstantKey(
-  token: string,
+  token: string | string[],
   param: string,
   options?: CssConstantOptions
 ): string {

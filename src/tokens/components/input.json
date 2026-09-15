@@ -14,6 +14,7 @@
     "larger": "calc(var(--np--size--larger) / 2)"
   },
   "borderRadius": {
+    "none": "var(--np--border-radius--none)",
     "smaller": "var(--np--border-radius--smaller)",
     "small": "var(--np--border-radius--small)",
     "base": "var(--np--border-radius)",
@@ -27,68 +28,6 @@
     "base": "var(--np--border-width)",
     "large": "var(--np--border-width--large)",
     "larger": "var(--np--border-width--larger)"
-  },
-  "status": {
-    "primary": {
-      "backgroundColor": {
-        "base": "var(--np--background-color)",
-        "disabled": "#f5f5f5",
-        "error": "var(--np--background-color)",
-        "success": "var(--np--background-color)",
-        "warning": "var(--np--background-color)"
-      },
-      "borderColor": {
-        "base": "var(--np--color--lightest)",
-        "disabled": "#ddd",
-        "error": "var(--np--color--error)",
-        "success": "var(--np--color--success)",
-        "warning": "var(--np--color--warning)"
-      },
-      "color": {
-        "base": "var(--np--color)",
-        "disabled": "#888",
-        "error": "var(--np--color)",
-        "success": "var(--np--color)",
-        "warning": "var(--np--color)"
-      },
-      "placeholderColor": {
-        "base": "var(--np--color--lighter)",
-        "disabled": "#aaa",
-        "error": "var(--np--color--lighter)",
-        "success": "var(--np--color--lighter)",
-        "warning": "var(--np--color--lighter)"
-      }
-    },
-    "secondary": {
-      "backgroundColor": {
-        "base": "var(--np--background-color--alternate)",
-        "disabled": "#f5f5f5",
-        "error": "var(--np--background-color--alternate)",
-        "success": "var(--np--background-color--alternate)",
-        "warning": "var(--np--background-color--alternate)"
-      },
-      "borderColor": {
-        "base": "transparent",
-        "disabled": "transparent",
-        "error": "var(--np--color--error)",
-        "success": "var(--np--color--success)",
-        "warning": "var(--np--color--warning)"
-      },
-      "color": {
-        "base": "var(--np--color)",
-        "disabled": "#888",
-        "error": "var(--np--color)",
-        "success": "var(--np--color)",
-        "warning": "var(--np--color)"
-      },
-      "placeholderColor": {
-        "base": "var(--np--color--lighter)",
-        "disabled": "#aaa",
-        "error": "var(--np--color--lighter)",
-        "success": "var(--np--color--lighter)",
-        "warning": "var(--np--color--lighter)"
-      }
-    }
   },
   "$themes": {
     "night": {}

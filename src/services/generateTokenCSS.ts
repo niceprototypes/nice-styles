@@ -1,15 +1,13 @@
 /**
  * Generate the CSS string for a token map and register the tokens.
  *
- * Framework-agnostic core of `setTokens`. Takes a token map (flat tokens,
- * component-prefix overrides, optional top-level `breakpoints` key), registers
- * the flat tokens, forwards `breakpoints` to `setBreakpoints`, and builds the
- * full `:root` + `@media` CSS string. Returns the string for the caller to do
- * with as it pleases (typically `injectTokenCSS`).
+ * Framework-agnostic core of `setTokens`. Takes a token map (flat tokens and
+ * component-prefix overrides), registers the flat tokens, and builds the full
+ * `:root` + `@media` CSS string. Returns the string for the caller to do with as
+ * it pleases (typically `injectTokenCSS`). Breakpoint thresholds are not part of
+ * a token map — set them with `setBreakpoints` before calling this.
  *
- * Side effects, in order:
- *   1. If `tokenMap.breakpoints` is set, calls `setBreakpoints(...)`.
- *   2. Calls `registerTokens(flatTokens, prefix)`.
+ * Side effect: calls `registerTokens(flatTokens, prefix)`.
  *
  * The output CSS string contains a `:root` block (defaults + non-default
  * primitives) plus per-theme and per-breakpoint `@media` blocks that reassign
@@ -19,7 +17,6 @@
  *   - Token group names (`fontSize`, `gap`, …) for flat tokens.
  *   - Known component prefixes (`button`, `icon`, …) for 3-level component
  *     overrides.
- *   - The literal key `breakpoints` for runtime breakpoint-threshold overrides.
  * @param prefix - Optional component prefix for the CSS variable namespace.
  * @param options.colorSchemeEnabled - When true, emits `@media
  *   (prefers-color-scheme: dark)` switching night-theme primitives. Default
@@ -31,9 +28,7 @@
 import { camelToKebab } from '../utilities/camelToKebab.js'
 import { isStyleValue } from '../utilities/isStyleValue.js'
 import { getConstantKey } from './getConstant.js'
-import { setBreakpoints } from './setBreakpoints.js'
 import {
-  isBreakpointKeyMap,
   parseBreakpointKey,
   breakpointKeyQuery,
   compareBreakpointSpecificity,
@@ -44,8 +39,7 @@ import componentTokensData from '../generated/componentTokensData.js'
 import {
   DEFAULT_THEME,
 } from '../constants/styleValues.js'
-import type { BreakpointValues } from '../constants/breakpoints.js'
-import type { TokenMap } from '../utilities/getTokenFromMap.js'
+import type { TokenMap } from '../types/tokenMap.js'
 import type { ThemeValue, BreakpointValue } from '../types/styleValues.js'
 
 /** A breakpoint declaration tagged with its parsed key, for specificity sorting. */
@@ -84,7 +78,7 @@ function processVariants(
   breakpointGroups: Map<string, BreakpointEntry[]>
 ): void {
   for (const [variant, value] of Object.entries(variants)) {
-    if (isBreakpointKeyMap(value)) {
+    if (isStyleValue('breakpoint', value)) {
       const cssKey = getConstantKey(cssName, variant, { pkg })
 
       for (const [key, bpValue] of Object.entries(value)) {
@@ -116,6 +110,12 @@ function processVariants(
           }
         }
       }
+    } else if (typeof value === 'object' && value !== null) {
+      // Neither a breakpoint map nor a theme value (e.g. a theme map missing the
+      // default theme key) — would otherwise emit "[object Object]".
+      throw new Error(
+        `generateTokenCSS: "${cssName}.${variant}" must be a string, number, breakpoint map, or theme value with a "${DEFAULT_THEME}" key (got ${JSON.stringify(value)})`
+      )
     } else {
       const cssKey = getConstantKey(cssName, variant, { pkg })
       defaultDeclarations.push(`${cssKey}: ${value};`)
@@ -131,8 +131,8 @@ function processVariants(
  */
 function collectThemes(variants: VariantMap, themes: Set<string>): void {
   for (const value of Object.values(variants)) {
-    // Breakpoint maps are handled separately; only theme values seed here.
-    if (!isBreakpointKeyMap(value) && isStyleValue('theme', value)) {
+    // Only theme values seed here; the classifier excludes breakpoint maps.
+    if (isStyleValue('theme', value)) {
       for (const theme of Object.keys(value)) {
         themes.add(theme)
       }
@@ -145,14 +145,15 @@ export function generateTokenCSS<T extends TokenMap | TokenMapWithThemes>(
   prefix?: string,
   options?: { colorSchemeEnabled?: boolean }
 ): string {
-  // Separate flat tokens from component token overrides and breakpoint config.
+  // Separate flat tokens from component token overrides.
   const flatTokens: Record<string, VariantMap> = {}
   const componentOverrides: Record<string, Record<string, VariantMap>> = {}
-  let breakpointOverrides: Partial<BreakpointValues> | undefined
 
   for (const [key, value] of Object.entries(tokenMap)) {
     if (key === 'breakpoints') {
-      breakpointOverrides = value as Partial<BreakpointValues>
+      // Breakpoint thresholds are not set through a token map. Ignored (not
+      // registered as a token) so stale maps don't emit junk variables.
+      console.warn('generateTokenCSS: the `breakpoints` key is not supported — call setBreakpoints() instead. Ignoring it.')
     } else if (componentPrefixes.has(key)) {
       componentOverrides[key] = value as Record<string, VariantMap>
     } else {
@@ -160,14 +161,12 @@ export function generateTokenCSS<T extends TokenMap | TokenMapWithThemes>(
     }
   }
 
-  // Apply breakpoint overrides BEFORE token CSS is emitted so the @media
-  // thresholds used below reflect the new values.
-  if (breakpointOverrides) {
-    setBreakpoints(breakpointOverrides)
-  }
-
-  // Register flat tokens — component overrides work via CSS variable cascade.
+  // Register into the runtime layer — flat tokens under `prefix`, component
+  // overrides under their component prefix — so getToken reflects every override.
   registerTokens(flatTokens, prefix)
+  for (const [componentPrefix, tokenGroups] of Object.entries(componentOverrides)) {
+    registerTokens(tokenGroups, componentPrefix)
+  }
 
   // Collect themes from flat tokens and component overrides (breakpoint groups
   // are keyed by query and built lazily during processing).

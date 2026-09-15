@@ -1,167 +1,157 @@
 /**
- * Unified token getter — reads from the runtime registry seeded by the
- * generated token data and extended at runtime via `registerTokens` /
- * `setTokens`.
+ * The single token getter.
  *
- * Three sibling functions return the three accessor forms:
- * - `getToken` — the `var(--np--…)` reference (the common case)
- * - `getTokenKey` — the bare CSS variable name (no `var(...)` wrapper)
- * - `getTokenValue` — the raw underlying value (e.g. `"16px"`)
+ * Every token — core, custom (`setTokens`), theme, breakpoint, inverse, and
+ * component — resolves through `getToken` against one store (`registry`), keyed
+ * by CSS variable name.
  *
- * For `getToken`, the variant is the second positional argument; theme /
- * inverse / pristine go in a trailing options object. (`getTokenKey` /
- * `getTokenValue` keep the variant inside their options object.)
+ * @example getToken("gap")                                           // "var(--np--gap)"
+ * @example getToken("color", "base", { theme: "night" })             // "var(--np--color--night)"
+ * @example getToken("fontSize", "large", { breakpoint: "tablet" })    // "var(--np--font-size--large--tablet)"
+ * @example getToken("color", "base", { inverse: true })               // "var(--np--color--inverse)"
+ * @example getToken("spacing", "large", { prefix: "button" })         // "var(--np--button--spacing--large)"
+ * @example getToken(["icon", "size"], "small", { prefix: "button" })  // "var(--np--button--icon--size--small)"
+ * @example getToken("gap", "base", { as: "key" })                     // "--np--gap"
+ * @example getToken("fontSize", "base", { as: "value" })              // "14px"
  *
- * @example
- * getToken("fontSize", "base")
- * // → "var(--np--font-size)"
- *
- * @example
- * getToken("color", "base", { theme: "night" })
- * // → "var(--np--color--night)"
- *
- * @example
- * getToken("backgroundColor", undefined, { inverse: true })
- * // → "var(--np--background-color--inverse)"
- *
- * @example
- * getTokenValue("fontSize")
- * // → "14px"  (base variant; default/phone primitive of a breakpoint-driven token)
- *
- * Throws on unknown token names. Use [Symbol.hasInstance] of `registry` for
- * detection if you need to branch on presence.
+ * - `as`: `"var"` (default) — `var(--np--…)`; `"key"` — bare variable name;
+ *   `"value"` — raw value.
+ * - Layers: the runtime layer (`setTokens`) is read over the seed layer
+ *   (generated data), per theme and per breakpoint — the same order as the
+ *   injected stylesheet over `tokens.css`. `pristine` reads the seed only.
+ * - Unregistered name: the `var` / `key` forms return the computed name and warn
+ *   once if it is still unregistered after module evaluation settles, so a read
+ *   that runs before `setTokens` is not an error. The `value` form throws.
+ * - A `theme` the token has no value for throws. A `breakpoint` pin in the
+ *   `var` / `key` forms throws unless a generated `--{breakpoint}` primitive exists.
  */
 
-import { getTokenFromMap, type TokenDefinition } from '../utilities/getTokenFromMap.js'
-import { isStyleValue } from '../utilities/isStyleValue.js'
-import { DEFAULT_THEME, DEFAULT_BREAKPOINT } from '../constants/styleValues.js'
-import { registry, defaultsRegistry, type RegistryEntry } from '../registry/index.js'
-import { formatError } from '../utilities/formatError.js'
 import { getConstantKey } from './getConstant.js'
-import inverseTokensData from '../generated/inverseTokensData.js'
+import { isBreakpointName } from './breakpointKey.js'
+import { isStyleValue } from '../utilities/isStyleValue.js'
+import { resolveBreakpointValue } from '../utilities/resolveBreakpointValue.js'
+import { formatError } from '../utilities/formatError.js'
+import { DEFAULT_THEME, DEFAULT_BREAKPOINT, STYLE_VALUE_KEYS } from '../constants/styleValues.js'
+import { registry, type TokenEntry, type TokenValue } from '../registry/index.js'
 
-interface InternalTokenResult {
-  key: string
-  var: string
-  value: string
+/** Accessor form returned by `getToken`. */
+export type TokenAccessor = 'var' | 'key' | 'value'
+
+export interface TokenOptions {
+  /** Component prefix (e.g. "button"); omit for core and custom tokens. */
+  prefix?: string
+  /** Pin to a theme primitive (e.g. "night"). */
+  theme?: string
+  /** Pin to a breakpoint primitive (e.g. "tablet"). */
+  breakpoint?: string
+  /** Inverse-color dimension (`--inverse` segment). */
+  inverse?: boolean
+  /** Read the generated seed only, ignoring runtime overrides. */
+  pristine?: boolean
+  /** Accessor form; default `"var"`. */
+  as?: TokenAccessor
 }
+
+/** Keys already scheduled for an unregistered-token check (one warning per key). */
+const scheduledChecks = new Set<string>()
 
 /**
- * Extract the per-variant primitive for a registry entry at the requested theme.
- * BreakpointValue entries fold to their default (phone) value; ThemeValue entries
- * fold to the requested `theme` (default `day`, falling back to `day` when the
- * theme has no override); plain primitives pass through. Without the breakpoint
- * branch, a breakpoint-driven variant (e.g. fontSize) would reach
- * `getTokenFromMap` as an object and stringify to "[object Object]".
- *
- * Folding to the requested theme is what lets `getTokenValue(name, { theme })`
- * return the night (or any-theme) value, not just day.
+ * Warn if `key` is still unregistered once the current synchronous run
+ * (module evaluation, including a later `setTokens` call) has finished.
  */
-function getDefaultVariants(entry: RegistryEntry, theme: string = DEFAULT_THEME): TokenDefinition {
-  const result: TokenDefinition = {}
-  for (const [key, value] of Object.entries(entry.variants)) {
-    // Breakpoint checked first per isStyleValue's discriminator guidance.
-    if (isStyleValue("breakpoint", value)) {
-      result[key] = value[DEFAULT_BREAKPOINT]
-    } else if (isStyleValue("theme", value)) {
-      const themed = value as Record<string, string>
-      result[key] = themed[theme] ?? themed[DEFAULT_THEME]
-    } else {
-      result[key] = value as TokenDefinition[string]
+function checkRegisteredLater(key: string): void {
+  if (scheduledChecks.has(key)) return
+  scheduledChecks.add(key)
+  queueMicrotask(() => {
+    if (!registry.has(key)) {
+      console.warn(
+        `getToken: "${key}" is not registered. If it is a custom token, make sure setTokens runs; otherwise check the name — var(${key}) will not resolve.`
+      )
     }
-  }
-  return result
+  })
 }
 
-function resolveToken(name: string, variant: string, theme?: string, pristine = false): InternalTokenResult {
-  const entry = (pristine ? defaultsRegistry : registry).get(name)
-  if (!entry) {
+/** Human-readable token label for error messages, e.g. `button:icon.size.small`. */
+function describe(path: string[], variant: string, prefix?: string): string {
+  return `${prefix ? `${prefix}:` : ''}${[...path, variant].join('.')}`
+}
+
+/** Layers to read, most specific first. */
+function layersOf(entry: TokenEntry, pristine: boolean): TokenValue[] {
+  const layers = pristine ? [entry.seed] : [entry.runtime, entry.seed]
+  return layers.filter((layer): layer is TokenValue => layer !== undefined)
+}
+
+/** Throw unless some layer holds a value for `theme`. */
+function assertTheme(layers: TokenValue[], theme: string, path: string[], variant: string, prefix?: string): void {
+  const available = layers.some((layer) => isStyleValue('theme', layer) && layer[theme] !== undefined)
+  if (!available) {
     throw new Error(
-      formatError('tokenNotFound', {
-        tokenName: name,
-        prefix: '',
-        available: '',
-      })
+      formatError('modeNotFound', { mode: theme, tokenName: describe(path, '', prefix).replace(/\.$/, ''), variantName: variant })
     )
   }
-  const defaultVariants = getDefaultVariants(entry, theme)
-  return getTokenFromMap(
-    { [name]: defaultVariants },
-    name,
-    variant,
-    { theme, prefix: entry.prefix }
+}
+
+/** Throw unless `breakpoint` is a known breakpoint name. */
+function assertBreakpointName(breakpoint: string): void {
+  if (!isBreakpointName(breakpoint)) {
+    throw new Error(
+      formatError('breakpointNotFound', { name: breakpoint, available: STYLE_VALUE_KEYS.breakpoint.join(', ') })
+    )
+  }
+}
+
+/** Throw unless a generated `--{breakpoint}` primitive exists (seeded breakpoint cells only). */
+function assertBreakpointPrimitive(entry: TokenEntry, breakpoint: string, label: string): void {
+  const seeded = entry.seed
+  if (!isStyleValue('breakpoint', seeded) || seeded[breakpoint] === undefined) {
+    throw new Error(`getToken: "${label}" has no generated --${breakpoint} primitive`)
+  }
+}
+
+/** Resolve the raw value across layers for an optional theme or breakpoint. */
+function resolveValue(layers: TokenValue[], label: string, theme?: string, breakpoint?: string): string {
+  for (const layer of layers) {
+    if (isStyleValue('breakpoint', layer)) {
+      const value = resolveBreakpointValue(layer, (breakpoint ?? DEFAULT_BREAKPOINT) as typeof DEFAULT_BREAKPOINT)
+      if (value !== undefined) return String(value)
+    } else if (isStyleValue('theme', layer)) {
+      const value = layer[theme ?? DEFAULT_THEME]
+      if (value !== undefined) return String(value)
+    } else {
+      return String(layer)
+    }
+  }
+  throw new Error(
+    `getToken: no value for "${label}"${theme ? ` in theme "${theme}"` : ''}${breakpoint ? ` at breakpoint "${breakpoint}"` : ''}`
   )
 }
 
-/**
- * Options for the token getters. All optional; the token `name` stays positional.
- * - `variant` — variant within the group (default `"base"`)
- * - `theme`   — pin to a theme primitive (e.g. `"night"`)
- * - `inverse` — the inverse-color dimension. Appends a trailing `--inverse`
- *               segment (`--np--color--inverse`, `--night--inverse` with
- *               a theme). Valid for `color` / `backgroundColor`; throws otherwise.
- * - `pristine` — resolve against the seed snapshot taken before any runtime
- *               `setTokens` override. The var/key are identical either way; only
- *               the value differs. Use for canonical-default displays (token
- *               reference docs), not normal consumption.
- */
-export interface TokenOptions {
-  variant?: string
-  theme?: string
-  inverse?: boolean
-  pristine?: boolean
-}
+export function getToken(name: string | string[], variant: string = 'base', options: TokenOptions = {}): string {
+  const { prefix, theme, breakpoint, inverse = false, pristine = false, as = 'var' } = options
+  const path = Array.isArray(name) ? name : [name]
+  const label = describe(path, variant, prefix)
 
-/**
- * Resolve an inverse-color token. The var/key are built directly via
- * `getConstant` under the BASE group name with a `--inverse` segment; the value
- * comes from the generated `$inverse` data (day by default — the semantic var
- * flips to night via @media — or the requested theme's primitive).
- */
-function resolveInverse(name: string, variant: string, theme?: string): InternalTokenResult {
-  const group = (inverseTokensData as Record<string, { day: Record<string, string>; night: Record<string, string> }>)[name]
-  if (!group) {
-    throw new Error(
-      formatError('tokenNotFound', {
-        tokenName: `${name} (inverse)`,
-        prefix: '',
-        available: Object.keys(inverseTokensData).join(', '),
-      })
-    )
+  if (theme !== undefined && breakpoint !== undefined) {
+    throw new Error(`getToken: "${label}" cannot pin both a theme and a breakpoint`)
   }
-  if (!(variant in group.day)) {
-    throw new Error(
-      formatError('variantNotFound', {
-        variantName: variant,
-        tokenName: `${name} (inverse)`,
-        prefix: '',
-        available: Object.keys(group.day).join(', '),
-      })
-    )
+  if (breakpoint !== undefined) assertBreakpointName(breakpoint)
+
+  const entryKey = getConstantKey(path, variant, { pkg: prefix, inverse })
+  const key = getConstantKey(path, variant, { pkg: prefix, inverse, theme, breakpoint })
+  const entry = registry.get(entryKey)
+
+  if (!entry) {
+    if (as === 'value') {
+      throw new Error(formatError('tokenNotFound', { tokenName: label, prefix: prefix ?? 'core', available: '' }))
+    }
+    checkRegisteredLater(entryKey)
+    return as === 'key' ? key : `var(${key})`
   }
-  // No theme → day value (the reactive default the semantic var starts at).
-  const dimension = theme === 'night' ? group.night : group.day
-  const key = getConstantKey(name, variant, { theme, inverse: true })
-  return { key, var: `var(${key})`, value: dimension[variant] }
-}
 
-/**
- * Returns the `var(--np--…)` reference string.
- *
- * Unlike its `getTokenKey` / `getTokenValue` siblings, `getToken` takes the
- * variant as its second positional argument (the common case); theme / inverse
- * / pristine stay in the trailing options object.
- */
-export function getToken(name: string, variant: string = 'base', { theme, inverse = false, pristine = false }: Omit<TokenOptions, 'variant'> = {}): string {
-  return (inverse ? resolveInverse(name, variant, theme) : resolveToken(name, variant, theme, pristine)).var
-}
-
-/** Returns the bare CSS variable name (no `var(...)` wrapper). */
-export function getTokenKey(name: string, { variant = 'base', theme, inverse = false, pristine = false }: TokenOptions = {}): string {
-  return (inverse ? resolveInverse(name, variant, theme) : resolveToken(name, variant, theme, pristine)).key
-}
-
-/** Returns the raw token value (e.g. `"16px"`, an hsla string). */
-export function getTokenValue(name: string, { variant = 'base', theme, inverse = false, pristine = false }: TokenOptions = {}): string {
-  return (inverse ? resolveInverse(name, variant, theme) : resolveToken(name, variant, theme, pristine)).value
+  const layers = layersOf(entry, pristine)
+  if (theme !== undefined) assertTheme(layers, theme, path, variant, prefix)
+  if (as === 'value') return resolveValue(layers, label, theme, breakpoint)
+  if (breakpoint !== undefined) assertBreakpointPrimitive(entry, breakpoint, label)
+  return as === 'key' ? key : `var(${key})`
 }

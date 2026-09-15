@@ -1,62 +1,99 @@
 /**
  * Token registry barrel.
  *
- * Importing this module triggers the seed (flat core tokens + dimensioned
- * theme + breakpoint tokens). The registry singleton lives in `./createRegistry.ts`;
- * everything else here is seeding and re-exports.
+ * Importing this module seeds the store from every generated source — flat
+ * core tokens, theme tokens, breakpoint tokens, inverse tokens, and component
+ * token trees — into the `seed` layer of one registry keyed by CSS variable name.
  */
 
 import tokensData from '../generated/tokensData.js'
 import themeTokensData from '../generated/themeTokensData.js'
 import breakpointTokensData from '../generated/breakpointTokensData.js'
-import { DEFAULT_THEME } from '../constants/styleValues.js'
-import { BREAKPOINT_PHONE } from '../constants/breakpoints.js'
-import { registry, type RegistryEntry } from './createRegistry.js'
-import { seedDimensionedTokens } from './seedDimensionedTokens.js'
+import inverseTokensData from '../generated/inverseTokensData.js'
+import componentTokensData, { type ComponentTokenNode } from '../generated/componentTokensData.js'
+import { getConstantKey } from '../services/getConstant.js'
+import { registry, type TokenValue } from './createRegistry.js'
 
-// Seed: flat core tokens (animationDuration, gap, borderRadius, etc.).
-for (const [name, def] of Object.entries(tokensData)) {
-  registry.set(name, {
-    variants: def as Record<string, string | number>,
-    themes: new Set([DEFAULT_THEME]),
-  })
+/** Write one generated value into the seed layer. */
+function seed(prefix: string | undefined, path: string[], variant: string, value: TokenValue, inverse = false): void {
+  const key = getConstantKey(path, variant, { pkg: prefix, inverse })
+  const existing = registry.get(key)
+  if (existing) {
+    existing.seed = value
+  } else {
+    registry.set(key, { key, prefix, path, variant, inverse, seed: value })
+  }
 }
 
-// Seed: dimensioned token modules.
-// - themeTokensData is keyed by theme (day, night). The theme keys ARE themes, so they're recorded on each entry's `themes` Set.
-// - breakpointTokensData is keyed by breakpoint (phone, tablet, laptop, desktop). Breakpoints are NOT themes, so each entry keeps `themes` at DEFAULT_THEME only.
-seedDimensionedTokens(registry, [
-  {
-    data: themeTokensData as unknown as Record<string, Record<string, Record<string, string>>>,
-    defaultDim: DEFAULT_THEME,
-    themesForEntry: new Set(Object.keys(themeTokensData)),
-  },
-  {
-    data: breakpointTokensData as unknown as Record<string, Record<string, Record<string, string>>>,
-    defaultDim: BREAKPOINT_PHONE,
-    themesForEntry: new Set([DEFAULT_THEME]),
-  },
-])
-
 /**
- * Pristine snapshot of the registry, deep-cloned immediately after seeding —
- * before any consumer `setTokens` / `registerTokens` mutates the live registry.
- * Readers that must show canonical defaults regardless of runtime overrides
- * (the token reference docs, tooling) resolve against this via the getters'
- * `pristine` option. Variant objects are plain string/number maps (or nested
- * ThemeValue/BreakpointValue string maps), so a JSON clone is sufficient.
+ * Fold `{ dimension: { group: { variant: value } } }` (theme- or
+ * breakpoint-keyed modules) into one `{ dimension: value }` object per variant.
  */
-export const defaultsRegistry = new Map<string, RegistryEntry>()
-for (const [name, entry] of registry) {
-  defaultsRegistry.set(name, {
-    prefix: entry.prefix,
-    variants: JSON.parse(JSON.stringify(entry.variants)),
-    themes: new Set(entry.themes),
-  })
+function foldDimensions(
+  data: Record<string, Record<string, Record<string, string>>>
+): Record<string, Record<string, Record<string, string>>> {
+  const folded: Record<string, Record<string, Record<string, string>>> = {}
+  for (const [dimension, groups] of Object.entries(data)) {
+    for (const [group, variants] of Object.entries(groups)) {
+      for (const [variant, value] of Object.entries(variants)) {
+        folded[group] ??= {}
+        folded[group][variant] ??= {}
+        folded[group][variant][dimension] = value
+      }
+    }
+  }
+  return folded
+}
+
+/** Seed a folded module: one entry per group/variant. */
+function seedFolded(folded: Record<string, Record<string, Record<string, string>>>, inverse = false): void {
+  for (const [group, variants] of Object.entries(folded)) {
+    for (const [variant, dimensions] of Object.entries(variants)) {
+      seed(undefined, [group], variant, dimensions, inverse)
+    }
+  }
+}
+
+/** Seed a component token tree: every string leaf is a variant of its parent path. */
+function seedComponentTree(prefix: string, node: { [key: string]: ComponentTokenNode }, path: string[]): void {
+  for (const [name, child] of Object.entries(node)) {
+    if (name.startsWith('$')) continue
+    if (typeof child === 'string') {
+      seed(prefix, path, name, child)
+    } else {
+      seedComponentTree(prefix, child, [...path, name])
+    }
+  }
+}
+
+// Flat core tokens (animationDuration, gap, borderRadius, …).
+for (const [group, variants] of Object.entries(tokensData)) {
+  for (const [variant, value] of Object.entries(variants as Record<string, string>)) {
+    seed(undefined, [group], variant, value)
+  }
+}
+
+// Theme tokens → { day, night } per variant.
+seedFolded(foldDimensions(themeTokensData as unknown as Record<string, Record<string, Record<string, string>>>))
+
+// Breakpoint tokens → { phone, tablet, laptop, desktop } per variant.
+seedFolded(foldDimensions(breakpointTokensData as unknown as Record<string, Record<string, Record<string, string>>>))
+
+// Inverse tokens are keyed group → theme → variant; reorder to theme → group → variant, then fold.
+const inverseByTheme: Record<string, Record<string, Record<string, string>>> = {}
+for (const [group, themes] of Object.entries(inverseTokensData)) {
+  for (const [theme, variants] of Object.entries(themes)) {
+    inverseByTheme[theme] ??= {}
+    inverseByTheme[theme][group] = variants
+  }
+}
+seedFolded(foldDimensions(inverseByTheme), true)
+
+// Component token trees.
+for (const [prefix, tree] of Object.entries(componentTokensData)) {
+  seedComponentTree(prefix, tree, [])
 }
 
 export { registry } from './createRegistry.js'
-export type { RegistryEntry } from './createRegistry.js'
+export type { TokenEntry, TokenValue } from './createRegistry.js'
 export { registerTokens } from './registerTokens.js'
-export { seedDimensionedTokens } from './seedDimensionedTokens.js'
-export type { DimensionedTokenSeed } from './seedDimensionedTokens.js'

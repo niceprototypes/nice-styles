@@ -32,22 +32,19 @@
  *
  * @example
  * // --np--border-color--dark--night is hsla(240, 5%, 50%, 1)
- * getHSLA("borderColor", "night", { token: "dark", values: ["+0", "+10", "+0", "-0.15"] })
+ * transformColor("borderColor", "night", { token: "dark", values: ["+0", "+10", "+0", "-0.15"] })
  * // → "hsla(240, 15%, 50%, 0.85)"   (relative: signed strings add/subtract)
- * getHSLA("borderColor", "night", { token: "dark", values: [200] })
+ * transformColor("borderColor", "night", { token: "dark", values: [200] })
  * // → "hsla(200, 5%, 50%, 1)"       (absolute: a bare number replaces the channel)
  *
  * @throws if the module or token is unknown, if the requested theme has no
  * override, or if the resolved token is not an hsl/hsla color.
  */
 
-import { registry } from '../registry/index.js'
-import { getTokenKey } from './getToken.js'
-import { isStyleValue } from '../utilities/isStyleValue.js'
+import { getToken } from './getToken.js'
 import { DEFAULT_THEME } from '../constants/styleValues.js'
-import { formatError } from '../utilities/formatError.js'
 
-export interface GetHSLAOptions {
+export interface TransformColorOptions {
   /** Variant within the module, e.g. `"dark"`. Defaults to `"base"`. */
   token?: string
   /**
@@ -95,68 +92,28 @@ function applyChannelValue(
   if (typeof value === 'number') return value
   const match = SIGNED_MAGNITUDE.exec(value.trim())
   if (!match) {
-    throw new Error(`getHSLA: ${channel} adjustment "${value}" must be a signed magnitude like "+30" or "-30"`)
+    throw new Error(`transformColor: ${channel} adjustment "${value}" must be a signed magnitude like "+30" or "-30"`)
   }
   const magnitude = Number(match[2])
   return current + (match[1] === '-' ? -magnitude : magnitude)
 }
 
-export function getHSLA(module: string, theme?: string, { token = 'base', values = [] }: GetHSLAOptions = {}): string {
-  // Resolve the module (token group) from the registry.
-  const entry = registry.get(module)
-  if (!entry) {
-    throw new Error(
-      formatError('tokenNotFound', {
-        tokenName: module,
-        prefix: 'core',
-        available: [...registry.keys()].join(', '),
-      })
-    )
-  }
-
-  // Resolve the requested variant within the module.
-  const variantValue = entry.variants[token]
-  if (variantValue === undefined) {
-    throw new Error(
-      formatError('variantNotFound', {
-        variantName: token,
-        tokenName: module,
-        prefix: 'core',
-        available: Object.keys(entry.variants).join(', '),
-      })
-    )
-  }
-
-  // Fold the variant down to the raw color string for the requested theme.
-  let raw: string
-  if (isStyleValue('theme', variantValue)) {
-    // Themed token — stores a { day, night, … } object; pick the requested mode.
-    const requested = theme ?? DEFAULT_THEME
-    const themed = (variantValue as Record<string, string>)[requested]
-    if (themed === undefined) {
-      throw new Error(formatError('modeNotFound', { mode: requested, tokenName: module, variantName: token }))
-    }
-    raw = themed
-  } else if (typeof variantValue === 'string') {
-    // Non-themed token — a non-default theme arg has no primitive to resolve against.
-    if (theme !== undefined && theme !== DEFAULT_THEME) {
-      throw new Error(formatError('modeNotFound', { mode: theme, tokenName: module, variantName: token }))
-    }
-    raw = variantValue
-  } else {
-    // Breakpoint-dimensioned or numeric value — not a color token.
-    throw new Error(`getHSLA: token "${module}.${token}" is not a color value (got ${JSON.stringify(variantValue)})`)
-  }
+export function transformColor(module: string, theme?: string, { token = 'base', values = [] }: TransformColorOptions = {}): string {
+  // Resolve the raw color through the single getter. The default theme is the
+  // unpinned read (valid for themed and non-themed tokens alike); any other
+  // theme must exist on the token or getToken throws.
+  const pinned = theme === DEFAULT_THEME ? undefined : theme
+  const raw = getToken(module, token, { theme: pinned, as: 'value' })
 
   // Parse the four channels out of the hsla() string.
   const match = HSLA_PATTERN.exec(raw.trim())
   if (!match) {
-    throw new Error(`getHSLA: token "${module}.${token}"${theme ? ` (${theme})` : ''} is not an hsl/hsla color: "${raw}"`)
+    throw new Error(`transformColor: token "${module}.${token}"${theme ? ` (${theme})` : ''} is not an hsl/hsla color: "${raw}"`)
   }
   const parsed = [Number(match[1]), Number(match[2]), Number(match[3]), Number(match[4])]
 
   // The CSS variable name this token resolves to — used to make clamp warnings actionable.
-  const tokenKey = getTokenKey(module, { variant: token, theme })
+  const tokenKey = getToken(module, token, { theme: pinned, as: 'key' })
 
   // Resolve each channel's target (number replaces, signed string adjusts,
   // omitted leaves untouched), then clamp to the channel's range, warning on clamp.
@@ -165,12 +122,12 @@ export function getHSLA(module: string, theme?: string, { token = 'base', values
 
     // Below floor — clamp up to the minimum.
     if (next < channel.min) {
-      console.warn(`getHSLA: ${channel.name} ${next} is below ${channel.min} for ${tokenKey}; clamped to ${channel.min}`)
+      console.warn(`transformColor: ${channel.name} ${next} is below ${channel.min} for ${tokenKey}; clamped to ${channel.min}`)
       return channel.min
     }
     // Above ceiling — clamp down to the maximum.
     if (next > channel.max) {
-      console.warn(`getHSLA: ${channel.name} ${next} exceeds ${channel.max} for ${tokenKey}; clamped to ${channel.max}`)
+      console.warn(`transformColor: ${channel.name} ${next} exceeds ${channel.max} for ${tokenKey}; clamped to ${channel.max}`)
       return channel.max
     }
     return next

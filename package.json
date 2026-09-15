@@ -12,16 +12,6 @@
       "require": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./tokens.js": {
-      "types": "./dist/tokens.d.ts",
-      "import": "./dist/tokens.js",
-      "default": "./dist/tokens.js"
-    },
-    "./constants.js": {
-      "types": "./dist/constants.d.ts",
-      "import": "./dist/constants.js",
-      "default": "./dist/constants.js"
-    },
     "./services/*.js": {
    "types": "./dist/services/*.d.ts",
    "import": "./dist/services/*.js",
@@ -35,7 +25,6 @@
     "./reset.colors.css": "./static/reset.colors.css",
     "./reset.borders.css": "./static/reset.borders.css",
     "./reset.responsive.css": "./static/reset.responsive.css",
-    "./color-scheme.css": "./dist/color-scheme.css",
     "./css/*.css": "./dist/css/*.css",
     "./static/*": "./static/*",
     "./package.json": "./package.json"
@@ -54,8 +43,7 @@
     "build:post": "tsx scripts/postBuild.ts",
     "dev": "tsc --watch & tsx scripts/generateCss/index.ts --watch & tsx scripts/generateTokens/index.ts --watch & tsx scripts/generateTypes/index.ts --watch",
     "test": "echo \"No tests configured\"",
-    "prepublishOnly": "npm run build && npm test",
-    "prepare": "npm run build"
+    "prepublishOnly": "npm run build && npm test"
   },
   "publishConfig": {
     "access": "public",

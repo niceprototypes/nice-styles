@@ -54,28 +54,12 @@ export {
   BREAKPOINT_DESKTOP,
   BREAKPOINTS,
   getToken,
-  getTokenKey,
-  getTokenValue,
-  getThemeToken,
-  getThemeTokenKey,
-  getThemeTokenValue,
-  getBreakpointToken,
-  getBreakpointTokenKey,
-  getBreakpointTokenValue,
-  setCoreTokens,
-  setThemeTokens,
-  setBreakpointTokens,
   setBreakpoints,
   getConstant,
   getConstantKey,
   NAMESPACE,
-  getComponentToken,
-  getComponentTokenKey,
-  getComponentTokenValue,
-  getHSLA,
+  transformColor,
   getTextHeight,
-  getTokenFromMap,
-  getTokenByPath,
   camelToKebab,
   parseGoogleFontsUrl,
   parseAdobeFontsUrl,
@@ -89,7 +73,6 @@ export {
   isStyleValue,
   registry,
   registerTokens,
-  seedDimensionedTokens,
   injectTokenCSS,
   generateTokenCSS,
   applyTheme,
@@ -105,8 +88,6 @@ export type {
   TokenDefinition,
   TokenMap,
   ComponentTokenNode,
-  TokenResult,
-  TokenFromMapOptions,
   ThemeValue,
   BreakpointValue,
   FontAxis,
@@ -116,10 +97,12 @@ export type {
   AdobeFontMetadata,
   AdobeFontsConfig,
   InjectFontsConfig,
-  GetHSLAOptions,
+  TransformColorOptions,
   StyleValueKind,
-  RegistryEntry,
-  DimensionedTokenSeed,
+  TokenEntry,
+  TokenValue,
+  TokenOptions,
+  TokenAccessor,
 } from './services/index.js'
 
 // Export type definitions
@@ -164,7 +147,7 @@ export type { ThemeType } from './themeTypes.js'
 import tokensData from './generated/tokensData.js'
 import themeTokensData from './generated/themeTokensData.js'
 import breakpointTokensData from './generated/breakpointTokensData.js'
-export const Colors = { ...tokensData, ...themeTokensData.day, ...breakpointTokensData.small }
+export const Colors = { ...tokensData, ...themeTokensData.day, ...breakpointTokensData.phone }
 
 // Export component tokens data — used by nice-react-styles to detect component prefixes
 import componentTokensData from './generated/componentTokensData.js'
