@@ -260,7 +260,7 @@ const componentTokensData: ComponentTokensData = {
       "warning": "var(--np--background-color--warning)",
       "error": "var(--np--background-color--error)",
       "link": "var(--np--background-color--link)",
-      "alternate": "var(--np--background-color--alternate)"
+      "alternate": "var(--np--background-color--dark)"
     },
     "backgroundSize": {
       "contain": "var(--np--background-size--contain)",
