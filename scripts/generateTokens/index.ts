@@ -16,26 +16,18 @@
  *
  * ## Input
  *
- * - `src/tokens/module.json` — Flat core tokens
- * - `src/tokens/module.themes.json` — Color tokens keyed by theme
- * - `src/tokens/module.breakpoints.json` — Size tokens keyed by breakpoint
- * - `src/tokens/component.json` — Component tokens (day/night)
- * - `src/tokens/breakpoints.json` — Pixel thresholds keyed by breakpoint name
+ * `src/tokens/`, read and validated by `scripts/shared/readTokenSources.ts`.
  *
  * ## Output
  *
- * - `src/generated/tokensData.ts`
- * - `src/generated/themeTokensData.ts`
- * - `src/generated/breakpointTokensData.ts`
- * - `src/generated/componentTokensData.ts`
- * - `src/generated/breakpointsData.ts`
+ * `src/generated/*Data.ts` — see `writeData.ts`.
  */
 
 import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import { readTokenJsonSources } from './readSources.js'
+import { readTokenSources } from '../shared/readTokenSources.js'
 import { writeTokenDataFiles } from './writeData.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -45,8 +37,7 @@ const tokensDir = path.join(__dirname, '..', '..', 'src', 'tokens')
 const generatedDir = path.join(__dirname, '..', '..', 'src', 'generated')
 
 function main() {
-  const sources = readTokenJsonSources(tokensDir)
-  writeTokenDataFiles(sources, generatedDir)
+  writeTokenDataFiles(readTokenSources(tokensDir), generatedDir)
 }
 
 main()

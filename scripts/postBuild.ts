@@ -1,7 +1,14 @@
 /**
- * Post-Build Script
+ * Post-build step — the last stage of `npm run build` (`build:post`).
  *
- * Adds type re-exports to dist/index.d.ts after TypeScript compilation
+ * `src/index.ts` re-exports a hand-picked list of the unions in
+ * `src/generated/types.ts`. Unions added by the generator later (a new token
+ * group, the `{group}Inverse` types) would be missing from that list, so this
+ * script appends `export type * from './generated/types.js'` to the compiled
+ * `dist/index.d.ts`, exporting every generated union from the package root.
+ *
+ * Runs after `tsc` (it edits tsc's output) and is idempotent: a second run
+ * finds the line and leaves the file unchanged.
  */
 
 import * as fs from 'fs'
@@ -12,9 +19,14 @@ import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+/**
+ * Append the generated-types re-export to `dist/index.d.ts` unless present.
+ * Exits with code 1 when `dist/index.d.ts` does not exist (tsc has not run).
+ */
 function main() {
   const indexDtsPath = path.join(__dirname, '..', 'dist', 'index.d.ts')
 
+  // Fail the build instead of silently shipping a package without types
   if (!fs.existsSync(indexDtsPath)) {
     console.error('❌ dist/index.d.ts not found. Run tsc first.')
     process.exit(1)

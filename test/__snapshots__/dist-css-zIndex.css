@@ -1,0 +1,7 @@
+:root {
+	--np--z-index: 0;
+	--np--z-index--low: 10;
+	--np--z-index--medium: 100;
+	--np--z-index--high: 1000;
+	--np--z-index--higher: 9999;
+}

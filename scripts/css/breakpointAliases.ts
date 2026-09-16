@@ -16,12 +16,7 @@
  */
 
 import { getBreakpoint } from '../../src/services/getBreakpoint.js'
-import {
-  BREAKPOINT_PHONE,
-  BREAKPOINT_TABLET,
-  BREAKPOINT_LAPTOP,
-  BREAKPOINT_DESKTOP,
-} from '../../src/constants/breakpoints.js'
+import { BREAKPOINT_ORDER, SETTABLE_BREAKPOINTS } from '../../src/constants/breakpoints.js'
 import type { BreakpointKey } from '../../src/services/breakpointKey.js'
 
 /** One breakpoint alias: its label and resolved media-query condition. */
@@ -32,9 +27,12 @@ export interface BreakpointAlias {
   condition: string
 }
 
-const EXACT_NAMES = [BREAKPOINT_PHONE, BREAKPOINT_TABLET, BREAKPOINT_LAPTOP, BREAKPOINT_DESKTOP] as const
-const UP_NAMES = [BREAKPOINT_TABLET, BREAKPOINT_LAPTOP, BREAKPOINT_DESKTOP] as const
-const DOWN_NAMES = [BREAKPOINT_PHONE, BREAKPOINT_TABLET, BREAKPOINT_LAPTOP] as const
+/** Every breakpoint gets an exact-band alias. */
+const EXACT_NAMES = BREAKPOINT_ORDER
+/** Up aliases skip the first breakpoint — `phone+` spans every viewport. */
+const UP_NAMES = SETTABLE_BREAKPOINTS
+/** Down aliases skip the last breakpoint — `desktop-` spans every viewport. */
+const DOWN_NAMES = BREAKPOINT_ORDER.slice(0, -1)
 
 /** The media-query condition for a key, with the leading `@media ` stripped. */
 function condition(key: BreakpointKey): string {

@@ -14,6 +14,7 @@
     "disabled": "var(--np--color--disabled)",
     "link": "var(--np--color--link)",
     "success": "var(--np--color--success)",
+    "highlight": "var(--np--color--highlight)",
     "warning": "var(--np--color--warning)",
     "error": "var(--np--color--error)"
   },

@@ -1,6 +1,6 @@
 # nice-styles
 
-A type-safe design system with CSS custom properties and TypeScript tokens.
+Design tokens for Nice Prototypes: JSON token sources compiled to CSS custom properties (`--np--…`), typed data, and one runtime store read through a single getter. Framework-agnostic; React bindings live in [nice-react-styles](../react-styles).
 
 ## Installation
 
@@ -8,430 +8,180 @@ A type-safe design system with CSS custom properties and TypeScript tokens.
 npm install nice-styles
 ```
 
-## Quick Start
-
-### CSS
-
-Import all CSS variables:
+## CSS
 
 ```css
-@import 'nice-styles/tokens.css';
+@import "nice-styles/tokens.css";
 
 .card {
-  padding: var(--gap-base);
-  border-radius: var(--border-radius-base);
-  color: var(--foreground-color-base);
+  padding: var(--np--gap);
+  border-radius: var(--np--border-radius--small);
+  color: var(--np--color);
+  font-size: var(--np--font-size--large); /* responsive: changes per breakpoint */
 }
 ```
 
-Or import individual token groups:
+`tokens.css` declares every token on `:root`, plus:
 
-```css
-@import 'nice-styles/css/fontSize.css';
-@import 'nice-styles/css/gap.css';
+- **Themes** — themed tokens follow `prefers-color-scheme` and can be pinned with `[data-theme="day"]` / `[data-theme="night"]` (or any extra theme name) on any element.
+- **Breakpoints** — responsive tokens are reassigned in `min-width` media blocks.
+- **Stable primitives** — `--np--color--night`, `--np--font-size--large--laptop`, … hold one theme's or breakpoint's value and are never reassigned.
+
+| Import | Contents |
+|---|---|
+| `nice-styles/tokens.css` | All tokens, theme switching, and breakpoint blocks |
+| `nice-styles/css/{group}.css` | One group's variables and primitives, no theme switching (e.g. `css/gap.css`) |
+| `nice-styles/breakpoints.css` | `.np-hide-{breakpoint}`, `-up`, `-down` utility classes |
+| `nice-styles/breakpoints.custom-media.css` | Optional `@custom-media` aliases (`@media (--np--tablet--up)`); requires `postcss-custom-media` |
+| `nice-styles/reset.css` | Token-driven reset (`reset.spacing.css`, `reset.colors.css`, `reset.borders.css`, `reset.responsive.css` individually) |
+
+Every file except `breakpoints.custom-media.css` is plain CSS for a bare `@import`, with no build step in the consuming app.
+
+## JavaScript
+
+### Read a token — `getToken`
+
+One getter for every token kind: core, custom, theme, breakpoint, inverse, and component.
+
+```ts
+import { getToken } from "nice-styles"
+
+getToken("gap")                                            // "var(--np--gap)"
+getToken("gap", "large")                                   // "var(--np--gap--large)"
+getToken("gap", "base", { as: "key" })                     // "--np--gap"
+getToken("gap", "base", { as: "value" })                   // "16px"
+getToken("color", "base", { theme: "night" })              // "var(--np--color--night)"
+getToken("fontSize", "large", { breakpoint: "laptop" })    // "var(--np--font-size--large--laptop)"
+getToken("color", "base", { inverse: true })               // "var(--np--color--inverse)"
+getToken("button.icon.size:small")                         // "var(--np--button--icon--size--small)"
 ```
 
-For backward compatibility with deprecated variables:
+| Option | Effect |
+|---|---|
+| `as` | `"var"` (default), `"key"` (bare variable name), or `"value"` (raw value) |
+| `theme` | Pin to a theme primitive; throws if the token has no value for it |
+| `breakpoint` | Pin to a breakpoint primitive (`var` / `key`) or resolve the value at that breakpoint (`value`) |
+| `inverse` | The inverse-color dimension |
+| `transform` | Adjust the colour's hsla channels — `var` returns a live `hsl(from …)` expression, `value` computes a literal |
+| `pristine` | Read the generated value, ignoring runtime overrides |
 
-```css
-@import 'nice-styles/deprecated.css';
+### List tokens — `listTokens`
+
+```ts
+import { listTokens } from "nice-styles"
+
+listTokens({ prefix: "button" })   // every button component token
+listTokens({ group: "color" })     // color variants, base and inverse
+listTokens({ source: "runtime" })  // tokens created at runtime only
+// → [{ key, prefix, path, variant, inverse, themes, breakpoints, source }, …]
 ```
+
+### Set tokens at runtime — `generateTokenCSS`
+
+```ts
+import { generateTokenCSS, injectTokenCSS } from "nice-styles"
+
+injectTokenCSS("", generateTokenCSS({
+  breakpoints: { laptop: 1100 },                                // thresholds, applied first
+  fontSize: { base: "18px", jumbo: "96px" },                    // override + custom variant
+  brandColor: { primary: { day: "#dc0000", night: "#ff6666" } }, // themed
+  gap: { base: { phone: "12px", "laptop+": "20px" } },          // responsive
+}))
+```
+
+Registers every token (so `getToken` and `listTokens` see it) and returns CSS with the same shape as `tokens.css`. In React, `setTokens` from nice-react-styles does both calls.
 
 ### Breakpoints
 
-Breakpoints ship as **plain, browser-native CSS** — a bare `@import`, no build
-step in your app (works in Vite, esbuild, the Storybook manager, anywhere). Two
-native forms cover responsive needs; a third is an opt-in escape hatch.
+| Name | Range |
+|---|---|
+| `phone` | below `tablet` |
+| `tablet` | 641px |
+| `laptop` | 1280px |
+| `desktop` | 1720px |
 
-**1. Responsive tokens** — some tokens (e.g. `font-size`, `icon-size`) already
-change value per breakpoint via `tokens.css`. Use the token; it flips at each
-breakpoint automatically:
+```ts
+import { getBreakpoint, getBreakpointValue } from "nice-styles"
 
-```css
-@import 'nice-styles/tokens.css';
-.title { font-size: var(--np--font-size--large); } /* smaller on phone, larger on laptop */
+getBreakpoint("tablet+")      // "@media (min-width: 641px)"
+getBreakpointValue("laptop")  // 1280
 ```
 
-**2. Utility classes** — `breakpoints.css` ships one display utility per
-breakpoint, `.np-hide-<breakpoint>`:
+The floors are also tokens — reserved group `breakpoints`, variant = breakpoint name:
 
-```css
-@import 'nice-styles/breakpoints.css';
-```
-```html
-<aside class="np-hide-tablet-down">…</aside> <!-- hidden below tablet -->
+```ts
+getToken("breakpoints:laptop")                  // "var(--np--breakpoints--laptop)"
+getToken("breakpoints:laptop", { as: "value" }) // "1280px"
 ```
 
-Available: `np-hide-{phone,tablet,laptop,desktop}` (exact band),
-`np-hide-{tablet,laptop,desktop}-up`, `np-hide-{phone,tablet,laptop}-down`.
-Floors track `src/tokens/breakpoints.json` (tablet 641 / laptop 1280 / desktop 1720).
+Keys: a bare name is one band (`tablet`), `+` is that breakpoint and wider, `-` is that breakpoint and narrower. Thresholds come from `src/tokens/breakpoints.json` and can be changed at runtime with the `breakpoints` key.
 
-**3. Optional — author your own media queries** (`breakpoints.custom-media.css`).
-Named `@custom-media` aliases for pipelines that already run PostCSS. **Requires
-`postcss-custom-media` (or `postcss-preset-env`) in your build** — `@custom-media`
-is not browser-native, so this is NOT part of the plain-import set. Prefer forms
-1–2 unless you specifically need to gate your own `@media` rules.
+### Other services
 
-```css
-@import 'nice-styles/breakpoints.custom-media.css'; /* + postcss-custom-media */
-@media (--np--tablet--up) { … }
-```
+| Export | Purpose |
+|---|---|
+| `getConstant` / `getConstantKey` | Build a `var(--np--…)` / `--np--…` name without a registry lookup |
+| `applyTheme(theme, root?)` | Set `data-theme` on an element (default `document.documentElement`) |
+| `transformColor(group, { token, theme, values })` | Compute a colour token's hsla channels to a static `hsla()` string. Same channel vocabulary as `getToken`'s `transform`: `200` sets, `"+30"` / `"-30"` shift, `"*0.55"` scales, `null` leaves alone |
+| `registry` / `registerTokens` | The token store (`Map` keyed by variable name) and its runtime writer |
+| `injectFonts`, `buildGoogleFontsConfig`, `buildAdobeFontsConfig` | Font loading without React |
+| `isStyleValue(kind, value)` | Classify a value as a theme or breakpoint value |
 
-### TypeScript/JavaScript
+## Tokens
 
-**Option 1: Import from main package** (recommended)
-```typescript
-import { fontSize, foregroundColor, gap } from 'nice-styles'
+| Group | Variants |
+|---|---|
+| `animationDuration` | faster, fast, base, slow, slower |
+| `animationEasing` | base, linear, ease-in, ease-out, ease |
+| `backgroundColor` | base, dark, success, highlight, warning, error, link (themed, inverse) |
+| `backgroundSize` | base, contain, cover, fill, none, scale-down |
+| `borderColor` | base, light, dark, darker, success, highlight, warning, error, link (themed) |
+| `borderRadius` | none, smaller, small, base, large, larger |
+| `borderWidth` | none, smaller, small, base, large, larger |
+| `boxShadow` | base, large |
+| `brandColor` | base, secondary |
+| `color` | base, light, lighter, lightest, disabled, link, success, highlight, warning, error (themed, inverse) |
+| `fontFamily` | base, code, heading |
+| `fontSize` | smaller, small, base, large, larger (responsive) |
+| `fontWeight` | light, base, medium, semibold, bold, extrabold, black |
+| `gap` | none, smaller, small, base, large, larger |
+| `letterSpacing` | tight, base, wide, wider |
+| `lineHeight` | single, condensed, base, expanded |
+| `size` | smaller, small, base, large, larger |
+| `zIndex` | base, low, medium, high, higher |
 
-console.log(fontSize.base)           // "16px"
-console.log(foregroundColor.link)    // "hsla(202, 100%, 50%, 1)"
-console.log(gap.large)                // "32px"
-```
+Component token sets: `button`, `code`, `icon`, `image`, `ink`, `input`, `lightbox`, `tile`.
 
-**Option 2: Import from specific files**
-```typescript
-// Import tokens
-import { fontSize } from 'nice-styles/tokens.js'
-
-// Import constants
-import { FONT_SIZE_BASE } from 'nice-styles/constants.js'
-```
-
-## Architecture
-
-### Data Structures
-
-nice-styles provides design tokens in three complementary formats:
-
-#### 1. Constants (SCREAMING_SNAKE_CASE)
-Raw constant values exported individually:
-
-```typescript
-import { FONT_SIZE_BASE, FOREGROUND_COLOR_LINK } from 'nice-styles'
-
-console.log(FONT_SIZE_BASE)         // "16px"
-console.log(FOREGROUND_COLOR_LINK)  // "hsla(202, 100%, 50%, 1)"
-```
-
-**Use when:** You need direct access to individual constant values.
-
-#### 2. Tokens (camelCase objects)
-Organized token objects with semantic keys:
-
-```typescript
-import { fontSize, foregroundColor } from 'nice-styles'
-
-console.log(fontSize.base)          // "16px"
-console.log(fontSize.large)         // "20px"
-console.log(foregroundColor.link)   // "hsla(202, 100%, 50%, 1)"
-console.log(foregroundColor.error)  // "hsla(10, 92%, 63%, 1)"
-```
-
-**Use when:** You want semantic organization and better autocomplete.
-
-#### 3. CSS Custom Properties (kebab-case)
-CSS variables for runtime styling:
-
-```css
-:root {
-  --font-size-base: "16px";
-  --font-size-large: "20px";
-  --foreground-color-link: "hsla(202, 100%, 50%, 1)";
-  --foreground-color-error: "hsla(10, 92%, 63%, 1)";
-}
-```
-
-**Use when:** You need runtime CSS theming and custom properties.
-
-### How It Works
-
-```
-┌─────────────────────┐
-│  src/tokens.json    │  ← Central token definitions
-│  (Source of truth)  │
-└──────────┬──────────┘
-           │
-           ├────────────────────────┬──────────────────────┐
-           ↓                        ↓                      ↓
-┌──────────────────────┐  ┌──────────────────┐  ┌─────────────────┐
-│ scripts/generateCss  │  │scripts/generate  │  │ src/services/   │
-│                      │  │     Types        │  │ *.ts files      │
-└──────────┬───────────┘  └──────────┬───────┘  └────────┬────────┘
-           │                         │                   │
-           ↓                         ↓                   │
-    ┌──────────────┐         ┌──────────────┐           │
-    │tokens.css    │         │dist/types.d.ts│           │
-    │dist/css/*.css│         └──────────────┘           │
-    └──────────────┘                ↑                    │
-                             (bypasses tsc)              ↓
-                                                  ┌─────────────┐
-                                                  │ TypeScript  │
-                                                  │  Compiler   │
-                                                  │ (excludes   │
-                                                  │ utilities)  │
-                                                  └──────┬──────┘
-                                                         │
-                                                         ↓
-                                                  ┌─────────────┐
-                                                  │  dist/      │
-                                                  │ services/   │
-                                                  │  *.js       │
-                                                  │  *.d.ts     │
-                                                  └─────────────┘
-```
-
-### Package Exports
-
-The `dist/` directory contains all compiled outputs consumed by users:
-
-#### JavaScript/TypeScript Files
-
-- **`dist/index.js`** + **`dist/index.d.ts`**
-  - Main entry point
-  - Exports all constants, tokens, and types
-  - Used when: `import { fontSize } from 'nice-styles'`
-
-- **`dist/constants.js`** + **`dist/constants.d.ts`**
-  - All constant values (SCREAMING_SNAKE_CASE)
-  - Compiled from `src/constants.ts`
-
-- **`dist/tokens.js`** + **`dist/tokens.d.ts`**
-  - All token objects (camelCase)
-  - Generated from constants.ts, compiled by TypeScript
-
-- **`dist/types.d.ts`**
-  - TypeScript type definitions for token keys
-  - Auto-generated from tokens.json (bypasses TypeScript compiler)
-  - Exports: `AnimationDurationType`, `FontSizeType`, `ForegroundColorType`, etc.
-  - Each type is a union of valid keys for that token group
-
-#### CSS Files
-
-Every CSS asset is **browser-native plain CSS**: consumed by a bare `@import`,
-with **zero consumer-side transform**, in any bundler. This contract is what
-lets the set grow — a new asset (elevation, motion utilities, …) is one entry in
-`STANDALONE_ASSETS` (`scripts/generateCss/writeCss.ts`) whose `build()` returns
-native CSS, plus a matching `./<file>` export here. The single intentional
-exception is `breakpoints.custom-media.css` (see below), shipped opt-in and
-never required.
-
-- **`tokens.css`** (root level)
-  - All CSS custom properties in one file, incl. responsive (per-breakpoint) and
-    dark-mode `@media` blocks
-  - Used when: `@import 'nice-styles/tokens.css'`
-
-- **`breakpoints.css`** (root level)
-  - Native breakpoint utility classes (`.np-hide-<breakpoint>`), plain `@import`
-  - Used when: `@import 'nice-styles/breakpoints.css'`
-
-- **`breakpoints.custom-media.css`** (root level) — **optional, PostCSS-only**
-  - Named `@custom-media` aliases; requires `postcss-custom-media` in the
-    consumer. Not part of the plain-import set — the one asset that needs a
-    consumer transform, so it's opt-in.
-
-- **`dist/css/*.css`** (individual token files)
-  - `animationDuration.css`
-  - `fontSize.css`
-  - `foregroundColor.css`
-  - `gap.css`
-  - ...and 11 more
-  - Used when: `@import 'nice-styles/dist/css/fontSize.css'`
-
-## Available Tokens
-
-| Token | Keys | Example |
-|-------|------|---------|
-| `animationDuration` | base, slow | `"300ms"`, `"600ms"` |
-| `animationEasing` | base | `"ease-in-out"` |
-| `backgroundColor` | base, alternate | `"hsla(0, 100%, 100%, 1)"` |
-| `borderColor` | base, dark, darker | `"hsla(240, 9%, 91%, 1)"` |
-| `borderRadius` | smaller, small, base, large, larger | `"2px"` to `"32px"` |
-| `borderWidth` | base, large | `"1.5px"`, `"2px"` |
-| `boxShadow` | downBase, downLarge, upBase, upLarge | Shadow values |
-| `cellHeight` | smaller, small, base, large, larger | `"24px"` to `"72px"` |
-| `foregroundColor` | lighter, light, medium, dark, base, link, success, warning, error | Color values |
-| `fontFamily` | base, code, heading | Font stacks |
-| `fontSize` | smaller, small, base, large, larger | `"12px"` to `"24px"` |
-| `fontWeight` | light, base, medium, semibold, bold, extrabold, black | `"300"` to `"900"` |
-| `gap` | smaller, small, base, large, larger | `"4px"` to `"48px"` |
-| `iconStrokeWidth` | base, large | `"1.5px"`, `"2px"` |
-| `lineHeight` | condensed, base, expanded | `"1.25"` to `"1.75"` |
-
-## Usage Examples
-
-### TypeScript Component
-
-```typescript
-import { fontSize, foregroundColor, gap } from 'nice-styles'
-
-const styles = {
-  fontSize: fontSize.base,
-  color: foregroundColor.base,
-  padding: gap.base,
-  linkColor: foregroundColor.link,
-  errorColor: foregroundColor.error,
-}
-```
-
-### CSS Styling
-
-```css
-.button {
-  font-size: var(--font-size-base);
-  padding: var(--gap-small) var(--gap-base);
-  border-radius: var(--border-radius-base);
-  background: var(--background-color-base);
-  color: var(--foreground-color-base);
-  font-weight: var(--font-weight-medium);
-}
-
-.button-primary {
-  background: var(--foreground-color-link);
-  color: var(--background-color-base);
-}
-
-.alert-error {
-  color: var(--foreground-color-error);
-  border: var(--border-width-base) solid var(--foreground-color-error);
-  border-radius: var(--border-radius-small);
-  padding: var(--gap-small);
-}
-```
-
-### Dynamic Token Function
-
-```typescript
-import { getReactToken } from 'nice-styles'
-
-// Get token with CSS variable and raw value
-const fontSize = getReactToken('fontSize')
-console.log(fontSize.key)   // "--font-size-base"
-console.log(fontSize.var)   // "var(--font-size-base)"
-console.log(fontSize.value) // "16px"
-
-// Get specific token item
-const large = getReactToken('fontSize', 'large')
-console.log(large.value) // "24px"
-```
-
-### TypeScript Types
-
-Each token group has a corresponding type that represents all valid keys:
-
-```typescript
-import type { FontSizeType, ForegroundColorType, GapType } from 'nice-styles'
-
-// Type-safe token key usage
-function setFontSize(size: FontSizeType) {
-  return fontSize[size]
-}
-
-setFontSize('base')    // ✓ Valid
-setFontSize('large')   // ✓ Valid
-setFontSize('huge')    // ✗ Type error
-
-// Use in component props
-interface ButtonProps {
-  size?: FontSizeType
-  color?: ForegroundColorType
-  spacing?: GapType
-}
-
-const Button = ({ size = 'base', color = 'base', spacing = 'base' }: ButtonProps) => ({
-  fontSize: fontSize[size],
-  color: foregroundColor[color],
-  padding: gap[spacing],
-})
-```
-
-Available types:
-- `AnimationDurationType` - "base" | "slow"
-- `AnimationEasingType` - "base"
-- `BackgroundColorType` - "base" | "alternate"
-- `BorderColorType` - "base" | "heavy" | "heavier"
-- `BorderRadiusType` - "smaller" | "small" | "base" | "large" | "larger"
-- `BorderWidthType` - "base" | "large"
-- `BoxShadowType` - "downBase" | "downLarge" | "upBase" | "upLarge"
-- `CellHeightType` - "smaller" | "small" | "base" | "large" | "larger"
-- `ForegroundColorType` - "lighter" | "light" | "medium" | "heavy" | "base" | "disabled" | "link" | "success" | "warning" | "error"
-- `FontFamilyType` - "base" | "code" | "heading"
-- `FontSizeType` - "smaller" | "small" | "base" | "large" | "larger"
-- `FontWeightType` - "light" | "base" | "medium" | "semibold" | "bold" | "extrabold" | "black"
-- `GapType` - "smaller" | "small" | "base" | "large" | "larger"
-- `LineHeightType` - "condensed" | "base" | "expanded"
+Each group has a variant union type: `GapType`, `ColorType`, `ColorInverseType`, …, plus `ComponentPrefix`.
 
 ## Development
 
-### Adding New Tokens
+### Token sources
 
-1. Edit `src/constants.ts` and add your constants with a `// Token:` comment:
+| File | Contents |
+|---|---|
+| `src/tokens/modules/{group}.json` | One group: base variants, plus optional `$themes`, `$breakpoints`, `$inverse` |
+| `src/tokens/components/{prefix}.json` | One component's nested token tree, plus optional `$themes`, `$breakpoints` |
+| `src/tokens/breakpoints.json` | Breakpoint floors in pixels |
 
-```typescript
-// Token: BUTTON_SIZE
-export const BUTTON_SIZE_SMALL = "32px"
-export const BUTTON_SIZE_MEDIUM = "40px"
-export const BUTTON_SIZE_LARGE = "48px"
-```
+Adding a group or component is one new file; the build discovers it.
 
-2. Run the token generator:
-
-```bash
-npm run build:tokens
-```
-
-This automatically generates:
-- `src/tokens.ts` with `buttonSize` token object
-- `src/types.ts` with `ButtonSizeType = "small" | "medium" | "large"`
-- CSS variables in `tokens.css`
-- Individual `dist/css/buttonSize.css` file
-
-3. Compile TypeScript:
+### Build
 
 ```bash
-npm run build:ts
+npm run build        # clean → tokens → types → css → tsc → post
+npm run dev          # watch mode
+npm test             # node:test snapshot and behavior tests
+npm run test:update  # accept intended output changes
 ```
 
-Or run both with:
+| Stage | Script | Output |
+|---|---|---|
+| `build:tokens` | `scripts/generateTokens/` | `src/generated/*Data.ts` (runtime token data) |
+| `build:types` | `scripts/generateTypes/` | `src/generated/types.ts` |
+| `build:css` | `scripts/generateCss/` | `dist/tokens.css`, `dist/css/*.css`, breakpoint CSS |
 
-```bash
-npm run build
-```
-
-### Build Process
-
-```bash
-# Generate tokens from constants
-npm run build:tokens
-
-# Compile TypeScript
-npm run build:ts
-
-# Run both
-npm run build
-
-# Watch mode
-npm run watch
-```
-
-## Migration from v3.x
-
-Version 4.0.0 removes all deprecated numbered token variants (e.g., `FONT_SIZE_1`, `BORDER_RADIUS_2`).
-
-**Before (v3.x):**
-```typescript
-import { FONT_SIZE_1, borderRadius1 } from 'nice-styles'
-```
-
-**After (v4.x):**
-```typescript
-import { FONT_SIZE_BASE, borderRadius } from 'nice-styles'
-console.log(borderRadius.base)
-```
-
-All numbered variants have been removed. Use semantic names instead:
-- `_1` → `.base` or `.small`
-- `_2` → `.large` or `.alternate`
-- etc.
+All stages read sources through `scripts/shared/readTokenSources.ts`, which validates overrides against their base values. CSS lines come from `src/utilities/css/`, the same emitters `generateTokenCSS` uses at runtime.
 
 ## License
 

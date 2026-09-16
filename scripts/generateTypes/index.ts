@@ -16,10 +16,7 @@
  *
  * ## Input
  *
- * - `src/tokens/module.json` — Core tokens (no dimension variants)
- * - `src/tokens/module.themes.json` — Color tokens keyed by theme
- * - `src/tokens/module.breakpoints.json` — Size tokens keyed by breakpoint
- * - `src/tokens/component.json` — Component tokens (day/night)
+ * `src/tokens/`, read and validated by `scripts/shared/readTokenSources.ts`.
  *
  * ## Output
  *
@@ -30,7 +27,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import { readTypeSources } from './readSources.js'
+import { readTokenSources } from '../shared/readTokenSources.js'
 import { writeTypesFile } from './writeTypes.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -40,8 +37,7 @@ const tokensDir = path.join(__dirname, '..', '..', 'src', 'tokens')
 const outputPath = path.join(__dirname, '..', '..', 'src', 'generated', 'types.ts')
 
 function main() {
-  const sources = readTypeSources(tokensDir)
-  writeTypesFile(sources, outputPath)
+  writeTypesFile(readTokenSources(tokensDir), outputPath)
 }
 
 main()

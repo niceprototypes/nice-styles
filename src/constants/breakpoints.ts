@@ -28,16 +28,28 @@ export const BREAKPOINT_TABLET = "tablet" as const
 export const BREAKPOINT_LAPTOP = "laptop" as const
 export const BREAKPOINT_DESKTOP = "desktop" as const
 
-export type BreakpointName =
-  | typeof BREAKPOINT_PHONE
-  | typeof BREAKPOINT_TABLET
-  | typeof BREAKPOINT_LAPTOP
-  | typeof BREAKPOINT_DESKTOP
+/**
+ * Every breakpoint, smallest → largest. The single source of breakpoint order:
+ * the name type, the settable breakpoints, range matching, `@media` ceilings,
+ * and the generated aliases all derive from it.
+ */
+export const BREAKPOINT_ORDER = [BREAKPOINT_PHONE, BREAKPOINT_TABLET, BREAKPOINT_LAPTOP, BREAKPOINT_DESKTOP] as const
 
-export interface BreakpointValues {
-  [BREAKPOINT_TABLET]: number
-  [BREAKPOINT_LAPTOP]: number
-  [BREAKPOINT_DESKTOP]: number
+/** A breakpoint name. */
+export type BreakpointName = typeof BREAKPOINT_ORDER[number]
+
+/** A breakpoint with an editable pixel floor — every breakpoint above the `phone` base. */
+export type SettableBreakpoint = Exclude<BreakpointName, typeof BREAKPOINT_PHONE>
+
+/** Settable breakpoints in ascending order: `BREAKPOINT_ORDER` without the `phone` base. */
+export const SETTABLE_BREAKPOINTS = BREAKPOINT_ORDER.slice(1) as readonly SettableBreakpoint[]
+
+/** Pixel floor per settable breakpoint. */
+export type BreakpointValues = Record<SettableBreakpoint, number>
+
+/** Position of `name` in `BREAKPOINT_ORDER`, or -1 when it is not a breakpoint name. */
+export function breakpointIndex(name: string): number {
+  return (BREAKPOINT_ORDER as readonly string[]).indexOf(name)
 }
 
 /**
@@ -48,8 +60,6 @@ export interface BreakpointValues {
  * `getBreakpoint`, `getBreakpointValue`, and any other reader pick up
  * the new values without re-importing. The object reference is stable.
  */
-export const BREAKPOINTS: BreakpointValues = {
-  [BREAKPOINT_TABLET]: breakpointsData[BREAKPOINT_TABLET],
-  [BREAKPOINT_LAPTOP]: breakpointsData[BREAKPOINT_LAPTOP],
-  [BREAKPOINT_DESKTOP]: breakpointsData[BREAKPOINT_DESKTOP],
-}
+export const BREAKPOINTS = Object.fromEntries(
+  SETTABLE_BREAKPOINTS.map((name) => [name, breakpointsData[name]])
+) as BreakpointValues

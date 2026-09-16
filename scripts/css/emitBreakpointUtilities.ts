@@ -27,16 +27,15 @@
  */
 
 import { breakpointAliases } from './breakpointAliases.js'
+import { generatedHeader } from '../shared/generatedHeader.js'
 
-const HEADER = `/**
- * Auto-generated from src/tokens/breakpoints.json — do not edit by hand.
- * Native breakpoint utility classes (plain @import, no consumer transform).
- *
- * Usage:
- *   @import "nice-styles/breakpoints.css";
- *   <div class="np-hide-tablet-up">…</div>   <!-- hidden at >= tablet -->
- */
-`
+const HEADER = generatedHeader('src/tokens/breakpoints.json', [
+  'Native breakpoint utility classes (plain @import, no consumer transform).',
+  '',
+  'Usage:',
+  '  @import "nice-styles/breakpoints.css";',
+  '  <div class="np-hide-tablet-up">…</div>   <!-- hidden at >= tablet -->',
+])
 
 /** Class-name form of an alias label: `tablet--up` → `tablet-up`. */
 function classSuffix(name: string): string {

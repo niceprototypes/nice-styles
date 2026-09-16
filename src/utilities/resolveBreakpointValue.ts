@@ -14,13 +14,18 @@ import type { BreakpointValue } from '../types/styleValues.js'
  * `-` = down). Of the keys active at `breakpoint`, the most specific wins —
  * the same rule `withBreakpoints` and the generated @media cascade apply.
  *
+ * Used by `getToken` for `as: "value"` reads of breakpoint-valued tokens.
+ *
  * @example resolveBreakpointValue({ "phone+": "16px", "laptop+": "18px" }, "tablet") // → "16px"
+ * @param value - Breakpoint-keyed value map
+ * @param breakpoint - Breakpoint to resolve at
  * @returns The matching value, or undefined when no key covers `breakpoint`.
  */
 export function resolveBreakpointValue(
   value: BreakpointValue,
   breakpoint: BreakpointName
 ): string | number | undefined {
+  // Single pass keeping the most specific active key; key order in the map is irrelevant
   let best: { parsed: ParsedBreakpointKey; value: string | number } | undefined
   for (const [key, entry] of Object.entries(value)) {
     const parsed = parseBreakpointKey(key)

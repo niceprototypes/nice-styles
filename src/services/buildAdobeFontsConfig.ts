@@ -13,20 +13,24 @@ import type { LinkAttributes } from '../types/googleFonts.js'
  * by the JS-only `injectFonts`. Returns `null` on an unparseable reference.
  *
  * @param adobeFonts - A kit id / stylesheet URL, or an already-built config.
+ * @returns The config (`links` + `fonts`), or null for an empty input or unparseable reference
  */
 export function buildAdobeFontsConfig(
   adobeFonts: string | AdobeFontsConfig
 ): AdobeFontsConfig | null {
+  // Empty string (or a falsy value from an untyped caller) — nothing to load
   if (!adobeFonts) return null
   // Already a config object — pass through.
   if (typeof adobeFonts === 'object') return adobeFonts
 
+  // Normalizes a bare kit id or a kit URL to the kit stylesheet URL
   const metadata = parseAdobeFontsUrl(adobeFonts)
   if (!metadata) {
     console.error('Failed to parse Adobe Fonts kit reference:', adobeFonts)
     return null
   }
 
+  // Preconnect to the two Typekit origins (DNS/TLS warmup), then the kit stylesheet.
   const links: LinkAttributes[] = [
     { rel: 'preconnect', href: 'https://use.typekit.net' },
     { rel: 'preconnect', href: 'https://p.typekit.net', crossOrigin: 'anonymous' },

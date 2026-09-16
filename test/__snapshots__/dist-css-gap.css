@@ -1,0 +1,8 @@
+:root {
+	--np--gap--none: 0;
+	--np--gap--smaller: 4px;
+	--np--gap--small: 8px;
+	--np--gap: 16px;
+	--np--gap--large: 32px;
+	--np--gap--larger: 48px;
+}

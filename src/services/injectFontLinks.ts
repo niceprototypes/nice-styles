@@ -23,6 +23,8 @@ export function injectFontLinks(links: LinkAttributes[]): void {
       continue
     }
 
+    // Marked with FONT_LINK_ATTR so the check above finds it on the next call;
+    // optional attributes are set only when provided
     const el = document.createElement('link')
     el.setAttribute(FONT_LINK_ATTR, '')
     el.rel = link.rel

@@ -1,4 +1,4 @@
-import { BREAKPOINT_PHONE, BREAKPOINT_TABLET, BREAKPOINT_LAPTOP, BREAKPOINT_DESKTOP } from './breakpoints.js'
+import { BREAKPOINT_PHONE, BREAKPOINT_ORDER } from './breakpoints.js'
 
 /** Default theme string value. */
 export const DEFAULT_THEME = "day"
@@ -13,7 +13,7 @@ export const DEFAULT_BREAKPOINT = BREAKPOINT_PHONE
  */
 export const STYLE_VALUE_KEYS = {
   theme: [DEFAULT_THEME, "night"],
-  breakpoint: [DEFAULT_BREAKPOINT, BREAKPOINT_TABLET, BREAKPOINT_LAPTOP, BREAKPOINT_DESKTOP],
+  breakpoint: BREAKPOINT_ORDER,
 } as const
 
 export type StyleValueKind = keyof typeof STYLE_VALUE_KEYS

@@ -1,0 +1,8 @@
+:root {
+	--np--border-radius--none: 0;
+	--np--border-radius--smaller: 2px;
+	--np--border-radius--small: 4px;
+	--np--border-radius: 8px;
+	--np--border-radius--large: 16px;
+	--np--border-radius--larger: 32px;
+}

@@ -1,0 +1,17 @@
+:root {
+	--np--site--gap: 28px;
+}
+
+@media (min-width: 1100px) {
+	:root {
+		--np--site--gap: 32px;
+	}
+}
+:root {
+}
+
+@media (min-width: 1100px) {
+	:root {
+		--np--font-size--jumbo: 72px;
+	}
+}

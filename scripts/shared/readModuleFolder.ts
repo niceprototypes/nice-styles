@@ -4,28 +4,36 @@
  * `src/tokens/modules/` holds one JSON file per token group — the same
  * one-file-per-prefix philosophy used by `tokens/components/`. Each file's stem
  * is the group name (`color.json` → `color`); its top-level keys are that
- * group's base variants, with reserved `$breakpoints` (breakpoint → variants)
- * and `$themes` (theme → variants) keys holding overrides scoped to the group.
+ * group's base variants, with reserved `$breakpoints` (breakpoint → variants),
+ * `$themes` (theme → variants), and `$inverse` keys holding overrides scoped to
+ * the group.
  *
- * This reader globs those files and reassembles the single combined object the
- * legacy `module.json` used to be — base groups at the top level plus the
- * cross-group reserved `$breakpoints` and `$themes` sections. The returned shape
- * is identical to `JSON.parse(module.json)`, so every downstream `readModule`
- * split keeps working unchanged. Adding a token group = drop a file, no script
- * edits.
+ * This reader globs those files and reassembles one combined object: base
+ * groups at the top level, plus cross-group `$breakpoints` and `$themes`
+ * sections (re-keyed axis first) and `$inverse` (keyed by group).
+ * `readModules` in `readTokenSources.ts` splits that object into the source
+ * model. Adding a token group = drop a file, no script edits.
+ *
+ * @example
+ * // modules/fontSize.json: { "$breakpoints": { "laptop": { "large": "24px" } } }
+ * // → { $breakpoints: { laptop: { fontSize: { large: "24px" } } } }
  */
 
 import * as fs from 'fs'
 import * as path from 'path'
 
+/** One group's variants: `{ variant: value }`. Values stay unchecked here. */
 type Variants = Record<string, unknown>
 
 /** A single `module/{group}.json` file: base variants + optional overrides. */
 interface GroupFile {
+  /** Variant overrides keyed by breakpoint name */
   $breakpoints?: Record<string, Variants>
+  /** Variant overrides keyed by theme name */
   $themes?: Record<string, Variants>
   /** Inverse-color dimension — a self-contained sub-module (base variants + its own `$themes`). */
   $inverse?: Record<string, unknown>
+  /** Every other key is a base variant */
   [variant: string]: unknown
 }
 
@@ -34,14 +42,16 @@ interface GroupFile {
  *
  * @param tokensDir - Absolute path to `src/tokens/`
  * @returns The base groups at the top level, plus `$breakpoints` (breakpoint →
- *   group → variants) and `$themes` (theme → group → variants) reserved keys —
- *   exactly the shape the old single `module.json` parsed to.
+ *   group → variants), `$themes` (theme → group → variants), and `$inverse`
+ *   (group → sub-module) reserved keys. Each reserved key is present only when
+ *   at least one file defines it.
  */
 export function readModuleFolder<T = Record<string, unknown>>(tokensDir: string): T {
   const moduleDir = path.join(tokensDir, 'modules')
   // Deterministic glob — stem is the group name. Mirrors the components/ reader.
   const files = fs.readdirSync(moduleDir).filter((f) => f.endsWith('.json')).sort()
 
+  // One accumulator per section of the combined object
   const base: Record<string, Variants> = {}
   const breakpoints: Record<string, Record<string, Variants>> = {}
   const themes: Record<string, Record<string, Variants>> = {}
@@ -74,6 +84,7 @@ export function readModuleFolder<T = Record<string, unknown>>(tokensDir: string)
     if ($inverse) inverse[group] = $inverse
   }
 
+  // Reserved keys only when non-empty, so readers can default a missing section to `{}`
   const out: Record<string, unknown> = { ...base }
   if (Object.keys(breakpoints).length > 0) out.$breakpoints = breakpoints
   if (Object.keys(themes).length > 0) out.$themes = themes

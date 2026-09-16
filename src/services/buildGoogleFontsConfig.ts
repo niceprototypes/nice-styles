@@ -10,14 +10,17 @@ import type { GoogleFontsConfig, LinkAttributes } from '../types/googleFonts.js'
  * by the JS-only `injectFonts`. Returns `null` on an unparseable URL.
  *
  * @param googleFonts - A Google Fonts CSS URL, or an already-built config.
+ * @returns The config (`links` + `fonts`), or null for an empty input or unparseable URL
  */
 export function buildGoogleFontsConfig(
   googleFonts: string | GoogleFontsConfig
 ): GoogleFontsConfig | null {
+  // Empty string (or a falsy value from an untyped caller) — nothing to load
   if (!googleFonts) return null
   // Already a config object — pass through.
   if (typeof googleFonts === 'object') return googleFonts
 
+  // Font metadata (family, axes) for the config's `fonts` list
   const metadata = parseGoogleFontsUrl(googleFonts)
   if (!metadata) {
     console.error('Failed to parse Google Fonts URL:', googleFonts)

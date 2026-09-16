@@ -1,0 +1,60 @@
+:root {
+	--np--brand-color--primary: red;
+	--np--brand-color--primary--day: red;
+	--np--brand-color--primary--night: pink;
+	--np--brand-color--primary--sepia: brown;
+	--np--brand-color--on-brand: #fff;
+	--np--color--light: gray;
+	--np--color--light--day: gray;
+	--np--color--light--night: white;
+	--np--gap: 28px;
+	--np--gap--none: 0;
+	--np--button--icon--size: 10px;
+}
+
+@media (min-width: 1280px) {
+	:root {
+		--np--gap: 32px;
+	}
+}
+
+@media (max-width: 1279px) {
+	:root {
+		--np--band: 1px;
+	}
+}
+
+@media (min-width: 1720px) {
+	:root {
+		--np--band: 3px;
+	}
+}
+
+@media (min-width: 1280px) and (max-width: 1719px) {
+	:root {
+		--np--band: 2px;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--np--brand-color--primary: var(--np--brand-color--primary--night);
+		--np--color--light: var(--np--color--light--night);
+	}
+}
+
+[data-theme="day"] {
+	color-scheme: light;
+		--np--brand-color--primary: var(--np--brand-color--primary--day);
+		--np--color--light: var(--np--color--light--day);
+}
+
+[data-theme="night"] {
+	color-scheme: dark;
+		--np--brand-color--primary: var(--np--brand-color--primary--night);
+		--np--color--light: var(--np--color--light--night);
+}
+
+[data-theme="sepia"] {
+	--np--brand-color--primary: var(--np--brand-color--primary--sepia);
+}

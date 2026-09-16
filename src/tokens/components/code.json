@@ -34,7 +34,8 @@
   "color": {
     "base": "var(--np--color)",
     "lightest": "var(--np--color--lightest)",
-    "link": "var(--np--color--link)"
+    "link": "var(--np--color--link)",
+    "highlight": "var(--np--color--highlight)"
   },
   "$themes": {
     "night": {}

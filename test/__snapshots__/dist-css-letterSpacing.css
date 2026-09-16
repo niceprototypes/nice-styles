@@ -1,0 +1,6 @@
+:root {
+	--np--letter-spacing--tight: -0.025em;
+	--np--letter-spacing: 0;
+	--np--letter-spacing--wide: 0.025em;
+	--np--letter-spacing--wider: 0.05em;
+}

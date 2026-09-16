@@ -1,0 +1,48 @@
+/**
+ * Auto-generated from src/tokens/breakpoints.json — do not edit by hand.
+ * Native breakpoint utility classes (plain @import, no consumer transform).
+ *
+ * Usage:
+ *   @import "nice-styles/breakpoints.css";
+ *   <div class="np-hide-tablet-up">…</div>   <!-- hidden at >= tablet -->
+ */
+
+@media (max-width: 640px) {
+  .np-hide-phone { display: none !important; }
+}
+
+@media (min-width: 641px) and (max-width: 1279px) {
+  .np-hide-tablet { display: none !important; }
+}
+
+@media (min-width: 1280px) and (max-width: 1719px) {
+  .np-hide-laptop { display: none !important; }
+}
+
+@media (min-width: 1720px) {
+  .np-hide-desktop { display: none !important; }
+}
+
+@media (min-width: 641px) {
+  .np-hide-tablet-up { display: none !important; }
+}
+
+@media (min-width: 1280px) {
+  .np-hide-laptop-up { display: none !important; }
+}
+
+@media (min-width: 1720px) {
+  .np-hide-desktop-up { display: none !important; }
+}
+
+@media (max-width: 640px) {
+  .np-hide-phone-down { display: none !important; }
+}
+
+@media (max-width: 1279px) {
+  .np-hide-tablet-down { display: none !important; }
+}
+
+@media (max-width: 1719px) {
+  .np-hide-laptop-down { display: none !important; }
+}

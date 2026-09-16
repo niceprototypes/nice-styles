@@ -1,0 +1,104 @@
+:root {
+	--np--breakpoints--tablet: 641px;
+	--np--breakpoints--laptop: 1100px;
+	--np--breakpoints--desktop: 1720px;
+}
+
+@media (min-width: 641px) {
+	:root {
+		--np--font-size--smaller: var(--np--font-size--smaller--tablet);
+		--np--font-size--small: var(--np--font-size--small--tablet);
+		--np--font-size: var(--np--font-size--tablet);
+		--np--font-size--large: var(--np--font-size--large--tablet);
+		--np--font-size--larger: var(--np--font-size--larger--tablet);
+	}
+}
+
+@media (min-width: 1100px) {
+	:root {
+		--np--font-size--smaller: var(--np--font-size--smaller--laptop);
+		--np--font-size--small: var(--np--font-size--small--laptop);
+		--np--font-size: var(--np--font-size--laptop);
+		--np--font-size--large: var(--np--font-size--large--laptop);
+		--np--font-size--larger: var(--np--font-size--larger--laptop);
+	}
+}
+
+@media (min-width: 1720px) {
+	:root {
+		--np--font-size--smaller: var(--np--font-size--smaller--desktop);
+		--np--font-size--small: var(--np--font-size--small--desktop);
+		--np--font-size: var(--np--font-size--desktop);
+		--np--font-size--large: var(--np--font-size--large--desktop);
+		--np--font-size--larger: var(--np--font-size--larger--desktop);
+	}
+}
+
+@media (min-width: 641px) {
+	:root {
+		--np--button--icon--size--smaller: var(--np--font-size--smaller--tablet);
+		--np--button--icon--size--small: var(--np--font-size--small--tablet);
+		--np--button--icon--size: var(--np--font-size--tablet);
+		--np--button--icon--size--large: var(--np--font-size--large--tablet);
+		--np--button--icon--size--larger: var(--np--font-size--larger--tablet);
+		--np--code--font-size--smaller: var(--np--font-size--smaller--tablet);
+		--np--code--font-size--small: var(--np--font-size--small--tablet);
+		--np--code--font-size: var(--np--font-size--tablet);
+		--np--icon--size--smaller: var(--np--font-size--smaller--tablet);
+		--np--icon--size--small: var(--np--font-size--small--tablet);
+		--np--icon--size: var(--np--font-size--tablet);
+		--np--icon--size--large: var(--np--font-size--large--tablet);
+		--np--icon--size--larger: var(--np--font-size--larger--tablet);
+		--np--ink--font-size--smaller: var(--np--font-size--smaller--tablet);
+		--np--ink--font-size--small: var(--np--font-size--small--tablet);
+		--np--ink--font-size: var(--np--font-size--tablet);
+		--np--ink--font-size--large: var(--np--font-size--large--tablet);
+		--np--ink--font-size--larger: var(--np--font-size--larger--tablet);
+	}
+}
+
+@media (min-width: 1100px) {
+	:root {
+		--np--button--icon--size--smaller: var(--np--font-size--smaller--laptop);
+		--np--button--icon--size--small: var(--np--font-size--small--laptop);
+		--np--button--icon--size: var(--np--font-size--laptop);
+		--np--button--icon--size--large: var(--np--font-size--large--laptop);
+		--np--button--icon--size--larger: var(--np--font-size--larger--laptop);
+		--np--code--font-size--smaller: var(--np--font-size--smaller--laptop);
+		--np--code--font-size--small: var(--np--font-size--small--laptop);
+		--np--code--font-size: var(--np--font-size--laptop);
+		--np--icon--size--smaller: var(--np--font-size--smaller--laptop);
+		--np--icon--size--small: var(--np--font-size--small--laptop);
+		--np--icon--size: var(--np--font-size--laptop);
+		--np--icon--size--large: var(--np--font-size--large--laptop);
+		--np--icon--size--larger: var(--np--font-size--larger--laptop);
+		--np--ink--font-size--smaller: var(--np--font-size--smaller--laptop);
+		--np--ink--font-size--small: var(--np--font-size--small--laptop);
+		--np--ink--font-size: var(--np--font-size--laptop);
+		--np--ink--font-size--large: var(--np--font-size--large--laptop);
+		--np--ink--font-size--larger: var(--np--font-size--larger--laptop);
+	}
+}
+
+@media (min-width: 1720px) {
+	:root {
+		--np--button--icon--size--smaller: var(--np--font-size--smaller--desktop);
+		--np--button--icon--size--small: var(--np--font-size--small--desktop);
+		--np--button--icon--size: var(--np--font-size--desktop);
+		--np--button--icon--size--large: var(--np--font-size--large--desktop);
+		--np--button--icon--size--larger: var(--np--font-size--larger--desktop);
+		--np--code--font-size--smaller: var(--np--font-size--smaller--desktop);
+		--np--code--font-size--small: var(--np--font-size--small--desktop);
+		--np--code--font-size: var(--np--font-size--desktop);
+		--np--icon--size--smaller: var(--np--font-size--smaller--desktop);
+		--np--icon--size--small: var(--np--font-size--small--desktop);
+		--np--icon--size: var(--np--font-size--desktop);
+		--np--icon--size--large: var(--np--font-size--large--desktop);
+		--np--icon--size--larger: var(--np--font-size--larger--desktop);
+		--np--ink--font-size--smaller: var(--np--font-size--smaller--desktop);
+		--np--ink--font-size--small: var(--np--font-size--small--desktop);
+		--np--ink--font-size: var(--np--font-size--desktop);
+		--np--ink--font-size--large: var(--np--font-size--large--desktop);
+		--np--ink--font-size--larger: var(--np--font-size--larger--desktop);
+	}
+}

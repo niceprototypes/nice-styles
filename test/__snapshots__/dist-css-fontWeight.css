@@ -1,0 +1,9 @@
+:root {
+	--np--font-weight--light: 300;
+	--np--font-weight: 400;
+	--np--font-weight--medium: 500;
+	--np--font-weight--semibold: 600;
+	--np--font-weight--bold: 700;
+	--np--font-weight--extrabold: 800;
+	--np--font-weight--black: 900;
+}

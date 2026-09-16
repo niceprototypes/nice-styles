@@ -19,86 +19,22 @@
  * (by fold-merge order in JS, by CSS source order in the cascade).
  */
 import { getBreakpoint } from './getBreakpoint.js'
+import { parseBreakpointKey, type BreakpointModifier, type ParsedBreakpointKey } from '../utilities/breakpointKeyMap.js'
 import {
   BREAKPOINTS,
+  BREAKPOINT_ORDER,
   BREAKPOINT_PHONE,
-  BREAKPOINT_TABLET,
-  BREAKPOINT_LAPTOP,
   BREAKPOINT_DESKTOP,
+  breakpointIndex,
   type BreakpointName,
+  type SettableBreakpoint,
 } from '../constants/breakpoints.js'
 
-/** The three range directions a key can express. */
-export type BreakpointModifier = 'exact' | 'up' | 'down'
-
-/**
- * A breakpoint key as it appears in a `breakpoints` map or `$breakpoints`
- * object: a bare name, or a name with a `+` (up) / `-` (down) modifier.
- *
- * Edge cases:
- * - `"phone-"` ≡ `"phone"` (phone is the smallest).
- * - `"desktop+"` ≡ `"desktop"` (desktop is the largest).
- * - `"phone+"` and `"desktop-"` both span every breakpoint (base, no @media).
- */
-export type BreakpointKey =
-  | BreakpointName
-  | `${BreakpointName}+`
-  | `${BreakpointName}-`
-
-/** A parsed key: its breakpoint name and direction. */
-export interface ParsedBreakpointKey {
-  name: BreakpointName
-  modifier: BreakpointModifier
-}
-
-/** Ascending order, smallest → largest. */
-const BREAKPOINT_ORDER = [
-  BREAKPOINT_PHONE,
-  BREAKPOINT_TABLET,
-  BREAKPOINT_LAPTOP,
-  BREAKPOINT_DESKTOP,
-] as const
-
-/** Index of each breakpoint in ascending order (phone=0 … desktop=3). */
-const ORDER_INDEX: Record<BreakpointName, number> = {
-  [BREAKPOINT_PHONE]: 0,
-  [BREAKPOINT_TABLET]: 1,
-  [BREAKPOINT_LAPTOP]: 2,
-  [BREAKPOINT_DESKTOP]: 3,
-}
+// Parsing and recognition live in utilities (no threshold reads); public API from here.
+export { isBreakpointName, isBreakpointKeyMap, parseBreakpointKey } from '../utilities/breakpointKeyMap.js'
+export type { BreakpointKey, BreakpointModifier, ParsedBreakpointKey } from '../utilities/breakpointKeyMap.js'
 
 const BREAKPOINT_COUNT = BREAKPOINT_ORDER.length
-
-/** Narrowing guard for a raw string that may be a breakpoint name. */
-export function isBreakpointName(name: string): name is BreakpointName {
-  return Object.prototype.hasOwnProperty.call(ORDER_INDEX, name)
-}
-
-/**
- * Whether a value is a non-empty plain object whose every key is a breakpoint
- * key (bare name, or name with `+`/`-`). Used to detect the inline breakpoint
- * value-shape in `setTokens` — e.g. `{ "laptop+": "20px", tablet: "16px" }`.
- *
- * Rejects theme values (`{ day, night }` — `day`/`night` are not breakpoint
- * names) and arbitrary objects, so it is safe to test before theme detection.
- */
-export function isBreakpointKeyMap(value: unknown): value is Record<string, string | number> {
-  if (value === null || typeof value !== 'object' || Array.isArray(value)) return false
-  const keys = Object.keys(value as Record<string, unknown>)
-  if (keys.length === 0) return false
-  return keys.every((key) => isBreakpointName(parseBreakpointKey(key).name))
-}
-
-/**
- * Split the optional `+`/`-` suffix from a breakpoint key.
- *
- * @example parseBreakpointKey("laptop+") // → { name: "laptop", modifier: "up" }
- */
-export function parseBreakpointKey(key: string): ParsedBreakpointKey {
-  if (key.endsWith('+')) return { name: key.slice(0, -1) as BreakpointName, modifier: 'up' }
-  if (key.endsWith('-')) return { name: key.slice(0, -1) as BreakpointName, modifier: 'down' }
-  return { name: key as BreakpointName, modifier: 'exact' }
-}
 
 /**
  * Whether a parsed key is active at the current viewport breakpoint.
@@ -107,10 +43,10 @@ export function parseBreakpointKey(key: string): ParsedBreakpointKey {
  * a stray runtime key reads as no-match rather than throwing).
  */
 export function breakpointKeyMatches(parsed: ParsedBreakpointKey, current: BreakpointName): boolean {
-  const target = ORDER_INDEX[parsed.name]
-  if (target === undefined) return false
+  const target = breakpointIndex(parsed.name)
+  if (target === -1) return false
 
-  const currentIdx = ORDER_INDEX[current]
+  const currentIdx = breakpointIndex(current)
   if (parsed.modifier === 'exact') return currentIdx === target
   if (parsed.modifier === 'up') return currentIdx >= target
   return currentIdx <= target
@@ -121,8 +57,8 @@ export function breakpointKeyMatches(parsed: ParsedBreakpointKey, current: Break
  * specific. exact = 1; up = count − index; down = index + 1.
  */
 export function breakpointKeyRangeSize(parsed: ParsedBreakpointKey): number {
-  const i = ORDER_INDEX[parsed.name]
-  if (i === undefined) return BREAKPOINT_COUNT // unknown → least specific
+  const i = breakpointIndex(parsed.name)
+  if (i === -1) return BREAKPOINT_COUNT // unknown → least specific
   if (parsed.modifier === 'exact') return 1
   if (parsed.modifier === 'up') return BREAKPOINT_COUNT - i
   return i + 1 // down
@@ -149,10 +85,9 @@ export function compareBreakpointSpecificity(a: ParsedBreakpointKey, b: ParsedBr
 
 /** Pixel floor of the breakpoint immediately above `name` (Infinity for desktop). */
 function nextFloor(name: BreakpointName): number {
-  if (name === BREAKPOINT_PHONE) return BREAKPOINTS[BREAKPOINT_TABLET]
-  if (name === BREAKPOINT_TABLET) return BREAKPOINTS[BREAKPOINT_LAPTOP]
-  if (name === BREAKPOINT_LAPTOP) return BREAKPOINTS[BREAKPOINT_DESKTOP]
-  return Infinity // desktop has no ceiling
+  // The breakpoint after `name` is always settable (phone is first); desktop has none.
+  const next = BREAKPOINT_ORDER[breakpointIndex(name) + 1] as SettableBreakpoint | undefined
+  return next ? BREAKPOINTS[next] : Infinity
 }
 
 /**
@@ -168,7 +103,7 @@ function nextFloor(name: BreakpointName): number {
  */
 export function breakpointKeyQuery(key: string): string | null {
   const parsed = parseBreakpointKey(key)
-  if (ORDER_INDEX[parsed.name] === undefined) return null
+  if (breakpointIndex(parsed.name) === -1) return null
 
   if (parsed.modifier === 'up') {
     if (parsed.name === BREAKPOINT_PHONE) return null // everything → base

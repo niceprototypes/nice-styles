@@ -28,18 +28,17 @@
  */
 
 import { breakpointAliases } from './breakpointAliases.js'
+import { generatedHeader } from '../shared/generatedHeader.js'
 
-const HEADER = `/**
- * Auto-generated from src/tokens/breakpoints.json — do not edit by hand.
- * OPTIONAL @custom-media breakpoints — requires postcss-custom-media in the
- * consuming build (not part of the plain-import set). For the native path use
- * nice-styles/breakpoints.css (utility classes) or responsive tokens.
- *
- * Usage:
- *   @import "nice-styles/breakpoints.custom-media.css";
- *   @media (--np--tablet--up) { ... }
- */
-`
+const HEADER = generatedHeader('src/tokens/breakpoints.json', [
+  'OPTIONAL @custom-media breakpoints — requires postcss-custom-media in the',
+  'consuming build (not part of the plain-import set). For the native path use',
+  'nice-styles/breakpoints.css (utility classes) or responsive tokens.',
+  '',
+  'Usage:',
+  '  @import "nice-styles/breakpoints.custom-media.css";',
+  '  @media (--np--tablet--up) { ... }',
+])
 
 /**
  * Build the `breakpoints.custom-media.css` string of `@custom-media` aliases.

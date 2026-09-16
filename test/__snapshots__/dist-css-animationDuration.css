@@ -1,0 +1,7 @@
+:root {
+	--np--animation-duration--faster: 120ms;
+	--np--animation-duration--fast: 160ms;
+	--np--animation-duration: 240ms;
+	--np--animation-duration--slow: 480ms;
+	--np--animation-duration--slower: 960ms;
+}

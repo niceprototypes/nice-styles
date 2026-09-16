@@ -1,0 +1,7 @@
+:root {
+	--np--animation-easing: ease-in-out;
+	--np--animation-easing--linear: linear;
+	--np--animation-easing--ease-in: ease-in;
+	--np--animation-easing--ease-out: ease-out;
+	--np--animation-easing--ease: ease;
+}

@@ -1,0 +1,8 @@
+:root {
+	--np--border-width--none: 0;
+	--np--border-width--smaller: 0.75px;
+	--np--border-width--small: 1px;
+	--np--border-width: 1.5px;
+	--np--border-width--large: 2px;
+	--np--border-width--larger: 4px;
+}

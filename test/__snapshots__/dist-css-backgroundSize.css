@@ -1,0 +1,8 @@
+:root {
+	--np--background-size: auto;
+	--np--background-size--contain: contain;
+	--np--background-size--cover: cover;
+	--np--background-size--fill: fill;
+	--np--background-size--none: none;
+	--np--background-size--scale-down: scale-down;
+}

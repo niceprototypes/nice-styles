@@ -2,7 +2,7 @@
  * CSS Generator — entry point.
  *
  * Orchestrates the full CSS generation pipeline:
- * 1. Read all token JSON sources and validate (readSources)
+ * 1. Read and validate `src/tokens/` (`scripts/shared/readTokenSources.ts`)
  * 2. Run the emit → assemble → write pipeline (writeCss)
  *
  * Supports one-shot build and watch mode.
@@ -24,7 +24,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path'
-import { readTokenSources } from './readSources.js'
+import { readTokenSources } from '../shared/readTokenSources.js'
 import { writeCssFiles } from './writeCss.js'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -33,11 +33,9 @@ const __dirname = dirname(__filename)
 const tokensDir = path.join(__dirname, '..', '..', 'src', 'tokens')
 const distDir = path.join(__dirname, '..', '..', 'dist')
 const cssDir = path.join(distDir, 'css')
-const errorsPath = path.join(__dirname, '..', '..', 'src', 'errors.json')
 
 function main() {
-  const sources = readTokenSources(tokensDir, errorsPath)
-  writeCssFiles(sources, distDir, cssDir)
+  writeCssFiles(readTokenSources(tokensDir), distDir, cssDir)
 }
 
 main()

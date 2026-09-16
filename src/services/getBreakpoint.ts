@@ -1,25 +1,17 @@
 import { formatError } from '../utilities/formatError.js'
 import {
   BREAKPOINTS,
+  BREAKPOINT_ORDER,
   BREAKPOINT_PHONE,
-  BREAKPOINT_TABLET,
-  BREAKPOINT_LAPTOP,
-  BREAKPOINT_DESKTOP,
+  SETTABLE_BREAKPOINTS,
   type BreakpointName,
+  type SettableBreakpoint,
 } from '../constants/breakpoints.js'
 // Type-only import — erased at compile time, so no runtime cycle with
 // breakpointKey.ts (which imports getBreakpoint as a value).
 import type { BreakpointKey, BreakpointModifier } from './breakpointKey.js'
 
 export type { BreakpointName }
-
-/** Ascending order, smallest → largest. */
-const ORDER: readonly BreakpointName[] = [
-  BREAKPOINT_PHONE,
-  BREAKPOINT_TABLET,
-  BREAKPOINT_LAPTOP,
-  BREAKPOINT_DESKTOP,
-]
 
 /**
  * Split the optional `+`/`-` suffix from a breakpoint key into name + direction.
@@ -33,19 +25,19 @@ function parseKey(key: string): { name: BreakpointName; modifier: BreakpointModi
 }
 
 function assertKnown(name: BreakpointName): void {
-  if (!ORDER.includes(name)) {
-    throw new Error(formatError('breakpointNotFound', { name, available: ORDER.join(', ') }))
+  if (!(BREAKPOINT_ORDER as readonly string[]).includes(name)) {
+    throw new Error(formatError('breakpointNotFound', { name, available: BREAKPOINT_ORDER.join(', ') }))
   }
 }
 
 /** Pixel floor of a breakpoint. `phone` is the base (0); the rest read BREAKPOINTS. */
 function floorOf(name: BreakpointName): number {
-  return name === BREAKPOINT_PHONE ? 0 : BREAKPOINTS[name as keyof typeof BREAKPOINTS]
+  return name === BREAKPOINT_PHONE ? 0 : BREAKPOINTS[name as SettableBreakpoint]
 }
 
-/** Pixel floor of the breakpoint immediately above `name` (Infinity for desktop). */
+/** Pixel floor of the breakpoint immediately above `name` (Infinity for the largest). */
 function nextFloor(name: BreakpointName): number {
-  const next = ORDER[ORDER.indexOf(name) + 1]
+  const next = BREAKPOINT_ORDER[BREAKPOINT_ORDER.indexOf(name) + 1]
   return next ? floorOf(next) : Infinity
 }
 
@@ -117,6 +109,7 @@ export function getBreakpoint(key: BreakpointKey): string {
  */
 export function getBreakpointValue(name: BreakpointName): number {
   assertKnown(name)
-  if (name === BREAKPOINT_PHONE) return BREAKPOINTS[BREAKPOINT_TABLET] - 1
-  return BREAKPOINTS[name as keyof typeof BREAKPOINTS]
+  // phone is the base: its ceiling is one pixel below the first settable floor
+  if (name === BREAKPOINT_PHONE) return BREAKPOINTS[SETTABLE_BREAKPOINTS[0]] - 1
+  return BREAKPOINTS[name as SettableBreakpoint]
 }

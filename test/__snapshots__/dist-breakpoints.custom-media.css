@@ -1,0 +1,21 @@
+/**
+ * Auto-generated from src/tokens/breakpoints.json — do not edit by hand.
+ * OPTIONAL @custom-media breakpoints — requires postcss-custom-media in the
+ * consuming build (not part of the plain-import set). For the native path use
+ * nice-styles/breakpoints.css (utility classes) or responsive tokens.
+ *
+ * Usage:
+ *   @import "nice-styles/breakpoints.custom-media.css";
+ *   @media (--np--tablet--up) { ... }
+ */
+
+@custom-media --np--phone (max-width: 640px);
+@custom-media --np--tablet (min-width: 641px) and (max-width: 1279px);
+@custom-media --np--laptop (min-width: 1280px) and (max-width: 1719px);
+@custom-media --np--desktop (min-width: 1720px);
+@custom-media --np--tablet--up (min-width: 641px);
+@custom-media --np--laptop--up (min-width: 1280px);
+@custom-media --np--desktop--up (min-width: 1720px);
+@custom-media --np--phone--down (max-width: 640px);
+@custom-media --np--tablet--down (max-width: 1279px);
+@custom-media --np--laptop--down (max-width: 1719px);

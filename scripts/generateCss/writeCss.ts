@@ -1,8 +1,8 @@
 /**
  * CSS file writer.
  *
- * Takes resolved token data from readSources and produces all CSS output files.
- * Delegates to the emitter and assembler pipeline in scripts/css/.
+ * Maps the token source model onto every CSS output file. Lines come from the
+ * emitters in `src/utilities/css/`, ordered by the assemblers in `scripts/css/`.
  *
  * ## Output files
  *
@@ -26,11 +26,12 @@
 import * as fs from 'fs'
 import * as path from 'path'
 import { camelToKebab } from '../../src/utilities/camelToKebab.js'
-import { buildIndividualCss } from '../css/emitCoreTokens.js'
+import { buildIndividualCss } from '../css/assembleIndividual.js'
 import { buildCombinedCss } from '../css/assembleCombined.js'
 import { buildCustomMediaCss } from '../css/emitCustomMedia.js'
 import { buildBreakpointUtilitiesCss } from '../css/emitBreakpointUtilities.js'
-import type { TokenSources } from './readSources.js'
+import { semanticDefaults } from '../shared/semanticDefaults.js'
+import type { TokenSourceModel } from '../shared/types.js'
 
 /**
  * Standalone top-level CSS assets. Each `build` returns plain, browser-native
@@ -46,18 +47,15 @@ const STANDALONE_ASSETS: { file: string; build: () => string }[] = [
 ]
 
 /**
- * Generates all CSS output files from resolved token data.
+ * Generates all CSS output files from the token source model.
  *
- * @param sources - Merged token data from readTokenSources
+ * @param model - Validated sources from `readTokenSources`
  * @param distDir - Absolute path to dist/
  * @param cssDir - Absolute path to dist/css/
  */
-export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: string): void {
-  const {
-    tokens, nightTokens, componentTokens, componentNightTokens, breakpointTokens,
-    componentBreakpointTokens, extraThemes, componentExtraThemes,
-    inverseTokens, inverseNightTokens,
-  } = sources
+export function writeCssFiles(model: TokenSourceModel, distDir: string, cssDir: string): void {
+  const { themes, breakpointTokens, inverse, components } = model
+  const tokens = semanticDefaults(model)
 
   // Ensure output directories exist
   if (!fs.existsSync(distDir)) fs.mkdirSync(distDir, { recursive: true })
@@ -66,9 +64,9 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
   // Combined tokens.css — semantic variables, primitives (incl. inverse),
   // breakpoint @media, and the mode-awareness block.
   const { css: combinedCss } = buildCombinedCss(
-    tokens, nightTokens, componentTokens, componentNightTokens, breakpointTokens,
-    componentBreakpointTokens, extraThemes, componentExtraThemes,
-    inverseTokens, inverseNightTokens
+    tokens, themes.night, components.base, components.themes.night, breakpointTokens,
+    components.breakpoints, themes.extras, components.themes.extras,
+    inverse.day, inverse.night, model.thresholds
   )
   const cssPath = path.join(distDir, 'tokens.css')
   fs.writeFileSync(cssPath, combinedCss, 'utf-8')
@@ -87,11 +85,9 @@ export function writeCssFiles(sources: TokenSources, distDir: string, cssDir: st
   // --inverse vars in the same file.
   const tokenNames = Object.keys(tokens)
   for (const tokenName of tokenNames) {
-    const cssName = camelToKebab(tokenName)
-    const nightVariants = nightTokens[tokenName] || {}
     const css = buildIndividualCss(
-      cssName, tokens[tokenName], nightVariants,
-      inverseTokens[tokenName], inverseNightTokens[tokenName]
+      camelToKebab(tokenName), tokens[tokenName], themes.night[tokenName] || {},
+      inverse.day[tokenName], inverse.night[tokenName]
     )
     fs.writeFileSync(path.join(cssDir, `${tokenName}.css`), css, 'utf-8')
   }
