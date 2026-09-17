@@ -5,8 +5,7 @@
     "success": "var(--np--background-color--success)",
     "warning": "var(--np--background-color--warning)",
     "error": "var(--np--background-color--error)",
-    "link": "var(--np--background-color--link)",
-    "alternate": "var(--np--background-color--dark)"
+    "link": "var(--np--background-color--link)"
   },
   "backgroundSize": {
     "contain": "var(--np--background-size--contain)",

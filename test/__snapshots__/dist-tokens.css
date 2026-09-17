@@ -423,7 +423,6 @@
 	--np--tile--background-color--warning: var(--np--background-color--warning);
 	--np--tile--background-color--error: var(--np--background-color--error);
 	--np--tile--background-color--link: var(--np--background-color--link);
-	--np--tile--background-color--alternate: var(--np--background-color--dark);
 	--np--tile--background-size--contain: var(--np--background-size--contain);
 	--np--tile--background-size--cover: var(--np--background-size--cover);
 	--np--tile--background-size--fill: var(--np--background-size--fill);
@@ -479,7 +478,6 @@
 	--np--tile--background-color--warning--inverse: var(--np--background-color--warning--inverse);
 	--np--tile--background-color--error--inverse: var(--np--background-color--error--inverse);
 	--np--tile--background-color--link--inverse: var(--np--background-color--link--inverse);
-	--np--tile--background-color--alternate--inverse: var(--np--background-color--dark--inverse);
 	--np--tile--color--inverse: var(--np--color--inverse);
 	--np--tile--color--light--inverse: var(--np--color--light--inverse);
 	--np--tile--color--lighter--inverse: var(--np--color--lighter--inverse);
@@ -710,7 +708,6 @@
 		--np--tile--background-color--warning--inverse: var(--np--background-color--warning--night--inverse);
 		--np--tile--background-color--error--inverse: var(--np--background-color--error--night--inverse);
 		--np--tile--background-color--link--inverse: var(--np--background-color--link--night--inverse);
-		--np--tile--background-color--alternate--inverse: var(--np--background-color--dark--night--inverse);
 		--np--tile--color--inverse: var(--np--color--night--inverse);
 		--np--tile--color--light--inverse: var(--np--color--light--night--inverse);
 		--np--tile--color--lighter--inverse: var(--np--color--lighter--night--inverse);
@@ -759,7 +756,6 @@
 		--np--tile--background-color--warning: var(--np--background-color--warning--night);
 		--np--tile--background-color--error: var(--np--background-color--error--night);
 		--np--tile--background-color--link: var(--np--background-color--link--night);
-		--np--tile--background-color--alternate: var(--np--background-color--dark--night);
 		--np--tile--color: var(--np--color--night);
 		--np--tile--color--light: var(--np--color--light--night);
 		--np--tile--color--lighter: var(--np--color--lighter--night);
@@ -865,7 +861,6 @@
 		--np--tile--background-color--warning--inverse: var(--np--background-color--warning--day--inverse);
 		--np--tile--background-color--error--inverse: var(--np--background-color--error--day--inverse);
 		--np--tile--background-color--link--inverse: var(--np--background-color--link--day--inverse);
-		--np--tile--background-color--alternate--inverse: var(--np--background-color--dark--day--inverse);
 		--np--tile--color--inverse: var(--np--color--day--inverse);
 		--np--tile--color--light--inverse: var(--np--color--light--day--inverse);
 		--np--tile--color--lighter--inverse: var(--np--color--lighter--day--inverse);
@@ -914,7 +909,6 @@
 		--np--tile--background-color--warning: var(--np--background-color--warning--day);
 		--np--tile--background-color--error: var(--np--background-color--error--day);
 		--np--tile--background-color--link: var(--np--background-color--link--day);
-		--np--tile--background-color--alternate: var(--np--background-color--dark--day);
 		--np--tile--color: var(--np--color--day);
 		--np--tile--color--light: var(--np--color--light--day);
 		--np--tile--color--lighter: var(--np--color--lighter--day);
@@ -1019,7 +1013,6 @@
 		--np--tile--background-color--warning--inverse: var(--np--background-color--warning--night--inverse);
 		--np--tile--background-color--error--inverse: var(--np--background-color--error--night--inverse);
 		--np--tile--background-color--link--inverse: var(--np--background-color--link--night--inverse);
-		--np--tile--background-color--alternate--inverse: var(--np--background-color--dark--night--inverse);
 		--np--tile--color--inverse: var(--np--color--night--inverse);
 		--np--tile--color--light--inverse: var(--np--color--light--night--inverse);
 		--np--tile--color--lighter--inverse: var(--np--color--lighter--night--inverse);
@@ -1068,7 +1061,6 @@
 		--np--tile--background-color--warning: var(--np--background-color--warning--night);
 		--np--tile--background-color--error: var(--np--background-color--error--night);
 		--np--tile--background-color--link: var(--np--background-color--link--night);
-		--np--tile--background-color--alternate: var(--np--background-color--dark--night);
 		--np--tile--color: var(--np--color--night);
 		--np--tile--color--light: var(--np--color--light--night);
 		--np--tile--color--lighter: var(--np--color--lighter--night);
