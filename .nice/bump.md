@@ -28,3 +28,4 @@
 [2026-09-16 15:28] minor: ink.color gains the highlight variant (var(--np--color--highlight)) — Ink's color prop advertised it via ColorType but no component token existed
 [2026-09-16 15:31] minor: highlight variant added to every component color set — icon.color, tile.color, code.color (ink.color shipped separately); each aliases var(--np--color--highlight) and follows it into the day/night scopes
 [2026-09-16 16:21] minor: resolveColorProp + ColorTokenProp: component colour props accept { name, theme, breakpoint, transform }, resolved through getToken
+[2026-09-17 14:34] patch: backgroundColor success 92% → 97% lightness; borderColor success 65%/80% → 55%/88%

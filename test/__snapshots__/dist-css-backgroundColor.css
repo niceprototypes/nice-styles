@@ -1,7 +1,7 @@
 :root {
 	--np--background-color: hsla(212, 10%, 100%, 1);
 	--np--background-color--dark: hsla(212, 10%, 97%, 1);
-	--np--background-color--success: hsla(146, 60%, 92%, 1);
+	--np--background-color--success: hsla(146, 60%, 97%, 1);
 	--np--background-color--highlight: hsla(55, 100%, 97%, 1);
 	--np--background-color--warning: hsla(29, 100%, 94%, 1);
 	--np--background-color--error: hsla(10, 100%, 95%, 1);
@@ -17,7 +17,7 @@
 	/* Day mode primitives */
 	--np--background-color--day: hsla(212, 10%, 100%, 1);
 	--np--background-color--dark--day: hsla(212, 10%, 97%, 1);
-	--np--background-color--success--day: hsla(146, 60%, 92%, 1);
+	--np--background-color--success--day: hsla(146, 60%, 97%, 1);
 	--np--background-color--highlight--day: hsla(55, 100%, 97%, 1);
 	--np--background-color--warning--day: hsla(29, 100%, 94%, 1);
 	--np--background-color--error--day: hsla(10, 100%, 95%, 1);

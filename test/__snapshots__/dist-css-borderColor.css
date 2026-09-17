@@ -3,7 +3,7 @@
 	--np--border-color--light: hsla(240, 9%, 95%, 1);
 	--np--border-color--dark: hsla(210, 8%, 58%, 1);
 	--np--border-color--darker: hsla(210, 10%, 20%, 1);
-	--np--border-color--success: hsla(146, 65%, 80%, 1);
+	--np--border-color--success: hsla(146, 55%, 88%, 1);
 	--np--border-color--highlight: hsla(48, 90%, 83%, 1);
 	--np--border-color--warning: hsla(29, 100%, 82%, 1);
 	--np--border-color--error: hsla(10, 100%, 85%, 1);
@@ -14,7 +14,7 @@
 	--np--border-color--light--day: hsla(240, 9%, 95%, 1);
 	--np--border-color--dark--day: hsla(210, 8%, 58%, 1);
 	--np--border-color--darker--day: hsla(210, 10%, 20%, 1);
-	--np--border-color--success--day: hsla(146, 65%, 80%, 1);
+	--np--border-color--success--day: hsla(146, 55%, 88%, 1);
 	--np--border-color--highlight--day: hsla(48, 90%, 83%, 1);
 	--np--border-color--warning--day: hsla(29, 100%, 82%, 1);
 	--np--border-color--error--day: hsla(10, 100%, 85%, 1);
