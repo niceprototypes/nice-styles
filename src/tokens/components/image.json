@@ -16,8 +16,8 @@
   },
   "borderColor": {
     "base": "var(--np--border-color)",
-    "dark": "var(--np--border-color--dark)",
-    "darker": "var(--np--border-color--darker)"
+    "strong": "var(--np--border-color--strong)",
+    "stronger": "var(--np--border-color--stronger)"
   },
   "backgroundSize": {
     "contain": "var(--np--background-size--contain)",

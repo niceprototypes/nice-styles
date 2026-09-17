@@ -11,7 +11,7 @@ const themeTokensData: ThemeTokensData = {
   "day": {
     "backgroundColor": {
       "base": "hsla(212, 10%, 100%, 1)",
-      "dark": "hsla(212, 10%, 97%, 1)",
+      "raised": "hsla(212, 10%, 97%, 1)",
       "success": "hsla(146, 60%, 97%, 1)",
       "highlight": "hsla(55, 100%, 97%, 1)",
       "warning": "hsla(29, 100%, 94%, 1)",
@@ -20,9 +20,9 @@ const themeTokensData: ThemeTokensData = {
     },
     "borderColor": {
       "base": "hsla(240, 9%, 91%, 1)",
-      "light": "hsla(240, 9%, 95%, 1)",
-      "dark": "hsla(210, 8%, 58%, 1)",
-      "darker": "hsla(210, 10%, 20%, 1)",
+      "subtle": "hsla(240, 9%, 95%, 1)",
+      "strong": "hsla(210, 8%, 58%, 1)",
+      "stronger": "hsla(210, 10%, 20%, 1)",
       "success": "hsla(146, 55%, 88%, 1)",
       "highlight": "hsla(48, 90%, 83%, 1)",
       "warning": "hsla(29, 100%, 82%, 1)",
@@ -45,7 +45,7 @@ const themeTokensData: ThemeTokensData = {
   "night": {
     "backgroundColor": {
       "base": "hsla(212, 10%, 15%, 1)",
-      "dark": "hsla(212, 10%, 13%, 1)",
+      "raised": "hsla(212, 10%, 13%, 1)",
       "success": "hsla(146, 45%, 18%, 1)",
       "highlight": "hsla(48, 55%, 22%, 1)",
       "warning": "hsla(29, 60%, 18%, 1)",
@@ -54,9 +54,9 @@ const themeTokensData: ThemeTokensData = {
     },
     "borderColor": {
       "base": "hsla(240, 5%, 25%, 1)",
-      "light": "hsla(240, 5%, 20%, 1)",
-      "dark": "hsla(240, 5%, 50%, 1)",
-      "darker": "hsla(240, 5%, 100%, 1)",
+      "subtle": "hsla(240, 5%, 20%, 1)",
+      "strong": "hsla(240, 5%, 50%, 1)",
+      "stronger": "hsla(240, 5%, 100%, 1)",
       "success": "hsla(146, 50%, 32%, 1)",
       "highlight": "hsla(48, 60%, 40%, 1)",
       "warning": "hsla(29, 65%, 32%, 1)",

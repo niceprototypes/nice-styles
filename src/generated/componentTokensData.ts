@@ -42,8 +42,8 @@ const componentTokensData: ComponentTokensData = {
     },
     "borderColor": {
       "base": "var(--np--border-color)",
-      "dark": "var(--np--border-color--dark)",
-      "darker": "var(--np--border-color--darker)"
+      "strong": "var(--np--border-color--strong)",
+      "stronger": "var(--np--border-color--stronger)"
     },
     "icon": {
       "color": {
@@ -150,8 +150,8 @@ const componentTokensData: ComponentTokensData = {
     },
     "borderColor": {
       "base": "var(--np--border-color)",
-      "dark": "var(--np--border-color--dark)",
-      "darker": "var(--np--border-color--darker)"
+      "strong": "var(--np--border-color--strong)",
+      "stronger": "var(--np--border-color--stronger)"
     },
     "backgroundSize": {
       "contain": "var(--np--background-size--contain)",
@@ -255,7 +255,7 @@ const componentTokensData: ComponentTokensData = {
   "tile": {
     "backgroundColor": {
       "base": "var(--np--background-color)",
-      "dark": "var(--np--background-color--dark)",
+      "raised": "var(--np--background-color--raised)",
       "success": "var(--np--background-color--success)",
       "warning": "var(--np--background-color--warning)",
       "error": "var(--np--background-color--error)",
