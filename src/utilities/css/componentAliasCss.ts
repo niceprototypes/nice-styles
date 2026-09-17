@@ -33,8 +33,9 @@
  * // output (nightMediaBody): "\t\t--np--ink--color--light: var(--np--color--light--night);"
  */
 
-import { getConstantKey, NAMESPACE } from '../../services/getConstant.js'
+import { getConstantKey } from '../../services/getConstant.js'
 import { minWidthBlock, pinBlock } from './blocks.js'
+import { extractCoreVar } from './componentInverseCss.js'
 import { reassignmentLine } from './declarations.js'
 import { leafAt, walkTokenTree } from './treeWalk.js'
 import { BREAKPOINTS, SETTABLE_BREAKPOINTS, type SettableBreakpoint } from '../../constants/breakpoints.js'
@@ -108,21 +109,6 @@ export function buildCoreScopeMap(
   }
 
   return map
-}
-
-/** A value that is exactly one `var()` of a namespaced variable; group 1 is the variable. */
-const BARE_ALIAS = new RegExp(`^var\\((--${NAMESPACE}--[a-z0-9-]+)\\)$`)
-
-/**
- * The core variable a bare alias references. Fallbacks (`var(--a, b)`) and
- * composite values (`calc(…)`) are not bare aliases.
- *
- * @param value - A component token value
- * @returns `--np--color--light` for `var(--np--color--light)`; null for anything but a single bare `var()`
- */
-function extractCoreVar(value: string): string | null {
-  const match = value.match(BARE_ALIAS)
-  return match ? match[1] : null
 }
 
 /**

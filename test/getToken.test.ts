@@ -9,7 +9,7 @@
 
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { getToken, generateTokenCSS, transformColor } from '../src/index.js'
+import { getToken, generateTokenCSS, transformColor, resolveColorProp } from '../src/index.js'
 
 // ── Seeded registry (generated data only) ──────────────────────────────────
 
@@ -187,6 +187,17 @@ test('setting a threshold updates its token value', () => {
 
 // transformColor runs the same channel math as getToken's transform, so the
 // ratio form reaches it too — the point of sharing one vocabulary
+// The inverse flag must reach the underlying read — it silently returned the
+// non-inverse colour before, which is a wrong answer rather than an error
+test('transformColor reads the inverse dimension', () => {
+  const plain = transformColor('color', { token: 'base', values: [null, null, '*0.5', null] })
+  const inverse = transformColor('color', { token: 'base', inverse: true, values: [null, null, '*0.5', null] })
+  assert.notEqual(plain, inverse)
+  // day base is 5% lightness, day inverse is 95%; halving each gives 2.5% and 47.5%
+  assert.equal(plain, 'hsla(210, 5%, 2.5%, 1)')
+  assert.equal(inverse, 'hsla(210, 5%, 47.5%, 1)')
+})
+
 test('transformColor accepts ratios and signed magnitudes alike', () => {
   assert.equal(
     transformColor('color', { token: 'base', theme: 'night', values: [null, null, '*0.5', null] }),
@@ -203,4 +214,15 @@ test('transformColor accepts ratios and signed magnitudes alike', () => {
 test('transformColor reads through getToken', () => {
   assert.equal(transformColor('color', { token: 'error', values: ['+0', '-20', '+20', '-0.2'] }), 'hsla(10, 72%, 83%, 0.8)')
   assert.equal(transformColor('color', { token: 'error', theme: 'night' }), 'hsla(10, 82%, 75%, 1)')
+})
+
+// A component colour prop accepts the same effects as the getter. `inverse` is
+// the one that needs component data behind it — the derived component inverse
+// variables (componentInverseCss) are what make this resolve rather than warn.
+test('resolveColorProp carries the inverse effect', () => {
+  assert.equal(resolveColorProp('ink', 'color', 'base'), 'var(--np--ink--color)')
+  assert.equal(resolveColorProp('ink', 'color', { name: 'base', inverse: true }), 'var(--np--ink--color--inverse)')
+  assert.equal(resolveColorProp('tile', 'backgroundColor', { name: 'base', inverse: true }), 'var(--np--tile--background-color--inverse)')
+  // The inverse entry is real data, not just a name
+  assert.equal(getToken('ink.color:base:inverse', { as: 'value' }), 'var(--np--color--inverse)')
 })

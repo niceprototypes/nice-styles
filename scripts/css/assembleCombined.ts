@@ -13,6 +13,7 @@
  *   /* Day mode primitives *\/                         core + inverse --day
  *   /* Night mode primitives *\/                       core + inverse --night
  *   /* {prefix} component tokens *\/                   component semantic vars, per prefix
+ *   /* Component inverse colors *\/                    derived component --inverse vars
  *   /* Component day mode primitives *\/
  *   /* Component night mode primitives *\/
  *   /* Breakpoint primitives *\/                       --phone / --tablet / --laptop / --desktop
@@ -36,6 +37,7 @@ import { declarationLine } from '../../src/utilities/css/declarations.js'
 import { themeBlocks } from '../../src/utilities/css/blocks.js'
 import { generateTokenGroupCss } from '../../src/utilities/css/coreTokenCss.js'
 import { generateComponentTokenCss } from '../../src/utilities/css/componentTokenCss.js'
+import { buildCoreInverseMap, generateComponentInverseCss } from '../../src/utilities/css/componentInverseCss.js'
 import { generateBreakpointTokenCss } from '../../src/utilities/css/breakpointTokenCss.js'
 import { generateComponentBreakpointCss } from '../../src/utilities/css/componentBreakpointTokenCss.js'
 import { generateExtraThemeCss, generateComponentExtraThemeCss } from '../../src/utilities/css/extraThemeTokenCss.js'
@@ -94,6 +96,16 @@ export function buildCombinedCss(
   // header), plus day/night primitives for leaves with a `$themes.night` override.
   const component = generateComponentTokenCss(componentTokens, componentNightTokens)
 
+  // Component inverse — a component color token is a bare alias to a core color,
+  // and `--inverse` is a name suffix rather than a scope, so nothing propagates
+  // into it on its own. Each alias to a core color that has an inverse gets a
+  // parallel `--inverse` variable pointing at that core inverse; derived here,
+  // never authored in the component files.
+  const componentInverse = generateComponentInverseCss(
+    componentTokens,
+    buildCoreInverseMap(inverseTokens, inverseNightTokens)
+  )
+
   // Component aliases — a component token whose value is exactly `var(--np--<core>)`
   // must follow the core token into every scope the core changes in (night,
   // breakpoints, extra themes). The scope map records, per core variable, which
@@ -147,6 +159,7 @@ export function buildCombinedCss(
 
     // Component semantic variables (with per-prefix headers), then their day/night primitives
     ...component.semanticLines,
+    ...section('\t/* Component inverse colors */', componentInverse.semanticLines),
     ...section('\t/* Component day mode primitives */', component.dayPrimitives),
     ...section('\t/* Component night mode primitives */', component.nightPrimitives),
 
@@ -170,8 +183,8 @@ export function buildCombinedCss(
     // after the breakpoint blocks so a theme reassignment wins over a breakpoint one.
     // Night bodies and day bodies are merged in the same order so the pins mirror each other.
     ...themeBlocks(
-      [...collect(coreAndInverse, 'nightMediaBody'), ...component.nightMediaBody, ...alias.nightMediaBody],
-      [...collect(coreAndInverse, 'dayPinBody'), ...component.dayPinBody, ...alias.dayPinBody]
+      [...collect(coreAndInverse, 'nightMediaBody'), ...component.nightMediaBody, ...componentInverse.nightMediaBody, ...alias.nightMediaBody],
+      [...collect(coreAndInverse, 'dayPinBody'), ...component.dayPinBody, ...componentInverse.dayPinBody, ...alias.dayPinBody]
     ),
 
     // Extra theme pins — after the prefers-color-scheme block, whose `:root` rule

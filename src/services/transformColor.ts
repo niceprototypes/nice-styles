@@ -51,6 +51,8 @@ export interface TransformColorOptions {
   token?: string
   /** Theme to read the color from, e.g. `"night"`. Defaults to the default theme (`"day"`). */
   theme?: string
+  /** Read the inverse-colour dimension (`--np--color--inverse`) instead of the base one. */
+  inverse?: boolean
   /**
    * Per-channel adjustments in HSLA order `[hue, saturation, lightness, alpha]`.
    * A `number` replaces the channel (absolute); `"+30"` / `"-30"` adds or
@@ -60,15 +62,15 @@ export interface TransformColorOptions {
   values?: readonly (number | string | null | undefined)[]
 }
 
-export function transformColor(module: string, { token = 'base', theme, values = [] }: TransformColorOptions = {}): string {
+export function transformColor(module: string, { token = 'base', theme, inverse = false, values = [] }: TransformColorOptions = {}): string {
   // Resolve the raw color through the single getter. The default theme is the
   // unpinned read (valid for themed and non-themed tokens alike); any other
   // theme must exist on the token or getToken throws.
   const pinned = theme === DEFAULT_THEME ? undefined : theme
-  const raw = getToken(module, token, { theme: pinned, as: 'value' })
+  const raw = getToken(module, token, { theme: pinned, inverse, as: 'value' })
 
   // The CSS variable name this token resolves to — makes clamp warnings actionable.
-  const tokenKey = getToken(module, token, { theme: pinned, as: 'key' })
+  const tokenKey = getToken(module, token, { theme: pinned, inverse, as: 'key' })
 
   // Channel math is shared with `getToken`'s `transform`, so both accept one vocabulary.
   return applyChannels(raw, values, tokenKey)

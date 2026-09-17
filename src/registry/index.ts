@@ -27,6 +27,7 @@ import inverseTokensData from '../generated/inverseTokensData.js'
 import componentTokensData from '../generated/componentTokensData.js'
 import breakpointsData from '../generated/breakpointsData.js'
 import { walkTokenTree } from '../utilities/css/treeWalk.js'
+import { buildCoreInverseMap, extractCoreVar } from '../utilities/css/componentInverseCss.js'
 import { writeToken, type TokenValue } from './createRegistry.js'
 
 /**
@@ -117,9 +118,23 @@ for (const [name, px] of Object.entries(breakpointsData)) {
   seed(undefined, ['breakpoints'], name, `${px}px`)
 }
 
+// Component color tokens alias core colors, and the CSS derives an `--inverse`
+// variable for each such alias (see `componentInverseCss`). Mirror that here so
+// `getToken("ink.color:base:inverse")` resolves instead of warning.
+const coreInverse = buildCoreInverseMap(inverseByTheme.day ?? {}, inverseByTheme.night ?? {})
+
 // Component token trees — every string leaf is a variant of its parent group path.
 for (const [prefix, tree] of Object.entries(componentTokensData)) {
-  walkTokenTree(tree, (path, value) => seed(prefix, path.slice(0, -1), path[path.length - 1], value))
+  walkTokenTree(tree, (path, value) => {
+    const group = path.slice(0, -1)
+    const variant = path[path.length - 1]
+    seed(prefix, group, variant, value)
+
+    // Bare aliases to a core color gain the derived inverse entry
+    const coreVar = extractCoreVar(value)
+    const target = coreVar ? coreInverse.get(coreVar) : undefined
+    if (target) seed(prefix, group, variant, `var(${target.inverse})`, true)
+  })
 }
 
 // Public surface of the registry

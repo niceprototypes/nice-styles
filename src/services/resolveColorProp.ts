@@ -18,6 +18,10 @@
  * @example
  * resolveColorProp("ink", "color", { name: "highlight", transform: [null, null, 40, null] })
  * // "hsl(from var(--np--ink--color--highlight) h s 40)"
+ *
+ * @example
+ * resolveColorProp("ink", "color", { name: "base", inverse: true })
+ * // "var(--np--ink--color--inverse)"   — the variant as it reads on an inverted surface
  */
 
 import { getToken } from './getToken.js'
@@ -33,6 +37,8 @@ export interface ColorPropObject<V extends string> {
   theme?: string
   /** Pin this colour to a breakpoint primitive */
   breakpoint?: string
+  /** Read the inverse-colour dimension — the variant as it appears on an inverted surface */
+  inverse?: boolean
   /** Per-channel HSLA adjustments — returns relative color syntax, so the colour still follows the theme */
   transform?: readonly ChannelValue[]
 }
@@ -59,6 +65,6 @@ export function resolveColorProp<V extends string>(
   // The bare form is the common case: no effects, just the variant
   if (typeof prop === 'string') return getToken(`${prefix}.${group}:${prop}`)
 
-  const { name, theme, breakpoint, transform } = prop
-  return getToken(`${prefix}.${group}:${name}`, { theme, breakpoint, transform })
+  const { name, theme, breakpoint, inverse, transform } = prop
+  return getToken(`${prefix}.${group}:${name}`, { theme, breakpoint, inverse, transform })
 }
