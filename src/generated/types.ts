@@ -22,6 +22,7 @@ export type BorderColorType = "base" | "light" | "dark" | "darker" | "success" |
 export type ColorType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
 export type FontSizeType = "smaller" | "small" | "base" | "large" | "larger"
 export type BackgroundColorInverseType = "base" | "dark" | "success" | "highlight" | "warning" | "error" | "link"
+export type BorderColorInverseType = "base" | "light" | "dark" | "darker" | "success" | "highlight" | "warning" | "error" | "link"
 export type ColorInverseType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
 
 export type ComponentPrefix = "button" | "code" | "icon" | "image" | "ink" | "input" | "lightbox" | "tile"

@@ -28,6 +28,30 @@ const inverseTokensData: InverseTokensData = {
       "link": "hsla(212, 70%, 92%, 1)"
     }
   },
+  "borderColor": {
+    "day": {
+      "base": "hsla(240, 5%, 25%, 1)",
+      "light": "hsla(240, 5%, 20%, 1)",
+      "dark": "hsla(240, 5%, 50%, 1)",
+      "darker": "hsla(240, 5%, 100%, 1)",
+      "success": "hsla(146, 50%, 32%, 1)",
+      "highlight": "hsla(48, 60%, 40%, 1)",
+      "warning": "hsla(29, 65%, 32%, 1)",
+      "error": "hsla(10, 60%, 34%, 1)",
+      "link": "hsla(202, 60%, 32%, 1)"
+    },
+    "night": {
+      "base": "hsla(240, 5%, 91%, 1)",
+      "light": "hsla(240, 5%, 95%, 1)",
+      "dark": "hsla(210, 5%, 58%, 1)",
+      "darker": "hsla(210, 5%, 20%, 1)",
+      "success": "hsla(146, 45%, 86%, 1)",
+      "highlight": "hsla(48, 75%, 80%, 1)",
+      "warning": "hsla(29, 90%, 80%, 1)",
+      "error": "hsla(10, 85%, 83%, 1)",
+      "link": "hsla(212, 70%, 83%, 1)"
+    }
+  },
   "color": {
     "day": {
       "base": "hsla(210, 5%, 95%, 1)",

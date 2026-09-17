@@ -8,6 +8,15 @@
 	--np--border-color--warning: hsla(29, 100%, 82%, 1);
 	--np--border-color--error: hsla(10, 100%, 85%, 1);
 	--np--border-color--link: hsla(212, 100%, 85%, 1);
+	--np--border-color--inverse: hsla(240, 5%, 25%, 1);
+	--np--border-color--light--inverse: hsla(240, 5%, 20%, 1);
+	--np--border-color--dark--inverse: hsla(240, 5%, 50%, 1);
+	--np--border-color--darker--inverse: hsla(240, 5%, 100%, 1);
+	--np--border-color--success--inverse: hsla(146, 50%, 32%, 1);
+	--np--border-color--highlight--inverse: hsla(48, 60%, 40%, 1);
+	--np--border-color--warning--inverse: hsla(29, 65%, 32%, 1);
+	--np--border-color--error--inverse: hsla(10, 60%, 34%, 1);
+	--np--border-color--link--inverse: hsla(202, 60%, 32%, 1);
 
 	/* Day mode primitives */
 	--np--border-color--day: hsla(240, 9%, 91%, 1);
@@ -19,6 +28,15 @@
 	--np--border-color--warning--day: hsla(29, 100%, 82%, 1);
 	--np--border-color--error--day: hsla(10, 100%, 85%, 1);
 	--np--border-color--link--day: hsla(212, 100%, 85%, 1);
+	--np--border-color--day--inverse: hsla(240, 5%, 25%, 1);
+	--np--border-color--light--day--inverse: hsla(240, 5%, 20%, 1);
+	--np--border-color--dark--day--inverse: hsla(240, 5%, 50%, 1);
+	--np--border-color--darker--day--inverse: hsla(240, 5%, 100%, 1);
+	--np--border-color--success--day--inverse: hsla(146, 50%, 32%, 1);
+	--np--border-color--highlight--day--inverse: hsla(48, 60%, 40%, 1);
+	--np--border-color--warning--day--inverse: hsla(29, 65%, 32%, 1);
+	--np--border-color--error--day--inverse: hsla(10, 60%, 34%, 1);
+	--np--border-color--link--day--inverse: hsla(202, 60%, 32%, 1);
 
 	/* Night mode primitives */
 	--np--border-color--night: hsla(240, 5%, 25%, 1);
@@ -30,4 +48,13 @@
 	--np--border-color--warning--night: hsla(29, 65%, 32%, 1);
 	--np--border-color--error--night: hsla(10, 60%, 34%, 1);
 	--np--border-color--link--night: hsla(202, 60%, 32%, 1);
+	--np--border-color--night--inverse: hsla(240, 5%, 91%, 1);
+	--np--border-color--light--night--inverse: hsla(240, 5%, 95%, 1);
+	--np--border-color--dark--night--inverse: hsla(210, 5%, 58%, 1);
+	--np--border-color--darker--night--inverse: hsla(210, 5%, 20%, 1);
+	--np--border-color--success--night--inverse: hsla(146, 45%, 86%, 1);
+	--np--border-color--highlight--night--inverse: hsla(48, 75%, 80%, 1);
+	--np--border-color--warning--night--inverse: hsla(29, 90%, 80%, 1);
+	--np--border-color--error--night--inverse: hsla(10, 85%, 83%, 1);
+	--np--border-color--link--night--inverse: hsla(212, 70%, 83%, 1);
 }

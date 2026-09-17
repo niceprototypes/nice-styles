@@ -29,3 +29,4 @@
 [2026-09-16 15:31] minor: highlight variant added to every component color set — icon.color, tile.color, code.color (ink.color shipped separately); each aliases var(--np--color--highlight) and follows it into the day/night scopes
 [2026-09-16 16:21] minor: resolveColorProp + ColorTokenProp: component colour props accept { name, theme, breakpoint, transform }, resolved through getToken
 [2026-09-17 14:34] patch: backgroundColor success 92% → 97% lightness; borderColor success 65%/80% → 55%/88%
+[2026-09-17 14:49] minor: borderColor gains an $inverse dimension — dark end is the night palette, light end is the day palette softened (neutrals halve saturation, status variants ease saturation and lightness); border contrast stays in the established 1.1-1.4 band
