@@ -13,11 +13,11 @@
       "default": "./dist/index.js"
     },
     "./services/*.js": {
-   "types": "./dist/services/*.d.ts",
-   "import": "./dist/services/*.js",
-   "default": "./dist/services/*.js"
-  },
-  "./tokens.css": "./dist/tokens.css",
+      "types": "./dist/services/*.d.ts",
+      "import": "./dist/services/*.js",
+      "default": "./dist/services/*.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
     "./breakpoints.css": "./dist/breakpoints.css",
     "./breakpoints.custom-media.css": "./dist/breakpoints.custom-media.css",
     "./reset.css": "./static/reset.css",
@@ -44,7 +44,8 @@
     "dev": "tsc --watch & tsx scripts/generateCss/index.ts --watch & tsx scripts/generateTokens/index.ts --watch & tsx scripts/generateTypes/index.ts --watch",
     "test": "tsx --test test/*.test.ts",
     "test:update": "UPDATE_SNAPSHOTS=1 tsx --test test/*.test.ts",
-    "prepublishOnly": "npm run build && npm test"
+    "prepublishOnly": "npm run build && npm test",
+    "prepare": "npm run build"
   },
   "publishConfig": {
     "access": "public",
