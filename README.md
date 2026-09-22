@@ -1,6 +1,6 @@
 # nice-styles
 
-Design tokens for Nice Prototypes: JSON token sources compiled to CSS custom properties (`--np--…`), typed data, and one runtime store read through a single getter. Framework-agnostic; React bindings live in [nice-react-styles](../react-styles).
+Design tokens for Nice Prototypes: JSON token sources compiled to CSS custom properties (`--np--…`), typed data, and one runtime store read through a single getter. Framework-agnostic; React bindings live in [nice-react-styles](https://github.com/niceprototypes/nice-react-styles).
 
 ## Installation
 
