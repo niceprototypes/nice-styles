@@ -1,5 +1,6 @@
 {
   "borderRadius": {
+    "none": "var(--np--border-radius--none)",
     "smaller": "var(--np--border-radius--smaller)",
     "small": "var(--np--border-radius--small)",
     "base": "var(--np--border-radius)",
@@ -20,6 +21,7 @@
     "stronger": "var(--np--border-color--stronger)"
   },
   "backgroundSize": {
+    "base": "var(--np--background-size)",
     "contain": "var(--np--background-size--contain)",
     "cover": "var(--np--background-size--cover)",
     "fill": "var(--np--background-size--fill)",

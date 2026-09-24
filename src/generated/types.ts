@@ -76,10 +76,10 @@ export interface TokenVariants {
   "icon.strokeWidth": "small" | "base" | "large"
   "icon.animationDuration": "fast" | "base" | "slow"
   "icon.viewBox": "base"
-  "image.borderRadius": "smaller" | "small" | "base" | "large" | "larger"
+  "image.borderRadius": "none" | "smaller" | "small" | "base" | "large" | "larger"
   "image.borderWidth": "none" | "smaller" | "small" | "base" | "large" | "larger"
   "image.borderColor": "base" | "strong" | "stronger"
-  "image.backgroundSize": "contain" | "cover" | "fill" | "none" | "scale-down"
+  "image.backgroundSize": "base" | "contain" | "cover" | "fill" | "none" | "scale-down"
   "image.objectFit": "base"
   "ink.fontSize": "smaller" | "small" | "base" | "large" | "larger"
   "ink.fontFamily": "base" | "code" | "heading"
@@ -107,7 +107,7 @@ export interface TokenVariants {
   "popover.maxHeight": "base"
   "select.chevron.size": "smaller" | "small" | "base" | "large" | "larger"
   "tile.backgroundColor": "base" | "raised" | "success" | "warning" | "error" | "link"
-  "tile.backgroundSize": "contain" | "cover" | "fill" | "none" | "scale-down"
+  "tile.backgroundSize": "base" | "contain" | "cover" | "fill" | "none" | "scale-down"
   "tile.color": "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
 }
 

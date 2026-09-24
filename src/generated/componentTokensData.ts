@@ -176,6 +176,7 @@ const componentTokensData: ComponentTokensData = {
   },
   "image": {
     "borderRadius": {
+      "none": "var(--np--border-radius--none)",
       "smaller": "var(--np--border-radius--smaller)",
       "small": "var(--np--border-radius--small)",
       "base": "var(--np--border-radius)",
@@ -196,6 +197,7 @@ const componentTokensData: ComponentTokensData = {
       "stronger": "var(--np--border-color--stronger)"
     },
     "backgroundSize": {
+      "base": "var(--np--background-size)",
       "contain": "var(--np--background-size--contain)",
       "cover": "var(--np--background-size--cover)",
       "fill": "var(--np--background-size--fill)",
@@ -375,6 +377,7 @@ const componentTokensData: ComponentTokensData = {
       "link": "var(--np--background-color--link)"
     },
     "backgroundSize": {
+      "base": "var(--np--background-size)",
       "contain": "var(--np--background-size--contain)",
       "cover": "var(--np--background-size--cover)",
       "fill": "var(--np--background-size--fill)",

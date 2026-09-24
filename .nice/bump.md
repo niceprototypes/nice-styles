@@ -36,3 +36,4 @@
 [2026-09-24 18:06] minor: Add popover, field, select and calendar component tokens and input width, fontSize and focusRing tokens
 [2026-09-24 18:09] major: Type getToken addresses and variants from the token sources so an invalid name or variant is a compile error; export TokenAddress, TokenGroup, TokenVariants, TokenInverseVariants
 [2026-09-24 18:48] minor: Add input backgroundColor and borderColor component tokens covering every core variant, and the missing button borderColor variants (subtle, success, highlight, warning, error, link), each with its derived inverse
+[2026-09-24 18:49] minor: Add image.borderRadius:none, image.backgroundSize:base and tile.backgroundSize:base, which nice-react-image and nice-react-tile address through the core BorderRadiusType and BackgroundSizeType unions

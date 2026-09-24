@@ -359,6 +359,7 @@
 	--np--icon--view-box: 0 0 16 16;
 
 	/* image component tokens */
+	--np--image--border-radius--none: var(--np--border-radius--none);
 	--np--image--border-radius--smaller: var(--np--border-radius--smaller);
 	--np--image--border-radius--small: var(--np--border-radius--small);
 	--np--image--border-radius: var(--np--border-radius);
@@ -373,6 +374,7 @@
 	--np--image--border-color: var(--np--border-color);
 	--np--image--border-color--strong: var(--np--border-color--strong);
 	--np--image--border-color--stronger: var(--np--border-color--stronger);
+	--np--image--background-size: var(--np--background-size);
 	--np--image--background-size--contain: var(--np--background-size--contain);
 	--np--image--background-size--cover: var(--np--background-size--cover);
 	--np--image--background-size--fill: var(--np--background-size--fill);
@@ -492,6 +494,7 @@
 	--np--tile--background-color--warning: var(--np--background-color--warning);
 	--np--tile--background-color--error: var(--np--background-color--error);
 	--np--tile--background-color--link: var(--np--background-color--link);
+	--np--tile--background-size: var(--np--background-size);
 	--np--tile--background-size--contain: var(--np--background-size--contain);
 	--np--tile--background-size--cover: var(--np--background-size--cover);
 	--np--tile--background-size--fill: var(--np--background-size--fill);

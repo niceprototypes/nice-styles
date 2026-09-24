@@ -8,6 +8,7 @@
     "link": "var(--np--background-color--link)"
   },
   "backgroundSize": {
+    "base": "var(--np--background-size)",
     "contain": "var(--np--background-size--contain)",
     "cover": "var(--np--background-size--cover)",
     "fill": "var(--np--background-size--fill)",
