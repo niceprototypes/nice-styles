@@ -54,11 +54,14 @@ getToken("color", "base", { theme: "night" })              // "var(--np--color--
 getToken("fontSize", "large", { breakpoint: "laptop" })    // "var(--np--font-size--large--laptop)"
 getToken("color", "base", { inverse: true })               // "var(--np--color--inverse)"
 getToken("button.icon.size:small")                         // "var(--np--button--icon--size--small)"
+getToken("popover.offset:base", { as: "value" })           // "8px" — follows var(--np--gap--small)
 ```
+
+`as: "value"` follows aliases: when a token's value is exactly one `var(--np--…)` reference to a registered token, it returns that token's value instead, recursively, with the same `theme` / `breakpoint` / `pristine` applied at each hop (a reference cycle throws). A value that is an expression — `calc()`, `max()`, several vars, a var with a fallback — is returned unchanged, since only the browser can evaluate it (`getToken("input.spacing:base", { as: "value" })` → `"calc(var(--np--size) / 2)"`). `"var"` and `"key"` always name the requested token itself.
 
 | Option | Effect |
 |---|---|
-| `as` | `"var"` (default), `"key"` (bare variable name), or `"value"` (raw value) |
+| `as` | `"var"` (default), `"key"` (bare variable name), or `"value"` (resolved value — see below) |
 | `theme` | Pin to a theme primitive; throws if the token has no value for it |
 | `breakpoint` | Pin to a breakpoint primitive (`var` / `key`) or resolve the value at that breakpoint (`value`) |
 | `inverse` | The inverse-color dimension |
@@ -154,9 +157,9 @@ Keys: a bare name is one band (`tablet`), `+` is that breakpoint and wider, `-` 
 |---|---|
 | `animationDuration` | faster, fast, base, slow, slower |
 | `animationEasing` | base, linear, ease-in, ease-out, ease |
-| `backgroundColor` | base, dark, success, highlight, warning, error, link (themed, inverse) |
+| `backgroundColor` | base, raised, success, highlight, warning, error, link (themed, inverse) |
 | `backgroundSize` | base, contain, cover, fill, none, scale-down |
-| `borderColor` | base, light, dark, darker, success, highlight, warning, error, link (themed) |
+| `borderColor` | base, subtle, strong, stronger, success, highlight, warning, error, link (themed, inverse) |
 | `borderRadius` | none, smaller, small, base, large, larger |
 | `borderWidth` | none, smaller, small, base, large, larger |
 | `boxShadow` | base, large |

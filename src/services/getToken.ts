@@ -16,7 +16,10 @@
  * @example getToken("fontSize", "base", { as: "value" })              // "14px"
  *
  * - `as`: `"var"` (default) — `var(--np--…)`; `"key"` — bare variable name;
- *   `"value"` — raw value.
+ *   `"value"` — raw value. A value that is exactly one `var(--np--…)` reference
+ *   to a registered token is followed to that token's value (recursively, same
+ *   theme / breakpoint / pristine; a cycle throws). Expressions — `calc()`,
+ *   `max()`, several vars, a var with a fallback — are returned unchanged.
  * - Layers: the runtime layer (`setTokens`) is read over the seed layer
  *   (generated data), per theme and per breakpoint — the same order as the
  *   injected stylesheet over `tokens.css`. `pristine` reads the seed only.
@@ -198,6 +201,54 @@ function resolveValue(layers: TokenValue[], label: string, theme?: string, break
   )
 }
 
+/** A value that is exactly one `var(--np--…)` reference with no fallback — an alias. */
+const SINGLE_REFERENCE = /^var\(\s*(--np--[\w-]+)\s*\)$/
+
+/**
+ * Follow an alias value to the value of the token it references.
+ *
+ * Only a value that is exactly one `var(--np--…)` reference to a registered
+ * token is followed, repeatedly, until it reaches a value that is not such a
+ * reference. Anything else — `calc()`, `max()`, several vars, a var with a
+ * fallback, a reference to an unregistered name — is an expression the browser
+ * evaluates, so it is returned unchanged. Each hop is read with the caller's
+ * theme, breakpoint, and pristine flag, matching how the CSS alias resolves
+ * inside the same pin.
+ *
+ * @param value - Resolved value of the requested token
+ * @param startKey - Registry key of the requested token, the first cycle guard entry
+ * @param label - Token label, for the message
+ * @param theme - Theme to read at each hop, if pinned
+ * @param breakpoint - Breakpoint to resolve at at each hop, if pinned
+ * @param pristine - Read the seed layer only at each hop
+ * @returns The first value in the chain that is not a single registered reference
+ * @throws when the chain returns to a token already visited, or a hop has no value for the pin
+ */
+function followReferences(
+  value: string,
+  startKey: string,
+  label: string,
+  theme: string | undefined,
+  breakpoint: string | undefined,
+  pristine: boolean
+): string {
+  const visited = new Set([startKey])
+  let current = value
+  for (;;) {
+    const match = SINGLE_REFERENCE.exec(current.trim())
+    if (!match) return current
+    const refKey = match[1]
+    const refEntry = registry.get(refKey)
+    // An unregistered name has no value to follow; the var() is the answer
+    if (!refEntry) return current
+    if (visited.has(refKey)) {
+      throw new Error(`getToken: "${label}" has a circular reference through ${refKey}`)
+    }
+    visited.add(refKey)
+    current = resolveValue(layersOf(refEntry, pristine), refKey, theme, breakpoint)
+  }
+}
+
 /**
  * @param name - Group name, or a group path for nested component groups
  * @param variant - Variant name; `base` is the unsuffixed default
@@ -266,7 +317,8 @@ export function getToken(
   const layers = layersOf(entry, pristine)
   if (theme !== undefined) assertTheme(layers, theme, path, variantName, prefix)
   if (as === 'value') {
-    const resolved = resolveValue(layers, label, theme, breakpoint)
+    // An alias value (`var(--np--gap--small)`) reads through to the referenced token's value
+    const resolved = followReferences(resolveValue(layers, label, theme, breakpoint), entryKey, label, theme, breakpoint, pristine)
     // The computed counterpart of the expression: same channel vocabulary, clamped
     return transform ? applyChannels(resolved, transform, key) : resolved
   }

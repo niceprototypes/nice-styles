@@ -51,12 +51,26 @@ test('breakpoint pin: primitive var, resolved value, and guards', () => {
 })
 
 // Component tokens: a string name for a top-level group, a path array for a
-// nested group. The stored value of an alias is the `var()` itself, not the
-// core value it points at.
+// nested group. The value form follows an alias to the core value it points at.
 test('component tokens: flat name, nested path, value', () => {
   assert.equal(getToken('button.size:small'), 'var(--np--button--size--small)')
   assert.equal(getToken('button.icon.size:small'), 'var(--np--button--icon--size--small)')
-  assert.equal(getToken('button.icon.size:base', { as: 'value' }), 'var(--np--font-size)')
+  assert.equal(getToken('button.icon.size:base', { as: 'value' }), '14px')
+})
+
+// The value form follows an alias (a value that is exactly one registered
+// `var(--np--…)`) to the referenced token's value — JS consumers need a number,
+// not a var(). The var / key forms still name the token itself.
+test('value form follows aliases; var and key forms do not', () => {
+  assert.equal(getToken('popover.offset:base', { as: 'value' }), '8px')
+  assert.equal(getToken('popover.offset:base'), 'var(--np--popover--offset)')
+  assert.equal(getToken('popover.offset:base', { as: 'key' }), '--np--popover--offset')
+  // A core token holds a literal: nothing to follow
+  assert.equal(getToken('gap', 'small', { as: 'value' }), '8px')
+  // Each hop reads with the caller's pin: the alias target resolves at laptop too
+  assert.equal(getToken('button.icon.size:base', { breakpoint: 'laptop', as: 'value' }), '16px')
+  // An expression is left for the browser to evaluate
+  assert.equal(getToken('input.spacing:base', { as: 'value' }), 'calc(var(--np--size) / 2)')
 })
 
 // The address grammar: dots carry identity (namespace, then group path), the
@@ -68,7 +82,7 @@ test('address grammar: module, component, variant, effect', () => {
   // A dot before the colon → first segment is the namespace
   assert.equal(getToken('button.size:small'), 'var(--np--button--size--small)')
   assert.equal(getToken('button.icon.size:small'), 'var(--np--button--icon--size--small)')
-  assert.equal(getToken('button.icon.size:base', { as: 'value' }), 'var(--np--font-size)')
+  assert.equal(getToken('button.icon.size:base', { as: 'value' }), '14px')
   // Second colon → effect, the trailing key segment
   assert.equal(getToken('color:base:inverse'), 'var(--np--color--inverse)')
   assert.equal(getToken('color:base:inverse', { as: 'value' }), 'hsla(210, 5%, 95%, 1)')
@@ -168,12 +182,23 @@ test('component override is visible; prefixed flat tokens do not clobber core', 
   // lands on the seeded entry as its runtime layer.
   generateTokenCSS({ button: { icon: { size: '10px' } } })
   assert.equal(getToken('button.icon.size:base', { as: 'value' }), '10px')
-  assert.equal(getToken('button.icon.size:base', { as: 'value', pristine: true }), 'var(--np--font-size)')
+  // pristine applies at every hop: the seed alias follows to the seed font size
+  assert.equal(getToken('button.icon.size:base', { as: 'value', pristine: true }), '14px')
   // A call-level prefix namespaces flat tokens (`--np--tile--gap`); core `gap` must be untouched
   generateTokenCSS({ gap: { base: '99px' } }, 'tile')
   assert.equal(getToken('gap'), 'var(--np--gap)')
   assert.equal(getToken('tile.gap:base', { as: 'value' }), '99px')
   assert.equal(getToken('gap:base', { as: 'value' }), '16px')
+})
+
+// A runtime alias follows with the caller's theme at every hop, and a
+// reference cycle throws instead of looping
+test('value form: themed runtime alias and cycle guard', () => {
+  generateTokenCSS({ aliasColor: { base: { day: 'var(--np--color)', night: 'var(--np--color)' } } })
+  assert.equal(getToken(['aliasColor'], 'base', { theme: 'night', as: 'value' }), 'hsla(210, 5%, 95%, 1)')
+  assert.equal(getToken(['aliasColor'], 'base', { as: 'value' }), 'hsla(210, 5%, 5%, 1)')
+  generateTokenCSS({ loopA: { base: 'var(--np--loop-b)' }, loopB: { base: 'var(--np--loop-a)' } })
+  assert.throws(() => getToken(['loopA'], 'base', { as: 'value' }), /circular reference through --np--loop-a/)
 })
 
 // A threshold set at runtime updates the token, not just `BREAKPOINTS` — last in
@@ -224,5 +249,5 @@ test('resolveColorProp carries the inverse effect', () => {
   assert.equal(resolveColorProp('ink', 'color', { name: 'base', inverse: true }), 'var(--np--ink--color--inverse)')
   assert.equal(resolveColorProp('tile', 'backgroundColor', { name: 'base', inverse: true }), 'var(--np--tile--background-color--inverse)')
   // The inverse entry is real data, not just a name
-  assert.equal(getToken('ink.color:base:inverse', { as: 'value' }), 'var(--np--color--inverse)')
+  assert.equal(getToken('ink.color:base:inverse', { as: 'value' }), 'hsla(210, 5%, 95%, 1)')
 })

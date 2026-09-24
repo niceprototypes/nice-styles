@@ -39,3 +39,4 @@
 [2026-09-24 18:49] minor: Add image.borderRadius:none, image.backgroundSize:base and tile.backgroundSize:base, which nice-react-image and nice-react-tile address through the core BorderRadiusType and BackgroundSizeType unions
 [2026-09-24 18:50] patch: input.width numeric variants hold the content width only (2ch … 20ch); the rendering component adds its own size-specific padding and border, since a :root value resolved them at base size for every size
 [2026-09-24 18:52] minor: Add CustomTokenVariants, a declaration-merging hook: groups a consumer declares on it (declare module "nice-styles") join TokenVariants, TokenGroup and TokenAddress, so typed getToken accepts setTokens custom tokens
+[2026-09-24 19:02] minor: getToken as: "value" follows a token that is exactly one var(--np--…) reference to the referenced token's value (same theme/breakpoint/pristine, cycle-guarded), so popover.offset reads 8px; expressions such as calc() are returned unchanged
