@@ -42,8 +42,14 @@ const componentTokensData: ComponentTokensData = {
     },
     "borderColor": {
       "base": "var(--np--border-color)",
+      "subtle": "var(--np--border-color--subtle)",
       "strong": "var(--np--border-color--strong)",
-      "stronger": "var(--np--border-color--stronger)"
+      "stronger": "var(--np--border-color--stronger)",
+      "success": "var(--np--border-color--success)",
+      "highlight": "var(--np--border-color--highlight)",
+      "warning": "var(--np--border-color--warning)",
+      "error": "var(--np--border-color--error)",
+      "link": "var(--np--border-color--link)"
     },
     "icon": {
       "color": {
@@ -281,6 +287,26 @@ const componentTokensData: ComponentTokensData = {
       "base": "var(--np--border-width)",
       "large": "var(--np--border-width--large)",
       "larger": "var(--np--border-width--larger)"
+    },
+    "backgroundColor": {
+      "base": "var(--np--background-color)",
+      "raised": "var(--np--background-color--raised)",
+      "success": "var(--np--background-color--success)",
+      "highlight": "var(--np--background-color--highlight)",
+      "warning": "var(--np--background-color--warning)",
+      "error": "var(--np--background-color--error)",
+      "link": "var(--np--background-color--link)"
+    },
+    "borderColor": {
+      "base": "var(--np--border-color)",
+      "subtle": "var(--np--border-color--subtle)",
+      "strong": "var(--np--border-color--strong)",
+      "stronger": "var(--np--border-color--stronger)",
+      "success": "var(--np--border-color--success)",
+      "highlight": "var(--np--border-color--highlight)",
+      "warning": "var(--np--border-color--warning)",
+      "error": "var(--np--border-color--error)",
+      "link": "var(--np--border-color--link)"
     },
     "width": {
       "2": "calc(2ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",

@@ -52,7 +52,7 @@ export interface TokenVariants {
   "button.spacing": "smaller" | "small" | "base" | "large" | "larger"
   "button.borderRadius": "none" | "smaller" | "small" | "base" | "large" | "larger" | "rounded"
   "button.borderWidth": "none" | "smaller" | "small" | "base" | "large" | "larger"
-  "button.borderColor": "base" | "strong" | "stronger"
+  "button.borderColor": "base" | "subtle" | "strong" | "stronger" | "success" | "highlight" | "warning" | "error" | "link"
   "button.icon.color": "base"
   "button.icon.size": "smaller" | "small" | "base" | "large" | "larger"
   "calendar.cell.size": "smaller" | "small" | "base" | "large" | "larger"
@@ -92,6 +92,8 @@ export interface TokenVariants {
   "input.spacing": "smaller" | "small" | "base" | "large" | "larger"
   "input.borderRadius": "none" | "smaller" | "small" | "base" | "large" | "larger"
   "input.borderWidth": "none" | "smaller" | "small" | "base" | "large" | "larger"
+  "input.backgroundColor": "base" | "raised" | "success" | "highlight" | "warning" | "error" | "link"
+  "input.borderColor": "base" | "subtle" | "strong" | "stronger" | "success" | "highlight" | "warning" | "error" | "link"
   "input.width": "2" | "3" | "4" | "5" | "10" | "20" | "full"
   "input.fontSize": "base"
   "input.focusRing.width": "base"
@@ -114,7 +116,7 @@ export interface TokenInverseVariants {
   "backgroundColor": BackgroundColorInverseType
   "borderColor": BorderColorInverseType
   "color": ColorInverseType
-  "button.borderColor": "base" | "strong" | "stronger"
+  "button.borderColor": "base" | "subtle" | "strong" | "stronger" | "success" | "highlight" | "warning" | "error" | "link"
   "calendar.color": "base" | "today" | "selected" | "range" | "disabled"
   "calendar.backgroundColor": "base" | "selected" | "range"
   "calendar.borderColor": "today"
@@ -124,6 +126,8 @@ export interface TokenInverseVariants {
   "icon.color": "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
   "image.borderColor": "base" | "strong" | "stronger"
   "ink.color": "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
+  "input.backgroundColor": "base" | "raised" | "success" | "highlight" | "warning" | "error" | "link"
+  "input.borderColor": "base" | "subtle" | "strong" | "stronger" | "success" | "highlight" | "warning" | "error" | "link"
   "input.focusRing.color": "base"
   "tile.backgroundColor": "base" | "raised" | "success" | "warning" | "error" | "link"
   "tile.color": "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
