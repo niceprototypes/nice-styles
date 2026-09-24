@@ -44,8 +44,7 @@
     "dev": "tsc --watch & tsx scripts/generateCss/index.ts --watch & tsx scripts/generateTokens/index.ts --watch & tsx scripts/generateTypes/index.ts --watch",
     "test": "tsx --test test/*.test.ts",
     "test:update": "UPDATE_SNAPSHOTS=1 tsx --test test/*.test.ts",
-    "prepublishOnly": "npm run build && npm test",
-    "prepare": "npm run build"
+    "prepublishOnly": "npm run build && npm test"
   },
   "publishConfig": {
     "access": "public",
