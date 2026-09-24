@@ -65,6 +65,8 @@ getToken("button.icon.size:small")                         // "var(--np--button-
 | `transform` | Adjust the colour's hsla channels — `var` returns a live `hsl(from …)` expression, `value` computes a literal |
 | `pristine` | Read the generated value, ignoring runtime overrides |
 
+Addresses and variants are typed from the token sources: the address form accepts `TokenAddress` only, and the two-argument form constrains the variant to its group's union (`TokenVariants[group]`). A renamed or invented token (`getToken("backgroundColor", "dark")`) is a compile error. The variant may be omitted only for groups with a `base` variant. Tokens added at runtime with `generateTokenCSS` / `setTokens` are not in these types.
+
 ### List tokens — `listTokens`
 
 ```ts

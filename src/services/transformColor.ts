@@ -43,6 +43,7 @@
  */
 
 import { getToken } from './getToken.js'
+import type { TokenGroup, TokenVariants } from '../generated/types.js'
 import { applyChannels } from '../utilities/css/relativeColor.js'
 import { DEFAULT_THEME } from '../constants/styleValues.js'
 
@@ -67,10 +68,13 @@ export function transformColor(module: string, { token = 'base', theme, inverse 
   // unpinned read (valid for themed and non-themed tokens alike); any other
   // theme must exist on the token or getToken throws.
   const pinned = theme === DEFAULT_THEME ? undefined : theme
-  const raw = getToken(module, token, { theme: pinned, inverse, as: 'value' })
+  // `module` / `token` are runtime strings, so the group and variant are asserted rather than checked
+  const group = module as TokenGroup
+  const variant = token as TokenVariants[TokenGroup]
+  const raw = getToken(group, variant, { theme: pinned, inverse, as: 'value' })
 
   // The CSS variable name this token resolves to — makes clamp warnings actionable.
-  const tokenKey = getToken(module, token, { theme: pinned, inverse, as: 'key' })
+  const tokenKey = getToken(group, variant, { theme: pinned, inverse, as: 'key' })
 
   // Channel math is shared with `getToken`'s `transform`, so both accept one vocabulary.
   return applyChannels(raw, values, tokenKey)

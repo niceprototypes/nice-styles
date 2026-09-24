@@ -25,6 +25,7 @@
  */
 
 import { getToken } from './getToken.js'
+import type { TokenAddress } from '../generated/types.js'
 import type { ChannelValue } from '../utilities/css/relativeColor.js'
 
 export type { ChannelValue }
@@ -62,9 +63,10 @@ export function resolveColorProp<V extends string>(
   group: string,
   prop: ColorTokenProp<V>
 ): string {
+  // The address is assembled from runtime strings, so it is asserted rather than checked.
   // The bare form is the common case: no effects, just the variant
-  if (typeof prop === 'string') return getToken(`${prefix}.${group}:${prop}`)
+  if (typeof prop === 'string') return getToken(`${prefix}.${group}:${prop}` as TokenAddress)
 
   const { name, theme, breakpoint, inverse, transform } = prop
-  return getToken(`${prefix}.${group}:${name}`, { theme, breakpoint, inverse, transform })
+  return getToken(`${prefix}.${group}:${name}` as TokenAddress, { theme, breakpoint, inverse, transform })
 }

@@ -25,6 +25,10 @@
  *   that runs before `setTokens` is not an error. The `value` form throws.
  * - A `theme` the token has no value for throws. A `breakpoint` pin in the
  *   `var` / `key` forms throws unless a generated `--{breakpoint}` primitive exists.
+ * - Types: the address form accepts `TokenAddress` only, and the two-argument
+ *   form constrains the variant to its group's union (`TokenVariants`), so a
+ *   renamed or invented token is a compile error. The variant may be omitted
+ *   only for groups that have `base`. The path-array form stays untyped.
  */
 
 import { getConstantKey, parseTokenName } from './getConstant.js'
@@ -35,6 +39,7 @@ import { resolveBreakpointValue } from '../utilities/resolveBreakpointValue.js'
 import { formatError } from '../utilities/formatError.js'
 import { DEFAULT_THEME, DEFAULT_BREAKPOINT, STYLE_VALUE_KEYS } from '../constants/styleValues.js'
 import { registry, type TokenEntry, type TokenValue } from '../registry/index.js'
+import type { TokenAddress, TokenGroup, TokenVariants } from '../generated/types.js'
 
 /** Accessor form returned by `getToken`. */
 export type TokenAccessor = 'var' | 'key' | 'value'
@@ -202,8 +207,14 @@ function resolveValue(layers: TokenValue[], label: string, theme?: string, break
  *   a theme the token has no value for, a breakpoint pin without a generated
  *   primitive (`var` / `key`), or an unregistered token / missing value (`value`)
  */
-export function getToken(name: string | string[], options?: TokenOptions): string
-export function getToken(name: string | string[], variant?: string, options?: TokenOptions): string
+export function getToken(address: TokenAddress, options?: TokenOptions): string
+export function getToken<G extends TokenGroup>(
+  name: G,
+  ...args: 'base' extends TokenVariants[G]
+    ? [variant?: TokenVariants[G], options?: TokenOptions]
+    : [variant: TokenVariants[G], options?: TokenOptions]
+): string
+export function getToken(name: string[], variant?: string, options?: TokenOptions): string
 export function getToken(
   name: string | string[],
   variantOrOptions: string | TokenOptions = 'base',

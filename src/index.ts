@@ -127,6 +127,10 @@ export type {
   LineHeightType,
   SizeType,
   ComponentPrefix,
+  TokenVariants,
+  TokenInverseVariants,
+  TokenGroup,
+  TokenAddress,
 } from './generated/types.js'
 
 // Export layout types
