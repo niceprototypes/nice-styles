@@ -154,6 +154,8 @@ Keys: a bare name is one band (`tablet`), `+` is that breakpoint and wider, `-` 
 
 Component token sets: `button`, `calendar`, `code`, `field`, `icon`, `image`, `ink`, `input`, `lightbox`, `popover`, `select`, `tile`.
 
+`input.width` holds the **content width only**: `2`, `3`, `4`, `5`, `10`, `20` are `Nch` (`"2ch"` … `"20ch"`), measured against the input's own font size; `full` is `100%`. The numeric variants exclude padding and border because both depend on the rendering component's `size` and `borderWidth`, which a `:root` value cannot see — the component adds its own, e.g. `calc(var(--np--input--width--10) + 2 * var(--np--input--spacing--large) + 2 * var(--np--input--border-width--small))`. `full` is used as-is.
+
 Each group has a variant union type: `GapType`, `ColorType`, `ColorInverseType`, …, plus `ComponentPrefix`.
 
 ## Development

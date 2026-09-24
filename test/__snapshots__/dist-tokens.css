@@ -458,12 +458,12 @@
 	--np--input--border-color--warning: var(--np--border-color--warning);
 	--np--input--border-color--error: var(--np--border-color--error);
 	--np--input--border-color--link: var(--np--border-color--link);
-	--np--input--width--2: calc(2ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
-	--np--input--width--3: calc(3ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
-	--np--input--width--4: calc(4ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
-	--np--input--width--5: calc(5ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
-	--np--input--width--10: calc(10ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
-	--np--input--width--20: calc(20ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
+	--np--input--width--2: 2ch;
+	--np--input--width--3: 3ch;
+	--np--input--width--4: 4ch;
+	--np--input--width--5: 5ch;
+	--np--input--width--10: 10ch;
+	--np--input--width--20: 20ch;
 	--np--input--width--full: 100%;
 	--np--input--font-size: max(16px, var(--np--font-size));
 	--np--input--focus-ring--width: var(--np--border-width--large);

@@ -311,12 +311,12 @@ const componentTokensData: ComponentTokensData = {
       "link": "var(--np--border-color--link)"
     },
     "width": {
-      "2": "calc(2ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
-      "3": "calc(3ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
-      "4": "calc(4ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
-      "5": "calc(5ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
-      "10": "calc(10ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
-      "20": "calc(20ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+      "2": "2ch",
+      "3": "3ch",
+      "4": "4ch",
+      "5": "5ch",
+      "10": "10ch",
+      "20": "20ch",
       "full": "100%"
     },
     "fontSize": {
