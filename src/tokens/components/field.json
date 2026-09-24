@@ -1,0 +1,10 @@
+{
+  "gap": {
+    "label": "var(--np--gap--small)",
+    "description": "var(--np--gap--smaller)",
+    "error": "var(--np--gap--smaller)"
+  },
+  "$themes": {
+    "night": {}
+  }
+}

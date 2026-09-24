@@ -1,0 +1,20 @@
+{
+  "offset": {
+    "base": "var(--np--gap--small)"
+  },
+  "borderRadius": {
+    "base": "var(--np--border-radius)"
+  },
+  "boxShadow": {
+    "base": "var(--np--box-shadow--large)"
+  },
+  "zIndex": {
+    "base": "var(--np--z-index--high)"
+  },
+  "maxHeight": {
+    "base": "calc(var(--np--size) * 6)"
+  },
+  "$themes": {
+    "night": {}
+  }
+}

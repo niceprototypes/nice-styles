@@ -58,6 +58,35 @@ const componentTokensData: ComponentTokensData = {
       }
     }
   },
+  "calendar": {
+    "cell": {
+      "size": {
+        "smaller": "var(--np--size--smaller)",
+        "small": "var(--np--size--small)",
+        "base": "var(--np--size)",
+        "large": "var(--np--size--large)",
+        "larger": "var(--np--size--larger)"
+      }
+    },
+    "gap": {
+      "base": "var(--np--gap--smaller)"
+    },
+    "color": {
+      "base": "var(--np--color)",
+      "today": "var(--np--color--link)",
+      "selected": "var(--np--background-color)",
+      "range": "var(--np--color)",
+      "disabled": "var(--np--color--disabled)"
+    },
+    "backgroundColor": {
+      "base": "var(--np--background-color)",
+      "selected": "var(--np--color--link)",
+      "range": "var(--np--background-color--link)"
+    },
+    "borderColor": {
+      "today": "var(--np--border-color--link)"
+    }
+  },
   "code": {
     "backgroundColor": {
       "base": "var(--np--background-color)"
@@ -96,6 +125,13 @@ const componentTokensData: ComponentTokensData = {
       "lightest": "var(--np--color--lightest)",
       "link": "var(--np--color--link)",
       "highlight": "var(--np--color--highlight)"
+    }
+  },
+  "field": {
+    "gap": {
+      "label": "var(--np--gap--small)",
+      "description": "var(--np--gap--smaller)",
+      "error": "var(--np--gap--smaller)"
     }
   },
   "icon": {
@@ -245,11 +281,62 @@ const componentTokensData: ComponentTokensData = {
       "base": "var(--np--border-width)",
       "large": "var(--np--border-width--large)",
       "larger": "var(--np--border-width--larger)"
+    },
+    "width": {
+      "2": "calc(2ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+      "3": "calc(3ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+      "4": "calc(4ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+      "5": "calc(5ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+      "10": "calc(10ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+      "20": "calc(20ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+      "full": "100%"
+    },
+    "fontSize": {
+      "base": "max(16px, var(--np--font-size))"
+    },
+    "focusRing": {
+      "width": {
+        "base": "var(--np--border-width--large)"
+      },
+      "color": {
+        "base": "var(--np--color--link)"
+      },
+      "offset": {
+        "base": "var(--np--gap--smaller)"
+      }
     }
   },
   "lightbox": {
     "zIndex": {
       "base": "9999"
+    }
+  },
+  "popover": {
+    "offset": {
+      "base": "var(--np--gap--small)"
+    },
+    "borderRadius": {
+      "base": "var(--np--border-radius)"
+    },
+    "boxShadow": {
+      "base": "var(--np--box-shadow--large)"
+    },
+    "zIndex": {
+      "base": "var(--np--z-index--high)"
+    },
+    "maxHeight": {
+      "base": "calc(var(--np--size) * 6)"
+    }
+  },
+  "select": {
+    "chevron": {
+      "size": {
+        "smaller": "var(--np--font-size--smaller)",
+        "small": "var(--np--font-size--small)",
+        "base": "var(--np--font-size)",
+        "large": "var(--np--font-size--large)",
+        "larger": "var(--np--font-size--larger)"
+      }
     }
   },
   "tile": {

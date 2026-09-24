@@ -1,0 +1,32 @@
+{
+  "cell": {
+    "size": {
+      "smaller": "var(--np--size--smaller)",
+      "small": "var(--np--size--small)",
+      "base": "var(--np--size)",
+      "large": "var(--np--size--large)",
+      "larger": "var(--np--size--larger)"
+    }
+  },
+  "gap": {
+    "base": "var(--np--gap--smaller)"
+  },
+  "color": {
+    "base": "var(--np--color)",
+    "today": "var(--np--color--link)",
+    "selected": "var(--np--background-color)",
+    "range": "var(--np--color)",
+    "disabled": "var(--np--color--disabled)"
+  },
+  "backgroundColor": {
+    "base": "var(--np--background-color)",
+    "selected": "var(--np--color--link)",
+    "range": "var(--np--background-color--link)"
+  },
+  "borderColor": {
+    "today": "var(--np--border-color--link)"
+  },
+  "$themes": {
+    "night": {}
+  }
+}

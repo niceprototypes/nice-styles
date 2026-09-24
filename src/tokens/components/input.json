@@ -29,6 +29,29 @@
     "large": "var(--np--border-width--large)",
     "larger": "var(--np--border-width--larger)"
   },
+  "width": {
+    "2": "calc(2ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+    "3": "calc(3ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+    "4": "calc(4ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+    "5": "calc(5ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+    "10": "calc(10ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+    "20": "calc(20ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width))",
+    "full": "100%"
+  },
+  "fontSize": {
+    "base": "max(16px, var(--np--font-size))"
+  },
+  "focusRing": {
+    "width": {
+      "base": "var(--np--border-width--large)"
+    },
+    "color": {
+      "base": "var(--np--color--link)"
+    },
+    "offset": {
+      "base": "var(--np--gap--smaller)"
+    }
+  },
   "$themes": {
     "night": {}
   }

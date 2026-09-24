@@ -286,6 +286,23 @@
 	--np--button--icon--size--large: var(--np--font-size--large);
 	--np--button--icon--size--larger: var(--np--font-size--larger);
 
+	/* calendar component tokens */
+	--np--calendar--cell--size--smaller: var(--np--size--smaller);
+	--np--calendar--cell--size--small: var(--np--size--small);
+	--np--calendar--cell--size: var(--np--size);
+	--np--calendar--cell--size--large: var(--np--size--large);
+	--np--calendar--cell--size--larger: var(--np--size--larger);
+	--np--calendar--gap: var(--np--gap--smaller);
+	--np--calendar--color: var(--np--color);
+	--np--calendar--color--today: var(--np--color--link);
+	--np--calendar--color--selected: var(--np--background-color);
+	--np--calendar--color--range: var(--np--color);
+	--np--calendar--color--disabled: var(--np--color--disabled);
+	--np--calendar--background-color: var(--np--background-color);
+	--np--calendar--background-color--selected: var(--np--color--link);
+	--np--calendar--background-color--range: var(--np--background-color--link);
+	--np--calendar--border-color--today: var(--np--border-color--link);
+
 	/* code component tokens */
 	--np--code--background-color: var(--np--background-color);
 	--np--code--border-color: var(--np--border-color);
@@ -305,6 +322,11 @@
 	--np--code--color--lightest: var(--np--color--lightest);
 	--np--code--color--link: var(--np--color--link);
 	--np--code--color--highlight: var(--np--color--highlight);
+
+	/* field component tokens */
+	--np--field--gap--label: var(--np--gap--small);
+	--np--field--gap--description: var(--np--gap--smaller);
+	--np--field--gap--error: var(--np--gap--smaller);
 
 	/* icon component tokens */
 	--np--icon--size--smaller: var(--np--font-size--smaller);
@@ -412,9 +434,34 @@
 	--np--input--border-width: var(--np--border-width);
 	--np--input--border-width--large: var(--np--border-width--large);
 	--np--input--border-width--larger: var(--np--border-width--larger);
+	--np--input--width--2: calc(2ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
+	--np--input--width--3: calc(3ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
+	--np--input--width--4: calc(4ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
+	--np--input--width--5: calc(5ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
+	--np--input--width--10: calc(10ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
+	--np--input--width--20: calc(20ch + 2 * var(--np--input--spacing) + 2 * var(--np--input--border-width));
+	--np--input--width--full: 100%;
+	--np--input--font-size: max(16px, var(--np--font-size));
+	--np--input--focus-ring--width: var(--np--border-width--large);
+	--np--input--focus-ring--color: var(--np--color--link);
+	--np--input--focus-ring--offset: var(--np--gap--smaller);
 
 	/* lightbox component tokens */
 	--np--lightbox--z-index: 9999;
+
+	/* popover component tokens */
+	--np--popover--offset: var(--np--gap--small);
+	--np--popover--border-radius: var(--np--border-radius);
+	--np--popover--box-shadow: var(--np--box-shadow--large);
+	--np--popover--z-index: var(--np--z-index--high);
+	--np--popover--max-height: calc(var(--np--size) * 6);
+
+	/* select component tokens */
+	--np--select--chevron--size--smaller: var(--np--font-size--smaller);
+	--np--select--chevron--size--small: var(--np--font-size--small);
+	--np--select--chevron--size: var(--np--font-size);
+	--np--select--chevron--size--large: var(--np--font-size--large);
+	--np--select--chevron--size--larger: var(--np--font-size--larger);
 
 	/* tile component tokens */
 	--np--tile--background-color: var(--np--background-color);
@@ -443,6 +490,15 @@
 	--np--button--border-color--inverse: var(--np--border-color--inverse);
 	--np--button--border-color--strong--inverse: var(--np--border-color--strong--inverse);
 	--np--button--border-color--stronger--inverse: var(--np--border-color--stronger--inverse);
+	--np--calendar--color--inverse: var(--np--color--inverse);
+	--np--calendar--color--today--inverse: var(--np--color--link--inverse);
+	--np--calendar--color--selected--inverse: var(--np--background-color--inverse);
+	--np--calendar--color--range--inverse: var(--np--color--inverse);
+	--np--calendar--color--disabled--inverse: var(--np--color--disabled--inverse);
+	--np--calendar--background-color--inverse: var(--np--background-color--inverse);
+	--np--calendar--background-color--selected--inverse: var(--np--color--link--inverse);
+	--np--calendar--background-color--range--inverse: var(--np--background-color--link--inverse);
+	--np--calendar--border-color--today--inverse: var(--np--border-color--link--inverse);
 	--np--code--background-color--inverse: var(--np--background-color--inverse);
 	--np--code--border-color--inverse: var(--np--border-color--inverse);
 	--np--code--color--inverse: var(--np--color--inverse);
@@ -472,6 +528,7 @@
 	--np--ink--color--highlight--inverse: var(--np--color--highlight--inverse);
 	--np--ink--color--warning--inverse: var(--np--color--warning--inverse);
 	--np--ink--color--error--inverse: var(--np--color--error--inverse);
+	--np--input--focus-ring--color--inverse: var(--np--color--link--inverse);
 	--np--tile--background-color--inverse: var(--np--background-color--inverse);
 	--np--tile--background-color--raised--inverse: var(--np--background-color--raised--inverse);
 	--np--tile--background-color--success--inverse: var(--np--background-color--success--inverse);
@@ -567,6 +624,11 @@
 		--np--ink--font-size: var(--np--font-size--tablet);
 		--np--ink--font-size--large: var(--np--font-size--large--tablet);
 		--np--ink--font-size--larger: var(--np--font-size--larger--tablet);
+		--np--select--chevron--size--smaller: var(--np--font-size--smaller--tablet);
+		--np--select--chevron--size--small: var(--np--font-size--small--tablet);
+		--np--select--chevron--size: var(--np--font-size--tablet);
+		--np--select--chevron--size--large: var(--np--font-size--large--tablet);
+		--np--select--chevron--size--larger: var(--np--font-size--larger--tablet);
 	}
 }
 
@@ -590,6 +652,11 @@
 		--np--ink--font-size: var(--np--font-size--laptop);
 		--np--ink--font-size--large: var(--np--font-size--large--laptop);
 		--np--ink--font-size--larger: var(--np--font-size--larger--laptop);
+		--np--select--chevron--size--smaller: var(--np--font-size--smaller--laptop);
+		--np--select--chevron--size--small: var(--np--font-size--small--laptop);
+		--np--select--chevron--size: var(--np--font-size--laptop);
+		--np--select--chevron--size--large: var(--np--font-size--large--laptop);
+		--np--select--chevron--size--larger: var(--np--font-size--larger--laptop);
 	}
 }
 
@@ -613,6 +680,11 @@
 		--np--ink--font-size: var(--np--font-size--desktop);
 		--np--ink--font-size--large: var(--np--font-size--large--desktop);
 		--np--ink--font-size--larger: var(--np--font-size--larger--desktop);
+		--np--select--chevron--size--smaller: var(--np--font-size--smaller--desktop);
+		--np--select--chevron--size--small: var(--np--font-size--small--desktop);
+		--np--select--chevron--size: var(--np--font-size--desktop);
+		--np--select--chevron--size--large: var(--np--font-size--large--desktop);
+		--np--select--chevron--size--larger: var(--np--font-size--larger--desktop);
 	}
 }
 
@@ -673,6 +745,15 @@
 		--np--button--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--button--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
 		--np--button--border-color--stronger--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--calendar--color--inverse: var(--np--color--night--inverse);
+		--np--calendar--color--today--inverse: var(--np--color--link--night--inverse);
+		--np--calendar--color--selected--inverse: var(--np--background-color--night--inverse);
+		--np--calendar--color--range--inverse: var(--np--color--night--inverse);
+		--np--calendar--color--disabled--inverse: var(--np--color--disabled--night--inverse);
+		--np--calendar--background-color--inverse: var(--np--background-color--night--inverse);
+		--np--calendar--background-color--selected--inverse: var(--np--color--link--night--inverse);
+		--np--calendar--background-color--range--inverse: var(--np--background-color--link--night--inverse);
+		--np--calendar--border-color--today--inverse: var(--np--border-color--link--night--inverse);
 		--np--code--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--code--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--code--color--inverse: var(--np--color--night--inverse);
@@ -702,6 +783,7 @@
 		--np--ink--color--highlight--inverse: var(--np--color--highlight--night--inverse);
 		--np--ink--color--warning--inverse: var(--np--color--warning--night--inverse);
 		--np--ink--color--error--inverse: var(--np--color--error--night--inverse);
+		--np--input--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--tile--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--tile--background-color--raised--inverse: var(--np--background-color--raised--night--inverse);
 		--np--tile--background-color--success--inverse: var(--np--background-color--success--night--inverse);
@@ -721,6 +803,15 @@
 		--np--button--border-color: var(--np--border-color--night);
 		--np--button--border-color--strong: var(--np--border-color--strong--night);
 		--np--button--border-color--stronger: var(--np--border-color--stronger--night);
+		--np--calendar--color: var(--np--color--night);
+		--np--calendar--color--today: var(--np--color--link--night);
+		--np--calendar--color--selected: var(--np--background-color--night);
+		--np--calendar--color--range: var(--np--color--night);
+		--np--calendar--color--disabled: var(--np--color--disabled--night);
+		--np--calendar--background-color: var(--np--background-color--night);
+		--np--calendar--background-color--selected: var(--np--color--link--night);
+		--np--calendar--background-color--range: var(--np--background-color--link--night);
+		--np--calendar--border-color--today: var(--np--border-color--link--night);
 		--np--code--background-color: var(--np--background-color--night);
 		--np--code--border-color: var(--np--border-color--night);
 		--np--code--color: var(--np--color--night);
@@ -750,6 +841,7 @@
 		--np--ink--color--highlight: var(--np--color--highlight--night);
 		--np--ink--color--warning: var(--np--color--warning--night);
 		--np--ink--color--error: var(--np--color--error--night);
+		--np--input--focus-ring--color: var(--np--color--link--night);
 		--np--tile--background-color: var(--np--background-color--night);
 		--np--tile--background-color--raised: var(--np--background-color--raised--night);
 		--np--tile--background-color--success: var(--np--background-color--success--night);
@@ -826,6 +918,15 @@
 		--np--button--border-color--inverse: var(--np--border-color--day--inverse);
 		--np--button--border-color--strong--inverse: var(--np--border-color--strong--day--inverse);
 		--np--button--border-color--stronger--inverse: var(--np--border-color--stronger--day--inverse);
+		--np--calendar--color--inverse: var(--np--color--day--inverse);
+		--np--calendar--color--today--inverse: var(--np--color--link--day--inverse);
+		--np--calendar--color--selected--inverse: var(--np--background-color--day--inverse);
+		--np--calendar--color--range--inverse: var(--np--color--day--inverse);
+		--np--calendar--color--disabled--inverse: var(--np--color--disabled--day--inverse);
+		--np--calendar--background-color--inverse: var(--np--background-color--day--inverse);
+		--np--calendar--background-color--selected--inverse: var(--np--color--link--day--inverse);
+		--np--calendar--background-color--range--inverse: var(--np--background-color--link--day--inverse);
+		--np--calendar--border-color--today--inverse: var(--np--border-color--link--day--inverse);
 		--np--code--background-color--inverse: var(--np--background-color--day--inverse);
 		--np--code--border-color--inverse: var(--np--border-color--day--inverse);
 		--np--code--color--inverse: var(--np--color--day--inverse);
@@ -855,6 +956,7 @@
 		--np--ink--color--highlight--inverse: var(--np--color--highlight--day--inverse);
 		--np--ink--color--warning--inverse: var(--np--color--warning--day--inverse);
 		--np--ink--color--error--inverse: var(--np--color--error--day--inverse);
+		--np--input--focus-ring--color--inverse: var(--np--color--link--day--inverse);
 		--np--tile--background-color--inverse: var(--np--background-color--day--inverse);
 		--np--tile--background-color--raised--inverse: var(--np--background-color--raised--day--inverse);
 		--np--tile--background-color--success--inverse: var(--np--background-color--success--day--inverse);
@@ -874,6 +976,15 @@
 		--np--button--border-color: var(--np--border-color--day);
 		--np--button--border-color--strong: var(--np--border-color--strong--day);
 		--np--button--border-color--stronger: var(--np--border-color--stronger--day);
+		--np--calendar--color: var(--np--color--day);
+		--np--calendar--color--today: var(--np--color--link--day);
+		--np--calendar--color--selected: var(--np--background-color--day);
+		--np--calendar--color--range: var(--np--color--day);
+		--np--calendar--color--disabled: var(--np--color--disabled--day);
+		--np--calendar--background-color: var(--np--background-color--day);
+		--np--calendar--background-color--selected: var(--np--color--link--day);
+		--np--calendar--background-color--range: var(--np--background-color--link--day);
+		--np--calendar--border-color--today: var(--np--border-color--link--day);
 		--np--code--background-color: var(--np--background-color--day);
 		--np--code--border-color: var(--np--border-color--day);
 		--np--code--color: var(--np--color--day);
@@ -903,6 +1014,7 @@
 		--np--ink--color--highlight: var(--np--color--highlight--day);
 		--np--ink--color--warning: var(--np--color--warning--day);
 		--np--ink--color--error: var(--np--color--error--day);
+		--np--input--focus-ring--color: var(--np--color--link--day);
 		--np--tile--background-color: var(--np--background-color--day);
 		--np--tile--background-color--raised: var(--np--background-color--raised--day);
 		--np--tile--background-color--success: var(--np--background-color--success--day);
@@ -978,6 +1090,15 @@
 		--np--button--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--button--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
 		--np--button--border-color--stronger--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--calendar--color--inverse: var(--np--color--night--inverse);
+		--np--calendar--color--today--inverse: var(--np--color--link--night--inverse);
+		--np--calendar--color--selected--inverse: var(--np--background-color--night--inverse);
+		--np--calendar--color--range--inverse: var(--np--color--night--inverse);
+		--np--calendar--color--disabled--inverse: var(--np--color--disabled--night--inverse);
+		--np--calendar--background-color--inverse: var(--np--background-color--night--inverse);
+		--np--calendar--background-color--selected--inverse: var(--np--color--link--night--inverse);
+		--np--calendar--background-color--range--inverse: var(--np--background-color--link--night--inverse);
+		--np--calendar--border-color--today--inverse: var(--np--border-color--link--night--inverse);
 		--np--code--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--code--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--code--color--inverse: var(--np--color--night--inverse);
@@ -1007,6 +1128,7 @@
 		--np--ink--color--highlight--inverse: var(--np--color--highlight--night--inverse);
 		--np--ink--color--warning--inverse: var(--np--color--warning--night--inverse);
 		--np--ink--color--error--inverse: var(--np--color--error--night--inverse);
+		--np--input--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--tile--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--tile--background-color--raised--inverse: var(--np--background-color--raised--night--inverse);
 		--np--tile--background-color--success--inverse: var(--np--background-color--success--night--inverse);
@@ -1026,6 +1148,15 @@
 		--np--button--border-color: var(--np--border-color--night);
 		--np--button--border-color--strong: var(--np--border-color--strong--night);
 		--np--button--border-color--stronger: var(--np--border-color--stronger--night);
+		--np--calendar--color: var(--np--color--night);
+		--np--calendar--color--today: var(--np--color--link--night);
+		--np--calendar--color--selected: var(--np--background-color--night);
+		--np--calendar--color--range: var(--np--color--night);
+		--np--calendar--color--disabled: var(--np--color--disabled--night);
+		--np--calendar--background-color: var(--np--background-color--night);
+		--np--calendar--background-color--selected: var(--np--color--link--night);
+		--np--calendar--background-color--range: var(--np--background-color--link--night);
+		--np--calendar--border-color--today: var(--np--border-color--link--night);
 		--np--code--background-color: var(--np--background-color--night);
 		--np--code--border-color: var(--np--border-color--night);
 		--np--code--color: var(--np--color--night);
@@ -1055,6 +1186,7 @@
 		--np--ink--color--highlight: var(--np--color--highlight--night);
 		--np--ink--color--warning: var(--np--color--warning--night);
 		--np--ink--color--error: var(--np--color--error--night);
+		--np--input--focus-ring--color: var(--np--color--link--night);
 		--np--tile--background-color: var(--np--background-color--night);
 		--np--tile--background-color--raised: var(--np--background-color--raised--night);
 		--np--tile--background-color--success: var(--np--background-color--success--night);

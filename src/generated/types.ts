@@ -25,4 +25,4 @@ export type BackgroundColorInverseType = "base" | "raised" | "success" | "highli
 export type BorderColorInverseType = "base" | "subtle" | "strong" | "stronger" | "success" | "highlight" | "warning" | "error" | "link"
 export type ColorInverseType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
 
-export type ComponentPrefix = "button" | "code" | "icon" | "image" | "ink" | "input" | "lightbox" | "tile"
+export type ComponentPrefix = "button" | "calendar" | "code" | "field" | "icon" | "image" | "ink" | "input" | "lightbox" | "popover" | "select" | "tile"

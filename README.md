@@ -150,7 +150,7 @@ Keys: a bare name is one band (`tablet`), `+` is that breakpoint and wider, `-` 
 | `size` | smaller, small, base, large, larger |
 | `zIndex` | base, low, medium, high, higher |
 
-Component token sets: `button`, `code`, `icon`, `image`, `ink`, `input`, `lightbox`, `tile`.
+Component token sets: `button`, `calendar`, `code`, `field`, `icon`, `image`, `ink`, `input`, `lightbox`, `popover`, `select`, `tile`.
 
 Each group has a variant union type: `GapType`, `ColorType`, `ColorInverseType`, …, plus `ComponentPrefix`.
 
