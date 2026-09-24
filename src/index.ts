@@ -133,6 +133,9 @@ export type {
   TokenAddress,
 } from './generated/types.js'
 
+// Declaration-merging hook: consumers augment it to type their setTokens custom groups
+export type { CustomTokenVariants } from './types/customTokens.js'
+
 // Export layout types
 export type {
   SpacingShorthandType,

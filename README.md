@@ -65,7 +65,26 @@ getToken("button.icon.size:small")                         // "var(--np--button-
 | `transform` | Adjust the colour's hsla channels — `var` returns a live `hsl(from …)` expression, `value` computes a literal |
 | `pristine` | Read the generated value, ignoring runtime overrides |
 
-Addresses and variants are typed from the token sources: the address form accepts `TokenAddress` only, and the two-argument form constrains the variant to its group's union (`TokenVariants[group]`). A renamed or invented token (`getToken("backgroundColor", "dark")`) is a compile error. The variant may be omitted only for groups with a `base` variant. Tokens added at runtime with `generateTokenCSS` / `setTokens` are not in these types.
+Addresses and variants are typed from the token sources: the address form accepts `TokenAddress` only, and the two-argument form constrains the variant to its group's union (`TokenVariants[group]`). A renamed or invented token (`getToken("backgroundColor", "dark")`) is a compile error. The variant may be omitted only for groups with a `base` variant. Tokens added at runtime with `generateTokenCSS` / `setTokens` are not in these types until declared.
+
+#### Custom tokens — `CustomTokenVariants`
+
+Declare a runtime group on `CustomTokenVariants` (declaration merging) and it joins `TokenGroup` and `TokenAddress`:
+
+```ts
+// any .ts file in the consumer's program, e.g. next to the setTokens call
+declare module "nice-styles" {
+  interface CustomTokenVariants {
+    contentMaxWidth: "base" | "wide"   // variant union of the group
+  }
+}
+
+getToken("contentMaxWidth")          // "var(--np--content-max-width)"
+getToken("contentMaxWidth:wide")     // "var(--np--content-max-width--wide)"
+getToken("contentMaxWidth:narrow")   // compile error — not a declared variant
+```
+
+Augment `"nice-styles"` even when importing `getToken` from nice-react-styles — the interface is declared there. The declaration only types the name; the value still comes from `setTokens` / `generateTokenCSS`. Custom groups carry no `:inverse` effect.
 
 ### List tokens — `listTokens`
 

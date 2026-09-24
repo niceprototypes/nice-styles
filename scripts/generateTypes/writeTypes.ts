@@ -5,7 +5,7 @@
  * defaults, then one `{group}Inverse` union per `$inverse` group),
  * `ComponentPrefix` if any component prefixes exist, and the address types
  * that type `getToken`: `TokenVariants` (address group → variant union, core
- * and component), `TokenInverseVariants` (groups with an `:inverse` effect),
+ * and component; extends the consumer-augmented `CustomTokenVariants`), `TokenInverseVariants` (groups with an `:inverse` effect),
  * `TokenGroup`, and `TokenAddress` (every valid address string).
  *
  * Called by `scripts/generateTypes/index.ts` (`npm run build:types`), after
@@ -33,6 +33,12 @@ type GroupTypeMap = Record<string, string>
 
 /** Reserved group seeded from `breakpoints.json` (`getToken("breakpoints:laptop")`); see `src/registry/index.ts`. */
 const BREAKPOINTS_GROUP = 'breakpoints'
+
+/** Hand-written, consumer-augmented interface `TokenVariants` extends (`src/types/customTokens.ts`). */
+const CUSTOM_VARIANTS_INTERFACE = 'CustomTokenVariants'
+
+/** Import of `CUSTOM_VARIANTS_INTERFACE`, relative to `src/generated/types.ts`. */
+const CUSTOM_VARIANTS_IMPORT = `import type { ${CUSTOM_VARIANTS_INTERFACE} } from '../types/customTokens.js'`
 
 /**
  * Convert a camelCase token name into PascalCase for the type identifier.
@@ -154,12 +160,13 @@ function buildInverseVariantMap(model: TokenSourceModel): GroupTypeMap {
  * @param name - Interface name
  * @param doc - JSDoc line for the interface
  * @param map - Group → type expression
+ * @param base - Interface to extend, if any
  * @returns The interface lines
  */
-function buildInterfaceLines(name: string, doc: string, map: GroupTypeMap): string[] {
+function buildInterfaceLines(name: string, doc: string, map: GroupTypeMap, base?: string): string[] {
   return [
     `/** ${doc} */`,
-    `export interface ${name} {`,
+    `export interface ${name}${base ? ` extends ${base}` : ''} {`,
     ...Object.entries(map).map(([group, type]) => `  "${group}": ${type}`),
     '}',
   ]
@@ -179,7 +186,13 @@ function buildInterfaceLines(name: string, doc: string, map: GroupTypeMap): stri
  */
 function buildAddressLines(variants: GroupTypeMap, inverse: GroupTypeMap): string[] {
   return [
-    ...buildInterfaceLines('TokenVariants', 'Variant union of every token group, keyed by address group (`"fontSize"`, `"button.icon.size"`).', variants),
+    // Extends the consumer-augmentable hook, so declared custom groups join TokenGroup and TokenAddress
+    ...buildInterfaceLines(
+      'TokenVariants',
+      'Variant union of every token group, keyed by address group (`"fontSize"`, `"button.icon.size"`), plus custom groups declared on `CustomTokenVariants`.',
+      variants,
+      CUSTOM_VARIANTS_INTERFACE
+    ),
     '',
     ...buildInterfaceLines('TokenInverseVariants', 'Variant union of every token group that has the `:inverse` effect.', inverse),
     '',
@@ -199,11 +212,14 @@ function buildAddressLines(variants: GroupTypeMap, inverse: GroupTypeMap): strin
  * @param tokens - Groups to emit a union for, in output order
  * @param componentPrefixes - Component prefixes for `ComponentPrefix`
  * @param addressLines - Output of `buildAddressLines`
- * @returns File lines: header, token unions, blank line, `ComponentPrefix`, blank line, address types, trailing blank line
+ * @returns File lines: header, `CustomTokenVariants` import, token unions, blank line, `ComponentPrefix`, blank line, address types, trailing blank line
  */
 function assembleLines(tokens: Tokens, componentPrefixes: string[], addressLines: string[]): string[] {
   const lines: string[] = [
     generatedHeader('src/tokens/modules/*.json, src/tokens/components/*.json', ['Regenerate: npm run build:types']),
+    // The one hand-written type the address section depends on
+    CUSTOM_VARIANTS_IMPORT,
+    '',
   ]
 
   // One union per group

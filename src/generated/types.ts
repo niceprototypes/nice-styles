@@ -3,6 +3,8 @@
  * Regenerate: npm run build:types
  */
 
+import type { CustomTokenVariants } from '../types/customTokens.js'
+
 export type AnimationDurationType = "faster" | "fast" | "base" | "slow" | "slower"
 export type AnimationEasingType = "base" | "linear" | "ease-in" | "ease-out" | "ease"
 export type BackgroundSizeType = "base" | "contain" | "cover" | "fill" | "none" | "scale-down"
@@ -27,8 +29,8 @@ export type ColorInverseType = "base" | "light" | "lighter" | "lightest" | "disa
 
 export type ComponentPrefix = "button" | "calendar" | "code" | "field" | "icon" | "image" | "ink" | "input" | "lightbox" | "popover" | "select" | "tile"
 
-/** Variant union of every token group, keyed by address group (`"fontSize"`, `"button.icon.size"`). */
-export interface TokenVariants {
+/** Variant union of every token group, keyed by address group (`"fontSize"`, `"button.icon.size"`), plus custom groups declared on `CustomTokenVariants`. */
+export interface TokenVariants extends CustomTokenVariants {
   "animationDuration": AnimationDurationType
   "animationEasing": AnimationEasingType
   "backgroundSize": BackgroundSizeType

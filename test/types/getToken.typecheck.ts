@@ -63,6 +63,9 @@ getToken('input.width:6')
 // @ts-expect-error — gap has no inverse dimension
 getToken('gap:base:inverse')
 
+// @ts-expect-error — a runtime custom group is rejected until declared on CustomTokenVariants (see customTokens.typecheck.ts)
+getToken('contentMaxWidth')
+
 // @ts-expect-error — a plain string is not an address
 getToken(anyString)
 
