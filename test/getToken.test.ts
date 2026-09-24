@@ -210,35 +210,43 @@ test('setting a threshold updates its token value', () => {
   assert.equal(getToken('breakpoints:desktop', { as: 'value' }), '1720px')
 })
 
-// transformColor runs the same channel math as getToken's transform, so the
-// ratio form reaches it too — the point of sharing one vocabulary
+// transformColor is getToken's transform behind the module/token/theme
+// addressing, so it returns the relative-color expression over the token's
+// variable — the result keeps following the theme cascade.
 // The inverse flag must reach the underlying read — it silently returned the
 // non-inverse colour before, which is a wrong answer rather than an error
 test('transformColor reads the inverse dimension', () => {
   const plain = transformColor('color', { token: 'base', values: [null, null, '*0.5', null] })
   const inverse = transformColor('color', { token: 'base', inverse: true, values: [null, null, '*0.5', null] })
   assert.notEqual(plain, inverse)
-  // day base is 5% lightness, day inverse is 95%; halving each gives 2.5% and 47.5%
-  assert.equal(plain, 'hsla(210, 5%, 2.5%, 1)')
-  assert.equal(inverse, 'hsla(210, 5%, 47.5%, 1)')
+  assert.equal(plain, 'hsl(from var(--np--color) h s calc(l * 0.5))')
+  assert.equal(inverse, 'hsl(from var(--np--color--inverse) h s calc(l * 0.5))')
 })
 
 test('transformColor accepts ratios and signed magnitudes alike', () => {
   assert.equal(
     transformColor('color', { token: 'base', theme: 'night', values: [null, null, '*0.5', null] }),
-    'hsla(210, 5%, 47.5%, 1)'
+    'hsl(from var(--np--color--night) h s calc(l * 0.5))'
   )
   assert.equal(
     transformColor('color', { token: 'base', theme: 'night', values: [null, null, '-15', null] }),
-    'hsla(210, 5%, 80%, 1)'
+    'hsl(from var(--np--color--night) h s calc(l - 15))'
   )
 })
 
-// transformColor has no data of its own — it reads the color through getToken,
-// so the theme option selects the night value. Guards the options-object signature.
+// transformColor has no data of its own — it reads the token through getToken,
+// so the theme option pins the night variable. Guards the options-object signature.
 test('transformColor reads through getToken', () => {
-  assert.equal(transformColor('color', { token: 'error', values: ['+0', '-20', '+20', '-0.2'] }), 'hsla(10, 72%, 83%, 0.8)')
-  assert.equal(transformColor('color', { token: 'error', theme: 'night' }), 'hsla(10, 82%, 75%, 1)')
+  assert.equal(
+    transformColor('color', { token: 'error', values: ['+0', '-20', '+20', '-0.2'] }),
+    'hsl(from var(--np--color--error) h calc(s - 20) calc(l + 20) / calc(alpha - 0.2))'
+  )
+  assert.equal(transformColor('color', { token: 'error', theme: 'night' }), 'hsl(from var(--np--color--error--night) h s l)')
+})
+
+// Resolving the value first keeps an unknown token an error, not a warning
+test('transformColor throws on an unknown token', () => {
+  assert.throws(() => transformColor('color', { token: 'nope' }))
 })
 
 // A component colour prop accepts the same effects as the getter. `inverse` is

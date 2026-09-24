@@ -4,9 +4,9 @@
  * Turns a token reference plus per-channel adjustments into CSS relative color
  * syntax: `hsl(from var(--np--color) h s calc(l * 0.55))`. The token stays a
  * `var()`, so the result still follows the `[data-theme]` and breakpoint
- * cascades — unlike `transformColor`, which computes a static `hsla()`.
+ * cascades.
  *
- * Used by `getToken`'s `transform` option.
+ * Used by `getToken`'s `transform` option, which `transformColor` wraps.
  *
  * ## Channel values
  * Adjustments are given in HSLA order `[hue, saturation, lightness, alpha]`,
@@ -23,7 +23,7 @@
  * offset sized for a light value leaves the gamut on its dark counterpart
  * (a `l: 22%` night color minus 25 is below black). The browser clamps at
  * paint, so the result saturates rather than failing — there is no clamp
- * warning here, unlike the numeric path in `transformColor`.
+ * warning here, unlike the numeric path (`applyChannels`).
  *
  * Percent units are not valid inside `from`: channels are numbers, so
  * `calc(l - 25%)` is invalid and drops the whole declaration.
@@ -127,10 +127,11 @@ function channelNumber(keyword: string, current: number, value: ChannelValue): n
 /**
  * Apply channel adjustments to a literal color, returning a static `hsla()`.
  *
- * The computed counterpart of `relativeColor`: same vocabulary, but resolved in
- * JS, so the result no longer follows the theme cascade. Out-of-range channels
- * are clamped with a warning — the CSS expression cannot do this, since the
- * browser saturates at paint instead.
+ * The computed counterpart of `relativeColor`, behind `getToken`'s value form
+ * (`as: "value"` with a `transform`): same vocabulary, but resolved in JS, so
+ * the result no longer follows the theme cascade. Out-of-range channels are
+ * clamped with a warning — the CSS expression cannot do this, since the browser
+ * saturates at paint instead.
  *
  * @param color - Source color as `hsl()` / `hsla()`
  * @param values - Per-channel adjustments in HSLA order
@@ -150,12 +151,12 @@ export function applyChannels(color: string, values: readonly ChannelValue[] = [
 
     // Below floor — clamp up to the minimum.
     if (next < channel.min) {
-      console.warn(`transformColor: ${channel.name} ${next} is below ${channel.min} for ${label}; clamped to ${channel.min}`)
+      console.warn(`getToken: ${channel.name} ${next} is below ${channel.min} for ${label}; clamped to ${channel.min}`)
       return channel.min
     }
     // Above ceiling — clamp down to the maximum.
     if (next > channel.max) {
-      console.warn(`transformColor: ${channel.name} ${next} exceeds ${channel.max} for ${label}; clamped to ${channel.max}`)
+      console.warn(`getToken: ${channel.name} ${next} exceeds ${channel.max} for ${label}; clamped to ${channel.max}`)
       return channel.max
     }
     return next

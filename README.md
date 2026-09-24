@@ -146,7 +146,7 @@ Keys: a bare name is one band (`tablet`), `+` is that breakpoint and wider, `-` 
 |---|---|
 | `getConstant` / `getConstantKey` | Build a `var(--np--…)` / `--np--…` name without a registry lookup |
 | `applyTheme(theme, root?)` | Set `data-theme` on an element (default `document.documentElement`) |
-| `transformColor(group, { token, theme, values })` | Compute a colour token's hsla channels to a static `hsla()` string. Same channel vocabulary as `getToken`'s `transform`: `200` sets, `"+30"` / `"-30"` shift, `"*0.55"` scales, `null` leaves alone |
+| `transformColor(group, { token, theme, values })` | Adjust a colour token's hsla channels as a relative colour over its variable — `hsl(from var(--np--…) …)`, so it follows the theme. Same as `getToken`'s `transform`: `200` sets, `"+30"` / `"-30"` shift, `"*0.55"` scales, `null` leaves alone |
 | `registry` / `registerTokens` | The token store (`Map` keyed by variable name) and its runtime writer |
 | `injectFonts`, `buildGoogleFontsConfig`, `buildAdobeFontsConfig` | Font loading without React |
 | `isStyleValue(kind, value)` | Classify a value as a theme or breakpoint value |
