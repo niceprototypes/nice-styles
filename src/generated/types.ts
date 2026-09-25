@@ -27,7 +27,7 @@ export type BackgroundColorInverseType = "base" | "raised" | "success" | "highli
 export type BorderColorInverseType = "base" | "subtle" | "strong" | "stronger" | "success" | "highlight" | "warning" | "error" | "link"
 export type ColorInverseType = "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
 
-export type ComponentPrefix = "button" | "calendar" | "code" | "field" | "icon" | "image" | "ink" | "input" | "lightbox" | "popover" | "select" | "tile"
+export type ComponentPrefix = "button" | "calendar" | "code" | "field" | "icon" | "image" | "ink" | "input" | "lightbox" | "list" | "popover" | "select" | "tile"
 
 /** Variant union of every token group, keyed by address group (`"fontSize"`, `"button.icon.size"`), plus custom groups declared on `CustomTokenVariants`. */
 export interface TokenVariants extends CustomTokenVariants {
@@ -102,6 +102,14 @@ export interface TokenVariants extends CustomTokenVariants {
   "input.focusRing.color": "base"
   "input.focusRing.offset": "base"
   "lightbox.zIndex": "base"
+  "list.padding.block": "smaller" | "small" | "base" | "large" | "larger"
+  "list.padding.inline": "smaller" | "small" | "base" | "large" | "larger"
+  "list.gap": "base"
+  "list.divider.color": "base"
+  "list.divider.width": "base"
+  "list.maxHeight": "base"
+  "list.backgroundColor": "base" | "active" | "selected"
+  "list.color": "base" | "selected" | "disabled"
   "popover.offset": "base"
   "popover.borderRadius": "base"
   "popover.boxShadow": "base"
@@ -131,6 +139,9 @@ export interface TokenInverseVariants {
   "input.backgroundColor": "base" | "raised" | "success" | "highlight" | "warning" | "error" | "link"
   "input.borderColor": "base" | "subtle" | "strong" | "stronger" | "success" | "highlight" | "warning" | "error" | "link"
   "input.focusRing.color": "base"
+  "list.divider.color": "base"
+  "list.backgroundColor": "base" | "active" | "selected"
+  "list.color": "base" | "selected" | "disabled"
   "tile.backgroundColor": "base" | "raised" | "success" | "warning" | "error" | "link"
   "tile.color": "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"
 }

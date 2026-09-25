@@ -1,0 +1,45 @@
+{
+  "padding": {
+    "block": {
+      "smaller": "calc(var(--np--size--smaller) / 4)",
+      "small": "calc(var(--np--size--small) / 4)",
+      "base": "calc(var(--np--size) / 4)",
+      "large": "calc(var(--np--size--large) / 4)",
+      "larger": "calc(var(--np--size--larger) / 4)"
+    },
+    "inline": {
+      "smaller": "calc(var(--np--size--smaller) / 2)",
+      "small": "calc(var(--np--size--small) / 2)",
+      "base": "calc(var(--np--size) / 2)",
+      "large": "calc(var(--np--size--large) / 2)",
+      "larger": "calc(var(--np--size--larger) / 2)"
+    }
+  },
+  "gap": {
+    "base": "var(--np--gap--small)"
+  },
+  "divider": {
+    "color": {
+      "base": "var(--np--border-color--subtle)"
+    },
+    "width": {
+      "base": "var(--np--border-width)"
+    }
+  },
+  "maxHeight": {
+    "base": "calc(var(--np--size) * 6)"
+  },
+  "backgroundColor": {
+    "base": "var(--np--background-color)",
+    "active": "var(--np--background-color--raised)",
+    "selected": "var(--np--background-color--link)"
+  },
+  "color": {
+    "base": "var(--np--color)",
+    "selected": "var(--np--color--link)",
+    "disabled": "var(--np--color--disabled)"
+  },
+  "$themes": {
+    "night": {}
+  }
+}
