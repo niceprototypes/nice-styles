@@ -140,7 +140,7 @@ export interface TokenInverseVariants {
   "input.borderColor": "base" | "subtle" | "strong" | "stronger" | "success" | "highlight" | "warning" | "error" | "link"
   "input.focusRing.color": "base"
   "list.divider.color": "base"
-  "list.backgroundColor": "base" | "active" | "selected"
+  "list.backgroundColor": "active" | "selected"
   "list.color": "base" | "selected" | "disabled"
   "tile.backgroundColor": "base" | "raised" | "success" | "warning" | "error" | "link"
   "tile.color": "base" | "light" | "lighter" | "lightest" | "disabled" | "link" | "success" | "highlight" | "warning" | "error"

@@ -488,8 +488,8 @@
 	--np--list--divider--color: var(--np--border-color--subtle);
 	--np--list--divider--width: var(--np--border-width);
 	--np--list--max-height: calc(var(--np--size) * 6);
-	--np--list--background-color: var(--np--background-color);
-	--np--list--background-color--active: var(--np--background-color--raised);
+	--np--list--background-color: transparent;
+	--np--list--background-color--active: var(--np--border-color);
 	--np--list--background-color--selected: var(--np--background-color--link);
 	--np--list--color: var(--np--color);
 	--np--list--color--selected: var(--np--color--link);
@@ -599,8 +599,7 @@
 	--np--input--border-color--link--inverse: var(--np--border-color--link--inverse);
 	--np--input--focus-ring--color--inverse: var(--np--color--link--inverse);
 	--np--list--divider--color--inverse: var(--np--border-color--subtle--inverse);
-	--np--list--background-color--inverse: var(--np--background-color--inverse);
-	--np--list--background-color--active--inverse: var(--np--background-color--raised--inverse);
+	--np--list--background-color--active--inverse: var(--np--border-color--inverse);
 	--np--list--background-color--selected--inverse: var(--np--background-color--link--inverse);
 	--np--list--color--inverse: var(--np--color--inverse);
 	--np--list--color--selected--inverse: var(--np--color--link--inverse);
@@ -883,8 +882,7 @@
 		--np--input--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--input--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--list--divider--color--inverse: var(--np--border-color--subtle--night--inverse);
-		--np--list--background-color--inverse: var(--np--background-color--night--inverse);
-		--np--list--background-color--active--inverse: var(--np--background-color--raised--night--inverse);
+		--np--list--background-color--active--inverse: var(--np--border-color--night--inverse);
 		--np--list--background-color--selected--inverse: var(--np--background-color--link--night--inverse);
 		--np--list--color--inverse: var(--np--color--night--inverse);
 		--np--list--color--selected--inverse: var(--np--color--link--night--inverse);
@@ -970,8 +968,7 @@
 		--np--input--border-color--link: var(--np--border-color--link--night);
 		--np--input--focus-ring--color: var(--np--color--link--night);
 		--np--list--divider--color: var(--np--border-color--subtle--night);
-		--np--list--background-color: var(--np--background-color--night);
-		--np--list--background-color--active: var(--np--background-color--raised--night);
+		--np--list--background-color--active: var(--np--border-color--night);
 		--np--list--background-color--selected: var(--np--background-color--link--night);
 		--np--list--color: var(--np--color--night);
 		--np--list--color--selected: var(--np--color--link--night);
@@ -1114,8 +1111,7 @@
 		--np--input--border-color--link--inverse: var(--np--border-color--link--day--inverse);
 		--np--input--focus-ring--color--inverse: var(--np--color--link--day--inverse);
 		--np--list--divider--color--inverse: var(--np--border-color--subtle--day--inverse);
-		--np--list--background-color--inverse: var(--np--background-color--day--inverse);
-		--np--list--background-color--active--inverse: var(--np--background-color--raised--day--inverse);
+		--np--list--background-color--active--inverse: var(--np--border-color--day--inverse);
 		--np--list--background-color--selected--inverse: var(--np--background-color--link--day--inverse);
 		--np--list--color--inverse: var(--np--color--day--inverse);
 		--np--list--color--selected--inverse: var(--np--color--link--day--inverse);
@@ -1201,8 +1197,7 @@
 		--np--input--border-color--link: var(--np--border-color--link--day);
 		--np--input--focus-ring--color: var(--np--color--link--day);
 		--np--list--divider--color: var(--np--border-color--subtle--day);
-		--np--list--background-color: var(--np--background-color--day);
-		--np--list--background-color--active: var(--np--background-color--raised--day);
+		--np--list--background-color--active: var(--np--border-color--day);
 		--np--list--background-color--selected: var(--np--background-color--link--day);
 		--np--list--color: var(--np--color--day);
 		--np--list--color--selected: var(--np--color--link--day);
@@ -1344,8 +1339,7 @@
 		--np--input--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--input--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--list--divider--color--inverse: var(--np--border-color--subtle--night--inverse);
-		--np--list--background-color--inverse: var(--np--background-color--night--inverse);
-		--np--list--background-color--active--inverse: var(--np--background-color--raised--night--inverse);
+		--np--list--background-color--active--inverse: var(--np--border-color--night--inverse);
 		--np--list--background-color--selected--inverse: var(--np--background-color--link--night--inverse);
 		--np--list--color--inverse: var(--np--color--night--inverse);
 		--np--list--color--selected--inverse: var(--np--color--link--night--inverse);
@@ -1431,8 +1425,7 @@
 		--np--input--border-color--link: var(--np--border-color--link--night);
 		--np--input--focus-ring--color: var(--np--color--link--night);
 		--np--list--divider--color: var(--np--border-color--subtle--night);
-		--np--list--background-color: var(--np--background-color--night);
-		--np--list--background-color--active: var(--np--background-color--raised--night);
+		--np--list--background-color--active: var(--np--border-color--night);
 		--np--list--background-color--selected: var(--np--background-color--link--night);
 		--np--list--color: var(--np--color--night);
 		--np--list--color--selected: var(--np--color--link--night);

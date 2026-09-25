@@ -371,8 +371,8 @@ const componentTokensData: ComponentTokensData = {
       "base": "calc(var(--np--size) * 6)"
     },
     "backgroundColor": {
-      "base": "var(--np--background-color)",
-      "active": "var(--np--background-color--raised)",
+      "base": "transparent",
+      "active": "var(--np--border-color)",
       "selected": "var(--np--background-color--link)"
     },
     "color": {
