@@ -11,9 +11,11 @@
  * | `validateNightTokens` | Flat overrides (night, inverse night, extra themes) against their base groups; messages from `src/errors.json` |
  * | `validateComponentNightTokens` | Component theme trees (night and extra themes) against the component base tree |
  * | `validateComponentBreakpointTokens` | Component `$breakpoints` trees against the component base tree |
+ * | `validateVarReferences` | Emitted CSS: every `var(--np--…)` it references is declared in the same CSS; called by `scripts/generateCss/writeCss.ts` |
  */
 
 import type { Tokens, NightTokens, ComponentTokens, ComponentBreakpointTokens, TokenNode, Errors } from '../shared/types.js'
+import { formatError as formatSourceError } from '../../src/utilities/formatError.js'
 
 /**
  * Fill an error template from `src/errors.json`.
@@ -288,4 +290,43 @@ export function validateComponentBreakpointTokens(
       )
     }
   }
+}
+
+/** A `--np--` custom-property declaration (`--np--name:`); group 1 is the name. */
+const DECLARED_NAME = /(--np--[a-z0-9-]+)\s*:/g
+
+/** A `var()` reference to a `--np--` custom property; group 1 is the name. */
+const REFERENCED_NAME = /var\(\s*(--np--[a-z0-9-]+)/g
+
+/**
+ * Throw when emitted CSS references a `--np--` custom property it never
+ * declares. Such a reference resolves to nothing in the browser (the property
+ * falls back to its initial value), so it is a build error, not a warning.
+ * Runs on the assembled file, after every emitter, so it covers source values
+ * and generated aliases alike.
+ *
+ * @param file - File name for the message (e.g. `tokens.css`)
+ * @param css - The assembled CSS
+ * @throws `undefinedVarReference` from `src/errors.json`, one line per
+ *   missing name with each declaration that references it
+ */
+export function validateVarReferences(file: string, css: string): void {
+  // Collect: every declared name, then every referencing declaration per undeclared name
+  const declared = new Set([...css.matchAll(DECLARED_NAME)].map((match) => match[1]))
+  const missing = new Map<string, string[]>()
+  for (const line of css.split('\n')) {
+    for (const [, name] of line.matchAll(REFERENCED_NAME)) {
+      if (declared.has(name)) continue
+      const declarations = missing.get(name) ?? []
+      declarations.push(line.trim())
+      missing.set(name, declarations)
+    }
+  }
+  if (missing.size === 0) return
+
+  // Report: each missing name followed by its referencing declarations
+  const report = [...missing].map(
+    ([name, declarations]) => `  ${name}\n${declarations.map((declaration) => `    in: ${declaration}`).join('\n')}`
+  )
+  throw new Error(formatSourceError('undefinedVarReference', { file, missing: report.join('\n') }))
 }

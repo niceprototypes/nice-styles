@@ -40,9 +40,9 @@
 	--np--brand-color: hsla(240, 100%, 74.5%, 1);
 	--np--brand-color--secondary: hsla(198, 100%, 54.1%, 1);
 
-	--np--font-family: "Google Sans Flex", sans-serif;
+	--np--font-family: "Google Sans Flex", system-ui, sans-serif;
 	--np--font-family--code: "Roboto Mono", "Courier New", monospace;
-	--np--font-family--heading: "Google Sans Flex", sans-serif;
+	--np--font-family--heading: "Google Sans Flex", system-ui, sans-serif;
 
 	--np--font-weight--light: 300;
 	--np--font-weight: 400;
@@ -110,6 +110,8 @@
 	--np--color--warning: hsla(29, 98%, 62%, 1);
 	--np--color--error: hsla(10, 92%, 63%, 1);
 
+	--np--stroke-width-scale: 1;
+
 	--np--font-size--smaller: 11px;
 	--np--font-size--small: 12px;
 	--np--font-size: 14px;
@@ -139,10 +141,10 @@
 	--np--color--lightest--inverse: hsla(210, 5%, 95%, 0.25);
 	--np--color--disabled--inverse: hsla(210, 5%, 95%, 0.6);
 	--np--color--link--inverse: hsla(202, 90%, 65%, 1);
-	--np--color--success--inverse: hsla(146, 58%, 59%, 1);
+	--np--color--success--inverse: hsla(146, 59%, 48%, 1);
 	--np--color--highlight--inverse: hsla(48, 90%, 65%, 1);
-	--np--color--warning--inverse: hsla(29, 88%, 72%, 1);
-	--np--color--error--inverse: hsla(10, 82%, 75%, 1);
+	--np--color--warning--inverse: hsla(29, 100%, 63%, 1);
+	--np--color--error--inverse: hsla(10, 89%, 61%, 1);
 
 	/* Day mode primitives */
 	--np--background-color--day: hsla(212, 10%, 100%, 1);
@@ -171,6 +173,7 @@
 	--np--color--highlight--day: hsla(48, 95%, 50%, 1);
 	--np--color--warning--day: hsla(29, 98%, 62%, 1);
 	--np--color--error--day: hsla(10, 92%, 63%, 1);
+	--np--stroke-width-scale--day: 1;
 	--np--background-color--day--inverse: hsla(212, 10%, 15%, 1);
 	--np--background-color--raised--day--inverse: hsla(212, 10%, 13%, 1);
 	--np--background-color--success--day--inverse: hsla(146, 45%, 18%, 1);
@@ -193,10 +196,10 @@
 	--np--color--lightest--day--inverse: hsla(210, 5%, 95%, 0.25);
 	--np--color--disabled--day--inverse: hsla(210, 5%, 95%, 0.6);
 	--np--color--link--day--inverse: hsla(202, 90%, 65%, 1);
-	--np--color--success--day--inverse: hsla(146, 58%, 59%, 1);
+	--np--color--success--day--inverse: hsla(146, 59%, 48%, 1);
 	--np--color--highlight--day--inverse: hsla(48, 90%, 65%, 1);
-	--np--color--warning--day--inverse: hsla(29, 88%, 72%, 1);
-	--np--color--error--day--inverse: hsla(10, 82%, 75%, 1);
+	--np--color--warning--day--inverse: hsla(29, 100%, 63%, 1);
+	--np--color--error--day--inverse: hsla(10, 89%, 61%, 1);
 
 	/* Night mode primitives */
 	--np--background-color--night: hsla(212, 10%, 15%, 1);
@@ -221,10 +224,11 @@
 	--np--color--lightest--night: hsla(210, 5%, 95%, 0.25);
 	--np--color--disabled--night: hsla(210, 5%, 95%, 0.6);
 	--np--color--link--night: hsla(202, 90%, 65%, 1);
-	--np--color--success--night: hsla(146, 58%, 59%, 1);
+	--np--color--success--night: hsla(146, 59%, 48%, 1);
 	--np--color--highlight--night: hsla(48, 90%, 65%, 1);
-	--np--color--warning--night: hsla(29, 88%, 72%, 1);
-	--np--color--error--night: hsla(10, 82%, 75%, 1);
+	--np--color--warning--night: hsla(29, 100%, 63%, 1);
+	--np--color--error--night: hsla(10, 89%, 61%, 1);
+	--np--stroke-width-scale--night: 0.9;
 	--np--background-color--night--inverse: hsla(212, 5%, 100%, 1);
 	--np--background-color--raised--night--inverse: hsla(212, 5%, 95%, 1);
 	--np--background-color--success--night--inverse: hsla(146, 60%, 92%, 1);
@@ -286,11 +290,25 @@
 	--np--button--border-color--error: var(--np--border-color--error);
 	--np--button--border-color--link: var(--np--border-color--link);
 	--np--button--icon--color: currentColor;
+	--np--button--icon--color--hover: var(--np--button--icon--color);
+	--np--button--icon--color--focus: var(--np--button--icon--color);
+	--np--button--icon--color--active: var(--np--button--icon--color);
 	--np--button--icon--size--smaller: var(--np--font-size--smaller);
 	--np--button--icon--size--small: var(--np--font-size--small);
 	--np--button--icon--size: var(--np--font-size);
 	--np--button--icon--size--large: var(--np--font-size--large);
 	--np--button--icon--size--larger: var(--np--font-size--larger);
+	--np--button--animation-duration--none: 0s;
+	--np--button--animation-duration--faster: var(--np--animation-duration--faster);
+	--np--button--animation-duration--fast: var(--np--animation-duration--fast);
+	--np--button--animation-duration: var(--np--animation-duration--fast);
+	--np--button--animation-duration--slow: var(--np--animation-duration--slow);
+	--np--button--animation-duration--slower: var(--np--animation-duration--slower);
+	--np--button--animation-easing: var(--np--animation-easing);
+	--np--button--selected--border-color: var(--np--border-color--stronger);
+	--np--button--focus-ring--width: var(--np--border-width--large);
+	--np--button--focus-ring--color: var(--np--color--link);
+	--np--button--focus-ring--offset: var(--np--gap--smaller);
 
 	/* calendar component tokens */
 	--np--calendar--cell--size--smaller: var(--np--size--smaller);
@@ -308,6 +326,51 @@
 	--np--calendar--background-color--selected: var(--np--color--link);
 	--np--calendar--background-color--range: var(--np--background-color--link);
 	--np--calendar--border-color--today: var(--np--border-color--link);
+
+	/* checkbox component tokens */
+	--np--checkbox--size--smaller: 14px;
+	--np--checkbox--size--small: 16px;
+	--np--checkbox--size: 20px;
+	--np--checkbox--size--large: 24px;
+	--np--checkbox--size--larger: 28px;
+	--np--checkbox--background-color--unchecked: var(--np--background-color);
+	--np--checkbox--background-color: var(--np--color);
+	--np--checkbox--background-color--link: var(--np--color--link);
+	--np--checkbox--background-color--success: var(--np--color--success);
+	--np--checkbox--background-color--highlight: var(--np--color--highlight);
+	--np--checkbox--background-color--warning: var(--np--color--warning);
+	--np--checkbox--background-color--error: var(--np--color--error);
+	--np--checkbox--border-color: var(--np--border-color);
+	--np--checkbox--border-color--subtle: var(--np--border-color--subtle);
+	--np--checkbox--border-color--strong: var(--np--border-color--strong);
+	--np--checkbox--border-color--stronger: var(--np--border-color--stronger);
+	--np--checkbox--border-color--success: var(--np--border-color--success);
+	--np--checkbox--border-color--highlight: var(--np--border-color--highlight);
+	--np--checkbox--border-color--warning: var(--np--border-color--warning);
+	--np--checkbox--border-color--error: var(--np--border-color--error);
+	--np--checkbox--border-color--link: var(--np--border-color--link);
+	--np--checkbox--border-radius--none: var(--np--border-radius--none);
+	--np--checkbox--border-radius--smaller: var(--np--border-radius--smaller);
+	--np--checkbox--border-radius--small: var(--np--border-radius--small);
+	--np--checkbox--border-radius: var(--np--border-radius);
+	--np--checkbox--border-radius--large: var(--np--border-radius--large);
+	--np--checkbox--border-radius--larger: var(--np--border-radius--larger);
+	--np--checkbox--border-width--none: var(--np--border-width--none);
+	--np--checkbox--border-width--smaller: var(--np--border-width--smaller);
+	--np--checkbox--border-width--small: var(--np--border-width--small);
+	--np--checkbox--border-width: var(--np--border-width);
+	--np--checkbox--border-width--large: var(--np--border-width--large);
+	--np--checkbox--border-width--larger: var(--np--border-width--larger);
+	--np--checkbox--icon--color: var(--np--color--inverse);
+	--np--checkbox--icon--size--smaller: 10px;
+	--np--checkbox--icon--size--small: 12px;
+	--np--checkbox--icon--size: 14px;
+	--np--checkbox--icon--size--large: 18px;
+	--np--checkbox--icon--size--larger: 20px;
+	--np--checkbox--disabled-opacity: 0.5;
+	--np--checkbox--focus-ring--width: var(--np--border-width--large);
+	--np--checkbox--focus-ring--color: var(--np--color--link);
+	--np--checkbox--focus-ring--offset: var(--np--gap--smaller);
 
 	/* code component tokens */
 	--np--code--background-color: var(--np--background-color);
@@ -329,6 +392,21 @@
 	--np--code--color--link: var(--np--color--link);
 	--np--code--color--highlight: var(--np--color--highlight);
 
+	/* dialog component tokens */
+	--np--dialog--background-color: var(--np--background-color--raised);
+	--np--dialog--color: var(--np--color);
+	--np--dialog--border-radius: var(--np--border-radius);
+	--np--dialog--box-shadow: var(--np--box-shadow--large);
+	--np--dialog--width: fit-content;
+	--np--dialog--max-width: calc(100% - 6px - 2em);
+	--np--dialog--padding: var(--np--gap);
+	--np--dialog--gap: var(--np--gap);
+	--np--dialog--backdrop--background-color: rgba(0, 0, 0, 0.1);
+	--np--dialog--title--font-size: var(--np--font-size--large);
+	--np--dialog--title--font-weight: var(--np--font-weight--semibold);
+	--np--dialog--description--color: var(--np--color--light);
+	--np--dialog--actions--gap: var(--np--gap--small);
+
 	/* field component tokens */
 	--np--field--gap--label: var(--np--gap--small);
 	--np--field--gap--description: var(--np--gap--smaller);
@@ -344,7 +422,8 @@
 	--np--icon--color--light: var(--np--color--light);
 	--np--icon--color--lighter: var(--np--color--lighter);
 	--np--icon--color--lightest: var(--np--color--lightest);
-	--np--icon--color--disabled: var(--np--color--disabled);
+	--np--icon--color--disabled: var(--np--icon--color--lighter);
+	--np--icon--color--muted: var(--np--color--lightest);
 	--np--icon--color--link: var(--np--color--link);
 	--np--icon--color--success: var(--np--color--success);
 	--np--icon--color--highlight: var(--np--color--highlight);
@@ -353,6 +432,7 @@
 	--np--icon--stroke-width--small: var(--np--border-width--small);
 	--np--icon--stroke-width: var(--np--border-width);
 	--np--icon--stroke-width--large: var(--np--border-width--large);
+	--np--icon--stroke-width-scale: var(--np--stroke-width-scale);
 	--np--icon--animation-duration--fast: var(--np--animation-duration);
 	--np--icon--animation-duration: var(--np--animation-duration--slow);
 	--np--icon--animation-duration--slow: var(--np--animation-duration--slower);
@@ -372,8 +452,14 @@
 	--np--image--border-width--large: var(--np--border-width--large);
 	--np--image--border-width--larger: var(--np--border-width--larger);
 	--np--image--border-color: var(--np--border-color);
+	--np--image--border-color--subtle: var(--np--border-color--subtle);
 	--np--image--border-color--strong: var(--np--border-color--strong);
 	--np--image--border-color--stronger: var(--np--border-color--stronger);
+	--np--image--border-color--success: var(--np--border-color--success);
+	--np--image--border-color--highlight: var(--np--border-color--highlight);
+	--np--image--border-color--warning: var(--np--border-color--warning);
+	--np--image--border-color--error: var(--np--border-color--error);
+	--np--image--border-color--link: var(--np--border-color--link);
 	--np--image--background-size: var(--np--background-size);
 	--np--image--background-size--contain: var(--np--background-size--contain);
 	--np--image--background-size--cover: var(--np--background-size--cover);
@@ -398,6 +484,7 @@
 	--np--ink--font-weight--bold: var(--np--font-weight--bold);
 	--np--ink--font-weight--extrabold: var(--np--font-weight--extrabold);
 	--np--ink--font-weight--black: var(--np--font-weight--black);
+	--np--ink--line-height--single: var(--np--line-height--single);
 	--np--ink--line-height--condensed: var(--np--line-height--condensed);
 	--np--ink--line-height: var(--np--line-height);
 	--np--ink--line-height--expanded: var(--np--line-height--expanded);
@@ -469,9 +556,29 @@
 	--np--input--focus-ring--width: var(--np--border-width--large);
 	--np--input--focus-ring--color: var(--np--color--link);
 	--np--input--focus-ring--offset: var(--np--gap--smaller);
+	--np--input--font-family: var(--np--font-family);
 
 	/* lightbox component tokens */
 	--np--lightbox--z-index: 9999;
+	--np--lightbox--focus-ring--width: var(--np--border-width--large);
+	--np--lightbox--focus-ring--color: var(--np--color--link);
+	--np--lightbox--focus-ring--offset: var(--np--gap--smaller);
+
+	/* line component tokens */
+	--np--line--border-color: var(--np--border-color);
+	--np--line--border-color--subtle: var(--np--border-color--subtle);
+	--np--line--border-color--strong: var(--np--border-color--strong);
+	--np--line--border-color--stronger: var(--np--border-color--stronger);
+	--np--line--border-color--success: var(--np--border-color--success);
+	--np--line--border-color--highlight: var(--np--border-color--highlight);
+	--np--line--border-color--warning: var(--np--border-color--warning);
+	--np--line--border-color--error: var(--np--border-color--error);
+	--np--line--border-color--link: var(--np--border-color--link);
+	--np--line--rim-color: hsla(0, 0%, 100%, 1);
+	--np--line--width: 4px;
+	--np--line--rim-width: 1.5px;
+	--np--line--dash-length: 18px;
+	--np--line--gap: 5px;
 
 	/* list component tokens */
 	--np--list--padding--block--smaller: calc(var(--np--size--smaller) / 4);
@@ -495,6 +602,11 @@
 	--np--list--color--selected: var(--np--color--link);
 	--np--list--color--disabled: var(--np--color--disabled);
 
+	/* logo component tokens */
+	--np--logo--height: 64;
+	--np--logo--gap: 0.121;
+	--np--logo--color: var(--np--color--day);
+
 	/* popover component tokens */
 	--np--popover--offset: var(--np--gap--small);
 	--np--popover--border-radius: var(--np--border-radius);
@@ -509,10 +621,43 @@
 	--np--select--chevron--size--large: var(--np--font-size--large);
 	--np--select--chevron--size--larger: var(--np--font-size--larger);
 
+	/* tabs component tokens */
+	--np--tabs--padding--smaller: var(--np--gap--smaller) var(--np--gap--small);
+	--np--tabs--padding--small: var(--np--gap--smaller) var(--np--gap--small);
+	--np--tabs--padding: var(--np--gap--small) var(--np--gap);
+	--np--tabs--padding--large: var(--np--gap--small) var(--np--gap);
+	--np--tabs--padding--larger: var(--np--gap) var(--np--gap--large);
+	--np--tabs--gap--smaller: var(--np--gap--smaller);
+	--np--tabs--gap--small: var(--np--gap--smaller);
+	--np--tabs--gap: var(--np--gap--small);
+	--np--tabs--gap--large: var(--np--gap--small);
+	--np--tabs--gap--larger: var(--np--gap);
+	--np--tabs--font-size--smaller: var(--np--font-size--smaller);
+	--np--tabs--font-size--small: var(--np--font-size--small);
+	--np--tabs--font-size: var(--np--font-size);
+	--np--tabs--font-size--large: var(--np--font-size--large);
+	--np--tabs--font-size--larger: var(--np--font-size--larger);
+	--np--tabs--color: var(--np--color--lighter);
+	--np--tabs--color--selected: var(--np--color);
+	--np--tabs--border-color: var(--np--border-color);
+	--np--tabs--border-width: var(--np--border-width);
+	--np--tabs--indicator--color: var(--np--color--link);
+	--np--tabs--indicator--width: var(--np--border-width--large);
+	--np--tabs--disabled-opacity: 0.5;
+	--np--tabs--focus-ring--width: var(--np--border-width--large);
+	--np--tabs--focus-ring--color: var(--np--color--link);
+	--np--tabs--focus-ring--offset: var(--np--gap--smaller);
+	--np--tabs--pill--border-radius: var(--np--border-radius--larger);
+	--np--tabs--pill--border-width: var(--np--border-width);
+	--np--tabs--pill--border-color: transparent;
+	--np--tabs--pill--border-color--hover: var(--np--border-color);
+	--np--tabs--pill--border-color--selected: var(--np--border-color--stronger);
+
 	/* tile component tokens */
 	--np--tile--background-color: var(--np--background-color);
 	--np--tile--background-color--raised: var(--np--background-color--raised);
 	--np--tile--background-color--success: var(--np--background-color--success);
+	--np--tile--background-color--highlight: var(--np--background-color--highlight);
 	--np--tile--background-color--warning: var(--np--background-color--warning);
 	--np--tile--background-color--error: var(--np--background-color--error);
 	--np--tile--background-color--link: var(--np--background-color--link);
@@ -533,6 +678,32 @@
 	--np--tile--color--warning: var(--np--color--warning);
 	--np--tile--color--error: var(--np--color--error);
 
+	/* toggle component tokens */
+	--np--toggle--track--width--smaller: 28px;
+	--np--toggle--track--width--small: 32px;
+	--np--toggle--track--width: 40px;
+	--np--toggle--track--width--large: 48px;
+	--np--toggle--track--width--larger: 56px;
+	--np--toggle--track--height--smaller: 16px;
+	--np--toggle--track--height--small: 18px;
+	--np--toggle--track--height: 22px;
+	--np--toggle--track--height--large: 26px;
+	--np--toggle--track--height--larger: 30px;
+	--np--toggle--track--background-color: var(--np--border-color--strong);
+	--np--toggle--track--background-color--checked: var(--np--color--link);
+	--np--toggle--thumb--size--smaller: 12px;
+	--np--toggle--thumb--size--small: 14px;
+	--np--toggle--thumb--size: 18px;
+	--np--toggle--thumb--size--large: 22px;
+	--np--toggle--thumb--size--larger: 26px;
+	--np--toggle--thumb--background-color: var(--np--background-color);
+	--np--toggle--gap: var(--np--gap--small);
+	--np--toggle--disabled-opacity: 0.5;
+	--np--toggle--transition-duration: var(--np--animation-duration--fast);
+	--np--toggle--focus-ring--width: var(--np--border-width--large);
+	--np--toggle--focus-ring--color: var(--np--color--link);
+	--np--toggle--focus-ring--offset: var(--np--gap--smaller);
+
 	/* Component inverse colors */
 	--np--button--border-color--inverse: var(--np--border-color--inverse);
 	--np--button--border-color--subtle--inverse: var(--np--border-color--subtle--inverse);
@@ -543,6 +714,8 @@
 	--np--button--border-color--warning--inverse: var(--np--border-color--warning--inverse);
 	--np--button--border-color--error--inverse: var(--np--border-color--error--inverse);
 	--np--button--border-color--link--inverse: var(--np--border-color--link--inverse);
+	--np--button--selected--border-color--inverse: var(--np--border-color--stronger--inverse);
+	--np--button--focus-ring--color--inverse: var(--np--color--link--inverse);
 	--np--calendar--color--inverse: var(--np--color--inverse);
 	--np--calendar--color--today--inverse: var(--np--color--link--inverse);
 	--np--calendar--color--selected--inverse: var(--np--background-color--inverse);
@@ -552,25 +725,51 @@
 	--np--calendar--background-color--selected--inverse: var(--np--color--link--inverse);
 	--np--calendar--background-color--range--inverse: var(--np--background-color--link--inverse);
 	--np--calendar--border-color--today--inverse: var(--np--border-color--link--inverse);
+	--np--checkbox--background-color--unchecked--inverse: var(--np--background-color--inverse);
+	--np--checkbox--background-color--inverse: var(--np--color--inverse);
+	--np--checkbox--background-color--link--inverse: var(--np--color--link--inverse);
+	--np--checkbox--background-color--success--inverse: var(--np--color--success--inverse);
+	--np--checkbox--background-color--highlight--inverse: var(--np--color--highlight--inverse);
+	--np--checkbox--background-color--warning--inverse: var(--np--color--warning--inverse);
+	--np--checkbox--background-color--error--inverse: var(--np--color--error--inverse);
+	--np--checkbox--border-color--inverse: var(--np--border-color--inverse);
+	--np--checkbox--border-color--subtle--inverse: var(--np--border-color--subtle--inverse);
+	--np--checkbox--border-color--strong--inverse: var(--np--border-color--strong--inverse);
+	--np--checkbox--border-color--stronger--inverse: var(--np--border-color--stronger--inverse);
+	--np--checkbox--border-color--success--inverse: var(--np--border-color--success--inverse);
+	--np--checkbox--border-color--highlight--inverse: var(--np--border-color--highlight--inverse);
+	--np--checkbox--border-color--warning--inverse: var(--np--border-color--warning--inverse);
+	--np--checkbox--border-color--error--inverse: var(--np--border-color--error--inverse);
+	--np--checkbox--border-color--link--inverse: var(--np--border-color--link--inverse);
+	--np--checkbox--focus-ring--color--inverse: var(--np--color--link--inverse);
 	--np--code--background-color--inverse: var(--np--background-color--inverse);
 	--np--code--border-color--inverse: var(--np--border-color--inverse);
 	--np--code--color--inverse: var(--np--color--inverse);
 	--np--code--color--lightest--inverse: var(--np--color--lightest--inverse);
 	--np--code--color--link--inverse: var(--np--color--link--inverse);
 	--np--code--color--highlight--inverse: var(--np--color--highlight--inverse);
+	--np--dialog--background-color--inverse: var(--np--background-color--raised--inverse);
+	--np--dialog--color--inverse: var(--np--color--inverse);
+	--np--dialog--description--color--inverse: var(--np--color--light--inverse);
 	--np--icon--color--inverse: var(--np--color--inverse);
 	--np--icon--color--light--inverse: var(--np--color--light--inverse);
 	--np--icon--color--lighter--inverse: var(--np--color--lighter--inverse);
 	--np--icon--color--lightest--inverse: var(--np--color--lightest--inverse);
-	--np--icon--color--disabled--inverse: var(--np--color--disabled--inverse);
+	--np--icon--color--muted--inverse: var(--np--color--lightest--inverse);
 	--np--icon--color--link--inverse: var(--np--color--link--inverse);
 	--np--icon--color--success--inverse: var(--np--color--success--inverse);
 	--np--icon--color--highlight--inverse: var(--np--color--highlight--inverse);
 	--np--icon--color--warning--inverse: var(--np--color--warning--inverse);
 	--np--icon--color--error--inverse: var(--np--color--error--inverse);
 	--np--image--border-color--inverse: var(--np--border-color--inverse);
+	--np--image--border-color--subtle--inverse: var(--np--border-color--subtle--inverse);
 	--np--image--border-color--strong--inverse: var(--np--border-color--strong--inverse);
 	--np--image--border-color--stronger--inverse: var(--np--border-color--stronger--inverse);
+	--np--image--border-color--success--inverse: var(--np--border-color--success--inverse);
+	--np--image--border-color--highlight--inverse: var(--np--border-color--highlight--inverse);
+	--np--image--border-color--warning--inverse: var(--np--border-color--warning--inverse);
+	--np--image--border-color--error--inverse: var(--np--border-color--error--inverse);
+	--np--image--border-color--link--inverse: var(--np--border-color--link--inverse);
 	--np--ink--color--inverse: var(--np--color--inverse);
 	--np--ink--color--light--inverse: var(--np--color--light--inverse);
 	--np--ink--color--lighter--inverse: var(--np--color--lighter--inverse);
@@ -598,15 +797,33 @@
 	--np--input--border-color--error--inverse: var(--np--border-color--error--inverse);
 	--np--input--border-color--link--inverse: var(--np--border-color--link--inverse);
 	--np--input--focus-ring--color--inverse: var(--np--color--link--inverse);
+	--np--lightbox--focus-ring--color--inverse: var(--np--color--link--inverse);
+	--np--line--border-color--inverse: var(--np--border-color--inverse);
+	--np--line--border-color--subtle--inverse: var(--np--border-color--subtle--inverse);
+	--np--line--border-color--strong--inverse: var(--np--border-color--strong--inverse);
+	--np--line--border-color--stronger--inverse: var(--np--border-color--stronger--inverse);
+	--np--line--border-color--success--inverse: var(--np--border-color--success--inverse);
+	--np--line--border-color--highlight--inverse: var(--np--border-color--highlight--inverse);
+	--np--line--border-color--warning--inverse: var(--np--border-color--warning--inverse);
+	--np--line--border-color--error--inverse: var(--np--border-color--error--inverse);
+	--np--line--border-color--link--inverse: var(--np--border-color--link--inverse);
 	--np--list--divider--color--inverse: var(--np--border-color--subtle--inverse);
 	--np--list--background-color--active--inverse: var(--np--border-color--inverse);
 	--np--list--background-color--selected--inverse: var(--np--background-color--link--inverse);
 	--np--list--color--inverse: var(--np--color--inverse);
 	--np--list--color--selected--inverse: var(--np--color--link--inverse);
 	--np--list--color--disabled--inverse: var(--np--color--disabled--inverse);
+	--np--tabs--color--inverse: var(--np--color--lighter--inverse);
+	--np--tabs--color--selected--inverse: var(--np--color--inverse);
+	--np--tabs--border-color--inverse: var(--np--border-color--inverse);
+	--np--tabs--indicator--color--inverse: var(--np--color--link--inverse);
+	--np--tabs--focus-ring--color--inverse: var(--np--color--link--inverse);
+	--np--tabs--pill--border-color--hover--inverse: var(--np--border-color--inverse);
+	--np--tabs--pill--border-color--selected--inverse: var(--np--border-color--stronger--inverse);
 	--np--tile--background-color--inverse: var(--np--background-color--inverse);
 	--np--tile--background-color--raised--inverse: var(--np--background-color--raised--inverse);
 	--np--tile--background-color--success--inverse: var(--np--background-color--success--inverse);
+	--np--tile--background-color--highlight--inverse: var(--np--background-color--highlight--inverse);
 	--np--tile--background-color--warning--inverse: var(--np--background-color--warning--inverse);
 	--np--tile--background-color--error--inverse: var(--np--background-color--error--inverse);
 	--np--tile--background-color--link--inverse: var(--np--background-color--link--inverse);
@@ -620,6 +837,16 @@
 	--np--tile--color--highlight--inverse: var(--np--color--highlight--inverse);
 	--np--tile--color--warning--inverse: var(--np--color--warning--inverse);
 	--np--tile--color--error--inverse: var(--np--color--error--inverse);
+	--np--toggle--track--background-color--inverse: var(--np--border-color--strong--inverse);
+	--np--toggle--track--background-color--checked--inverse: var(--np--color--link--inverse);
+	--np--toggle--thumb--background-color--inverse: var(--np--background-color--inverse);
+	--np--toggle--focus-ring--color--inverse: var(--np--color--link--inverse);
+
+	/* Component day mode primitives */
+	--np--logo--color--day: var(--np--color--day);
+
+	/* Component night mode primitives */
+	--np--logo--color--night: var(--np--color--night);
 
 	/* Breakpoint thresholds */
 	--np--breakpoints--tablet: 641px;
@@ -647,6 +874,11 @@
 	--np--font-size--larger--tablet: 28px;
 	--np--font-size--larger--laptop: 32px;
 	--np--font-size--larger--desktop: 32px;
+
+	/* Component breakpoint primitives */
+	--np--logo--height--phone: 64;
+	--np--logo--height--tablet: 56;
+	--np--logo--height--laptop: 48;
 }
 
 @media (min-width: 641px) {
@@ -681,6 +913,18 @@
 
 @media (min-width: 641px) {
 	:root {
+		--np--logo--height: var(--np--logo--height--tablet);
+	}
+}
+
+@media (min-width: 1280px) {
+	:root {
+		--np--logo--height: var(--np--logo--height--laptop);
+	}
+}
+
+@media (min-width: 641px) {
+	:root {
 		--np--button--icon--size--smaller: var(--np--font-size--smaller--tablet);
 		--np--button--icon--size--small: var(--np--font-size--small--tablet);
 		--np--button--icon--size: var(--np--font-size--tablet);
@@ -689,6 +933,7 @@
 		--np--code--font-size--smaller: var(--np--font-size--smaller--tablet);
 		--np--code--font-size--small: var(--np--font-size--small--tablet);
 		--np--code--font-size: var(--np--font-size--tablet);
+		--np--dialog--title--font-size: var(--np--font-size--large--tablet);
 		--np--icon--size--smaller: var(--np--font-size--smaller--tablet);
 		--np--icon--size--small: var(--np--font-size--small--tablet);
 		--np--icon--size: var(--np--font-size--tablet);
@@ -704,6 +949,11 @@
 		--np--select--chevron--size: var(--np--font-size--tablet);
 		--np--select--chevron--size--large: var(--np--font-size--large--tablet);
 		--np--select--chevron--size--larger: var(--np--font-size--larger--tablet);
+		--np--tabs--font-size--smaller: var(--np--font-size--smaller--tablet);
+		--np--tabs--font-size--small: var(--np--font-size--small--tablet);
+		--np--tabs--font-size: var(--np--font-size--tablet);
+		--np--tabs--font-size--large: var(--np--font-size--large--tablet);
+		--np--tabs--font-size--larger: var(--np--font-size--larger--tablet);
 	}
 }
 
@@ -717,6 +967,7 @@
 		--np--code--font-size--smaller: var(--np--font-size--smaller--laptop);
 		--np--code--font-size--small: var(--np--font-size--small--laptop);
 		--np--code--font-size: var(--np--font-size--laptop);
+		--np--dialog--title--font-size: var(--np--font-size--large--laptop);
 		--np--icon--size--smaller: var(--np--font-size--smaller--laptop);
 		--np--icon--size--small: var(--np--font-size--small--laptop);
 		--np--icon--size: var(--np--font-size--laptop);
@@ -732,6 +983,11 @@
 		--np--select--chevron--size: var(--np--font-size--laptop);
 		--np--select--chevron--size--large: var(--np--font-size--large--laptop);
 		--np--select--chevron--size--larger: var(--np--font-size--larger--laptop);
+		--np--tabs--font-size--smaller: var(--np--font-size--smaller--laptop);
+		--np--tabs--font-size--small: var(--np--font-size--small--laptop);
+		--np--tabs--font-size: var(--np--font-size--laptop);
+		--np--tabs--font-size--large: var(--np--font-size--large--laptop);
+		--np--tabs--font-size--larger: var(--np--font-size--larger--laptop);
 	}
 }
 
@@ -745,6 +1001,7 @@
 		--np--code--font-size--smaller: var(--np--font-size--smaller--desktop);
 		--np--code--font-size--small: var(--np--font-size--small--desktop);
 		--np--code--font-size: var(--np--font-size--desktop);
+		--np--dialog--title--font-size: var(--np--font-size--large--desktop);
 		--np--icon--size--smaller: var(--np--font-size--smaller--desktop);
 		--np--icon--size--small: var(--np--font-size--small--desktop);
 		--np--icon--size: var(--np--font-size--desktop);
@@ -760,6 +1017,11 @@
 		--np--select--chevron--size: var(--np--font-size--desktop);
 		--np--select--chevron--size--large: var(--np--font-size--large--desktop);
 		--np--select--chevron--size--larger: var(--np--font-size--larger--desktop);
+		--np--tabs--font-size--smaller: var(--np--font-size--smaller--desktop);
+		--np--tabs--font-size--small: var(--np--font-size--small--desktop);
+		--np--tabs--font-size: var(--np--font-size--desktop);
+		--np--tabs--font-size--large: var(--np--font-size--large--desktop);
+		--np--tabs--font-size--larger: var(--np--font-size--larger--desktop);
 	}
 }
 
@@ -791,6 +1053,7 @@
 		--np--color--highlight: var(--np--color--highlight--night);
 		--np--color--warning: var(--np--color--warning--night);
 		--np--color--error: var(--np--color--error--night);
+		--np--stroke-width-scale: var(--np--stroke-width-scale--night);
 		--np--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--background-color--raised--inverse: var(--np--background-color--raised--night--inverse);
 		--np--background-color--success--inverse: var(--np--background-color--success--night--inverse);
@@ -817,6 +1080,7 @@
 		--np--color--highlight--inverse: var(--np--color--highlight--night--inverse);
 		--np--color--warning--inverse: var(--np--color--warning--night--inverse);
 		--np--color--error--inverse: var(--np--color--error--night--inverse);
+		--np--logo--color: var(--np--logo--color--night);
 		--np--button--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--button--border-color--subtle--inverse: var(--np--border-color--subtle--night--inverse);
 		--np--button--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
@@ -826,6 +1090,8 @@
 		--np--button--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
 		--np--button--border-color--error--inverse: var(--np--border-color--error--night--inverse);
 		--np--button--border-color--link--inverse: var(--np--border-color--link--night--inverse);
+		--np--button--selected--border-color--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--button--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--calendar--color--inverse: var(--np--color--night--inverse);
 		--np--calendar--color--today--inverse: var(--np--color--link--night--inverse);
 		--np--calendar--color--selected--inverse: var(--np--background-color--night--inverse);
@@ -835,25 +1101,51 @@
 		--np--calendar--background-color--selected--inverse: var(--np--color--link--night--inverse);
 		--np--calendar--background-color--range--inverse: var(--np--background-color--link--night--inverse);
 		--np--calendar--border-color--today--inverse: var(--np--border-color--link--night--inverse);
+		--np--checkbox--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
+		--np--checkbox--background-color--inverse: var(--np--color--night--inverse);
+		--np--checkbox--background-color--link--inverse: var(--np--color--link--night--inverse);
+		--np--checkbox--background-color--success--inverse: var(--np--color--success--night--inverse);
+		--np--checkbox--background-color--highlight--inverse: var(--np--color--highlight--night--inverse);
+		--np--checkbox--background-color--warning--inverse: var(--np--color--warning--night--inverse);
+		--np--checkbox--background-color--error--inverse: var(--np--color--error--night--inverse);
+		--np--checkbox--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--checkbox--border-color--subtle--inverse: var(--np--border-color--subtle--night--inverse);
+		--np--checkbox--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
+		--np--checkbox--border-color--stronger--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--checkbox--border-color--success--inverse: var(--np--border-color--success--night--inverse);
+		--np--checkbox--border-color--highlight--inverse: var(--np--border-color--highlight--night--inverse);
+		--np--checkbox--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
+		--np--checkbox--border-color--error--inverse: var(--np--border-color--error--night--inverse);
+		--np--checkbox--border-color--link--inverse: var(--np--border-color--link--night--inverse);
+		--np--checkbox--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--code--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--code--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--code--color--inverse: var(--np--color--night--inverse);
 		--np--code--color--lightest--inverse: var(--np--color--lightest--night--inverse);
 		--np--code--color--link--inverse: var(--np--color--link--night--inverse);
 		--np--code--color--highlight--inverse: var(--np--color--highlight--night--inverse);
+		--np--dialog--background-color--inverse: var(--np--background-color--raised--night--inverse);
+		--np--dialog--color--inverse: var(--np--color--night--inverse);
+		--np--dialog--description--color--inverse: var(--np--color--light--night--inverse);
 		--np--icon--color--inverse: var(--np--color--night--inverse);
 		--np--icon--color--light--inverse: var(--np--color--light--night--inverse);
 		--np--icon--color--lighter--inverse: var(--np--color--lighter--night--inverse);
 		--np--icon--color--lightest--inverse: var(--np--color--lightest--night--inverse);
-		--np--icon--color--disabled--inverse: var(--np--color--disabled--night--inverse);
+		--np--icon--color--muted--inverse: var(--np--color--lightest--night--inverse);
 		--np--icon--color--link--inverse: var(--np--color--link--night--inverse);
 		--np--icon--color--success--inverse: var(--np--color--success--night--inverse);
 		--np--icon--color--highlight--inverse: var(--np--color--highlight--night--inverse);
 		--np--icon--color--warning--inverse: var(--np--color--warning--night--inverse);
 		--np--icon--color--error--inverse: var(--np--color--error--night--inverse);
 		--np--image--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--image--border-color--subtle--inverse: var(--np--border-color--subtle--night--inverse);
 		--np--image--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
 		--np--image--border-color--stronger--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--image--border-color--success--inverse: var(--np--border-color--success--night--inverse);
+		--np--image--border-color--highlight--inverse: var(--np--border-color--highlight--night--inverse);
+		--np--image--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
+		--np--image--border-color--error--inverse: var(--np--border-color--error--night--inverse);
+		--np--image--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--ink--color--inverse: var(--np--color--night--inverse);
 		--np--ink--color--light--inverse: var(--np--color--light--night--inverse);
 		--np--ink--color--lighter--inverse: var(--np--color--lighter--night--inverse);
@@ -881,15 +1173,33 @@
 		--np--input--border-color--error--inverse: var(--np--border-color--error--night--inverse);
 		--np--input--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--input--focus-ring--color--inverse: var(--np--color--link--night--inverse);
+		--np--lightbox--focus-ring--color--inverse: var(--np--color--link--night--inverse);
+		--np--line--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--line--border-color--subtle--inverse: var(--np--border-color--subtle--night--inverse);
+		--np--line--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
+		--np--line--border-color--stronger--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--line--border-color--success--inverse: var(--np--border-color--success--night--inverse);
+		--np--line--border-color--highlight--inverse: var(--np--border-color--highlight--night--inverse);
+		--np--line--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
+		--np--line--border-color--error--inverse: var(--np--border-color--error--night--inverse);
+		--np--line--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--list--divider--color--inverse: var(--np--border-color--subtle--night--inverse);
 		--np--list--background-color--active--inverse: var(--np--border-color--night--inverse);
 		--np--list--background-color--selected--inverse: var(--np--background-color--link--night--inverse);
 		--np--list--color--inverse: var(--np--color--night--inverse);
 		--np--list--color--selected--inverse: var(--np--color--link--night--inverse);
 		--np--list--color--disabled--inverse: var(--np--color--disabled--night--inverse);
+		--np--tabs--color--inverse: var(--np--color--lighter--night--inverse);
+		--np--tabs--color--selected--inverse: var(--np--color--night--inverse);
+		--np--tabs--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--tabs--indicator--color--inverse: var(--np--color--link--night--inverse);
+		--np--tabs--focus-ring--color--inverse: var(--np--color--link--night--inverse);
+		--np--tabs--pill--border-color--hover--inverse: var(--np--border-color--night--inverse);
+		--np--tabs--pill--border-color--selected--inverse: var(--np--border-color--stronger--night--inverse);
 		--np--tile--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--tile--background-color--raised--inverse: var(--np--background-color--raised--night--inverse);
 		--np--tile--background-color--success--inverse: var(--np--background-color--success--night--inverse);
+		--np--tile--background-color--highlight--inverse: var(--np--background-color--highlight--night--inverse);
 		--np--tile--background-color--warning--inverse: var(--np--background-color--warning--night--inverse);
 		--np--tile--background-color--error--inverse: var(--np--background-color--error--night--inverse);
 		--np--tile--background-color--link--inverse: var(--np--background-color--link--night--inverse);
@@ -903,6 +1213,10 @@
 		--np--tile--color--highlight--inverse: var(--np--color--highlight--night--inverse);
 		--np--tile--color--warning--inverse: var(--np--color--warning--night--inverse);
 		--np--tile--color--error--inverse: var(--np--color--error--night--inverse);
+		--np--toggle--track--background-color--inverse: var(--np--border-color--strong--night--inverse);
+		--np--toggle--track--background-color--checked--inverse: var(--np--color--link--night--inverse);
+		--np--toggle--thumb--background-color--inverse: var(--np--background-color--night--inverse);
+		--np--toggle--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--button--border-color: var(--np--border-color--night);
 		--np--button--border-color--subtle: var(--np--border-color--subtle--night);
 		--np--button--border-color--strong: var(--np--border-color--strong--night);
@@ -912,6 +1226,8 @@
 		--np--button--border-color--warning: var(--np--border-color--warning--night);
 		--np--button--border-color--error: var(--np--border-color--error--night);
 		--np--button--border-color--link: var(--np--border-color--link--night);
+		--np--button--selected--border-color: var(--np--border-color--stronger--night);
+		--np--button--focus-ring--color: var(--np--color--link--night);
 		--np--calendar--color: var(--np--color--night);
 		--np--calendar--color--today: var(--np--color--link--night);
 		--np--calendar--color--selected: var(--np--background-color--night);
@@ -921,25 +1237,52 @@
 		--np--calendar--background-color--selected: var(--np--color--link--night);
 		--np--calendar--background-color--range: var(--np--background-color--link--night);
 		--np--calendar--border-color--today: var(--np--border-color--link--night);
+		--np--checkbox--background-color--unchecked: var(--np--background-color--night);
+		--np--checkbox--background-color: var(--np--color--night);
+		--np--checkbox--background-color--link: var(--np--color--link--night);
+		--np--checkbox--background-color--success: var(--np--color--success--night);
+		--np--checkbox--background-color--highlight: var(--np--color--highlight--night);
+		--np--checkbox--background-color--warning: var(--np--color--warning--night);
+		--np--checkbox--background-color--error: var(--np--color--error--night);
+		--np--checkbox--border-color: var(--np--border-color--night);
+		--np--checkbox--border-color--subtle: var(--np--border-color--subtle--night);
+		--np--checkbox--border-color--strong: var(--np--border-color--strong--night);
+		--np--checkbox--border-color--stronger: var(--np--border-color--stronger--night);
+		--np--checkbox--border-color--success: var(--np--border-color--success--night);
+		--np--checkbox--border-color--highlight: var(--np--border-color--highlight--night);
+		--np--checkbox--border-color--warning: var(--np--border-color--warning--night);
+		--np--checkbox--border-color--error: var(--np--border-color--error--night);
+		--np--checkbox--border-color--link: var(--np--border-color--link--night);
+		--np--checkbox--focus-ring--color: var(--np--color--link--night);
 		--np--code--background-color: var(--np--background-color--night);
 		--np--code--border-color: var(--np--border-color--night);
 		--np--code--color: var(--np--color--night);
 		--np--code--color--lightest: var(--np--color--lightest--night);
 		--np--code--color--link: var(--np--color--link--night);
 		--np--code--color--highlight: var(--np--color--highlight--night);
+		--np--dialog--background-color: var(--np--background-color--raised--night);
+		--np--dialog--color: var(--np--color--night);
+		--np--dialog--description--color: var(--np--color--light--night);
 		--np--icon--color: var(--np--color--night);
 		--np--icon--color--light: var(--np--color--light--night);
 		--np--icon--color--lighter: var(--np--color--lighter--night);
 		--np--icon--color--lightest: var(--np--color--lightest--night);
-		--np--icon--color--disabled: var(--np--color--disabled--night);
+		--np--icon--color--muted: var(--np--color--lightest--night);
 		--np--icon--color--link: var(--np--color--link--night);
 		--np--icon--color--success: var(--np--color--success--night);
 		--np--icon--color--highlight: var(--np--color--highlight--night);
 		--np--icon--color--warning: var(--np--color--warning--night);
 		--np--icon--color--error: var(--np--color--error--night);
+		--np--icon--stroke-width-scale: var(--np--stroke-width-scale--night);
 		--np--image--border-color: var(--np--border-color--night);
+		--np--image--border-color--subtle: var(--np--border-color--subtle--night);
 		--np--image--border-color--strong: var(--np--border-color--strong--night);
 		--np--image--border-color--stronger: var(--np--border-color--stronger--night);
+		--np--image--border-color--success: var(--np--border-color--success--night);
+		--np--image--border-color--highlight: var(--np--border-color--highlight--night);
+		--np--image--border-color--warning: var(--np--border-color--warning--night);
+		--np--image--border-color--error: var(--np--border-color--error--night);
+		--np--image--border-color--link: var(--np--border-color--link--night);
 		--np--ink--color: var(--np--color--night);
 		--np--ink--color--light: var(--np--color--light--night);
 		--np--ink--color--lighter: var(--np--color--lighter--night);
@@ -967,15 +1310,33 @@
 		--np--input--border-color--error: var(--np--border-color--error--night);
 		--np--input--border-color--link: var(--np--border-color--link--night);
 		--np--input--focus-ring--color: var(--np--color--link--night);
+		--np--lightbox--focus-ring--color: var(--np--color--link--night);
+		--np--line--border-color: var(--np--border-color--night);
+		--np--line--border-color--subtle: var(--np--border-color--subtle--night);
+		--np--line--border-color--strong: var(--np--border-color--strong--night);
+		--np--line--border-color--stronger: var(--np--border-color--stronger--night);
+		--np--line--border-color--success: var(--np--border-color--success--night);
+		--np--line--border-color--highlight: var(--np--border-color--highlight--night);
+		--np--line--border-color--warning: var(--np--border-color--warning--night);
+		--np--line--border-color--error: var(--np--border-color--error--night);
+		--np--line--border-color--link: var(--np--border-color--link--night);
 		--np--list--divider--color: var(--np--border-color--subtle--night);
 		--np--list--background-color--active: var(--np--border-color--night);
 		--np--list--background-color--selected: var(--np--background-color--link--night);
 		--np--list--color: var(--np--color--night);
 		--np--list--color--selected: var(--np--color--link--night);
 		--np--list--color--disabled: var(--np--color--disabled--night);
+		--np--tabs--color: var(--np--color--lighter--night);
+		--np--tabs--color--selected: var(--np--color--night);
+		--np--tabs--border-color: var(--np--border-color--night);
+		--np--tabs--indicator--color: var(--np--color--link--night);
+		--np--tabs--focus-ring--color: var(--np--color--link--night);
+		--np--tabs--pill--border-color--hover: var(--np--border-color--night);
+		--np--tabs--pill--border-color--selected: var(--np--border-color--stronger--night);
 		--np--tile--background-color: var(--np--background-color--night);
 		--np--tile--background-color--raised: var(--np--background-color--raised--night);
 		--np--tile--background-color--success: var(--np--background-color--success--night);
+		--np--tile--background-color--highlight: var(--np--background-color--highlight--night);
 		--np--tile--background-color--warning: var(--np--background-color--warning--night);
 		--np--tile--background-color--error: var(--np--background-color--error--night);
 		--np--tile--background-color--link: var(--np--background-color--link--night);
@@ -989,11 +1350,16 @@
 		--np--tile--color--highlight: var(--np--color--highlight--night);
 		--np--tile--color--warning: var(--np--color--warning--night);
 		--np--tile--color--error: var(--np--color--error--night);
+		--np--toggle--track--background-color: var(--np--border-color--strong--night);
+		--np--toggle--track--background-color--checked: var(--np--color--link--night);
+		--np--toggle--thumb--background-color: var(--np--background-color--night);
+		--np--toggle--focus-ring--color: var(--np--color--link--night);
 	}
 }
 
 [data-theme="day"] {
 	color-scheme: light;
+	color: var(--np--color);
 		--np--background-color: var(--np--background-color--day);
 		--np--background-color--raised: var(--np--background-color--raised--day);
 		--np--background-color--success: var(--np--background-color--success--day);
@@ -1020,6 +1386,7 @@
 		--np--color--highlight: var(--np--color--highlight--day);
 		--np--color--warning: var(--np--color--warning--day);
 		--np--color--error: var(--np--color--error--day);
+		--np--stroke-width-scale: var(--np--stroke-width-scale--day);
 		--np--background-color--inverse: var(--np--background-color--day--inverse);
 		--np--background-color--raised--inverse: var(--np--background-color--raised--day--inverse);
 		--np--background-color--success--inverse: var(--np--background-color--success--day--inverse);
@@ -1046,6 +1413,7 @@
 		--np--color--highlight--inverse: var(--np--color--highlight--day--inverse);
 		--np--color--warning--inverse: var(--np--color--warning--day--inverse);
 		--np--color--error--inverse: var(--np--color--error--day--inverse);
+		--np--logo--color: var(--np--logo--color--day);
 		--np--button--border-color--inverse: var(--np--border-color--day--inverse);
 		--np--button--border-color--subtle--inverse: var(--np--border-color--subtle--day--inverse);
 		--np--button--border-color--strong--inverse: var(--np--border-color--strong--day--inverse);
@@ -1055,6 +1423,8 @@
 		--np--button--border-color--warning--inverse: var(--np--border-color--warning--day--inverse);
 		--np--button--border-color--error--inverse: var(--np--border-color--error--day--inverse);
 		--np--button--border-color--link--inverse: var(--np--border-color--link--day--inverse);
+		--np--button--selected--border-color--inverse: var(--np--border-color--stronger--day--inverse);
+		--np--button--focus-ring--color--inverse: var(--np--color--link--day--inverse);
 		--np--calendar--color--inverse: var(--np--color--day--inverse);
 		--np--calendar--color--today--inverse: var(--np--color--link--day--inverse);
 		--np--calendar--color--selected--inverse: var(--np--background-color--day--inverse);
@@ -1064,25 +1434,51 @@
 		--np--calendar--background-color--selected--inverse: var(--np--color--link--day--inverse);
 		--np--calendar--background-color--range--inverse: var(--np--background-color--link--day--inverse);
 		--np--calendar--border-color--today--inverse: var(--np--border-color--link--day--inverse);
+		--np--checkbox--background-color--unchecked--inverse: var(--np--background-color--day--inverse);
+		--np--checkbox--background-color--inverse: var(--np--color--day--inverse);
+		--np--checkbox--background-color--link--inverse: var(--np--color--link--day--inverse);
+		--np--checkbox--background-color--success--inverse: var(--np--color--success--day--inverse);
+		--np--checkbox--background-color--highlight--inverse: var(--np--color--highlight--day--inverse);
+		--np--checkbox--background-color--warning--inverse: var(--np--color--warning--day--inverse);
+		--np--checkbox--background-color--error--inverse: var(--np--color--error--day--inverse);
+		--np--checkbox--border-color--inverse: var(--np--border-color--day--inverse);
+		--np--checkbox--border-color--subtle--inverse: var(--np--border-color--subtle--day--inverse);
+		--np--checkbox--border-color--strong--inverse: var(--np--border-color--strong--day--inverse);
+		--np--checkbox--border-color--stronger--inverse: var(--np--border-color--stronger--day--inverse);
+		--np--checkbox--border-color--success--inverse: var(--np--border-color--success--day--inverse);
+		--np--checkbox--border-color--highlight--inverse: var(--np--border-color--highlight--day--inverse);
+		--np--checkbox--border-color--warning--inverse: var(--np--border-color--warning--day--inverse);
+		--np--checkbox--border-color--error--inverse: var(--np--border-color--error--day--inverse);
+		--np--checkbox--border-color--link--inverse: var(--np--border-color--link--day--inverse);
+		--np--checkbox--focus-ring--color--inverse: var(--np--color--link--day--inverse);
 		--np--code--background-color--inverse: var(--np--background-color--day--inverse);
 		--np--code--border-color--inverse: var(--np--border-color--day--inverse);
 		--np--code--color--inverse: var(--np--color--day--inverse);
 		--np--code--color--lightest--inverse: var(--np--color--lightest--day--inverse);
 		--np--code--color--link--inverse: var(--np--color--link--day--inverse);
 		--np--code--color--highlight--inverse: var(--np--color--highlight--day--inverse);
+		--np--dialog--background-color--inverse: var(--np--background-color--raised--day--inverse);
+		--np--dialog--color--inverse: var(--np--color--day--inverse);
+		--np--dialog--description--color--inverse: var(--np--color--light--day--inverse);
 		--np--icon--color--inverse: var(--np--color--day--inverse);
 		--np--icon--color--light--inverse: var(--np--color--light--day--inverse);
 		--np--icon--color--lighter--inverse: var(--np--color--lighter--day--inverse);
 		--np--icon--color--lightest--inverse: var(--np--color--lightest--day--inverse);
-		--np--icon--color--disabled--inverse: var(--np--color--disabled--day--inverse);
+		--np--icon--color--muted--inverse: var(--np--color--lightest--day--inverse);
 		--np--icon--color--link--inverse: var(--np--color--link--day--inverse);
 		--np--icon--color--success--inverse: var(--np--color--success--day--inverse);
 		--np--icon--color--highlight--inverse: var(--np--color--highlight--day--inverse);
 		--np--icon--color--warning--inverse: var(--np--color--warning--day--inverse);
 		--np--icon--color--error--inverse: var(--np--color--error--day--inverse);
 		--np--image--border-color--inverse: var(--np--border-color--day--inverse);
+		--np--image--border-color--subtle--inverse: var(--np--border-color--subtle--day--inverse);
 		--np--image--border-color--strong--inverse: var(--np--border-color--strong--day--inverse);
 		--np--image--border-color--stronger--inverse: var(--np--border-color--stronger--day--inverse);
+		--np--image--border-color--success--inverse: var(--np--border-color--success--day--inverse);
+		--np--image--border-color--highlight--inverse: var(--np--border-color--highlight--day--inverse);
+		--np--image--border-color--warning--inverse: var(--np--border-color--warning--day--inverse);
+		--np--image--border-color--error--inverse: var(--np--border-color--error--day--inverse);
+		--np--image--border-color--link--inverse: var(--np--border-color--link--day--inverse);
 		--np--ink--color--inverse: var(--np--color--day--inverse);
 		--np--ink--color--light--inverse: var(--np--color--light--day--inverse);
 		--np--ink--color--lighter--inverse: var(--np--color--lighter--day--inverse);
@@ -1110,15 +1506,33 @@
 		--np--input--border-color--error--inverse: var(--np--border-color--error--day--inverse);
 		--np--input--border-color--link--inverse: var(--np--border-color--link--day--inverse);
 		--np--input--focus-ring--color--inverse: var(--np--color--link--day--inverse);
+		--np--lightbox--focus-ring--color--inverse: var(--np--color--link--day--inverse);
+		--np--line--border-color--inverse: var(--np--border-color--day--inverse);
+		--np--line--border-color--subtle--inverse: var(--np--border-color--subtle--day--inverse);
+		--np--line--border-color--strong--inverse: var(--np--border-color--strong--day--inverse);
+		--np--line--border-color--stronger--inverse: var(--np--border-color--stronger--day--inverse);
+		--np--line--border-color--success--inverse: var(--np--border-color--success--day--inverse);
+		--np--line--border-color--highlight--inverse: var(--np--border-color--highlight--day--inverse);
+		--np--line--border-color--warning--inverse: var(--np--border-color--warning--day--inverse);
+		--np--line--border-color--error--inverse: var(--np--border-color--error--day--inverse);
+		--np--line--border-color--link--inverse: var(--np--border-color--link--day--inverse);
 		--np--list--divider--color--inverse: var(--np--border-color--subtle--day--inverse);
 		--np--list--background-color--active--inverse: var(--np--border-color--day--inverse);
 		--np--list--background-color--selected--inverse: var(--np--background-color--link--day--inverse);
 		--np--list--color--inverse: var(--np--color--day--inverse);
 		--np--list--color--selected--inverse: var(--np--color--link--day--inverse);
 		--np--list--color--disabled--inverse: var(--np--color--disabled--day--inverse);
+		--np--tabs--color--inverse: var(--np--color--lighter--day--inverse);
+		--np--tabs--color--selected--inverse: var(--np--color--day--inverse);
+		--np--tabs--border-color--inverse: var(--np--border-color--day--inverse);
+		--np--tabs--indicator--color--inverse: var(--np--color--link--day--inverse);
+		--np--tabs--focus-ring--color--inverse: var(--np--color--link--day--inverse);
+		--np--tabs--pill--border-color--hover--inverse: var(--np--border-color--day--inverse);
+		--np--tabs--pill--border-color--selected--inverse: var(--np--border-color--stronger--day--inverse);
 		--np--tile--background-color--inverse: var(--np--background-color--day--inverse);
 		--np--tile--background-color--raised--inverse: var(--np--background-color--raised--day--inverse);
 		--np--tile--background-color--success--inverse: var(--np--background-color--success--day--inverse);
+		--np--tile--background-color--highlight--inverse: var(--np--background-color--highlight--day--inverse);
 		--np--tile--background-color--warning--inverse: var(--np--background-color--warning--day--inverse);
 		--np--tile--background-color--error--inverse: var(--np--background-color--error--day--inverse);
 		--np--tile--background-color--link--inverse: var(--np--background-color--link--day--inverse);
@@ -1132,6 +1546,10 @@
 		--np--tile--color--highlight--inverse: var(--np--color--highlight--day--inverse);
 		--np--tile--color--warning--inverse: var(--np--color--warning--day--inverse);
 		--np--tile--color--error--inverse: var(--np--color--error--day--inverse);
+		--np--toggle--track--background-color--inverse: var(--np--border-color--strong--day--inverse);
+		--np--toggle--track--background-color--checked--inverse: var(--np--color--link--day--inverse);
+		--np--toggle--thumb--background-color--inverse: var(--np--background-color--day--inverse);
+		--np--toggle--focus-ring--color--inverse: var(--np--color--link--day--inverse);
 		--np--button--border-color: var(--np--border-color--day);
 		--np--button--border-color--subtle: var(--np--border-color--subtle--day);
 		--np--button--border-color--strong: var(--np--border-color--strong--day);
@@ -1141,6 +1559,8 @@
 		--np--button--border-color--warning: var(--np--border-color--warning--day);
 		--np--button--border-color--error: var(--np--border-color--error--day);
 		--np--button--border-color--link: var(--np--border-color--link--day);
+		--np--button--selected--border-color: var(--np--border-color--stronger--day);
+		--np--button--focus-ring--color: var(--np--color--link--day);
 		--np--calendar--color: var(--np--color--day);
 		--np--calendar--color--today: var(--np--color--link--day);
 		--np--calendar--color--selected: var(--np--background-color--day);
@@ -1150,25 +1570,52 @@
 		--np--calendar--background-color--selected: var(--np--color--link--day);
 		--np--calendar--background-color--range: var(--np--background-color--link--day);
 		--np--calendar--border-color--today: var(--np--border-color--link--day);
+		--np--checkbox--background-color--unchecked: var(--np--background-color--day);
+		--np--checkbox--background-color: var(--np--color--day);
+		--np--checkbox--background-color--link: var(--np--color--link--day);
+		--np--checkbox--background-color--success: var(--np--color--success--day);
+		--np--checkbox--background-color--highlight: var(--np--color--highlight--day);
+		--np--checkbox--background-color--warning: var(--np--color--warning--day);
+		--np--checkbox--background-color--error: var(--np--color--error--day);
+		--np--checkbox--border-color: var(--np--border-color--day);
+		--np--checkbox--border-color--subtle: var(--np--border-color--subtle--day);
+		--np--checkbox--border-color--strong: var(--np--border-color--strong--day);
+		--np--checkbox--border-color--stronger: var(--np--border-color--stronger--day);
+		--np--checkbox--border-color--success: var(--np--border-color--success--day);
+		--np--checkbox--border-color--highlight: var(--np--border-color--highlight--day);
+		--np--checkbox--border-color--warning: var(--np--border-color--warning--day);
+		--np--checkbox--border-color--error: var(--np--border-color--error--day);
+		--np--checkbox--border-color--link: var(--np--border-color--link--day);
+		--np--checkbox--focus-ring--color: var(--np--color--link--day);
 		--np--code--background-color: var(--np--background-color--day);
 		--np--code--border-color: var(--np--border-color--day);
 		--np--code--color: var(--np--color--day);
 		--np--code--color--lightest: var(--np--color--lightest--day);
 		--np--code--color--link: var(--np--color--link--day);
 		--np--code--color--highlight: var(--np--color--highlight--day);
+		--np--dialog--background-color: var(--np--background-color--raised--day);
+		--np--dialog--color: var(--np--color--day);
+		--np--dialog--description--color: var(--np--color--light--day);
 		--np--icon--color: var(--np--color--day);
 		--np--icon--color--light: var(--np--color--light--day);
 		--np--icon--color--lighter: var(--np--color--lighter--day);
 		--np--icon--color--lightest: var(--np--color--lightest--day);
-		--np--icon--color--disabled: var(--np--color--disabled--day);
+		--np--icon--color--muted: var(--np--color--lightest--day);
 		--np--icon--color--link: var(--np--color--link--day);
 		--np--icon--color--success: var(--np--color--success--day);
 		--np--icon--color--highlight: var(--np--color--highlight--day);
 		--np--icon--color--warning: var(--np--color--warning--day);
 		--np--icon--color--error: var(--np--color--error--day);
+		--np--icon--stroke-width-scale: var(--np--stroke-width-scale--day);
 		--np--image--border-color: var(--np--border-color--day);
+		--np--image--border-color--subtle: var(--np--border-color--subtle--day);
 		--np--image--border-color--strong: var(--np--border-color--strong--day);
 		--np--image--border-color--stronger: var(--np--border-color--stronger--day);
+		--np--image--border-color--success: var(--np--border-color--success--day);
+		--np--image--border-color--highlight: var(--np--border-color--highlight--day);
+		--np--image--border-color--warning: var(--np--border-color--warning--day);
+		--np--image--border-color--error: var(--np--border-color--error--day);
+		--np--image--border-color--link: var(--np--border-color--link--day);
 		--np--ink--color: var(--np--color--day);
 		--np--ink--color--light: var(--np--color--light--day);
 		--np--ink--color--lighter: var(--np--color--lighter--day);
@@ -1196,15 +1643,33 @@
 		--np--input--border-color--error: var(--np--border-color--error--day);
 		--np--input--border-color--link: var(--np--border-color--link--day);
 		--np--input--focus-ring--color: var(--np--color--link--day);
+		--np--lightbox--focus-ring--color: var(--np--color--link--day);
+		--np--line--border-color: var(--np--border-color--day);
+		--np--line--border-color--subtle: var(--np--border-color--subtle--day);
+		--np--line--border-color--strong: var(--np--border-color--strong--day);
+		--np--line--border-color--stronger: var(--np--border-color--stronger--day);
+		--np--line--border-color--success: var(--np--border-color--success--day);
+		--np--line--border-color--highlight: var(--np--border-color--highlight--day);
+		--np--line--border-color--warning: var(--np--border-color--warning--day);
+		--np--line--border-color--error: var(--np--border-color--error--day);
+		--np--line--border-color--link: var(--np--border-color--link--day);
 		--np--list--divider--color: var(--np--border-color--subtle--day);
 		--np--list--background-color--active: var(--np--border-color--day);
 		--np--list--background-color--selected: var(--np--background-color--link--day);
 		--np--list--color: var(--np--color--day);
 		--np--list--color--selected: var(--np--color--link--day);
 		--np--list--color--disabled: var(--np--color--disabled--day);
+		--np--tabs--color: var(--np--color--lighter--day);
+		--np--tabs--color--selected: var(--np--color--day);
+		--np--tabs--border-color: var(--np--border-color--day);
+		--np--tabs--indicator--color: var(--np--color--link--day);
+		--np--tabs--focus-ring--color: var(--np--color--link--day);
+		--np--tabs--pill--border-color--hover: var(--np--border-color--day);
+		--np--tabs--pill--border-color--selected: var(--np--border-color--stronger--day);
 		--np--tile--background-color: var(--np--background-color--day);
 		--np--tile--background-color--raised: var(--np--background-color--raised--day);
 		--np--tile--background-color--success: var(--np--background-color--success--day);
+		--np--tile--background-color--highlight: var(--np--background-color--highlight--day);
 		--np--tile--background-color--warning: var(--np--background-color--warning--day);
 		--np--tile--background-color--error: var(--np--background-color--error--day);
 		--np--tile--background-color--link: var(--np--background-color--link--day);
@@ -1218,10 +1683,15 @@
 		--np--tile--color--highlight: var(--np--color--highlight--day);
 		--np--tile--color--warning: var(--np--color--warning--day);
 		--np--tile--color--error: var(--np--color--error--day);
+		--np--toggle--track--background-color: var(--np--border-color--strong--day);
+		--np--toggle--track--background-color--checked: var(--np--color--link--day);
+		--np--toggle--thumb--background-color: var(--np--background-color--day);
+		--np--toggle--focus-ring--color: var(--np--color--link--day);
 }
 
 [data-theme="night"] {
 	color-scheme: dark;
+	color: var(--np--color);
 		--np--background-color: var(--np--background-color--night);
 		--np--background-color--raised: var(--np--background-color--raised--night);
 		--np--background-color--success: var(--np--background-color--success--night);
@@ -1248,6 +1718,7 @@
 		--np--color--highlight: var(--np--color--highlight--night);
 		--np--color--warning: var(--np--color--warning--night);
 		--np--color--error: var(--np--color--error--night);
+		--np--stroke-width-scale: var(--np--stroke-width-scale--night);
 		--np--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--background-color--raised--inverse: var(--np--background-color--raised--night--inverse);
 		--np--background-color--success--inverse: var(--np--background-color--success--night--inverse);
@@ -1274,6 +1745,7 @@
 		--np--color--highlight--inverse: var(--np--color--highlight--night--inverse);
 		--np--color--warning--inverse: var(--np--color--warning--night--inverse);
 		--np--color--error--inverse: var(--np--color--error--night--inverse);
+		--np--logo--color: var(--np--logo--color--night);
 		--np--button--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--button--border-color--subtle--inverse: var(--np--border-color--subtle--night--inverse);
 		--np--button--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
@@ -1283,6 +1755,8 @@
 		--np--button--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
 		--np--button--border-color--error--inverse: var(--np--border-color--error--night--inverse);
 		--np--button--border-color--link--inverse: var(--np--border-color--link--night--inverse);
+		--np--button--selected--border-color--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--button--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--calendar--color--inverse: var(--np--color--night--inverse);
 		--np--calendar--color--today--inverse: var(--np--color--link--night--inverse);
 		--np--calendar--color--selected--inverse: var(--np--background-color--night--inverse);
@@ -1292,25 +1766,51 @@
 		--np--calendar--background-color--selected--inverse: var(--np--color--link--night--inverse);
 		--np--calendar--background-color--range--inverse: var(--np--background-color--link--night--inverse);
 		--np--calendar--border-color--today--inverse: var(--np--border-color--link--night--inverse);
+		--np--checkbox--background-color--unchecked--inverse: var(--np--background-color--night--inverse);
+		--np--checkbox--background-color--inverse: var(--np--color--night--inverse);
+		--np--checkbox--background-color--link--inverse: var(--np--color--link--night--inverse);
+		--np--checkbox--background-color--success--inverse: var(--np--color--success--night--inverse);
+		--np--checkbox--background-color--highlight--inverse: var(--np--color--highlight--night--inverse);
+		--np--checkbox--background-color--warning--inverse: var(--np--color--warning--night--inverse);
+		--np--checkbox--background-color--error--inverse: var(--np--color--error--night--inverse);
+		--np--checkbox--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--checkbox--border-color--subtle--inverse: var(--np--border-color--subtle--night--inverse);
+		--np--checkbox--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
+		--np--checkbox--border-color--stronger--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--checkbox--border-color--success--inverse: var(--np--border-color--success--night--inverse);
+		--np--checkbox--border-color--highlight--inverse: var(--np--border-color--highlight--night--inverse);
+		--np--checkbox--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
+		--np--checkbox--border-color--error--inverse: var(--np--border-color--error--night--inverse);
+		--np--checkbox--border-color--link--inverse: var(--np--border-color--link--night--inverse);
+		--np--checkbox--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--code--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--code--border-color--inverse: var(--np--border-color--night--inverse);
 		--np--code--color--inverse: var(--np--color--night--inverse);
 		--np--code--color--lightest--inverse: var(--np--color--lightest--night--inverse);
 		--np--code--color--link--inverse: var(--np--color--link--night--inverse);
 		--np--code--color--highlight--inverse: var(--np--color--highlight--night--inverse);
+		--np--dialog--background-color--inverse: var(--np--background-color--raised--night--inverse);
+		--np--dialog--color--inverse: var(--np--color--night--inverse);
+		--np--dialog--description--color--inverse: var(--np--color--light--night--inverse);
 		--np--icon--color--inverse: var(--np--color--night--inverse);
 		--np--icon--color--light--inverse: var(--np--color--light--night--inverse);
 		--np--icon--color--lighter--inverse: var(--np--color--lighter--night--inverse);
 		--np--icon--color--lightest--inverse: var(--np--color--lightest--night--inverse);
-		--np--icon--color--disabled--inverse: var(--np--color--disabled--night--inverse);
+		--np--icon--color--muted--inverse: var(--np--color--lightest--night--inverse);
 		--np--icon--color--link--inverse: var(--np--color--link--night--inverse);
 		--np--icon--color--success--inverse: var(--np--color--success--night--inverse);
 		--np--icon--color--highlight--inverse: var(--np--color--highlight--night--inverse);
 		--np--icon--color--warning--inverse: var(--np--color--warning--night--inverse);
 		--np--icon--color--error--inverse: var(--np--color--error--night--inverse);
 		--np--image--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--image--border-color--subtle--inverse: var(--np--border-color--subtle--night--inverse);
 		--np--image--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
 		--np--image--border-color--stronger--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--image--border-color--success--inverse: var(--np--border-color--success--night--inverse);
+		--np--image--border-color--highlight--inverse: var(--np--border-color--highlight--night--inverse);
+		--np--image--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
+		--np--image--border-color--error--inverse: var(--np--border-color--error--night--inverse);
+		--np--image--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--ink--color--inverse: var(--np--color--night--inverse);
 		--np--ink--color--light--inverse: var(--np--color--light--night--inverse);
 		--np--ink--color--lighter--inverse: var(--np--color--lighter--night--inverse);
@@ -1338,15 +1838,33 @@
 		--np--input--border-color--error--inverse: var(--np--border-color--error--night--inverse);
 		--np--input--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--input--focus-ring--color--inverse: var(--np--color--link--night--inverse);
+		--np--lightbox--focus-ring--color--inverse: var(--np--color--link--night--inverse);
+		--np--line--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--line--border-color--subtle--inverse: var(--np--border-color--subtle--night--inverse);
+		--np--line--border-color--strong--inverse: var(--np--border-color--strong--night--inverse);
+		--np--line--border-color--stronger--inverse: var(--np--border-color--stronger--night--inverse);
+		--np--line--border-color--success--inverse: var(--np--border-color--success--night--inverse);
+		--np--line--border-color--highlight--inverse: var(--np--border-color--highlight--night--inverse);
+		--np--line--border-color--warning--inverse: var(--np--border-color--warning--night--inverse);
+		--np--line--border-color--error--inverse: var(--np--border-color--error--night--inverse);
+		--np--line--border-color--link--inverse: var(--np--border-color--link--night--inverse);
 		--np--list--divider--color--inverse: var(--np--border-color--subtle--night--inverse);
 		--np--list--background-color--active--inverse: var(--np--border-color--night--inverse);
 		--np--list--background-color--selected--inverse: var(--np--background-color--link--night--inverse);
 		--np--list--color--inverse: var(--np--color--night--inverse);
 		--np--list--color--selected--inverse: var(--np--color--link--night--inverse);
 		--np--list--color--disabled--inverse: var(--np--color--disabled--night--inverse);
+		--np--tabs--color--inverse: var(--np--color--lighter--night--inverse);
+		--np--tabs--color--selected--inverse: var(--np--color--night--inverse);
+		--np--tabs--border-color--inverse: var(--np--border-color--night--inverse);
+		--np--tabs--indicator--color--inverse: var(--np--color--link--night--inverse);
+		--np--tabs--focus-ring--color--inverse: var(--np--color--link--night--inverse);
+		--np--tabs--pill--border-color--hover--inverse: var(--np--border-color--night--inverse);
+		--np--tabs--pill--border-color--selected--inverse: var(--np--border-color--stronger--night--inverse);
 		--np--tile--background-color--inverse: var(--np--background-color--night--inverse);
 		--np--tile--background-color--raised--inverse: var(--np--background-color--raised--night--inverse);
 		--np--tile--background-color--success--inverse: var(--np--background-color--success--night--inverse);
+		--np--tile--background-color--highlight--inverse: var(--np--background-color--highlight--night--inverse);
 		--np--tile--background-color--warning--inverse: var(--np--background-color--warning--night--inverse);
 		--np--tile--background-color--error--inverse: var(--np--background-color--error--night--inverse);
 		--np--tile--background-color--link--inverse: var(--np--background-color--link--night--inverse);
@@ -1360,6 +1878,10 @@
 		--np--tile--color--highlight--inverse: var(--np--color--highlight--night--inverse);
 		--np--tile--color--warning--inverse: var(--np--color--warning--night--inverse);
 		--np--tile--color--error--inverse: var(--np--color--error--night--inverse);
+		--np--toggle--track--background-color--inverse: var(--np--border-color--strong--night--inverse);
+		--np--toggle--track--background-color--checked--inverse: var(--np--color--link--night--inverse);
+		--np--toggle--thumb--background-color--inverse: var(--np--background-color--night--inverse);
+		--np--toggle--focus-ring--color--inverse: var(--np--color--link--night--inverse);
 		--np--button--border-color: var(--np--border-color--night);
 		--np--button--border-color--subtle: var(--np--border-color--subtle--night);
 		--np--button--border-color--strong: var(--np--border-color--strong--night);
@@ -1369,6 +1891,8 @@
 		--np--button--border-color--warning: var(--np--border-color--warning--night);
 		--np--button--border-color--error: var(--np--border-color--error--night);
 		--np--button--border-color--link: var(--np--border-color--link--night);
+		--np--button--selected--border-color: var(--np--border-color--stronger--night);
+		--np--button--focus-ring--color: var(--np--color--link--night);
 		--np--calendar--color: var(--np--color--night);
 		--np--calendar--color--today: var(--np--color--link--night);
 		--np--calendar--color--selected: var(--np--background-color--night);
@@ -1378,25 +1902,52 @@
 		--np--calendar--background-color--selected: var(--np--color--link--night);
 		--np--calendar--background-color--range: var(--np--background-color--link--night);
 		--np--calendar--border-color--today: var(--np--border-color--link--night);
+		--np--checkbox--background-color--unchecked: var(--np--background-color--night);
+		--np--checkbox--background-color: var(--np--color--night);
+		--np--checkbox--background-color--link: var(--np--color--link--night);
+		--np--checkbox--background-color--success: var(--np--color--success--night);
+		--np--checkbox--background-color--highlight: var(--np--color--highlight--night);
+		--np--checkbox--background-color--warning: var(--np--color--warning--night);
+		--np--checkbox--background-color--error: var(--np--color--error--night);
+		--np--checkbox--border-color: var(--np--border-color--night);
+		--np--checkbox--border-color--subtle: var(--np--border-color--subtle--night);
+		--np--checkbox--border-color--strong: var(--np--border-color--strong--night);
+		--np--checkbox--border-color--stronger: var(--np--border-color--stronger--night);
+		--np--checkbox--border-color--success: var(--np--border-color--success--night);
+		--np--checkbox--border-color--highlight: var(--np--border-color--highlight--night);
+		--np--checkbox--border-color--warning: var(--np--border-color--warning--night);
+		--np--checkbox--border-color--error: var(--np--border-color--error--night);
+		--np--checkbox--border-color--link: var(--np--border-color--link--night);
+		--np--checkbox--focus-ring--color: var(--np--color--link--night);
 		--np--code--background-color: var(--np--background-color--night);
 		--np--code--border-color: var(--np--border-color--night);
 		--np--code--color: var(--np--color--night);
 		--np--code--color--lightest: var(--np--color--lightest--night);
 		--np--code--color--link: var(--np--color--link--night);
 		--np--code--color--highlight: var(--np--color--highlight--night);
+		--np--dialog--background-color: var(--np--background-color--raised--night);
+		--np--dialog--color: var(--np--color--night);
+		--np--dialog--description--color: var(--np--color--light--night);
 		--np--icon--color: var(--np--color--night);
 		--np--icon--color--light: var(--np--color--light--night);
 		--np--icon--color--lighter: var(--np--color--lighter--night);
 		--np--icon--color--lightest: var(--np--color--lightest--night);
-		--np--icon--color--disabled: var(--np--color--disabled--night);
+		--np--icon--color--muted: var(--np--color--lightest--night);
 		--np--icon--color--link: var(--np--color--link--night);
 		--np--icon--color--success: var(--np--color--success--night);
 		--np--icon--color--highlight: var(--np--color--highlight--night);
 		--np--icon--color--warning: var(--np--color--warning--night);
 		--np--icon--color--error: var(--np--color--error--night);
+		--np--icon--stroke-width-scale: var(--np--stroke-width-scale--night);
 		--np--image--border-color: var(--np--border-color--night);
+		--np--image--border-color--subtle: var(--np--border-color--subtle--night);
 		--np--image--border-color--strong: var(--np--border-color--strong--night);
 		--np--image--border-color--stronger: var(--np--border-color--stronger--night);
+		--np--image--border-color--success: var(--np--border-color--success--night);
+		--np--image--border-color--highlight: var(--np--border-color--highlight--night);
+		--np--image--border-color--warning: var(--np--border-color--warning--night);
+		--np--image--border-color--error: var(--np--border-color--error--night);
+		--np--image--border-color--link: var(--np--border-color--link--night);
 		--np--ink--color: var(--np--color--night);
 		--np--ink--color--light: var(--np--color--light--night);
 		--np--ink--color--lighter: var(--np--color--lighter--night);
@@ -1424,15 +1975,33 @@
 		--np--input--border-color--error: var(--np--border-color--error--night);
 		--np--input--border-color--link: var(--np--border-color--link--night);
 		--np--input--focus-ring--color: var(--np--color--link--night);
+		--np--lightbox--focus-ring--color: var(--np--color--link--night);
+		--np--line--border-color: var(--np--border-color--night);
+		--np--line--border-color--subtle: var(--np--border-color--subtle--night);
+		--np--line--border-color--strong: var(--np--border-color--strong--night);
+		--np--line--border-color--stronger: var(--np--border-color--stronger--night);
+		--np--line--border-color--success: var(--np--border-color--success--night);
+		--np--line--border-color--highlight: var(--np--border-color--highlight--night);
+		--np--line--border-color--warning: var(--np--border-color--warning--night);
+		--np--line--border-color--error: var(--np--border-color--error--night);
+		--np--line--border-color--link: var(--np--border-color--link--night);
 		--np--list--divider--color: var(--np--border-color--subtle--night);
 		--np--list--background-color--active: var(--np--border-color--night);
 		--np--list--background-color--selected: var(--np--background-color--link--night);
 		--np--list--color: var(--np--color--night);
 		--np--list--color--selected: var(--np--color--link--night);
 		--np--list--color--disabled: var(--np--color--disabled--night);
+		--np--tabs--color: var(--np--color--lighter--night);
+		--np--tabs--color--selected: var(--np--color--night);
+		--np--tabs--border-color: var(--np--border-color--night);
+		--np--tabs--indicator--color: var(--np--color--link--night);
+		--np--tabs--focus-ring--color: var(--np--color--link--night);
+		--np--tabs--pill--border-color--hover: var(--np--border-color--night);
+		--np--tabs--pill--border-color--selected: var(--np--border-color--stronger--night);
 		--np--tile--background-color: var(--np--background-color--night);
 		--np--tile--background-color--raised: var(--np--background-color--raised--night);
 		--np--tile--background-color--success: var(--np--background-color--success--night);
+		--np--tile--background-color--highlight: var(--np--background-color--highlight--night);
 		--np--tile--background-color--warning: var(--np--background-color--warning--night);
 		--np--tile--background-color--error: var(--np--background-color--error--night);
 		--np--tile--background-color--link: var(--np--background-color--link--night);
@@ -1446,4 +2015,8 @@
 		--np--tile--color--highlight: var(--np--color--highlight--night);
 		--np--tile--color--warning: var(--np--color--warning--night);
 		--np--tile--color--error: var(--np--color--error--night);
+		--np--toggle--track--background-color: var(--np--border-color--strong--night);
+		--np--toggle--track--background-color--checked: var(--np--color--link--night);
+		--np--toggle--thumb--background-color: var(--np--background-color--night);
+		--np--toggle--focus-ring--color: var(--np--color--link--night);
 }

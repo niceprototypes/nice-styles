@@ -82,6 +82,8 @@ export type {
   CssConstantOptions,
   TokenDefinition,
   TokenMap,
+  RuntimeTokenMap,
+  RuntimeTokenValue,
   ComponentTokenNode,
   ThemeValue,
   BreakpointValue,

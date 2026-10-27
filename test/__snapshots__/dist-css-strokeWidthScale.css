@@ -1,0 +1,9 @@
+:root {
+	--np--stroke-width-scale: 1;
+
+	/* Day mode primitives */
+	--np--stroke-width-scale--day: 1;
+
+	/* Night mode primitives */
+	--np--stroke-width-scale--night: 0.9;
+}

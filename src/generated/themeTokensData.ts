@@ -40,6 +40,9 @@ const themeTokensData: ThemeTokensData = {
       "highlight": "hsla(48, 95%, 50%, 1)",
       "warning": "hsla(29, 98%, 62%, 1)",
       "error": "hsla(10, 92%, 63%, 1)"
+    },
+    "strokeWidthScale": {
+      "base": "1"
     }
   },
   "night": {
@@ -70,10 +73,13 @@ const themeTokensData: ThemeTokensData = {
       "lightest": "hsla(210, 5%, 95%, 0.25)",
       "disabled": "hsla(210, 5%, 95%, 0.6)",
       "link": "hsla(202, 90%, 65%, 1)",
-      "success": "hsla(146, 58%, 59%, 1)",
+      "success": "hsla(146, 59%, 48%, 1)",
       "highlight": "hsla(48, 90%, 65%, 1)",
-      "warning": "hsla(29, 88%, 72%, 1)",
-      "error": "hsla(10, 82%, 75%, 1)"
+      "warning": "hsla(29, 100%, 63%, 1)",
+      "error": "hsla(10, 89%, 61%, 1)"
+    },
+    "strokeWidthScale": {
+      "base": "0.9"
     }
   }
 } as const

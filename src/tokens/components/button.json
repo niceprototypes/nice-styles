@@ -43,7 +43,10 @@
   },
   "icon": {
     "color": {
-      "base": "currentColor"
+      "base": "currentColor",
+      "hover": "var(--np--button--icon--color)",
+      "focus": "var(--np--button--icon--color)",
+      "active": "var(--np--button--icon--color)"
     },
     "size": {
       "smaller": "var(--np--font-size--smaller)",
@@ -51,6 +54,33 @@
       "base": "var(--np--font-size)",
       "large": "var(--np--font-size--large)",
       "larger": "var(--np--font-size--larger)"
+    }
+  },
+  "animationDuration": {
+    "none": "0s",
+    "faster": "var(--np--animation-duration--faster)",
+    "fast": "var(--np--animation-duration--fast)",
+    "base": "var(--np--animation-duration--fast)",
+    "slow": "var(--np--animation-duration--slow)",
+    "slower": "var(--np--animation-duration--slower)"
+  },
+  "animationEasing": {
+    "base": "var(--np--animation-easing)"
+  },
+  "selected": {
+    "borderColor": {
+      "base": "var(--np--border-color--stronger)"
+    }
+  },
+  "focusRing": {
+    "width": {
+      "base": "var(--np--border-width--large)"
+    },
+    "color": {
+      "base": "var(--np--color--link)"
+    },
+    "offset": {
+      "base": "var(--np--gap--smaller)"
     }
   },
   "$themes": {

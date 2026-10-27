@@ -7,6 +7,19 @@ import type { ComponentTokenNode } from './componentTokensData.js'
 
 export type ComponentBreakpointTokensData = Record<string, Record<string, { [key: string]: ComponentTokenNode }>>
 
-const componentBreakpointTokensData: ComponentBreakpointTokensData = {} as const
+const componentBreakpointTokensData: ComponentBreakpointTokensData = {
+  "logo": {
+    "tablet": {
+      "height": {
+        "base": "56"
+      }
+    },
+    "laptop": {
+      "height": {
+        "base": "48"
+      }
+    }
+  }
+} as const
 
 export default componentBreakpointTokensData

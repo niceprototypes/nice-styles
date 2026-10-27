@@ -45,16 +45,19 @@
 
 [data-theme="day"] {
 	color-scheme: light;
+	color: var(--np--color);
 		--np--brand-color--primary: var(--np--brand-color--primary--day);
 		--np--color--light: var(--np--color--light--day);
 }
 
 [data-theme="night"] {
 	color-scheme: dark;
+	color: var(--np--color);
 		--np--brand-color--primary: var(--np--brand-color--primary--night);
 		--np--color--light: var(--np--color--light--night);
 }
 
 [data-theme="sepia"] {
+	color: var(--np--color);
 	--np--brand-color--primary: var(--np--brand-color--primary--sepia);
 }

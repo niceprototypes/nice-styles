@@ -17,8 +17,14 @@
   },
   "borderColor": {
     "base": "var(--np--border-color)",
+    "subtle": "var(--np--border-color--subtle)",
     "strong": "var(--np--border-color--strong)",
-    "stronger": "var(--np--border-color--stronger)"
+    "stronger": "var(--np--border-color--stronger)",
+    "success": "var(--np--border-color--success)",
+    "highlight": "var(--np--border-color--highlight)",
+    "warning": "var(--np--border-color--warning)",
+    "error": "var(--np--border-color--error)",
+    "link": "var(--np--border-color--link)"
   },
   "backgroundSize": {
     "base": "var(--np--background-size)",

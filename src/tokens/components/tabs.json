@@ -1,0 +1,71 @@
+{
+  "padding": {
+    "smaller": "var(--np--gap--smaller) var(--np--gap--small)",
+    "small": "var(--np--gap--smaller) var(--np--gap--small)",
+    "base": "var(--np--gap--small) var(--np--gap)",
+    "large": "var(--np--gap--small) var(--np--gap)",
+    "larger": "var(--np--gap) var(--np--gap--large)"
+  },
+  "gap": {
+    "smaller": "var(--np--gap--smaller)",
+    "small": "var(--np--gap--smaller)",
+    "base": "var(--np--gap--small)",
+    "large": "var(--np--gap--small)",
+    "larger": "var(--np--gap)"
+  },
+  "fontSize": {
+    "smaller": "var(--np--font-size--smaller)",
+    "small": "var(--np--font-size--small)",
+    "base": "var(--np--font-size)",
+    "large": "var(--np--font-size--large)",
+    "larger": "var(--np--font-size--larger)"
+  },
+  "color": {
+    "base": "var(--np--color--lighter)",
+    "selected": "var(--np--color)"
+  },
+  "borderColor": {
+    "base": "var(--np--border-color)"
+  },
+  "borderWidth": {
+    "base": "var(--np--border-width)"
+  },
+  "indicator": {
+    "color": {
+      "base": "var(--np--color--link)"
+    },
+    "width": {
+      "base": "var(--np--border-width--large)"
+    }
+  },
+  "disabledOpacity": {
+    "base": "0.5"
+  },
+  "focusRing": {
+    "width": {
+      "base": "var(--np--border-width--large)"
+    },
+    "color": {
+      "base": "var(--np--color--link)"
+    },
+    "offset": {
+      "base": "var(--np--gap--smaller)"
+    }
+  },
+  "pill": {
+    "borderRadius": {
+      "base": "var(--np--border-radius--larger)"
+    },
+    "borderWidth": {
+      "base": "var(--np--border-width)"
+    },
+    "borderColor": {
+      "base": "transparent",
+      "hover": "var(--np--border-color)",
+      "selected": "var(--np--border-color--stronger)"
+    }
+  },
+  "$themes": {
+    "night": {}
+  }
+}

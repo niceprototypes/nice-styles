@@ -37,6 +37,8 @@ npm install nice-styles
 
 Every file except `breakpoints.custom-media.css` is plain CSS for a bare `@import`, with no build step in the consuming app.
 
+`reset.css`, `reset.spacing.css`, `reset.colors.css`, and `reset.borders.css` read `var(--np--…)` tokens, so import them **after** `tokens.css`; `reset.responsive.css` goes after `reset.css`. nice-react-styles' `StylesProvider` loads `tokens.css` but not `reset.css`; import the reset yourself.
+
 ## JavaScript
 
 ### Read a token — `getToken`
@@ -109,7 +111,7 @@ injectTokenCSS("", generateTokenCSS({
   breakpoints: { laptop: 1100 },                                // thresholds, applied first
   fontSize: { base: "18px", jumbo: "96px" },                    // override + custom variant
   brandColor: { primary: { day: "#dc0000", night: "#ff6666" } }, // themed
-  gap: { base: { phone: "12px", "laptop+": "20px" } },          // responsive
+  gap: { base: { "phone+": "12px", "laptop+": "20px" } },        // responsive
 }))
 ```
 
@@ -174,11 +176,15 @@ Keys: a bare name is one band (`tablet`), `+` is that breakpoint and wider, `-` 
 | `size` | smaller, small, base, large, larger |
 | `zIndex` | base, low, medium, high, higher |
 
-Component token sets: `button`, `calendar`, `code`, `field`, `icon`, `image`, `ink`, `input`, `lightbox`, `popover`, `select`, `tile`.
+Component token sets: `button`, `calendar`, `checkbox`, `code`, `dialog`, `field`, `icon`, `image`, `ink`, `input`, `lightbox`, `line`, `list`, `logo`, `popover`, `select`, `tabs`, `tile`, `toggle`.
 
 `input.width` holds the **content width only**: `2`, `3`, `4`, `5`, `10`, `20` are `Nch` (`"2ch"` … `"20ch"`), measured against the input's own font size; `full` is `100%`. The numeric variants exclude padding and border because both depend on the rendering component's `size` and `borderWidth`, which a `:root` value cannot see — the component adds its own, e.g. `calc(var(--np--input--width--10) + 2 * var(--np--input--spacing--large) + 2 * var(--np--input--border-width--small))`. `full` is used as-is.
 
 Each group has a variant union type: `GapType`, `ColorType`, `ColorInverseType`, …, plus `ComponentPrefix`.
+
+`fontFamily` `base` and `heading` name Google Sans Flex, then `system-ui`, then `sans-serif`; the font file itself is not shipped — load it with `injectFonts` or nice-react-styles' `StylesProvider`.
+
+Allowed prop values of nice-react-* components (resolved unions): `~/nice/manifest/agents/catalog.json`.
 
 ## Development
 
@@ -207,7 +213,7 @@ npm run test:update  # accept intended output changes
 | `build:types` | `scripts/generateTypes/` | `src/generated/types.ts` |
 | `build:css` | `scripts/generateCss/` | `dist/tokens.css`, `dist/css/*.css`, breakpoint CSS |
 
-All stages read sources through `scripts/shared/readTokenSources.ts`, which validates overrides against their base values. CSS lines come from `src/utilities/css/`, the same emitters `generateTokenCSS` uses at runtime.
+All stages read sources through `scripts/shared/readTokenSources.ts`, which validates overrides against their base values. CSS lines come from `src/utilities/css/`, the same emitters `generateTokenCSS` uses at runtime. `build:css` throws when `dist/tokens.css` references a `var(--np--…)` it never declares, listing each missing name and the declarations that reference it.
 
 ## License
 

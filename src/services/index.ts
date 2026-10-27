@@ -89,5 +89,5 @@ export { applyTheme } from './applyTheme.js'
 export type { ThemeName } from './applyTheme.js'
 
 // Token map types (from types/) and the kebab-case helper (from utilities/), for sibling packages
-export type { TokenDefinition, TokenMap, ComponentTokenNode } from '../types/tokenMap.js'
+export type { TokenDefinition, TokenMap, RuntimeTokenMap, RuntimeTokenValue, ComponentTokenNode } from '../types/tokenMap.js'
 export { camelToKebab } from '../utilities/camelToKebab.js'

@@ -33,6 +33,13 @@
 	color-scheme: light dark;
 }
 
+/* printColorExact — Print colours and backgrounds as set (Chrome's default
+   "economy" darkens light text and drops backgrounds) */
+:root {
+	-webkit-print-color-adjust: exact;
+	print-color-adjust: exact;
+}
+
 /* textSizeAdjust — Disable mobile browsers' automatic text inflation (all prefixes) */
 html {
 	-webkit-text-size-adjust: none;

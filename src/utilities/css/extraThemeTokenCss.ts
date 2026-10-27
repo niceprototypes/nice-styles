@@ -25,7 +25,7 @@
 
 import { getConstantKey } from '../../services/getConstant.js'
 import { camelToKebab } from '../camelToKebab.js'
-import { pinBlock } from './blocks.js'
+import { pinBlock, themePinBlock } from './blocks.js'
 import { declarationLine, reassignmentLine } from './declarations.js'
 import { walkTokenTree } from './treeWalk.js'
 import type { DimensionTokens, TokenTree } from './types.js'
@@ -65,7 +65,7 @@ export function generateExtraThemeCss(extraThemes: DimensionTokens): ExtraThemeC
         pinBody.push(reassignmentLine(getConstantKey(cssName, variant), primitive, 1))
       }
     }
-    pinBlocks.push(...pinBlock(theme, pinBody))
+    pinBlocks.push(...themePinBlock(theme, pinBody))
   }
 
   return { primitiveLines, pinBlocks }

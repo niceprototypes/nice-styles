@@ -11,7 +11,8 @@
     "light": "var(--np--color--light)",
     "lighter": "var(--np--color--lighter)",
     "lightest": "var(--np--color--lightest)",
-    "disabled": "var(--np--color--disabled)",
+    "disabled": "var(--np--icon--color--lighter)",
+    "muted": "var(--np--color--lightest)",
     "link": "var(--np--color--link)",
     "success": "var(--np--color--success)",
     "highlight": "var(--np--color--highlight)",
@@ -22,6 +23,9 @@
     "small": "var(--np--border-width--small)",
     "base": "var(--np--border-width)",
     "large": "var(--np--border-width--large)"
+  },
+  "strokeWidthScale": {
+    "base": "var(--np--stroke-width-scale)"
   },
   "animationDuration": {
     "fast": "var(--np--animation-duration)",

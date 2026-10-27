@@ -3,6 +3,9 @@ import { BREAKPOINT_PHONE, BREAKPOINT_ORDER } from './breakpoints.js'
 /** Default theme string value. */
 export const DEFAULT_THEME = "day"
 
+/** The theme mapped to `prefers-color-scheme: dark` and paired with the day pin. */
+export const NIGHT_THEME = "night"
+
 /** Default breakpoint string value — phone-first, so phone is the base. */
 export const DEFAULT_BREAKPOINT = BREAKPOINT_PHONE
 

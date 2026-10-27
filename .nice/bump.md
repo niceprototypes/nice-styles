@@ -43,3 +43,18 @@
 [2026-09-24 19:16] major: transformColor returns CSS relative colour syntax over the token's variable (hsl(from var(--np--…) …)) instead of a computed static hsla(), so the result follows the theme cascade; theme pins the read to that mode's variable. It is getToken's transform behind module/token addressing; the computed literal remains available as getToken(…, { transform, as: "value" }). Channel clamping moves to the browser, so the JS clamp warning no longer fires for transformColor.
 [2026-09-24 20:04] minor: Add list component tokens: item padding, gap, divider, max height, active/selected/disabled colours
 [2026-09-24 20:10] patch: Make list background transparent so it takes the surface it sits on, and use the base border colour for the active item so the highlight shows on raised surfaces
+[2026-10-08 22:00] minor: Add the strokeWidthScale core token (1 in day, 0.9 in night) and icon.strokeWidthScale, which follows it
+[2026-10-08 22:00] minor: Add checkbox, line, logo, tabs and toggle component tokens; button icon.color hover/focus/active variants (following base until overridden), button animationDuration and animationEasing; input fontFamily
+[2026-10-08 22:00] minor: Component tokens accept $themes.night overrides, seeded as themed { day, night } values (shipped as src/generated/componentNightTokensData.ts)
+[2026-10-08 22:00] minor: setTokens/generateTokenCSS accept component overrides nested at any depth ({ button: { icon: { color: { hover: … } } } }), a single value where a group belongs as its base variant, and partial theme values: a map setting only day or night leaves the other theme's value as it was; export RuntimeTokenMap and RuntimeTokenValue
+[2026-10-08 22:00] patch: getToken with as: "value" and a theme pin reads an alias through to its themed target instead of throwing when the alias itself has no value for that theme
+[2026-10-08 22:00] patch: Theme pins ([data-theme="day"], [data-theme="night"] and extra-theme pins) set the text color from that theme's tokens, so text in a themed subtree no longer keeps the color computed above it
+[2026-10-15 15:24] patch: Fix tabs padding and gap tokens referencing the undefined --np--gap--base; they now resolve to --np--gap
+[2026-10-15 15:24] patch: Fail the CSS build when tokens.css references a var(--np--…) it never declares, listing each missing name and its referencing declarations
+[2026-10-15 15:24] minor: Add tabs pill tokens (borderRadius, borderWidth, borderColor base/hover/selected), button selected.borderColor and focusRing tokens, dialog component tokens, and ink lineHeight single
+[2026-10-15 15:24] patch: Fall back to system-ui before sans-serif in the base and heading font families, so medium and semibold weights render when the webfont is not loaded
+[2026-10-15 15:24] minor: Reset prints colours and backgrounds as set (printColorExact: print-color-adjust: exact on :root)
+[2026-10-15 15:29] minor: Add lightbox focusRing tokens
+[2026-10-15 15:45] patch: Add missing tile backgroundColor highlight and image borderColor subtle/success/highlight/warning/error/link aliases so every core variant a component prop accepts has a component token
+[2026-10-15 15:58] patch: Retune night success, warning and error colours (hues kept): equal luminance ~0.42 and equal OKLCH chroma 0.14 so filled status buttons read balanced on dark backgrounds; label contrast >= 8.6:1, fill vs night background >= 6.6:1
+[2026-10-15 16:22] patch: Set night success, warning and error colours to hsl(146 59% 48%), hsl(29 100% 63%), hsl(10 89% 61%) (supersedes the earlier retune today)

@@ -1,5 +1,5 @@
 :root {
-	--np--font-family: "Google Sans Flex", sans-serif;
+	--np--font-family: "Google Sans Flex", system-ui, sans-serif;
 	--np--font-family--code: "Roboto Mono", "Courier New", monospace;
-	--np--font-family--heading: "Google Sans Flex", sans-serif;
+	--np--font-family--heading: "Google Sans Flex", system-ui, sans-serif;
 }

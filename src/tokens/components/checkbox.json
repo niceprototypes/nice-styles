@@ -1,0 +1,74 @@
+{
+  "size": {
+    "smaller": "14px",
+    "small": "16px",
+    "base": "20px",
+    "large": "24px",
+    "larger": "28px"
+  },
+  "backgroundColor": {
+    "unchecked": "var(--np--background-color)",
+    "base": "var(--np--color)",
+    "link": "var(--np--color--link)",
+    "success": "var(--np--color--success)",
+    "highlight": "var(--np--color--highlight)",
+    "warning": "var(--np--color--warning)",
+    "error": "var(--np--color--error)"
+  },
+  "borderColor": {
+    "base": "var(--np--border-color)",
+    "subtle": "var(--np--border-color--subtle)",
+    "strong": "var(--np--border-color--strong)",
+    "stronger": "var(--np--border-color--stronger)",
+    "success": "var(--np--border-color--success)",
+    "highlight": "var(--np--border-color--highlight)",
+    "warning": "var(--np--border-color--warning)",
+    "error": "var(--np--border-color--error)",
+    "link": "var(--np--border-color--link)"
+  },
+  "borderRadius": {
+    "none": "var(--np--border-radius--none)",
+    "smaller": "var(--np--border-radius--smaller)",
+    "small": "var(--np--border-radius--small)",
+    "base": "var(--np--border-radius)",
+    "large": "var(--np--border-radius--large)",
+    "larger": "var(--np--border-radius--larger)"
+  },
+  "borderWidth": {
+    "none": "var(--np--border-width--none)",
+    "smaller": "var(--np--border-width--smaller)",
+    "small": "var(--np--border-width--small)",
+    "base": "var(--np--border-width)",
+    "large": "var(--np--border-width--large)",
+    "larger": "var(--np--border-width--larger)"
+  },
+  "icon": {
+    "color": {
+      "base": "var(--np--color--inverse)"
+    },
+    "size": {
+      "smaller": "10px",
+      "small": "12px",
+      "base": "14px",
+      "large": "18px",
+      "larger": "20px"
+    }
+  },
+  "disabledOpacity": {
+    "base": "0.5"
+  },
+  "focusRing": {
+    "width": {
+      "base": "var(--np--border-width--large)"
+    },
+    "color": {
+      "base": "var(--np--color--link)"
+    },
+    "offset": {
+      "base": "var(--np--gap--smaller)"
+    }
+  },
+  "$themes": {
+    "night": {}
+  }
+}

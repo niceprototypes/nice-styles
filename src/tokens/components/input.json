@@ -72,6 +72,9 @@
       "base": "var(--np--gap--smaller)"
     }
   },
+  "fontFamily": {
+    "base": "var(--np--font-family)"
+  },
   "$themes": {
     "night": {}
   }

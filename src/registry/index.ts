@@ -25,8 +25,9 @@ import themeTokensData from '../generated/themeTokensData.js'
 import breakpointTokensData from '../generated/breakpointTokensData.js'
 import inverseTokensData from '../generated/inverseTokensData.js'
 import componentTokensData from '../generated/componentTokensData.js'
+import componentNightTokensData from '../generated/componentNightTokensData.js'
 import breakpointsData from '../generated/breakpointsData.js'
-import { walkTokenTree } from '../utilities/css/treeWalk.js'
+import { leafAt, walkTokenTree } from '../utilities/css/treeWalk.js'
 import { buildCoreInverseMap, extractCoreVar } from '../utilities/css/componentInverseCss.js'
 import { writeToken, type TokenValue } from './createRegistry.js'
 
@@ -128,7 +129,9 @@ for (const [prefix, tree] of Object.entries(componentTokensData)) {
   walkTokenTree(tree, (path, value) => {
     const group = path.slice(0, -1)
     const variant = path[path.length - 1]
-    seed(prefix, group, variant, value)
+    // A leaf with a $themes.night override is themed, seeded { day, night } like a core themed token
+    const nightValue = leafAt(componentNightTokensData[prefix], path)
+    seed(prefix, group, variant, nightValue === undefined ? value : { day: value, night: nightValue })
 
     // Bare aliases to a core color gain the derived inverse entry
     const coreVar = extractCoreVar(value)

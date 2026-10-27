@@ -21,6 +21,7 @@
     "black": "var(--np--font-weight--black)"
   },
   "lineHeight": {
+    "single": "var(--np--line-height--single)",
     "condensed": "var(--np--line-height--condensed)",
     "base": "var(--np--line-height)",
     "expanded": "var(--np--line-height--expanded)"

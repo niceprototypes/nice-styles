@@ -30,6 +30,7 @@ import { buildIndividualCss } from '../css/assembleIndividual.js'
 import { buildCombinedCss } from '../css/assembleCombined.js'
 import { buildCustomMediaCss } from '../css/emitCustomMedia.js'
 import { buildBreakpointUtilitiesCss } from '../css/emitBreakpointUtilities.js'
+import { validateVarReferences } from '../css/validate.js'
 import { semanticDefaults } from '../shared/semanticDefaults.js'
 import type { TokenSourceModel } from '../shared/types.js'
 
@@ -68,6 +69,8 @@ export function writeCssFiles(model: TokenSourceModel, distDir: string, cssDir: 
     components.breakpoints, themes.extras, components.themes.extras,
     inverse.day, inverse.night, model.thresholds
   )
+  // Refuse to write a tokens.css with a var() pointing at an undeclared property
+  validateVarReferences('tokens.css', combinedCss)
   const cssPath = path.join(distDir, 'tokens.css')
   fs.writeFileSync(cssPath, combinedCss, 'utf-8')
   console.log(`✓ Generated: ${cssPath}`)

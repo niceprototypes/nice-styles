@@ -205,6 +205,30 @@ function resolveValue(layers: TokenValue[], label: string, theme?: string, break
 const SINGLE_REFERENCE = /^var\(\s*(--np--[\w-]+)\s*\)$/
 
 /**
+ * Whether a token is an alias (one `var(--np--…)` reference) to a token that has a value for
+ * `theme`, directly or through further aliases.
+ *
+ * @param layers - The alias token's layers, most authoritative first
+ * @param theme - Theme being pinned
+ * @param pristine - Read the seed layer only
+ * @returns true when following the alias reaches a value for `theme`
+ */
+function aliasHasTheme(layers: TokenValue[], theme: string, pristine: boolean): boolean {
+  const visited = new Set<string>()
+  let current = layers
+  for (;;) {
+    const plain = current.find((layer) => !isStyleValue('theme', layer) && !isStyleValue('breakpoint', layer))
+    const match = typeof plain === 'string' ? plain.match(SINGLE_REFERENCE) : null
+    const target = match ? registry.get(match[1]) : undefined
+    if (!target || visited.has(target.key)) return false
+    visited.add(target.key)
+    current = layersOf(target, pristine)
+    if (current.some((layer) => isStyleValue('theme', layer) && layer[theme] !== undefined)) return true
+  }
+}
+
+
+/**
  * Follow an alias value to the value of the token it references.
  *
  * Only a value that is exactly one `var(--np--…)` reference to a registered
@@ -315,7 +339,11 @@ export function getToken(
 
   // Registered: validate pins against the stored values, then return the requested form
   const layers = layersOf(entry, pristine)
-  if (theme !== undefined) assertTheme(layers, theme, path, variantName, prefix)
+  // A value read follows an alias into the token it references, so an alias passes when its
+  // target has the theme; var/key forms need the token's own primitive and are checked as-is
+  if (theme !== undefined && !(as === 'value' && aliasHasTheme(layers, theme, pristine))) {
+    assertTheme(layers, theme, path, variantName, prefix)
+  }
   if (as === 'value') {
     // An alias value (`var(--np--gap--small)`) reads through to the referenced token's value
     const resolved = followReferences(resolveValue(layers, label, theme, breakpoint), entryKey, label, theme, breakpoint, pristine)

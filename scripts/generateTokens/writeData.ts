@@ -1,7 +1,7 @@
 /**
  * Token data writer — `src/generated/*.ts`.
  *
- * Emits seven typed TypeScript modules the runtime imports (registry seeding,
+ * Emits eight typed TypeScript modules the runtime imports (registry seeding,
  * `getToken`, `applyBreakpoints`, `BREAKPOINTS`). Each writer is one call to
  * `writeDataModule`, so the orchestrator reads as a flat list of named writes.
  *
@@ -19,6 +19,7 @@
  * | `inverseTokensData.ts` | `src/tokens/modules/*.json` | `$inverse`, keyed group → day/night |
  * | `componentTokensData.ts` | `src/tokens/components/*.json` | Base trees keyed by prefix (`$` axes stripped) |
  * | `componentBreakpointTokensData.ts` | `src/tokens/components/*.json` | `$breakpoints` partial trees, keyed prefix → breakpoint |
+ * | `componentNightTokensData.ts` | `src/tokens/components/*.json` | `$themes.night` partial trees, keyed by prefix |
  * | `breakpointsData.ts` | `src/tokens/breakpoints.json` | Pixel thresholds |
  */
 
@@ -159,6 +160,25 @@ function writeComponentBreakpointTokens(generatedDir: string, data: ComponentBre
 }
 
 /**
+ * `componentNightTokensData.ts` — component `$themes.night` partial trees. Read by the registry
+ * seeding, so a component token with a night override is seeded `{ day, night }` like a core
+ * themed token. Extra themes are not shipped, matching the core theme data.
+ *
+ * @param generatedDir - Absolute path to `src/generated/`
+ * @param data - `model.components.themes.night`
+ */
+function writeComponentNightTokens(generatedDir: string, data: ComponentTokens): void {
+  writeDataModule(
+    path.join(generatedDir, 'componentNightTokensData.ts'),
+    'src/tokens/components/*.json ($themes.night)',
+    `import type { ComponentTokenNode } from './componentTokensData.js'\n\nexport type ComponentNightTokensData = Record<string, { [key: string]: ComponentTokenNode }>`,
+    'componentNightTokensData',
+    'ComponentNightTokensData',
+    data
+  )
+}
+
+/**
  * `breakpointsData.ts` — pixel thresholds keyed by breakpoint. Read by `src/constants/breakpoints.ts`.
  *
  * @param generatedDir - Absolute path to `src/generated/`
@@ -209,6 +229,7 @@ export function writeTokenDataFiles(model: TokenSourceModel, generatedDir: strin
   writeBreakpointTokens(generatedDir, model.breakpointTokens)
   writeComponentTokens(generatedDir, model.components.base)
   writeComponentBreakpointTokens(generatedDir, model.components.breakpoints)
+  writeComponentNightTokens(generatedDir, model.components.themes.night)
   writeBreakpoints(generatedDir, model.thresholds)
   writeInverseTokens(generatedDir, inverse)
 }

@@ -41,7 +41,7 @@
 
 import { camelToKebab } from '../utilities/camelToKebab.js'
 import { isStyleValue } from '../utilities/isStyleValue.js'
-import { mediaBlock, pinBlock, themeBlocks } from '../utilities/css/blocks.js'
+import { mediaBlock, themeBlocks, themePinBlock } from '../utilities/css/blocks.js'
 import { declarationLine, reassignmentLine } from '../utilities/css/declarations.js'
 import { getConstantKey } from './getConstant.js'
 import {
@@ -52,15 +52,13 @@ import {
 } from './breakpointKey.js'
 import { registerTokens } from '../registry/index.js'
 import { applyBreakpoints } from '../utilities/applyBreakpoints.js'
+import { completeThemeValue } from '../utilities/completeThemeValue.js'
 import { injectTokenCSS } from '../utilities/tokenStyleSheet.js'
-import componentTokensData from '../generated/componentTokensData.js'
-import { DEFAULT_THEME } from '../constants/styleValues.js'
+import componentTokensData, { type ComponentTokenNode } from '../generated/componentTokensData.js'
+import { DEFAULT_THEME, NIGHT_THEME } from '../constants/styleValues.js'
 import type { BreakpointValues } from '../constants/breakpoints.js'
-import type { TokenMap } from '../types/tokenMap.js'
-import type { ThemeValue, BreakpointValue } from '../types/styleValues.js'
-
-/** The theme mapped to `prefers-color-scheme: dark` and paired with the day pin. */
-const NIGHT_THEME = 'night'
+import type { RuntimeTokenMap, RuntimeTokenValue, TokenMap } from '../types/tokenMap.js'
+import type { ThemeValue } from '../types/styleValues.js'
 
 /** A breakpoint declaration tagged with its parsed key, for specificity sorting. */
 interface BreakpointEntry {
@@ -84,12 +82,8 @@ interface CssAccumulators {
   breakpointGroups: Map<string, BreakpointEntry[]>
 }
 
-/** Any value a variant may hold in a runtime token map. */
-type VariantValue = string | number | ThemeValue | BreakpointValue
 /** One group's variants: `{ variant: value }`. */
-type VariantMap = Record<string, VariantValue>
-/** Token map shape accepted alongside `TokenMap`, allowing theme values per variant. */
-type TokenMapWithThemes = Record<string, Record<string, string | number | ThemeValue>>
+type VariantMap = Record<string, RuntimeTokenValue>
 
 /** Known component prefixes — used to detect component token overrides. */
 const componentPrefixes = new Set(Object.keys(componentTokensData))
@@ -229,7 +223,7 @@ function breakpointBlocks(breakpointGroups: Map<string, BreakpointEntry[]>): str
     )
 }
 
-export function generateTokenCSS<T extends TokenMap | TokenMapWithThemes>(tokenMap: T, prefix?: string): string {
+export function generateTokenCSS<T extends TokenMap | RuntimeTokenMap>(tokenMap: T, prefix?: string): string {
   // `breakpoints` is reserved; everything else is tokens
   const { breakpoints, ...tokens } = tokenMap as Record<string, unknown>
   // Unprefixed calls share the '' slot, matching the key injectTokenCSS dedupes on
@@ -254,6 +248,54 @@ export function generateTokenCSS<T extends TokenMap | TokenMapWithThemes>(tokenM
 }
 
 /**
+ * A component override's groups keyed by dotted path (`icon.color`), found by following the
+ * component's own token tree: where the tree has a branch of groups (`icon`), the override is
+ * descended; where it has a group of variants (`icon.color`), the override node is that
+ * group's variants. A single value at a group position (`icon: { size: "10px" }`) is its
+ * `base` variant. Paths the component doesn't define are taken as one group, as before.
+ *
+ * @param override - The override tree under one component prefix
+ * @param base - The component's generated token tree at the same position
+ * @param path - Group path walked so far
+ * @returns Variant maps keyed by dotted group path
+ */
+function componentGroups(
+  override: Record<string, unknown>,
+  base: ComponentTokenNode | undefined,
+  path: string[] = []
+): Record<string, VariantMap> {
+  const groups: Record<string, VariantMap> = {}
+  for (const [key, value] of Object.entries(override)) {
+    const groupPath = [...path, key]
+    const baseNode = typeof base === 'object' ? base[key] : undefined
+    // A branch of groups in the component's tree: descend into the override
+    const isBranch = typeof baseNode === 'object' && Object.values(baseNode).some((child) => typeof child === 'object')
+    if (isBranch && typeof value === 'object' && value !== null) {
+      Object.assign(groups, componentGroups(value as Record<string, unknown>, baseNode, groupPath))
+      continue
+    }
+    // A single value where a group belongs overrides that group's base variant
+    const single = typeof value !== 'object' || value === null || isStyleValue('theme', value) || isStyleValue('breakpoint', value)
+    groups[groupPath.join('.')] = single ? { base: value as RuntimeTokenValue } : (value as VariantMap)
+  }
+  return groups
+}
+
+/**
+ * Complete each variant's partial theme value from the token's own values, so a map that sets
+ * only `day` (or only `night`) changes that theme and leaves the others as they were.
+ *
+ * @param address - Token address without the variant (`"color"`, `"logo.color"`)
+ * @param variants - The group's variants as the map gives them
+ * @returns The variants, partial theme values filled in
+ */
+function completeVariants(address: string, variants: VariantMap): VariantMap {
+  return Object.fromEntries(
+    Object.entries(variants).map(([variant, value]) => [variant, completeThemeValue(address, variant, value)])
+  ) as VariantMap
+}
+
+/**
  * Register a token map (without `breakpoints`) and build its CSS.
  *
  * @param tokens - Token map with the `breakpoints` key removed
@@ -267,9 +309,13 @@ function buildTokenCss(tokens: Record<string, unknown>, prefix?: string): string
 
   for (const [key, value] of Object.entries(tokens)) {
     if (componentPrefixes.has(key)) {
-      componentOverrides[key] = value as Record<string, VariantMap>
+      componentOverrides[key] = Object.fromEntries(
+        Object.entries(componentGroups(value as Record<string, unknown>, componentTokensData[key])).map(
+          ([group, variants]) => [group, completeVariants(`${key}.${group}`, variants)]
+        )
+      )
     } else {
-      flatTokens[key] = value as VariantMap
+      flatTokens[key] = completeVariants(prefix ? `${prefix}.${key}` : key, value as VariantMap)
     }
   }
 
@@ -306,6 +352,6 @@ function buildTokenCss(tokens: Record<string, unknown>, prefix?: string): string
     '}',
     ...breakpointBlocks(acc.breakpointGroups),
     ...themeBlocks(acc.nightBody, acc.dayBody),
-    ...[...acc.extraThemeBodies].flatMap(([theme, body]) => pinBlock(theme, body)),
+    ...[...acc.extraThemeBodies].flatMap(([theme, body]) => themePinBlock(theme, body)),
   ].join('\n')
 }

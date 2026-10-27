@@ -1,0 +1,57 @@
+{
+  "track": {
+    "width": {
+      "smaller": "28px",
+      "small": "32px",
+      "base": "40px",
+      "large": "48px",
+      "larger": "56px"
+    },
+    "height": {
+      "smaller": "16px",
+      "small": "18px",
+      "base": "22px",
+      "large": "26px",
+      "larger": "30px"
+    },
+    "backgroundColor": {
+      "base": "var(--np--border-color--strong)",
+      "checked": "var(--np--color--link)"
+    }
+  },
+  "thumb": {
+    "size": {
+      "smaller": "12px",
+      "small": "14px",
+      "base": "18px",
+      "large": "22px",
+      "larger": "26px"
+    },
+    "backgroundColor": {
+      "base": "var(--np--background-color)"
+    }
+  },
+  "gap": {
+    "base": "var(--np--gap--small)"
+  },
+  "disabledOpacity": {
+    "base": "0.5"
+  },
+  "transitionDuration": {
+    "base": "var(--np--animation-duration--fast)"
+  },
+  "focusRing": {
+    "width": {
+      "base": "var(--np--border-width--large)"
+    },
+    "color": {
+      "base": "var(--np--color--link)"
+    },
+    "offset": {
+      "base": "var(--np--gap--smaller)"
+    }
+  },
+  "$themes": {
+    "night": {}
+  }
+}

@@ -3,6 +3,7 @@
     "base": "var(--np--background-color)",
     "raised": "var(--np--background-color--raised)",
     "success": "var(--np--background-color--success)",
+    "highlight": "var(--np--background-color--highlight)",
     "warning": "var(--np--background-color--warning)",
     "error": "var(--np--background-color--error)",
     "link": "var(--np--background-color--link)"
